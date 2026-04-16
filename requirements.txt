@@ -1,0 +1,31 @@
+# --- Machine Learning Multimodal (Agro + NLP + Clima) ---
+
+# Manipulación de datos
+pandas
+numpy
+
+# Scraping
+beautifulsoup4
+requests
+selenium
+
+# NLP
+nltk
+spacy
+transformers
+
+# Modelado (LSTM-Attention)
+tensorflow
+scikit-learn
+
+# Visualización y Dashboard
+streamlit
+matplotlib
+plotly
+
+# Explainable AI (XAI)
+shap
+
+# Jupyter
+notebook
+jupyterlab
