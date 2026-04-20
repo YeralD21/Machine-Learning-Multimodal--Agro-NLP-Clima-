@@ -82,7 +82,7 @@ class HistoricalNewsScraper:
         self.max_year = 2025
         
         # Persistencia
-        self.data_dir = os.path.join("data", "raw", "data_ingestion")
+        self.data_dir = os.path.join("data", "raw", "data_ingestion", "agraria_pe")
         os.makedirs(self.data_dir, exist_ok=True)
         self.checkpoint_file = os.path.join(self.data_dir, "checkpoint.json")
         self.seen_urls_cache = set()

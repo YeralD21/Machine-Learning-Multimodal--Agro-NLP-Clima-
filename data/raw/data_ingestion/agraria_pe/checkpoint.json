@@ -1,0 +1,50 @@
+{
+    "agraria.pe/negocios": {
+        "last_page": 200,
+        "updated_at": "2026-04-19T16:22:14.175546"
+    },
+    "agraria.pe/produccion": {
+        "last_page": 200,
+        "updated_at": "2026-04-19T17:10:51.639494"
+    },
+    "agraria.pe/alimentacion": {
+        "last_page": 43,
+        "updated_at": "2026-04-19T17:17:43.944927"
+    },
+    "agraria.pe/tecnologia": {
+        "last_page": 70,
+        "updated_at": "2026-04-19T17:27:47.395393"
+    },
+    "agraria.pe/clima-y-medio-ambiente": {
+        "last_page": 53,
+        "updated_at": "2026-04-19T17:38:04.696967"
+    },
+    "agraria.pe/eventos": {
+        "last_page": 200,
+        "updated_at": "2026-04-19T18:07:34.572952"
+    },
+    "agraria.pe/opinion": {
+        "last_page": 3,
+        "updated_at": "2026-04-19T18:07:53.598960"
+    },
+    "agraria.pe/politica": {
+        "last_page": 200,
+        "updated_at": "2026-04-19T18:54:27.211570"
+    },
+    "agraria.pe/proyectos": {
+        "last_page": 51,
+        "updated_at": "2026-04-19T19:04:28.168682"
+    },
+    "agraria.pe/salud-y-sanidad": {
+        "last_page": 92,
+        "updated_at": "2026-04-19T19:19:16.726093"
+    },
+    "agraria.pe/agro-en-la-prensa": {
+        "last_page": 34,
+        "updated_at": "2026-04-19T19:24:05.895977"
+    },
+    "agraria.pe/agraria-tv": {
+        "last_page": 45,
+        "updated_at": "2026-04-19T19:31:05.862616"
+    }
+}
