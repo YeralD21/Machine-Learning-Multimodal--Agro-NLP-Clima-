@@ -1,6 +1,50 @@
+# Virtual Environments
 venv/
+.venv/
+env/
+bin/
+lib/
+share/
+
+# Python
 __pycache__/
-*.log
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Data Files (Avoid pushing heavy raw data to GitHub)
+data/raw/
+data/interim/
+data/processed/
+data/external/
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+!data/external/.gitkeep
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment & Logs
 .env
-data/raw/*.csv
-data/processed/*.csv
+*.log
+checkpoint.json
+debug_page.html

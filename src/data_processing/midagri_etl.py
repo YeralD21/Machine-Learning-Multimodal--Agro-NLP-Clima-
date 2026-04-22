@@ -7,7 +7,7 @@ temporal 2021-2025, normaliza la geografía, agrega a nivel provincia-mes
 y exporta un CSV limpio listo para el EDA y posterior fusión con
 variables exógenas (noticias, clima NASA, INDECI).
 
-Salida: data/interim/midagri_limon_procesado.csv
+Salida: data/interim/midagri/midagri_limon_procesado.csv
 """
 
 
@@ -66,7 +66,7 @@ def run_etl():
 
     # Rutas
     input_path = os.path.join("data", "raw", "midagri", "Sisagri_2016_2025.xlsx")
-    output_dir = os.path.join("data", "interim")
+    output_dir = os.path.join("data", "interim", "midagri")
     output_path = os.path.join(output_dir, "midagri_limon_procesado.csv")
 
     os.makedirs(output_dir, exist_ok=True)
