@@ -28,10 +28,19 @@ wheels/
 *.egg
 
 # Data Files (Avoid pushing heavy raw data to GitHub)
-data/raw/
-data/interim/
-data/processed/
-data/external/
+data/raw/*
+data/interim/*
+data/processed/*
+data/external/*
+
+# Allow specific data folders requested
+!data/interim/indeci/
+!data/interim/metadata/
+!data/interim/midagri/
+!data/interim/nasa/
+!data/raw/agraria_pe/
+
+# Ensure .gitkeep files are still tracked
 !data/raw/.gitkeep
 !data/interim/.gitkeep
 !data/processed/.gitkeep
