@@ -44,6 +44,7 @@ data/external/*
 !data/raw/.gitkeep
 !data/interim/.gitkeep
 !data/processed/.gitkeep
+!data/processed/master_dataset_lstm.csv
 !data/external/.gitkeep
 
 # IDEs
