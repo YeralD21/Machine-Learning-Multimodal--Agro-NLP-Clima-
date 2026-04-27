@@ -42,6 +42,8 @@ data/external/*
 !data/interim/agraria/
 !data/processed/trend_check.png
 !models/scalers/scaler_fase1.pkl
+!models/scalers/scaler_fase2_nlp.pkl
+!data/interim/agraria/noticias_con_sentimiento.csv
 
 # Ensure .gitkeep files are still tracked
 !data/raw/.gitkeep
@@ -49,6 +51,7 @@ data/external/*
 !data/processed/.gitkeep
 !data/processed/master_dataset_lstm.csv
 !data/processed/master_dataset_fase1.csv
+!data/processed/dataset_fase2_multivariado.csv
 !data/external/.gitkeep
 
 # IDEs
