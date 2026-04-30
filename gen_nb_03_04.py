@@ -250,21 +250,28 @@ nasa_reports_dir = "data/03_processed_nasa/reports"
 if os.path.exists(nasa_reports_dir):
     print("📊 Visualización de Gráficos Pre-procesados NASA:")
     
-    # Lista de gráficos a mostrar (solicitados por el usuario)
+    # Lista de gráficos con títulos y descripciones interpretativas
     nasa_graphs = [
-        ("Distribución de Variables Climáticas", "g1_eda_distribucion.png"),
-        ("Cobertura Espacial de Datos NASA", "g2_eda_cobertura.png"),
-        ("Serie Temporal: Temperatura (T2M)", "g3_temperatura_series.png"),
-        ("Serie Temporal: Precipitación (PRECTOTCORR)", "g4_precipitacion_series.png"),
-        ("Matriz de Correlación Climática", "g5_correlacion_clima.png"),
-        ("Análisis de Estacionalidad de Temperatura", "g6_estacionalidad_temp.png")
+        ("Distribución de Variables Climáticas", "g1_eda_distribucion.png", 
+         "Muestra la dispersión y densidad de T2M y PRECTOTCORR. Permite identificar sesgos y la escala de las variables climáticas."),
+        ("Cobertura Espacial de Datos NASA", "g2_eda_cobertura.png", 
+         "Valida la disponibilidad de datos por departamento. Una cobertura uniforme garantiza que el modelo LSTM aprenda de todas las regiones productoras."),
+        ("Serie Temporal: Temperatura (T2M)", "g3_temperatura_series.png", 
+         "Observamos la evolución mensual de la temperatura media. Los picos térmicos pueden correlacionarse con periodos de estrés hídrico en el limón."),
+        ("Serie Temporal: Precipitación (PRECTOTCORR)", "g4_precipitacion_series.png", 
+         "Muestra la variabilidad de lluvias. Picos extremos indican posibles eventos de El Niño que afectan la floración y cosecha."),
+        ("Matriz de Correlación Climática", "g5_correlacion_clima.png", 
+         "Identifica la relación interna entre variables NASA. Ayuda a descartar multicolinealidad entre temperaturas máximas, mínimas y humedad."),
+        ("Análisis de Estacionalidad de Temperatura", "g6_estacionalidad_temp.png", 
+         "Visualiza patrones cíclicos anuales. Es fundamental para que el modelo entienda los ciclos biológicos estacionales del cultivo.")
     ]
     
-    for title, img_name in nasa_graphs:
+    for title, img_name, desc in nasa_graphs:
         img_path = os.path.join(nasa_reports_dir, img_name)
         if os.path.exists(img_path):
-            print(f"\\n--- {title} ---")
+            print(f"\\n### {title}")
             display(Image(filename=img_path))
+            print(f"**Interpretación:** {desc}")
         else:
             print(f"⚠️ No se encontró {img_name}")
 else:
