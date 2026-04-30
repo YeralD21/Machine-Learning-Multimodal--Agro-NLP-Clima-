@@ -32,7 +32,7 @@ SETUP_VIZ = """
 import os, sys, json, warnings
 import numpy as np, pandas as pd
 import joblib
-import matplotlib; matplotlib.use('Agg')
+import matplotlib; 
 import matplotlib.pyplot as plt
 import seaborn as sns
 warnings.filterwarnings('ignore')

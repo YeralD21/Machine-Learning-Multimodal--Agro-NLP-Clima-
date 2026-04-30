@@ -15,7 +15,7 @@ def nb(cells, filename):
 SETUP = """
 import os, sys, json, re, warnings, unicodedata
 import numpy as np, pandas as pd
-import matplotlib; matplotlib.use('Agg')
+import matplotlib; 
 import matplotlib.pyplot as plt
 import seaborn as sns
 warnings.filterwarnings('ignore')
