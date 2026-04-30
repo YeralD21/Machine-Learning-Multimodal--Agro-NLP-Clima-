@@ -1,0 +1,19 @@
+REPORTE DE CALIDAD — NASA POWER PIPELINE
+============================================================
+Total filas analizadas: 6,120
+Variables analizadas  : 8
+Outliers detectados   : 0
+Provincias con saltos : 0
+
+PROBLEMAS DETECTADOS:
+  Ninguno — datos en buen estado.
+
+NULOS POR VARIABLE:
+  ALLSKY_SFC_SW_DWN            102 (1.7%)
+  PRECTOTCORR                    0 (0.0%)
+  QV2M                           0 (0.0%)
+  RH2M                           0 (0.0%)
+  T2M                            0 (0.0%)
+  T2M_MAX                        0 (0.0%)
+  T2M_MIN                        0 (0.0%)
+  WS2M                           0 (0.0%)

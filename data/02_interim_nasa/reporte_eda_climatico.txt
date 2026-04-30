@@ -1,0 +1,120 @@
+REPORTE EDA CLIMÁTICO — NASA POWER PIPELINE
+============================================================
+Departamentos: 23 | Provincias: 102
+Combinaciones únicas (dpto×prov×año×mes): 6,120
+
+ESTADÍSTICAS DESCRIPTIVAS:
+         Variable  N_válidos  N_nulos  Media  Mediana    Std   Min   Max    P25    P75
+ALLSKY_SFC_SW_DWN       6018      102 17.854   17.330  3.071  9.22 30.86 15.650 19.468
+      PRECTOTCORR       6120        0  1.826    0.890  2.486  0.00 23.23  0.230  2.460
+             QV2M       6120        0 11.518   11.170  3.586  1.84 20.37  8.980 13.780
+             RH2M       6120        0 72.136   72.985 11.761 22.69 93.92 65.618 80.030
+              T2M       6120        0 18.347   19.065  6.571  3.42 33.66 12.690 24.092
+          T2M_MAX       6120        0 26.952   27.400  6.013 13.39 42.40 22.127 31.100
+          T2M_MIN       6120        0 11.688   13.025  7.686 -5.93 25.51  4.760 18.020
+             WS2M       6120        0  1.630    1.790  1.161  0.01  5.36  0.210  2.350
+
+COMPLETITUD TEMPORAL:
+ DEPARTAMENTO               PROVINCIA  n_meses  pct_completitud
+     AMAZONAS                   BAGUA       60            100.0
+     AMAZONAS             CHACHAPOYAS       60            100.0
+     AMAZONAS                    LUYA       60            100.0
+     AMAZONAS               UTCUBAMBA       60            100.0
+       ANCASH                   CASMA       60            100.0
+       ANCASH                 HUARMEY       60            100.0
+       ANCASH                 HUAYLAS       60            100.0
+       ANCASH                   SANTA       60            100.0
+     APURIMAC                 ABANCAY       60            100.0
+     APURIMAC             ANDAHUAYLAS       60            100.0
+     APURIMAC                AYMARAES       60            100.0
+     APURIMAC              CHINCHEROS       60            100.0
+     APURIMAC                    GRAU       60            100.0
+     AREQUIPA                CARAVELI       60            100.0
+     AREQUIPA                LA UNION       60            100.0
+     AYACUCHO                HUAMANGA       60            100.0
+     AYACUCHO                  HUANTA       60            100.0
+     AYACUCHO                  LA MAR       60            100.0
+     AYACUCHO                 LUCANAS       60            100.0
+     AYACUCHO            PARINACOCHAS       60            100.0
+     AYACUCHO    PAUCAR DEL SARA SARA       60            100.0
+     AYACUCHO                   SUCRE       60            100.0
+     AYACUCHO           VILCAS HUAMAN       60            100.0
+    CAJAMARCA               CAJABAMBA       60            100.0
+    CAJAMARCA                   CHOTA       60            100.0
+    CAJAMARCA                 CUTERVO       60            100.0
+    CAJAMARCA                    JAEN       60            100.0
+    CAJAMARCA             SAN IGNACIO       60            100.0
+    CAJAMARCA              SAN MARCOS       60            100.0
+    CAJAMARCA              SAN MIGUEL       60            100.0
+    CAJAMARCA              SANTA CRUZ       60            100.0
+        CUSCO           LA CONVENCION       60            100.0
+ HUANCAVELICA                ACOBAMBA       60            100.0
+ HUANCAVELICA                 ANGARES       60            100.0
+ HUANCAVELICA          CASTROVIRREYNA       60            100.0
+ HUANCAVELICA               CHURCAMPA       60            100.0
+ HUANCAVELICA                HUAYTARA       60            100.0
+ HUANCAVELICA                TAYACAJA       60            100.0
+      HUANUCO               HUAMALIES       60            100.0
+      HUANUCO                 HUANUCO       60            100.0
+      HUANUCO             HUAYCABAMBA       60            100.0
+      HUANUCO           LEONCIO PRADO       60            100.0
+      HUANUCO                 MARANON       60            100.0
+      HUANUCO             PUERTO INCA       60            100.0
+          ICA                 CHINCHA       60            100.0
+          ICA                     ICA       60            100.0
+          ICA                   NAZCA       60            100.0
+          ICA                   PALPA       60            100.0
+          ICA                   PISCO       60            100.0
+        JUNIN             CHANCHAMAYO       60            100.0
+        JUNIN                HUANCAYO       60            100.0
+        JUNIN                  SATIPO       60            100.0
+  LA LIBERTAD                 BOLIVAR       60            100.0
+  LA LIBERTAD                  CHEPEN       60            100.0
+  LA LIBERTAD              GRAN CHIMU       60            100.0
+  LA LIBERTAD                  OTUZCO       60            100.0
+  LA LIBERTAD                   PATAZ       60            100.0
+  LA LIBERTAD         SANCHEZ CARRION       60            100.0
+  LA LIBERTAD                    VIRU       60            100.0
+   LAMBAYEQUE               FERRENAFE       60            100.0
+   LAMBAYEQUE              LAMBAYEQUE       60            100.0
+         LIMA                  HUAURA       60            100.0
+       LORETO           ALTO AMAZONAS       60            100.0
+       LORETO       DATEM DEL MARANON       60            100.0
+       LORETO                  LORETO       60            100.0
+       LORETO MARISCAL RAMON CASTILLA       60            100.0
+       LORETO                  MAYNAS       60            100.0
+       LORETO                PUTUMAYO       60            100.0
+       LORETO                 REQUENA       60            100.0
+       LORETO                 UCAYALI       60            100.0
+MADRE DE DIOS                    MANU       60            100.0
+MADRE DE DIOS               TAHUAMANU       60            100.0
+MADRE DE DIOS               TAMBOPATA       60            100.0
+     MOQUEGUA   GENERAL SANCHEZ CERRO       60            100.0
+     MOQUEGUA          MARISCAL NIETO       60            100.0
+        PASCO                OXAPAMPA       60            100.0
+        PIURA                 AYABACA       60            100.0
+        PIURA             HUANCABAMBA       60            100.0
+        PIURA                MORROPON       60            100.0
+        PIURA                   PAITA       60            100.0
+        PIURA                   PIURA       60            100.0
+        PIURA                 SECHURA       60            100.0
+        PIURA                 SULLANA       60            100.0
+         PUNO                CARABAYA       60            100.0
+         PUNO                  SANDIA       60            100.0
+   SAN MARTIN              BELLAVISTA       60            100.0
+   SAN MARTIN               EL DORADO       60            100.0
+   SAN MARTIN                HUALLAGA       60            100.0
+   SAN MARTIN                   LAMAS       60            100.0
+   SAN MARTIN        MARISCAL CACERES       60            100.0
+   SAN MARTIN               MOYOBAMBA       60            100.0
+   SAN MARTIN                  PICOTA       60            100.0
+   SAN MARTIN                   RIOJA       60            100.0
+   SAN MARTIN              SAN MARTIN       60            100.0
+   SAN MARTIN                 TOCACHE       60            100.0
+       TUMBES   CONTRALMIRANTE VILLAR       60            100.0
+       TUMBES                  TUMBES       60            100.0
+       TUMBES               ZARUMILLA       60            100.0
+      UCAYALI                 ATALAYA       60            100.0
+      UCAYALI        CORONEL PORTILLO       60            100.0
+      UCAYALI              PADRE ABAD       60            100.0
+      UCAYALI                   PURUS       60            100.0

@@ -1,0 +1,20 @@
+REPORTE DE LIMPIEZA — NASA POWER PIPELINE
+============================================================
+Filas procesadas          : 6,120
+Valores centinela (-999)  : 0
+Valores clipeados (rango) : 0
+Valores imputados         : 102
+
+ESTANDARIZACIÓN GEOGRÁFICA:
+  Departamentos únicos: 23
+  Provincias únicas   : 102
+
+NULOS RESIDUALES POST-LIMPIEZA:
+  ALLSKY_SFC_SW_DWN         0
+  PRECTOTCORR               0
+  QV2M                      0
+  RH2M                      0
+  T2M                       0
+  T2M_MAX                   0
+  T2M_MIN                   0
+  WS2M                      0
