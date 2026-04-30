@@ -1,7 +1,15 @@
-"""Genera notebooks 07 y 08."""
-import nbformat as nbf, os, sys
+import nbformat as nbf, os, sys, base64
 sys.stdout.reconfigure(encoding='utf-8')
 NOTEBOOKS_DIR = "notebooks"
+
+def get_img_b64(path):
+    try:
+        if os.path.basename(os.getcwd()) == 'notebooks': path = os.path.join('..', path)
+        with open(path, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+    except: return ""
+
+IMG_B64 = get_img_b64("data/04_reports/g07_star_schema_v2.png")
 
 def nb(cells, filename):
     n = nbf.v4.new_notebook()
@@ -27,13 +35,13 @@ print(f"CWD: {os.getcwd()} | Config OK")
 
 # ── ACTIVIDAD 07 — DISEÑO STAR SCHEMA ────────────────────────────────
 act07 = [
-('md', """## 7.1 Modelo Estrella — Diagrama Multimodal (4 Dimensiones)
+('md', f"""## 7.1 Modelo Estrella — Diagrama Multimodal (4 Dimensiones)
 
 Este diseño separa las fuentes de datos en 4 dimensiones clave para permitir un análisis granular del impacto climático y social en la producción de limón.
 
 ### Vista Conceptual (Esquema de la Tesis)
 <div align="center">
-    <img src="../data/04_reports/g07_star_schema_v2.png" width="900px" alt="Star Schema 4D">
+    <img src="data:image/png;base64,{IMG_B64}" width="900px" alt="Star Schema 4D">
 </div>
 
 ---
@@ -41,45 +49,45 @@ Este diseño separa las fuentes de datos en 4 dimensiones clave para permitir un
 ### Vista Técnica (Modelo Dimensional)
 ```mermaid
 erDiagram
-    fact_produccion_limon }|--|| dim_tiempo : "FK_Tiempo"
-    fact_produccion_limon }|--|| dim_ubicacion : "FK_Ubicacion"
-    fact_produccion_limon }|--|| dim_clima : "FK_Clima"
-    fact_produccion_limon }|--|| dim_multimodal : "FK_Multimodal"
+    fact_produccion_limon }}|--|| dim_tiempo : "FK_Tiempo"
+    fact_produccion_limon }}|--|| dim_ubicacion : "FK_Ubicacion"
+    fact_produccion_limon }}|--|| dim_clima : "FK_Clima"
+    fact_produccion_limon }}|--|| dim_multimodal : "FK_Multimodal"
 
-    dim_tiempo {
+    dim_tiempo {{
         int id_tiempo PK
         varchar fecha_evento "YYYY-MM"
         int anho
         int mes
         float month_sin "Estacionalidad"
         float month_cos "Estacionalidad"
-    }
+    }}
 
-    dim_ubicacion {
+    dim_ubicacion {{
         int id_ubicacion PK
         varchar departamento "Región"
         varchar provincia
         float lat
         float lon
-    }
+    }}
 
-    dim_clima {
+    dim_clima {{
         int id_clima PK
         float temp_max_c "NASA"
         float temp_min_c "NASA"
         float precipitacion_mm "NASA"
         float radiacion_solar "NASA"
-    }
+    }}
 
-    dim_multimodal {
+    dim_multimodal {{
         int id_multimodal PK
         int n_noticias "NLP"
         int num_emergencias "INDECI"
         float avg_sentimiento "NLP"
         int total_afectados "INDECI"
-    }
+    }}
 
-    fact_produccion_limon {
+    fact_produccion_limon {{
         int id_hecho PK
         int id_tiempo FK
         int id_ubicacion FK
@@ -88,7 +96,7 @@ erDiagram
         float produccion_t "Métrica Principal"
         float cosecha_ha
         float precio_chacra_kg "Volatilidad"
-    }
+    }}
 ```
 
 ---
