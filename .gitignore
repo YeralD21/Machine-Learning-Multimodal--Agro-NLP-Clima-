@@ -32,6 +32,10 @@ data/raw/*
 data/interim/*
 data/processed/*
 data/external/*
+data/01_raw/*
+data/02_interim/*
+data/03_processed/*
+data/04_reports/*
 
 # Allow specific data folders requested
 !data/interim/indeci/
@@ -52,6 +56,11 @@ data/external/*
 !data/processed/master_dataset_lstm.csv
 !data/processed/master_dataset_fase1.csv
 !data/processed/dataset_fase2_multivariado.csv
+!data/03_processed/master_dataset_fase1_v2.csv
+!data/04_reports/*.png
+!data/04_reports/*.txt
+!database/
+!models/scalers/scaler_fase1_v2.pkl
 !data/external/.gitkeep
 
 # IDEs

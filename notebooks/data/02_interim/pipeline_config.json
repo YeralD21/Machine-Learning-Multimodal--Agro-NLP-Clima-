@@ -1,0 +1,31 @@
+{
+  "ANHO_INICIO": 2021,
+  "ANHO_FIN": 2025,
+  "MES_FIN": 8,
+  "CULTIVO_TARGET": "LIMON",
+  "PG_URI": "postgresql://postgres:postgres@localhost:5432/limon_analytics_db",
+  "PELIGROS_VALIDOS": [
+    "LLUVIAS INTENSAS",
+    "INUNDACION",
+    "HUAYCO",
+    "SEQUIA",
+    "HELADAS",
+    "FRIAJE",
+    "GRANIZADA",
+    "NEVADA",
+    "VIENTOS FUERTES",
+    "DESLIZAMIENTO",
+    "EROSION"
+  ],
+  "DIRS": {
+    "raw": "data\\01_raw",
+    "raw_midagri": "data\\01_raw\\midagri",
+    "raw_indeci": "data\\01_raw\\indeci",
+    "raw_news": "data\\01_raw\\agraria_pe",
+    "interim": "data\\02_interim",
+    "processed": "data\\03_processed",
+    "reports": "data\\04_reports",
+    "database": "database",
+    "scalers": "models\\scalers"
+  }
+}
