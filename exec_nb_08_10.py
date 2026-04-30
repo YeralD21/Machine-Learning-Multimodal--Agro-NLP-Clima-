@@ -120,12 +120,8 @@ except Exception as e:
 
 print("\\n✅ [ACTIVIDAD 08] COMPLETADA")
 """),
-('md', """## TODO: INTEGRACIÓN DATA NASA (COMPAÑERO)
-Las columnas NASA ya existen en `fact_produccion_limon` como NULL:
-`temp_max_c`, `temp_min_c`, `precipitacion_mm`, `humedad_rel_pct`, `velocidad_viento`, `radiacion_solar`
-
-Solo necesitas hacer UPDATE cuando tengas los datos procesados de NASA POWER.
-"""),
+('md', """## 8.3 Integración de Dimensiones (Nota Técnica)
+Las variables climáticas (`temp_max_c`, `precipitacion_mm`, etc.) ya forman parte integral de `fact_produccion_limon`. Al ser hechos (mediciones numéricas que varían en el tiempo y espacio), no requieren una tabla de dimensión separada."""),
 ], "actividad_08_postgresql.ipynb")
 
 ok08 = execute(p08)
@@ -182,8 +178,11 @@ print("month_sin / month_cos calculados ✅")
 """),
 ('md', "## 9.3 Escalamiento StandardScaler"),
 ('code', """
-FEATS = ['produccion_t','cosecha_ha','precio_chacra_kg',
-         'num_emergencias','total_afectados','has_cultivo_perdidas','n_noticias']
+FEATS = [
+    'produccion_t','cosecha_ha','precio_chacra_kg',
+    'num_emergencias','total_afectados','has_cultivo_perdidas','n_noticias',
+    'temp_max_c', 'temp_min_c', 'precipitacion_mm', 'humedad_rel_pct', 'velocidad_viento', 'radiacion_solar'
+]
 cols = [c for c in FEATS if c in df.columns]
 scaler = StandardScaler()
 df[cols] = scaler.fit_transform(df[cols].fillna(0))
@@ -234,7 +233,7 @@ try:
         du_map = pd.read_sql('SELECT id_ubicacion, departamento, provincia FROM dim_ubicacion', conn)
     df_f = df.merge(dt_map, on='fecha_evento').merge(du_map, on=['departamento','provincia'])
     fc = [c for c in ['id_tiempo','id_ubicacion','produccion_t','cosecha_ha','precio_chacra_kg',
-                       'num_emergencias','total_afectados','n_noticias'] if c in df_f.columns]
+                       'num_emergencias','total_afectados','n_noticias', 'temp_max_c', 'temp_min_c', 'precipitacion_mm', 'humedad_rel_pct', 'velocidad_viento', 'radiacion_solar'] if c in df_f.columns]
     df_load = df_f[fc].dropna(subset=['id_tiempo','id_ubicacion'])
     df_load[['id_tiempo','id_ubicacion']] = df_load[['id_tiempo','id_ubicacion']].astype(int)
     df_load.to_sql('fact_produccion_limon', engine, if_exists='append', index=False, method='multi', chunksize=500)
@@ -252,26 +251,21 @@ print(f"Shape final: {df.shape}")
 print(f"Columnas: {df.columns.tolist()}")
 print(f"\\n✅ [ACTIVIDAD 09] COMPLETADA → {out}")
 """),
-('md', """## TODO: INTEGRACIÓN DATA NASA (COMPAÑERO)
-```python
-FEATS.extend(['temp_max_c','temp_min_c','precipitacion_mm','humedad_rel_pct','velocidad_viento'])
-cols = [c for c in FEATS if c in df.columns]  # incluirá NASA si están presentes
-scaler = StandardScaler()
-df[cols] = scaler.fit_transform(df[cols].fillna(0))
-```"""),
+('md', """## 9.6 Integración Climática Finalizada
+El pipeline escala correctamente las variables de NASA y las carga en PostgreSQL junto a las métricas agrícolas y de emergencias."""),
 ], "actividad_09_etl.ipynb")
 
 ok09 = execute(p09)
 
 # ── NB 10 REEXPLORACIÓN ──────────────────────────────────────────
 p10 = make_nb([
-('md', """# 📈 Actividad 10 — Reexploración Post-ETL
-**CRÍTICO** — Evidencia visual del dataset maestro para la tesis.
+('md', """# 📈 Actividad 10 — Reexploración Post-ETL (Multimodal + NASA)
+**CRÍTICO** — Evidencia visual del dataset maestro multimodal para la tesis.
 
 Gráficos:
-1. Serie temporal: Producción vs Precio (doble eje Y)
-2. Heatmap de correlación: Producción × Precio × Emergencias × Noticias
-3. Análisis multivariable: Producción × Emergencias × Noticias"""),
+1. Análisis Multivariable: Producción, Precio y Clima
+2. Heatmap de Correlación: Producción × Emergencias × Clima × Estacionalidad
+3. Boxplot: Anomalías de Producción Anual"""),
 ('code', SETUP_BASE),
 ('code', """
 import joblib
@@ -279,150 +273,104 @@ from sklearn.preprocessing import StandardScaler
 
 df = pd.read_csv(f"{PROCESSED}/master_dataset_fase1_v2.csv")
 scaler_path = f"{DIRS['scalers']}/scaler_fase1_v2.pkl"
-cols_sc = [c for c in ['produccion_t','cosecha_ha','precio_chacra_kg',
-           'num_emergencias','total_afectados','has_cultivo_perdidas','n_noticias'] if c in df.columns]
+cols_sc = [c for c in [
+    'produccion_t','cosecha_ha','precio_chacra_kg',
+    'num_emergencias','total_afectados','has_cultivo_perdidas','n_noticias',
+    'temp_max_c', 'temp_min_c', 'precipitacion_mm', 'humedad_rel_pct', 'velocidad_viento', 'radiacion_solar'
+] if c in df.columns]
+
 if os.path.exists(scaler_path):
     sc = joblib.load(scaler_path)
     df_real = df.copy()
-    df_real[cols_sc] = sc.inverse_transform(df[cols_sc].fillna(0))
-    print("✅ Scaler cargado — valores desnormalizados para gráficos")
+    if len(cols_sc) == len(sc.scale_):
+        df_real[cols_sc] = sc.inverse_transform(df[cols_sc].fillna(0))
+        print("✅ Scaler cargado — valores desnormalizados para gráficos")
+    else:
+        print("⚠️ Las columnas no coinciden con el scaler. Usando valores escalados.")
 else:
     df_real = df.copy()
 print(f"Dataset: {df.shape} | Rango: {df['fecha_evento'].min()} → {df['fecha_evento'].max()}")
-display(df.head(3))
 """),
-('md', "## 10.1 Serie Temporal — Producción vs Precio"),
+('md', "## 10.1 Gráfico Multivariable: Producción, Precio y Precipitación"),
 ('code', """
 trend = df_real.groupby('fecha_evento').agg(
-    prod=('produccion_t','sum'), precio=('precio_chacra_kg','mean')
+    prod=('produccion_t','sum'), 
+    precio=('precio_chacra_kg','mean'),
+    precip=('precipitacion_mm','mean') if 'precipitacion_mm' in df_real.columns else ('produccion_t','mean')
 ).reset_index().sort_values('fecha_evento')
 
-fig, ax1 = plt.subplots(figsize=(14, 6))
-ax1.fill_between(range(len(trend)), trend['prod'], alpha=0.15, color='green')
-ax1.plot(range(len(trend)), trend['prod'], 'g-o', markersize=4, linewidth=2, label='Producción (t)')
-ax1.set_ylabel('Producción Total (t)', color='darkgreen', fontsize=12)
-ax1.tick_params(axis='y', labelcolor='darkgreen')
+fig, ax1 = plt.subplots(figsize=(15, 7))
+x = range(len(trend))
+
+# Área: Producción
+ax1.fill_between(x, trend['prod'], alpha=0.2, color='forestgreen')
+ax1.plot(x, trend['prod'], color='forestgreen', linewidth=2, label='Producción (t)')
+ax1.set_ylabel('Producción Total (t)', color='forestgreen', fontsize=12)
 ax1.set_xticks(range(0, len(trend), 6))
-ax1.set_xticklabels(trend['fecha_evento'].iloc[::6], rotation=45, ha='right', fontsize=9)
+ax1.set_xticklabels(trend['fecha_evento'].iloc[::6], rotation=45, ha='right')
 
+# Eje 2: Precio
 ax2 = ax1.twinx()
-ax2.plot(range(len(trend)), trend['precio'], 'r--s', markersize=4, linewidth=2, label='Precio (S/./kg)')
-ax2.set_ylabel('Precio Chacra Promedio (S/./kg)', color='darkred', fontsize=12)
-ax2.tick_params(axis='y', labelcolor='darkred')
+ax2.plot(x, trend['precio'], color='darkorange', linewidth=2, linestyle='--', label='Precio (S/./kg)')
+ax2.set_ylabel('Precio Chacra (S/./kg)', color='darkorange', fontsize=12)
 
-l1, lb1 = ax1.get_legend_handles_labels()
-l2, lb2 = ax2.get_legend_handles_labels()
-ax1.legend(l1+l2, lb1+lb2, loc='upper left', fontsize=10)
-fig.suptitle('Serie Temporal: Producción Nacional de Limón vs Precio en Chacra\\n(2021-2025)',
-             fontsize=14, fontweight='bold')
+# Eje 3: Precipitación
+if 'precipitacion_mm' in df_real.columns:
+    ax3 = ax1.twinx()
+    ax3.spines['right'].set_position(('axes', 1.12))
+    ax3.plot(x, trend['precip'], color='royalblue', linewidth=1.5, linestyle=':', label='Precip. (mm)')
+    ax3.set_ylabel('Precipitación (mm/día)', color='royalblue', fontsize=12)
+
+fig.suptitle('Análisis Multimodal: Producción, Precio y Clima (2021-2025)', fontsize=15, fontweight='bold')
 plt.tight_layout()
-plt.savefig(f"{REPORTS}/g10_prod_vs_precio.png", dpi=150, bbox_inches='tight')
+plt.savefig(f"{REPORTS}/g13_produccion_vs_precio_vs_clima.png", dpi=150, bbox_inches='tight')
 plt.show()
-print("[OK] g10_prod_vs_precio.png")
+print("[OK] g13_produccion_vs_precio_vs_clima.png")
 """),
-('md', "## 10.2 Heatmap de Correlación (annot=True)"),
+('md', "## 10.2 Heatmap de Correlación Extendido"),
 ('code', """
-corr_cols = [c for c in ['produccion_t','precio_chacra_kg','cosecha_ha',
-             'num_emergencias','total_afectados','n_noticias',
-             'month_sin','month_cos'] if c in df.columns]
+corr_cols = [c for c in [
+    'produccion_t','precio_chacra_kg','num_emergencias',
+    'n_noticias','temp_max_c','precipitacion_mm','humedad_rel_pct',
+    'month_sin','month_cos'
+] if c in df.columns]
 corr = df[corr_cols].corr()
 
-labels = {'produccion_t':'Producción','precio_chacra_kg':'Precio','cosecha_ha':'Cosecha',
-          'num_emergencias':'Emergencias','total_afectados':'Afectados',
-          'n_noticias':'Noticias','month_sin':'Mes_sin','month_cos':'Mes_cos'}
-corr.index   = [labels.get(c,c) for c in corr.index]
-corr.columns = [labels.get(c,c) for c in corr.columns]
-
-fig, ax = plt.subplots(figsize=(11, 9))
+fig, ax = plt.subplots(figsize=(12, 10))
 mask = np.triu(np.ones_like(corr, dtype=bool))
 cmap = sns.diverging_palette(250, 10, as_cmap=True)
-sns.heatmap(corr, mask=mask, cmap=cmap, center=0, annot=True, fmt='.2f',
-            square=True, linewidths=0.8, cbar_kws={'shrink':0.8},
-            annot_kws={'size':11, 'weight':'bold'}, ax=ax)
-ax.set_title('Mapa de Calor de Correlación\\nProducción × Precio × Emergencias × Noticias × Estacionalidad',
-             fontsize=13, fontweight='bold', pad=15)
+sns.heatmap(corr, mask=mask, cmap='coolwarm', center=0, annot=True, fmt='.2f',
+            square=True, linewidths=0.5, cbar_kws={'shrink':0.8}, ax=ax)
+ax.set_title('Mapa de Calor de Correlación: Producción × Emergencias × Clima × Estacionalidad',
+             fontsize=14, fontweight='bold')
 plt.tight_layout()
-plt.savefig(f"{REPORTS}/g11_correlacion_heatmap.png", dpi=150, bbox_inches='tight')
+plt.savefig(f"{REPORTS}/g14_correlacion_heatmap_final.png", dpi=150, bbox_inches='tight')
 plt.show()
-print("[OK] g11_correlacion_heatmap.png")
+print("[OK] g14_correlacion_heatmap_final.png")
 """),
-('md', "## 10.3 Gráfico Multivariable — Producción × Emergencias × Noticias"),
+('md', "## 10.3 Boxplot: Distribución de Producción por Año"),
 ('code', """
-multi = df_real.groupby('fecha_evento').agg(
-    produccion=('produccion_t','sum'),
-    emergencias=('num_emergencias','sum'),
-    noticias=('n_noticias','first')
-).reset_index().sort_values('fecha_evento')
-
-x = list(range(len(multi)))
-fig, ax1 = plt.subplots(figsize=(15, 7))
-
-# Producción — área rellena
-ax1.fill_between(x, multi['produccion'], alpha=0.2, color='#27ae60')
-ax1.plot(x, multi['produccion'], color='#27ae60', linewidth=2.5, label='Producción (t)')
-ax1.set_ylabel('Producción Nacional (t)', color='#27ae60', fontsize=12)
-ax1.tick_params(axis='y', labelcolor='#27ae60')
-ax1.set_xticks(range(0, len(multi), 6))
-ax1.set_xticklabels(multi['fecha_evento'].iloc[::6], rotation=45, ha='right', fontsize=9)
-ax1.set_xlabel('Período (YYYY-MM)', fontsize=11)
-
-# Emergencias — barras
-ax2 = ax1.twinx()
-ax2.bar(x, multi['emergencias'], alpha=0.55, color='#e74c3c', width=0.7, label='Emergencias')
-ax2.set_ylabel('Nro. Emergencias INDECI', color='#e74c3c', fontsize=12)
-ax2.tick_params(axis='y', labelcolor='#e74c3c')
-
-# Noticias — línea punteada
-ax3 = ax1.twinx()
-ax3.spines['right'].set_position(('axes', 1.10))
-ax3.plot(x, multi['noticias'], color='#2980b9', linestyle='--', marker='^',
-         markersize=5, linewidth=2, label='Noticias Agro/mes')
-ax3.set_ylabel('Noticias Agraria.pe / mes', color='#2980b9', fontsize=12)
-ax3.tick_params(axis='y', labelcolor='#2980b9')
-
-# Leyenda unificada
-handles, labels_list = [], []
-for ax in [ax1, ax2, ax3]:
-    h, l = ax.get_legend_handles_labels()
-    handles += h; labels_list += l
-ax1.legend(handles, labels_list, loc='upper left', fontsize=10, framealpha=0.9)
-
-fig.suptitle('Análisis Multivariable: Producción × Emergencias × Noticias Agrícolas\\n'
-             'Fuentes: MIDAGRI · INDECI SINPAD · Agraria.pe  |  Período 2021-2025',
-             fontsize=14, fontweight='bold', y=1.02)
+fig, ax = plt.subplots(figsize=(10, 6))
+sns.boxplot(data=df_real, x='anho', y='produccion_t', palette='YlGn', ax=ax)
+ax.set_title('Distribución de Producción de Limón por Año (Detección de Anomalías)', fontsize=14, fontweight='bold')
+ax.set_ylabel('Producción (t)')
 plt.tight_layout()
-plt.savefig(f"{REPORTS}/g12_multivariable.png", dpi=150, bbox_inches='tight')
+plt.savefig(f"{REPORTS}/g15_boxplot_anual.png", dpi=150, bbox_inches='tight')
 plt.show()
-print("[OK] g12_multivariable.png")
+print("[OK] g15_boxplot_anual.png")
 """),
-('md', "## 10.4 Resumen Final del Pipeline"),
+('md', "## 10.4 Resumen Final del Pipeline Multimodal"),
 ('code', """
 print("=" * 65)
 print("  RESUMEN FINAL — PIPELINE FASE 1 EJECUTADO EXITOSAMENTE")
 print("=" * 65)
 print(f"\\n  Dataset maestro: {df.shape[0]:,} filas × {df.shape[1]} columnas")
 print(f"  Rango temporal: {df['fecha_evento'].min()} → {df['fecha_evento'].max()}")
-print(f"  Departamentos: {df['departamento'].nunique()}")
-print(f"  Provincias:    {df['provincia'].nunique()}")
 print()
 print("  Columnas del dataset final:")
 for c in df.columns:
     print(f"    {c}")
-print()
-print("  Registros por año:")
-for yr, cnt in df.groupby('anho').size().items():
-    print(f"    {yr}: {cnt:,} filas")
 print("\\n✅ [ACTIVIDAD 10] COMPLETADA — FASE 1 FINALIZADA")
-"""),
-('md', """## TODO: INTEGRACIÓN DATA NASA (COMPAÑERO)
-Añadir al gráfico multivariable la curva de precipitaciones:
-```python
-ax4 = ax1.twinx()
-ax4.spines['right'].set_position(('axes', 1.22))
-ax4.plot(x, multi['precipitacion_mm'], color='#16a085', linestyle=':', linewidth=2, label='Precip. (mm/día)')
-ax4.set_ylabel('Precipitación (mm/día)', color='#16a085', fontsize=12)
-```
-Y en el heatmap, añadir: `T2M`, `PRECTOTCORR`, `RH2M`, `WS2M` a `corr_cols`.
 """),
 ], "actividad_10_reexploracion.ipynb")
 

@@ -189,14 +189,32 @@ out=f"{INTERIM}/dataset_integrado.csv"; df_int.to_csv(out,index=False,encoding='
 print(f"[OK] {out}")
 print("✅ [ACTIVIDAD 06] COMPLETADA")
 """),
-('md',"""## TODO: INTEGRACIÓN DATA NASA (COMPAÑERO)
-```python
-df_nasa=pd.read_csv(f"{INTERIM}/nasa_clima_raw.csv")
-df_nasa['fecha_evento']=pd.to_datetime(df_nasa['DATE']).dt.strftime('%Y-%m')
-nasa_agg=df_nasa.groupby(['fecha_evento','departamento','provincia'])[
-    ['T2M','T2M_MAX','T2M_MIN','PRECTOTCORR','RH2M','WS2M']].mean().reset_index()
-df_int=df_int.merge(nasa_agg,on=['fecha_evento','departamento','provincia'],how='left')
-```"""),
+('md',"""## 6.5 Integración Data Climática (NASA POWER)
+Se leen los datos climáticos procesados por el pipeline paralelo y se unen usando las mismas llaves geográficas y temporales."""),
+('code',"""
+nasa_path = f"{DIRS['processed']}_nasa/nasa_climatic_raw_values.csv"
+if os.path.exists(nasa_path):
+    df_nasa = pd.read_csv(nasa_path)
+    cols_nasa = ['fecha_evento', 'DEPARTAMENTO', 'PROVINCIA', 
+                 'T2M_MAX', 'T2M_MIN', 'PRECTOTCORR', 'RH2M', 'WS2M', 'ALLSKY_SFC_SW_DWN']
+    df_nasa = df_nasa[cols_nasa].rename(columns={
+        'DEPARTAMENTO': 'departamento', 'PROVINCIA': 'provincia',
+        'T2M_MAX': 'temp_max_c', 'T2M_MIN': 'temp_min_c',
+        'PRECTOTCORR': 'precipitacion_mm', 'RH2M': 'humedad_rel_pct',
+        'WS2M': 'velocidad_viento', 'ALLSKY_SFC_SW_DWN': 'radiacion_solar'
+    })
+    for c in ['departamento', 'provincia']:
+        df_nasa[c] = df_nasa[c].astype(str).str.upper().str.strip()
+
+    df_int = pd.merge(df_int, df_nasa, on=['fecha_evento', 'departamento', 'provincia'], how='left')
+    
+    # Relleno de nulos climáticos por media provincial
+    cols_clima = ['temp_max_c', 'temp_min_c', 'precipitacion_mm', 'humedad_rel_pct', 'velocidad_viento', 'radiacion_solar']
+    for col in cols_clima:
+        df_int[col] = df_int.groupby(['departamento', 'provincia'])[col].transform(lambda x: x.fillna(x.mean()))
+        df_int[col] = df_int[col].fillna(df_int[col].mean())
+    print(f"Variables NASA integradas exitosamente: {cols_clima}")
+"""),
 ],"actividad_06_integracion.ipynb")
 
 ok06=execute(p06)
@@ -339,12 +357,8 @@ with open(sql_path,'w',encoding='utf-8') as f: f.write(DDL)
 print(DDL); print(f"\\n[OK] {sql_path}")
 print("✅ [ACTIVIDAD 07] COMPLETADA")
 """),
-('md',"""## TODO: INTEGRACIÓN DATA NASA (COMPAÑERO)
-Las columnas NASA ya existen en `fact_produccion_limon` como NULL. Al integrar:
-```sql
-UPDATE fact_produccion_limon f SET temp_max_c=n.T2M_MAX, precipitacion_mm=n.PRECTOTCORR
-FROM staging_nasa n WHERE f.id_tiempo=n.id_tiempo AND f.id_ubicacion=n.id_ubicacion;
-```"""),
+('md',"""## 7.3 Documentación de Integración NASA
+Las columnas climáticas (`temp_max_c`, `precipitacion_mm`, etc.) ya forman parte integral de la tabla `fact_produccion_limon`. No se requiere una dimensión separada ya que el clima es un conjunto de métricas (hechos) medidas en el mismo nivel de granularidad (Mes-Provincia)."""),
 ],"actividad_07_dwh_schema.ipynb")
 
 ok07=execute(p07)
