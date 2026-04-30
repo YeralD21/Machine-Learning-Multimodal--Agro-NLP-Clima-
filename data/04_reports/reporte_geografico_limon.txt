@@ -1,29 +1,29 @@
-REPORTE ESTRUCTURADO: ORIGEN GEOGRÁFICO DEL LIMÓN (2021-2025)
-================================================================================
-         Dpto  produccion_total_t  n_provincias  n_registros  pct_participacion
-        PIURA           844788.80             7         1820              54.45
-       TUMBES           262721.15             3          725              16.93
-   LAMBAYEQUE           194718.80             2          309              12.55
-      UCAYALI            57912.16             4         1020               3.73
-       LORETO            55284.00             8         2371               3.56
-        JUNIN            35198.59             3         1579               2.27
-     AMAZONAS            30954.28             4         1769               2.00
-   SAN MARTIN            25201.56            10         3377               1.62
-        CUSCO             8456.00             1          159               0.55
-          ICA             7008.53             5          235               0.45
-      HUANUCO             6076.50             6          933               0.39
-       ANCASH             4817.00             6          622               0.31
-    CAJAMARCA             4738.85             8         1236               0.31
-MADRE DE DIOS             3536.70             3          610               0.23
-  LA LIBERTAD             2866.03             8          828               0.18
-     AYACUCHO             2677.00             8          737               0.17
-     APURIMAC             1626.43             5          535               0.10
- HUANCAVELICA             1221.58             6          485               0.08
-        PASCO              518.80             1           26               0.03
-     MOQUEGUA              401.48             2           48               0.03
-         PUNO              289.69             2           85               0.02
-     AREQUIPA              236.53             2           54               0.02
-         LIMA              221.00             1           10               0.01
-
-Total producción: 1,551,471.45 t
-Departamentos: 23
+REPORTE ESTRUCTURADO: PRODUCCIÓN DE LIMÓN POR DEPARTAMENTO (2021-2025)
+===========================================================================
+DEPARTAMENTO               PRODUCCIÓN (t) PROVINCIAS  % PART.
+---------------------------------------------------------------------------
+PIURA                          844,788.80          7   54.45%
+TUMBES                         262,721.15          3   16.93%
+LAMBAYEQUE                     194,718.80          2   12.55%
+UCAYALI                         57,912.15          4    3.73%
+LORETO                          55,284.00          8    3.56%
+JUNIN                           35,198.59          3    2.27%
+AMAZONAS                        30,954.28          4    2.00%
+SAN MARTIN                      25,201.56         10    1.62%
+CUSCO                            8,456.00          1    0.55%
+ICA                              7,008.53          5    0.45%
+HUANUCO                          6,076.50          6    0.39%
+ANCASH                           4,817.00          6    0.31%
+CAJAMARCA                        4,738.85          8    0.31%
+MADRE DE DIOS                    3,536.70          3    0.23%
+LA LIBERTAD                      2,866.03          8    0.18%
+AYACUCHO                         2,677.00          8    0.17%
+APURIMAC                         1,626.43          5    0.10%
+HUANCAVELICA                     1,221.58          6    0.08%
+PASCO                              518.80          1    0.03%
+MOQUEGUA                           401.48          2    0.03%
+PUNO                               289.69          2    0.02%
+AREQUIPA                           236.53          2    0.02%
+LIMA                               221.00          1    0.01%
+---------------------------------------------------------------------------
+TOTAL                        1,551,471.45             100.00%

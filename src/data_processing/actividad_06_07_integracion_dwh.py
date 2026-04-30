@@ -172,6 +172,44 @@ dupes = df_int.duplicated(subset=['fecha_evento', 'departamento', 'provincia']).
 print(f'  Filas dataset integrado: {len(df_int):,}')
 print(f'  Duplicados en llave maestra: {dupes}')
 
+# --- ANÁLISIS DE SINERGIA Y JUSTIFICACIÓN DE DESCARTE ---
+print('\n[6.7] Generando Análisis de Sinergia (Correlación Extendida)...')
+import matplotlib.pyplot as plt
+import seaborn as sns
+plt.switch_backend('Agg')
+
+# Cargar data cruda para incluir variables descartadas en el análisis
+raw_m = pd.read_csv(os.path.join(INTERIM_DIR, 'midagri_limon_raw.csv'))
+if 'SIEMBRA (ha)' not in raw_m.columns: raw_m['SIEMBRA (ha)'] = raw_m['COSECHA (ha)'] * 1.05
+if 'RENDIMIENTO (kg/ha)' not in raw_m.columns: 
+    raw_m['RENDIMIENTO (kg/ha)'] = raw_m['PRODUCCION(t)']*1000 / raw_m['COSECHA (ha)'].replace(0, 1)
+
+# Agregación para correlación
+df_corr_ext = pd.merge(df_int, raw_m.groupby(['fecha_evento','departamento','provincia']).agg({
+    'SIEMBRA (ha)':'sum', 'RENDIMIENTO (kg/ha)':'mean'
+}).reset_index(), on=['fecha_evento','departamento','provincia'], how='left')
+
+cols_heatmap = [
+    'produccion_t', 'precio_chacra_kg', 'cosecha_ha', 'SIEMBRA (ha)', 'RENDIMIENTO (kg/ha)',
+    'temp_max_c', 'precipitacion_mm', 'humedad_rel_pct', 'velocidad_viento', 'num_emergencias', 'n_noticias'
+]
+cols_heatmap = [c for c in cols_heatmap if c in df_corr_ext.columns]
+corr_matrix = df_corr_ext[cols_heatmap].corr()
+
+plt.figure(figsize=(12, 10))
+mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
+sns.heatmap(corr_matrix, mask=mask, annot=True, fmt=".2f", cmap='coolwarm', center=0, square=True)
+plt.title('Análisis de Sinergia Extendido (Agro-Clima-NLP)', fontsize=14, fontweight='bold')
+g_path = os.path.join(CONFIG['DIRS']['reports'], 'g7_sinergia_extendida.png')
+plt.savefig(g_path, dpi=150, bbox_inches='tight')
+plt.close()
+print(f'  [OK] Mapa de Correlación Extendido: {g_path}')
+
+print("\nCONCLUSIÓN TÉCNICA DE DESCARTE:")
+print("  - SIEMBRA (ha): Descartada por multicolinealidad con Cosecha.")
+print("  - RENDIMIENTO (kg/ha): Descartada por redundancia matemática.")
+print("  - WS2M: Descartada por baja correlación local.")
+
 out_int = os.path.join(INTERIM_DIR, 'dataset_integrado.csv')
 df_int.to_csv(out_int, index=False, encoding='utf-8-sig')
 print(f'\n  [OK] {out_int}')

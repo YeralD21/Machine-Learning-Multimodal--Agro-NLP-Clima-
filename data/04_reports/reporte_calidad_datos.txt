@@ -1,36 +1,9 @@
 REPORTE DE CALIDAD DE DATOS — FASE 1
-======================================================================
+============================================================
+        Fuente  Filas  Columnas  Cols con Nulos  Duplicados                                                 Acción
+       MIDAGRI  19573        10               0           0                        Renombrar cols + normalizar geo
+INDECI Eventos    224        17              16           1 Filtrar fenómenos hidrometeorológicos + normalizar geo
+    AGRARIA.PE    528         5               0           0                   Limpiar HTML/URLs + normalizar texto
+ NASA Climatic   5712        13               0           0                         Integrar por fecha y provincia
 
-MIDAGRI — midagri_limon_raw.csv
-----------------------------------------
-  Shape: (19573, 10)
-  Nulos por columna:
-Empty DataFrame
-Columns: [nulos, pct]
-Index: []
-  Duplicados: 0
-  Outliers produccion IQR 1.5x: 2851
-
-INDECI — indeci_eventos_dbf.csv
-----------------------------------------
-  Shape: (25025, 79)
-  Nulos por columna:
-            nulos    pct
-region          1   0.00
-sotroscana   2276   9.09
-sotrosca_1   2276   9.09
-senergia_a   2276   9.09
-senergia_d   2276   9.09
-st_temp     13451  53.75
-des_grupal  11175  44.66
-  Duplicados: 0
-
-AGRARIA.PE — agraria_noticias_raw.csv
-----------------------------------------
-  Shape: (528, 5)
-  Nulos por columna:
-Empty DataFrame
-Columns: [nulos, pct]
-Index: []
-  Duplicados: 0
-  Noticias con cuerpo < 100 chars: 0
+Decisiones de limpieza documentadas.

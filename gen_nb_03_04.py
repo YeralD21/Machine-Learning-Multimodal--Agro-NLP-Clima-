@@ -60,6 +60,20 @@ act03 = [
 
 > Este notebook genera el **Reporte Estructurado de 23 Departamentos** que producen limón en Perú,
 > analiza la distribución de emergencias INDECI por fenómeno y la frecuencia de noticias Agraria.pe.
+
+### 🛡️ Selección de Variables y Justificación de Descarte
+En esta etapa inicial, se identifican las variables que formarán parte del modelo multimodal y aquellas que serán descartadas por falta de relevancia predictiva o redundancia.
+
+| Origen | Variable | Estado | Justificación de Descarte / Selección |
+| :--- | :--- | :--- | :--- |
+| **MIDAGRI** | `PRODUCCION(t)` | **Seleccionada** | Variable objetivo principal (Target). |
+| **MIDAGRI** | `MTO_PRECCHAC (S/ x kg)` | **Seleccionada** | Variable objetivo secundaria (Target de volatilidad). |
+| **MIDAGRI** | `COSECHA (ha)` | **Seleccionada** | Predictor clave de la capacidad productiva. |
+| **MIDAGRI** | `SIEMBRA (ha)` | **Descartada** | Alta multicolinealidad con `Cosecha`. Se prefiere `Cosecha` por su relación directa con la producción mensual. |
+| **NASA** | `T2M`, `PRECTOTCORR` | **Seleccionada** | Variables críticas para el ciclo fenológico del limón. |
+| **NASA** | `PS` (Presión) | **Descartada** | Baja variabilidad relevante para el crecimiento del cultivo comparado con temperatura. |
+| **INDECI** | `ide_sinpad` | **Descartada** | Identificador administrativo sin valor predictivo. |
+| **INDECI** | `personas_afectadas` | **Seleccionada** | Proxy de la magnitud del desastre en la zona productora. |
 """),
 
 ('code', SETUP),
@@ -162,27 +176,33 @@ print(f"[OK] {g_path}")
 ('md', "## 3.3 INDECI — Distribución de Fenómenos de Emergencia"),
 
 ('code', """
-df_ev = pd.read_csv(f"{INTERIM}/indeci_eventos_dbf.csv", low_memory=False)
-df_ev['fenomeno'] = df_ev['fenomeno'].astype(str).str.strip().str.upper()
+df_ev_path = f"{INTERIM}/indeci_eventos_dbf.csv"
+if not os.path.exists(df_ev_path):
+    # Fallback a resumen si no hay DBFs
+    df_ev_path = f"{INTERIM}/indeci_resumen_prov.csv"
 
-top_fen = df_ev['fenomeno'].value_counts().head(12)
-print(f"Total eventos: {len(df_ev):,}")
-print("\\nTop 12 fenómenos:")
-for fen, cnt in top_fen.items():
-    print(f"  {fen:<40} {cnt:>6,}  ({cnt/len(df_ev)*100:.1f}%)")
-
-fig, ax = plt.subplots(figsize=(12, 5))
-top_fen.sort_values().plot(kind='barh', ax=ax, color='steelblue', edgecolor='navy', linewidth=0.5)
-ax.set_xlabel('Cantidad de Eventos', fontsize=11)
-ax.set_title('Top 12 Fenómenos de Emergencia — INDECI (2021-2023)', fontsize=13, fontweight='bold')
-for p in ax.patches:
-    ax.text(p.get_width()+10, p.get_y()+p.get_height()/2,
-            f'{int(p.get_width()):,}', va='center', fontsize=8)
-plt.tight_layout()
-g_path2 = f"{REPORTS}/g2_indeci_fenomenos.png"
-plt.savefig(g_path2, dpi=150, bbox_inches='tight')
-plt.show()
-print(f"[OK] {g_path2}")
+if os.path.exists(df_ev_path):
+    df_ev = pd.read_csv(df_ev_path, low_memory=False)
+    # Homologar nombre de columna si es el resumen
+    if 'departamento' in df_ev.columns and 'fenomeno' not in df_ev.columns:
+        df_ev['fenomeno'] = 'EMERGENCIA GENERAL' 
+        df_ev['personas_afectadas'] = df_ev.get('pers_afectadas', 0)
+    
+    df_ev['fenomeno'] = df_ev['fenomeno'].astype(str).str.strip().str.upper()
+    top_fen = df_ev['fenomeno'].value_counts().head(12)
+    print(f"Total eventos: {len(df_ev):,}")
+    
+    fig, ax = plt.subplots(figsize=(12, 5))
+    top_fen.sort_values().plot(kind='barh', ax=ax, color='steelblue', edgecolor='navy', linewidth=0.5)
+    ax.set_xlabel('Cantidad de Eventos', fontsize=11)
+    ax.set_title('Top 12 Fenómenos de Emergencia (INDECI)', fontsize=13, fontweight='bold')
+    plt.tight_layout()
+    g_path2 = f"{REPORTS}/g2_indeci_fenomenos.png"
+    plt.savefig(g_path2, dpi=150, bbox_inches='tight')
+    plt.show()
+    print(f"[OK] {g_path2}")
+else:
+    print("⚠️ No se encontró data de INDECI (DBF o Resumen).")
 """),
 
 ('md', "## 3.4 AGRARIA.PE — Frecuencia de Noticias"),
@@ -222,30 +242,33 @@ print(f"[OK] {g_path3}")
 """),
 
 ('md', """## 3.5 NASA POWER — EDA Climático
-Analizamos las tendencias de temperatura y precipitación de la NASA POWER."""),
+Analizamos las tendencias de temperatura y precipitación de la NASA POWER. Se incluyen gráficos pre-procesados de la fase de ingeniería de datos climáticos."""),
 ('code', """
-nasa_path = f"data/03_processed_nasa/nasa_climatic_raw_values.csv"
-if os.path.exists(nasa_path):
-    df_nasa = pd.read_csv(nasa_path)
-    df_nasa['fecha'] = pd.to_datetime(df_nasa['fecha_evento'])
+from IPython.display import Image, display
+
+nasa_reports_dir = "data/03_processed_nasa/reports"
+if os.path.exists(nasa_reports_dir):
+    print("📊 Visualización de Gráficos Pre-procesados NASA:")
     
-    fig, axes = plt.subplots(1, 2, figsize=(16, 5))
+    # Lista de gráficos a mostrar (solicitados por el usuario)
+    nasa_graphs = [
+        ("Distribución de Variables Climáticas", "g1_eda_distribucion.png"),
+        ("Cobertura Espacial de Datos NASA", "g2_eda_cobertura.png"),
+        ("Serie Temporal: Temperatura (T2M)", "g3_temperatura_series.png"),
+        ("Serie Temporal: Precipitación (PRECTOTCORR)", "g4_precipitacion_series.png"),
+        ("Matriz de Correlación Climática", "g5_correlacion_clima.png"),
+        ("Análisis de Estacionalidad de Temperatura", "g6_estacionalidad_temp.png")
+    ]
     
-    # Serie temporal temperatura
-    df_nasa.groupby('fecha_evento')['T2M_MAX'].mean().plot(ax=axes[0], color='red', label='Temp Max')
-    df_nasa.groupby('fecha_evento')['T2M_MIN'].mean().plot(ax=axes[0], color='blue', label='Temp Min')
-    axes[0].set_title('Tendencia de Temperatura Mensual (NASA)', fontweight='bold')
-    axes[0].legend()
-    
-    # Heatmap Precipitaciones
-    pivot = df_nasa.pivot_table(values='PRECTOTCORR', index='DEPARTAMENTO', columns='fecha_evento')
-    sns.heatmap(pivot, cmap='YlGnBu', ax=axes[1])
-    axes[1].set_title('Mapa de Calor: Precipitaciones (mm/día)', fontweight='bold')
-    
-    plt.tight_layout()
-    plt.show()
+    for title, img_name in nasa_graphs:
+        img_path = os.path.join(nasa_reports_dir, img_name)
+        if os.path.exists(img_path):
+            print(f"\\n--- {title} ---")
+            display(Image(filename=img_path))
+        else:
+            print(f"⚠️ No se encontró {img_name}")
 else:
-    print("⚠️ Datos NASA no encontrados para EDA.")
+    print("⚠️ Directorio de reportes NASA no encontrado.")
 """),
 
 ('code', """
@@ -317,12 +340,26 @@ def quality_report(df, name, key_cols=None):
     return null_df, dupes
 
 df_m = pd.read_csv(f"{INTERIM}/midagri_limon_raw.csv")
-df_ev = pd.read_csv(f"{INTERIM}/indeci_eventos_dbf.csv", low_memory=False)
+
+df_ev_path = f"{INTERIM}/indeci_eventos_dbf.csv"
+if not os.path.exists(df_ev_path):
+    df_ev_path = f"{INTERIM}/indeci_resumen_prov.csv"
+df_ev = pd.read_csv(df_ev_path, low_memory=False)
+
 df_n  = pd.read_csv(f"{INTERIM}/agraria_noticias_raw.csv")
 
+# Carga de NASA para calidad
+df_nasa = pd.DataFrame()
+nasa_path = f"data/03_processed_nasa/nasa_climatic_raw_values.csv"
+if os.path.exists(nasa_path):
+    df_nasa = pd.read_csv(nasa_path)
+
 null_m,  dup_m  = quality_report(df_m,  "MIDAGRI — midagri_limon_raw.csv",    ['anho','mes','COD_UBIGEO','dsc_Cultivo'])
-null_ev, dup_ev = quality_report(df_ev, "INDECI — indeci_eventos_dbf.csv",     ['ide_sinpad'])
+null_ev, dup_ev = quality_report(df_ev, "INDECI (Fallback Data)", ['ide_sinpad'] if 'ide_sinpad' in df_ev.columns else None)
 null_n,  dup_n  = quality_report(df_n,  "AGRARIA.PE — agraria_noticias_raw.csv", ['url'])
+
+if not df_nasa.empty:
+    null_ns, dup_ns = quality_report(df_nasa, "NASA — nasa_climatic_raw_values.csv", ['fecha_evento','DEPARTAMENTO','PROVINCIA'])
 """),
 
 ('md', "## 4.2 Visualización de Nulos por Fuente"),
@@ -403,15 +440,16 @@ print(f"[OK] {g_path2}")
 ('code', """
 # Tabla resumen de decisiones por fuente
 resumen = {
-    'Fuente': ['MIDAGRI', 'INDECI Eventos', 'AGRARIA.PE'],
-    'Filas': [len(df_m), len(df_ev), len(df_n)],
-    'Columnas': [df_m.shape[1], df_ev.shape[1], df_n.shape[1]],
-    'Cols con Nulos': [len(null_m), len(null_ev), len(null_n)],
-    'Duplicados': [dup_m, dup_ev, dup_n],
+    'Fuente': ['MIDAGRI', 'INDECI Eventos', 'AGRARIA.PE', 'NASA Climatic'],
+    'Filas': [len(df_m), len(df_ev), len(df_n), len(df_nasa) if not df_nasa.empty else 0],
+    'Columnas': [df_m.shape[1], df_ev.shape[1], df_n.shape[1], df_nasa.shape[1] if not df_nasa.empty else 0],
+    'Cols con Nulos': [len(null_m), len(null_ev), len(null_n), len(df_nasa.isnull().sum()[df_nasa.isnull().sum()>0]) if not df_nasa.empty else 0],
+    'Duplicados': [dup_m, dup_ev, dup_n, dup_ns if not df_nasa.empty else 0],
     'Acción': [
         'Renombrar cols + normalizar geo',
         'Filtrar fenómenos hidrometeorológicos + normalizar geo',
-        'Limpiar HTML/URLs + normalizar texto'
+        'Limpiar HTML/URLs + normalizar texto',
+        'Integrar por fecha y provincia'
     ]
 }
 df_resumen = pd.DataFrame(resumen)
