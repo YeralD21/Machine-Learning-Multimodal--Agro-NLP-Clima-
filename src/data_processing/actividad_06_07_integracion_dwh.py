@@ -124,15 +124,48 @@ df_int['n_noticias']        = df_int['n_noticias'].fillna(0)
 df_int = df_int.sort_values(['departamento', 'provincia', 'fecha_evento'])
 df_int['precio_chacra_kg'] = df_int.groupby(['departamento', 'provincia'])['precio_chacra_kg'].ffill().bfill()
 
-# TODO: INTEGRACIÓN DATA NASA
-# Aquí se realiza el merge del DataFrame climático mensual:
-#   df_nasa_mensual = pd.read_csv(os.path.join(INTERIM_DIR, 'nasa_clima_raw.csv'))
-#   df_nasa_mensual['fecha_evento'] = pd.to_datetime(df_nasa_mensual['DATE']).dt.strftime('%Y-%m')
-#   df_nasa_mensual = df_nasa_mensual.groupby(['fecha_evento','departamento','provincia'])\
-#       [['T2M','T2M_MAX','T2M_MIN','PRECTOTCORR','RH2M','WS2M','ALLSKY_SFC_SW_DWN','QV2M']].mean().reset_index()
-#   df_int = pd.merge(df_int, df_nasa_mensual, on=['fecha_evento','departamento','provincia'], how='left')
-#   print(f'  Variables climáticas NASA integradas: T2M, PRECTOTCORR, RH2M, WS2M...')
-print('\n  [NASA] Merge climático pendiente (ver TODO arriba)')
+# ─────────────────────────────────────────────
+# 6.6 INTEGRACIÓN DATA NASA
+# ─────────────────────────────────────────────
+print('\n[6.6] Integrando variables climáticas NASA POWER...')
+nasa_path = 'data/03_processed_nasa/nasa_climatic_raw_values.csv'
+if os.path.exists(nasa_path):
+    df_nasa = pd.read_csv(nasa_path)
+    # Seleccionar columnas relevantes
+    cols_nasa = ['fecha_evento', 'DEPARTAMENTO', 'PROVINCIA', 
+                 'T2M', 'T2M_MAX', 'T2M_MIN', 'PRECTOTCORR', 'RH2M', 'WS2M', 'ALLSKY_SFC_SW_DWN']
+    df_nasa = df_nasa[cols_nasa].copy()
+    
+    # Renombrar para coincidir con el DWH (Star Schema)
+    df_nasa = df_nasa.rename(columns={
+        'DEPARTAMENTO': 'departamento',
+        'PROVINCIA': 'provincia',
+        'T2M_MAX': 'temp_max_c',
+        'T2M_MIN': 'temp_min_c',
+        'PRECTOTCORR': 'precipitacion_mm',
+        'RH2M': 'humedad_rel_pct',
+        'WS2M': 'velocidad_viento',
+        'ALLSKY_SFC_SW_DWN': 'radiacion_solar'
+    })
+
+    # Asegurar mayúsculas en geo para el join
+    for c in ['departamento', 'provincia']:
+        df_nasa[c] = df_nasa[c].astype(str).str.upper().str.strip()
+
+    # Merge con el dataset integrado
+    df_int = pd.merge(df_int, df_nasa, on=['fecha_evento', 'departamento', 'provincia'], how='left')
+    
+    # Rellenar nulos climáticos con la media de la provincia (interpolación simple)
+    cols_clima = ['temp_max_c', 'temp_min_c', 'precipitacion_mm', 'humedad_rel_pct', 'velocidad_viento', 'radiacion_solar']
+    for col in cols_clima:
+        df_int[col] = df_int.groupby(['departamento', 'provincia'])[col].transform(lambda x: x.fillna(x.mean()))
+        # Si aún hay nulos (provincias sin data), usar media nacional
+        df_int[col] = df_int[col].fillna(df_int[col].mean())
+    
+    print(f'  Variables NASA integradas: {cols_clima}')
+    print(f'  Nulos climáticos remanentes: {df_int[cols_clima].isnull().sum().sum()}')
+else:
+    print(f'  ⚠️ Archivo NASA no encontrado en {nasa_path}. Saltando integración climática.')
 
 # Verificar sin duplicados
 dupes = df_int.duplicated(subset=['fecha_evento', 'departamento', 'provincia']).sum()

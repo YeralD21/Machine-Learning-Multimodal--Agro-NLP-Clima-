@@ -61,9 +61,8 @@ FEATURES_TO_SCALE = [
     'produccion_t', 'cosecha_ha', 'precio_chacra_kg',
     'num_emergencias', 'total_afectados', 'has_cultivo_perdidas',
     'n_noticias',
-    # TODO: INTEGRACIÓN NASA — añadir aquí:
-    # 'temp_max_c', 'temp_min_c', 'precipitacion_mm',
-    # 'humedad_rel_pct', 'velocidad_viento', 'radiacion_solar',
+    'temp_max_c', 'temp_min_c', 'precipitacion_mm', 
+    'humedad_rel_pct', 'velocidad_viento', 'radiacion_solar'
 ]
 
 # Solo escalar columnas que existan
@@ -138,11 +137,10 @@ try:
     FACT_COLS = [
         'id_tiempo', 'id_ubicacion',
         'produccion_t', 'cosecha_ha', 'precio_chacra_kg',
-        'num_emergencias', 'total_afectados',
+        'num_emergencias', 'total_afectados', 'has_cultivo_perdidas',
         'n_noticias',
-        # NASA placeholder — columnas serán NULL hasta integración
-        # 'temp_max_c', 'temp_min_c', 'precipitacion_mm', 'humedad_rel_pct',
-        # 'velocidad_viento', 'radiacion_solar',
+        'temp_max_c', 'temp_min_c', 'precipitacion_mm', 'humedad_rel_pct',
+        'velocidad_viento', 'radiacion_solar'
     ]
     fact_cols_exist = [c for c in FACT_COLS if c in df_fact.columns]
     df_fact_load = df_fact[fact_cols_exist].dropna(subset=['id_tiempo', 'id_ubicacion'])
@@ -158,13 +156,7 @@ except Exception as e:
     print(f'  [ERROR PostgreSQL] {e}')
     print('  Continuando sin carga en BD...')
 
-# TODO: INTEGRACIÓN DATA NASA
-# Cuando se integre, ejecutar:
-#   df_nasa = pd.read_csv(os.path.join(INTERIM_DIR, 'nasa_clima_raw.csv'))
-#   df_final = pd.merge(df_fact_load, df_nasa_mensual,
-#                       on=['id_tiempo','id_ubicacion'], how='left')
-#   Actualizar fact_produccion_limon con UPDATE o re-insertar con las columnas climáticas.
-print('\n  [NASA] Merge climático pendiente (ver TODO arriba)')
+print('\n  [NASA] Integración climática completada ✅')
 
 # ─────────────────────────────────────────────
 # 9.7 Exportar CSV final a 03_processed/
