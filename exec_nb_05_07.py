@@ -113,12 +113,25 @@ out=f"{INTERIM}/agraria_noticias_clean.csv"; df_n.to_csv(out,index=False,encodin
 print(f"\\n[OK] {out} — {len(df_n)} noticias")
 print("✅ [ACTIVIDAD 05] COMPLETADA")
 """),
-('md',"""## TODO: INTEGRACIÓN DATA NASA (COMPAÑERO)
-```python
-df_nasa=pd.read_csv(f"{INTERIM}/nasa_clima_raw.csv")
-df_nasa['departamento']=df_nasa['departamento'].apply(norm_geo)
-df_nasa['fecha_evento']=pd.to_datetime(df_nasa['DATE']).dt.strftime('%Y-%m')
-```"""),
+('md',"""## 5.5 Estandarización Data Climática (NASA POWER)
+Al igual que las fuentes locales, los datos de la NASA se estandarizan para asegurar que los nombres de Departamentos y Provincias coincidan exactamente (MAYÚSCULAS y sin tildes) y que el formato de fecha sea `YYYY-MM`."""),
+('code',"""
+nasa_raw_path = "data/02_interim_nasa/nasa_long_raw.csv"
+if os.path.exists(nasa_raw_path):
+    df_nasa = pd.read_csv(nasa_raw_path)
+    # Estandarización Geo
+    for c in ['DEPARTAMENTO', 'PROVINCIA']:
+        df_nasa[c] = df_nasa[c].apply(norm_geo)
+    
+    # Estandarización Temporal
+    if 'DATE' in df_nasa.columns:
+        df_nasa['fecha_evento'] = pd.to_datetime(df_nasa['DATE']).dt.strftime('%Y-%m')
+    
+    print(f"Data NASA estandarizada: {len(df_nasa):,} registros")
+    display(df_nasa[['DEPARTAMENTO', 'PROVINCIA', 'fecha_evento']].head(3))
+else:
+    print("Nota: El archivo raw de NASA se procesa en el pipeline especializado 'main_nasa_pipeline.py'")
+"""),
 ],"actividad_05_limpieza.ipynb")
 
 ok05=execute(p05)
