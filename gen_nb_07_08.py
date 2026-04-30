@@ -38,6 +38,8 @@ cruzar producción agrícola con emergencias, noticias y datos climáticos.
 
 ## 7.1 Modelo Estrella — Diagrama Visual
 
+![Star Schema Diagram](../data/04_reports/g07_star_schema.png)
+
 ```
                     ┌─────────────────────────────┐
                     │        dim_tiempo            │
