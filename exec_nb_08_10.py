@@ -35,11 +35,12 @@ def execute(path, timeout=600):
         '--to', 'notebook', '--execute', '--inplace',
         f'--ExecutePreprocessor.timeout={timeout}',
         '--ExecutePreprocessor.kernel_name=python3', path],
-        capture_output=True, text=True, encoding='utf-8')
+        capture_output=True)  # Sin text=True: evita UnicodeDecodeError con PNGs
     ok = r.returncode == 0
     print(f"  {'✅ OK' if ok else '❌ ERROR'}")
     if not ok:
-        print('\n'.join((r.stderr or '').strip().split('\n')[-15:]))
+        stderr = (r.stderr or b'').decode('utf-8', errors='replace')
+        print('\n'.join((stderr or '').strip().split('\n')[-15:]))
     return ok
 
 # ── NB 08 PostgreSQL ─────────────────────────────────────────────

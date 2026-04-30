@@ -32,10 +32,12 @@ def execute(path, timeout=600):
     r = subprocess.run([sys.executable,'-m','jupyter','nbconvert','--to','notebook',
         '--execute','--inplace',f'--ExecutePreprocessor.timeout={timeout}',
         '--ExecutePreprocessor.kernel_name=python3', path],
-        capture_output=True, text=True, encoding='utf-8')
+        capture_output=True)  # Sin text=True: evita UnicodeDecodeError con PNGs
     ok = r.returncode == 0
     print(f"  {'✅ OK' if ok else '❌ ERROR'}")
-    if not ok: print('\n'.join((r.stderr or '').strip().split('\n')[-15:]))
+    if not ok:
+        stderr = (r.stderr or b'').decode('utf-8', errors='replace')
+        print('\n'.join(stderr.strip().split('\n')[-15:]))
     return ok
 
 # ── NB 05 LIMPIEZA ───────────────────────────────────────────────
@@ -128,7 +130,9 @@ if os.path.exists(nasa_raw_path):
         df_nasa['fecha_evento'] = pd.to_datetime(df_nasa['DATE']).dt.strftime('%Y-%m')
     
     print(f"Data NASA estandarizada: {len(df_nasa):,} registros")
-    display(df_nasa[['DEPARTAMENTO', 'PROVINCIA', 'fecha_evento']].head(3))
+    # Mostrar solo columnas disponibles para evitar KeyError
+    cols_show = [c for c in ['DEPARTAMENTO', 'PROVINCIA', 'fecha_evento'] if c in df_nasa.columns]
+    display(df_nasa[cols_show].head(3))
 else:
     print("Nota: El archivo raw de NASA se procesa en el pipeline especializado 'main_nasa_pipeline.py'")
 """),
@@ -234,144 +238,218 @@ ok06=execute(p06)
 
 # ── NB 07 STAR SCHEMA ────────────────────────────────────────────
 p07=make_nb([
-('md',"""# ⭐ Actividad 07 — Data Warehouse: Star Schema
+('md',"""# ⭐ Actividad 07 — Data Warehouse: Star Schema v2.0
 ---
-## Modelo Dimensional — `limon_analytics_db`
+## Modelo Dimensional Puro — `limon_analytics_db`
+
+**Arquitectura Star Schema con 5 Dimensiones Satélite**
 
 ```
-                   ┌─────────────────────────┐
-                   │       dim_tiempo         │
-                   │─────────────────────────│
-                   │  id_tiempo (PK)          │
-                   │  fecha_evento VARCHAR(7) │
-                   │  anho       SMALLINT     │
-                   │  mes        SMALLINT     │
-                   │  trimestre  SMALLINT     │
-                   │  month_sin  FLOAT        │
-                   │  month_cos  FLOAT        │
-                   └─────────┬───────────────┘
-                             │ FK
-           ┌─────────────────┼─────────────────────┐
-           │                 ▼                     │
-┌──────────┴──────────┐  ┌──────────────────────────────────────────┐
-│   dim_ubicacion     │  │       fact_produccion_limon  ★           │
-│─────────────────────│  │──────────────────────────────────────────│
-│ id_ubicacion (PK)   │  │ id_hecho         (PK)                   │
-│ departamento        ├─►│ id_tiempo        (FK)                   │
-│ provincia           │  │ id_ubicacion     (FK)                   │
-│ lat  FLOAT          │  │ ── MIDAGRI ──                           │
-│ lon  FLOAT          │  │ produccion_t      FLOAT                  │
-└─────────────────────┘  │ cosecha_ha        FLOAT                  │
-                         │ precio_chacra_kg  FLOAT                  │
-                         │ ── INDECI ──                            │
-                         │ num_emergencias   INT                    │
-                         │ total_afectados   INT                    │
-                         │ has_cultivo_perdidas FLOAT               │
-                         │ ── AGRARIA.PE ──                        │
-                         │ n_noticias        INT                    │
-                         │ avg_sentimiento   FLOAT ◄── Fase 2      │
-                         │ ── NASA POWER (TODO) ──                 │
-                         │ temp_max_c        FLOAT ◄── NASA        │
-                         │ precipitacion_mm  FLOAT ◄── NASA        │
-                         │ humedad_rel_pct   FLOAT ◄── NASA        │
-                         │ velocidad_viento  FLOAT ◄── NASA        │
-                         │ radiacion_solar   FLOAT ◄── NASA        │
-                         └──────────────────────────────────────────┘
+                         ┌─────────────────────┐
+                         │     dim_tiempo       │
+                         │ id_tiempo (PK)       │
+                         │ fecha_evento, anho   │
+                         │ month_sin, month_cos │
+                         └──────────┬──────────┘
+                                    │ FK
+  ┌────────────────┐      ┌─────────▼──────────────┐      ┌────────────────────┐
+  │  dim_ubicacion │      │  fact_produccion_limon ★│      │   dim_emergencia   │
+  │ id_ubicacion(PK)◄────►│ id_hecho (PK)          │◄────►│ id_emergencia (PK) │
+  │ departamento   │      │ id_tiempo (FK)          │      │ tipo_emergencia     │
+  │ provincia      │      │ id_ubicacion (FK)       │      │ gravedad           │
+  │ distrito       │      │ id_clima (FK)           │      └────────────────────┘
+  │ lat, lon       │      │ id_emergencia (FK)      │
+  └────────────────┘      │ id_noticias (FK)        │      ┌────────────────────┐
+                          │ --- Métricas MIDAGRI ---│      │    dim_noticias     │
+                          │ produccion_t FLOAT      │◄────►│ id_noticias (PK)   │
+                          │ cosecha_ha FLOAT        │      │ avg_sentimiento    │
+                          │ precio_chacra_kg FLOAT  │      │ n_noticias         │
+                          └─────────┬──────────────┘      └────────────────────┘
+                                    │ FK
+                         ┌──────────▼──────────┐
+                         │      dim_clima       │
+                         │ id_clima (PK)        │
+                         │ temp_max_c, temp_min │
+                         │ precipitacion_mm     │
+                         │ is_extreme_weather   │
+                         └─────────────────────┘
 ```
 
 | Aspecto | Decisión |
 |:--------|:---------|
-| **Tipo** | Star Schema (no Snowflake) — JOINs simples para OLAP |
-| **Granularidad** | Mensual × Provincia |
-| **Llave única** | `(id_tiempo, id_ubicacion)` — UNIQUE |
-| **dim_tiempo** | month_sin/cos capturan estacionalidad biológica |
-| **NASA** | Columnas reservadas como NULL hasta integración |
-| **Sentimiento** | avg_sentimiento llenado en Fase 2 (NLP/BETO) |
+| **Tipo** | Star Schema Puro — 5 dimensiones, JOINs simples para OLAP |
+| **Granularidad** | Mensual × Provincia × Distrito |
+| **fact_produccion_limon** | Solo FKs + métricas de producción MIDAGRI |
+| **dim_clima** | Encapsula toda la data NASA POWER |
+| **dim_emergencia** | Encapsula toda la data INDECI SINPAD |
+| **dim_noticias** | Encapsula sentimiento NLP + conteo Agraria.pe |
+| **Sentimiento** | avg_sentimiento en dim_noticias (Fase 2: BETO) |
 """),
 ('code',SETUP),
-('md',"## 7.1 Visualización del Diagrama con Matplotlib"),
+('md',"## 7.1 Visualización del Diagrama con Matplotlib (Star Schema v2.0)"),
 ('code',"""
-import matplotlib.patches as mpatches, matplotlib.patheffects as pe
+import matplotlib.patches as mpatches
 
-fig,ax=plt.subplots(figsize=(14,9))
-ax.set_xlim(0,14); ax.set_ylim(0,9); ax.axis('off')
-ax.set_facecolor('#f8f9fa'); fig.patch.set_facecolor('#f8f9fa')
-ax.set_title('Star Schema — limon_analytics_db\\nPipeline Fase 1: Predicción de Producción de Limón',
-             fontsize=15, fontweight='bold', pad=15)
+fig, ax = plt.subplots(figsize=(16, 10))
+ax.set_xlim(0, 16); ax.set_ylim(0, 10); ax.axis('off')
+fig.patch.set_facecolor('#fdfdfd')
 
-def draw_table(ax, x, y, w, h, title, rows, color_header='#2c3e50', color_bg='#ecf0f1'):
-    ax.add_patch(mpatches.FancyBboxPatch((x,y),w,h,boxstyle="round,pad=0.1",
-        facecolor=color_bg, edgecolor='#34495e', linewidth=2))
-    ax.add_patch(mpatches.FancyBboxPatch((x,y+h-0.55),w,0.55,boxstyle="round,pad=0.05",
-        facecolor=color_header, edgecolor='none'))
-    ax.text(x+w/2,y+h-0.27,title,ha='center',va='center',fontsize=9,
-            fontweight='bold',color='white')
-    for i,(row,clr) in enumerate(rows):
-        ax.text(x+0.15,y+h-0.85-i*0.38,row,va='center',fontsize=7,
-                color='#2c3e50' if clr=='n' else '#e74c3c' if clr=='k' else '#3498db')
+def draw_table(ax, x, y, w, h, title, rows, color_h='#2c3e50', color_b='#ffffff'):
+    ax.add_patch(mpatches.FancyBboxPatch((x,y), w, h, boxstyle="round,pad=0.1",
+        facecolor=color_b, edgecolor='#34495e', linewidth=1.5))
+    ax.add_patch(mpatches.FancyBboxPatch((x,y+h-0.6), w, 0.6, boxstyle="round,pad=0.05",
+        facecolor=color_h, edgecolor='none'))
+    ax.text(x+w/2, y+h-0.3, title, ha='center', va='center', fontsize=10, fontweight='bold', color='white')
+    for i, (row, clr) in enumerate(rows):
+        color = '#e74c3c' if clr=='k' else '#3498db' if clr=='f' else '#2c3e50'
+        ax.text(x+0.2, y+h-1.0-i*0.4, row, va='center', fontsize=8, color=color)
 
-# Tabla central — HECHOS
-draw_table(ax,4.5,1.5,5,6,'★  fact_produccion_limon',[
-    ('id_hecho (PK)','k'),('id_tiempo (FK)','b'),('id_ubicacion (FK)','b'),
-    ('── MIDAGRI ──','n'),('produccion_t  FLOAT','n'),('cosecha_ha  FLOAT','n'),
-    ('precio_chacra_kg  FLOAT','n'),('── INDECI ──','n'),('num_emergencias  INT','n'),
-    ('── NOTICIAS ──','n'),('n_noticias  INT','n'),('avg_sentimiento  FLOAT','n'),
-    ('── NASA (TODO) ──','n'),('temp_max_c  FLOAT ◄','n'),('precipitacion_mm  FLOAT ◄','n'),
-],'#8e44ad','#fdf2f8')
+# --- TABLA CENTRAL: HECHOS ---
+draw_table(ax, 6, 3, 4, 4, '★ fact_produccion_limon', [
+    ('id_hecho (PK)', 'k'), ('id_tiempo (FK)', 'f'), ('id_ubicacion (FK)', 'f'),
+    ('id_clima (FK)', 'f'), ('id_emergencia (FK)', 'f'), ('id_noticias (FK)', 'f'),
+    ('produccion_t FLOAT', 'n'), ('cosecha_ha FLOAT', 'n'), ('precio_chacra_kg FLOAT', 'n')
+], '#8e44ad', '#f5eef8')
 
-# dim_tiempo arriba
-draw_table(ax,5.5,8.1,3,1.8,'⏰  dim_tiempo',[
-    ('id_tiempo (PK)','k'),('fecha_evento, anho, mes','n'),
-    ('trimestre, month_sin/cos','n'),
-],'#16a085','#d5f5e3')
+# --- 5 DIMENSIONES EN CIRCULO ---
+# Arriba: dim_tiempo
+draw_table(ax, 6.5, 8, 3, 1.8, 'dim_tiempo', [
+    ('id_tiempo (PK)', 'k'), ('fecha_evento, anho, mes', 'n'), ('month_sin, month_cos', 'n')
+], '#16a085', '#e8f8f5')
 
-# dim_ubicacion izquierda
-draw_table(ax,0.2,4,3.5,3,'📍  dim_ubicacion',[
-    ('id_ubicacion (PK)','k'),('departamento VARCHAR','n'),
-    ('provincia VARCHAR','n'),('lat, lon FLOAT','n'),
-],'#1a5276','#d6eaf8')
+# Izquierda: dim_ubicacion
+draw_table(ax, 0.5, 6, 3.5, 2.2, 'dim_ubicacion', [
+    ('id_ubicacion (PK)', 'k'), ('departamento, provincia', 'n'), ('distrito (NUEVO)', 'n'), ('lat, lon', 'n')
+], '#2980b9', '#ebf5fb')
 
-# Flechas
-ax.annotate('',xy=(7,7.5),xytext=(7,8.05),arrowprops=dict(arrowstyle='<-',color='#16a085',lw=2))
-ax.annotate('',xy=(4.5,5),xytext=(3.7,5),arrowprops=dict(arrowstyle='<-',color='#1a5276',lw=2))
-ax.text(3.9,5.15,'FK',fontsize=7,color='#1a5276',fontweight='bold')
-ax.text(7.05,7.75,'FK',fontsize=7,color='#16a085',fontweight='bold')
+# Abajo-izquierda: dim_clima
+draw_table(ax, 0.5, 1.5, 3.5, 2.2, 'dim_clima  (NASA)', [
+    ('id_clima (PK)', 'k'), ('temp_max, temp_min', 'n'), ('precipitacion_mm', 'n'), ('is_extreme_weather', 'n')
+], '#d35400', '#fef5e7')
 
+# Derecha: dim_emergencia
+draw_table(ax, 11.5, 6, 4, 2.2, 'dim_emergencia', [
+    ('id_emergencia (PK)', 'k'), ('tipo_desastre', 'n'), ('gravedad_index', 'n'), ('impacto_agricola', 'n')
+], '#c0392b', '#fdedec')
+
+# Abajo-derecha: dim_noticias
+draw_table(ax, 11.5, 1.5, 4, 2.2, 'dim_noticias', [
+    ('id_noticias (PK)', 'k'), ('avg_sentimiento', 'n'), ('num_menciones', 'n'), ('top_topic', 'n')
+], '#2c3e50', '#eaeded')
+
+# --- FLECHAS FK ---
+arrow_kw = dict(arrowstyle='->', color='#2980b9', lw=1.8,
+                connectionstyle='arc3,rad=0.0')
+# fact -> dim_tiempo
+ax.annotate('', xy=(8, 8.0), xytext=(8, 7.0), arrowprops=arrow_kw)
+ax.text(8.1, 7.5, 'FK', fontsize=7, color='#2980b9', fontweight='bold')
+# fact -> dim_ubicacion
+ax.annotate('', xy=(4.0, 7.2), xytext=(6.0, 6.5), arrowprops=arrow_kw)
+ax.text(4.8, 7.0, 'FK', fontsize=7, color='#2980b9', fontweight='bold')
+# fact -> dim_clima
+ax.annotate('', xy=(4.0, 2.8), xytext=(6.0, 3.5), arrowprops=arrow_kw)
+ax.text(4.8, 3.0, 'FK', fontsize=7, color='#2980b9', fontweight='bold')
+# fact -> dim_emergencia
+ax.annotate('', xy=(11.5, 7.2), xytext=(10.0, 6.5), arrowprops=arrow_kw)
+ax.text(10.5, 7.0, 'FK', fontsize=7, color='#2980b9', fontweight='bold')
+# fact -> dim_noticias
+ax.annotate('', xy=(11.5, 2.8), xytext=(10.0, 3.5), arrowprops=arrow_kw)
+ax.text(10.5, 3.0, 'FK', fontsize=7, color='#2980b9', fontweight='bold')
+
+plt.title("Data Warehouse Star Schema v2.0 — Limon Analytics", fontsize=16, fontweight='bold', color='#2c3e50')
 plt.tight_layout()
-plt.savefig(f"{REPORTS}/g07_star_schema.png",dpi=150,bbox_inches='tight')
+plt.savefig(f"{REPORTS}/g07_star_schema_v2.png", dpi=150, bbox_inches='tight')
 plt.show()
-print("✅ Diagrama Star Schema generado")
+print("Diagrama Star Schema v2.0 (5 dimensiones) generado")
 """),
-('md',"## 7.2 DDL del Star Schema"),
+('md',"## 7.2 DDL del Star Schema v2.0 (5 Dimensiones Puras)"),
 ('code',"""
-DDL='''CREATE TABLE IF NOT EXISTS dim_tiempo (
-    id_tiempo SERIAL PRIMARY KEY, fecha_evento VARCHAR(7) NOT NULL UNIQUE,
-    anho SMALLINT NOT NULL, mes SMALLINT NOT NULL, trimestre SMALLINT,
-    month_sin FLOAT, month_cos FLOAT);
+DDL = '''
+-- =============================================
+-- STAR SCHEMA v2.0 — limon_analytics_db
+-- Proyecto: Prediccion de Produccion de Limon
+-- 5 Dimensiones Puras + 1 Tabla de Hechos
+-- =============================================
+
+-- 1. Dimensiones secundarias (sin FKs propias)
+CREATE TABLE IF NOT EXISTS dim_clima (
+    id_clima SERIAL PRIMARY KEY,
+    temp_max_c FLOAT, temp_min_c FLOAT, precipitacion_mm FLOAT,
+    humedad_rel_pct FLOAT, velocidad_viento FLOAT, radiacion_solar FLOAT,
+    is_extreme_weather BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE IF NOT EXISTS dim_emergencia (
+    id_emergencia SERIAL PRIMARY KEY,
+    tipo_emergencia VARCHAR(100),
+    num_emergencias INT DEFAULT 0,
+    total_afectados INT DEFAULT 0,
+    has_cultivo_perdidas FLOAT DEFAULT 0,
+    gravedad SMALLINT
+);
+
+CREATE TABLE IF NOT EXISTS dim_noticias (
+    id_noticias SERIAL PRIMARY KEY,
+    avg_sentimiento FLOAT,
+    n_noticias INT DEFAULT 0,
+    tema_principal VARCHAR(100)
+);
+
+-- 2. Dimensiones base
+CREATE TABLE IF NOT EXISTS dim_tiempo (
+    id_tiempo SERIAL PRIMARY KEY,
+    fecha_evento VARCHAR(7) NOT NULL UNIQUE,
+    anho SMALLINT NOT NULL, mes SMALLINT NOT NULL,
+    trimestre SMALLINT,
+    month_sin FLOAT, month_cos FLOAT
+);
 
 CREATE TABLE IF NOT EXISTS dim_ubicacion (
-    id_ubicacion SERIAL PRIMARY KEY, departamento VARCHAR(60) NOT NULL,
-    provincia VARCHAR(60) NOT NULL, lat FLOAT, lon FLOAT,
-    UNIQUE(departamento,provincia));
+    id_ubicacion SERIAL PRIMARY KEY,
+    departamento VARCHAR(60) NOT NULL,
+    provincia VARCHAR(60) NOT NULL,
+    distrito VARCHAR(80),
+    lat FLOAT, lon FLOAT,
+    UNIQUE(departamento, provincia)
+);
 
+-- 3. Tabla de Hechos LIMPIA (solo FKs + metricas produccion)
 CREATE TABLE IF NOT EXISTS fact_produccion_limon (
     id_hecho SERIAL PRIMARY KEY,
-    id_tiempo INT NOT NULL REFERENCES dim_tiempo(id_tiempo),
-    id_ubicacion INT NOT NULL REFERENCES dim_ubicacion(id_ubicacion),
-    produccion_t FLOAT DEFAULT 0, cosecha_ha FLOAT DEFAULT 0, precio_chacra_kg FLOAT,
-    num_emergencias INT DEFAULT 0, total_afectados INT DEFAULT 0,
-    has_cultivo_perdidas FLOAT DEFAULT 0, n_noticias INT DEFAULT 0,
-    avg_sentimiento FLOAT, temp_max_c FLOAT, temp_min_c FLOAT,
-    precipitacion_mm FLOAT, humedad_rel_pct FLOAT, velocidad_viento FLOAT,
-    radiacion_solar FLOAT, UNIQUE(id_tiempo,id_ubicacion));'''
+    id_tiempo INT REFERENCES dim_tiempo(id_tiempo),
+    id_ubicacion INT REFERENCES dim_ubicacion(id_ubicacion),
+    id_clima INT REFERENCES dim_clima(id_clima),
+    id_emergencia INT REFERENCES dim_emergencia(id_emergencia),
+    id_noticias INT REFERENCES dim_noticias(id_noticias),
+    -- Metricas MIDAGRI (unicas metricas en la tabla de hechos)
+    produccion_t FLOAT DEFAULT 0,
+    cosecha_ha FLOAT DEFAULT 0,
+    precio_chacra_kg FLOAT,
+    UNIQUE(id_tiempo, id_ubicacion)
+);
+
+-- Indices
+CREATE INDEX IF NOT EXISTS idx_fact_tiempo ON fact_produccion_limon(id_tiempo);
+CREATE INDEX IF NOT EXISTS idx_fact_ubicacion ON fact_produccion_limon(id_ubicacion);
+CREATE INDEX IF NOT EXISTS idx_fact_clima ON fact_produccion_limon(id_clima);
+'''
 import os
-sql_path=f"{DIRS['database']}/dwh_star_schema.sql"
-with open(sql_path,'w',encoding='utf-8') as f: f.write(DDL)
-print(DDL); print(f"\\n[OK] {sql_path}")
-print("✅ [ACTIVIDAD 07] COMPLETADA")
+sql_path = f"{DIRS['database']}/dwh_star_schema_v2.sql"
+with open(sql_path, 'w', encoding='utf-8') as f: f.write(DDL)
+print(DDL)
+print(f"[OK] {sql_path}")
+print("[ACTIVIDAD 07] COMPLETADA - Star Schema v2.0 con 5 dimensiones puras")
 """),
-('md',"""## 7.3 Documentación de Integración NASA
-Las columnas climáticas (`temp_max_c`, `precipitacion_mm`, etc.) ya forman parte integral de la tabla `fact_produccion_limon`. No se requiere una dimensión separada ya que el clima es un conjunto de métricas (hechos) medidas en el mismo nivel de granularidad (Mes-Provincia)."""),
+('md',"""## 7.3 Arquitectura Star Schema v2.0 — Decisión de Diseño
+
+En el **Star Schema v2.0**, los datos de la NASA POWER se encapsulan en **`dim_clima`**, una dimensión satélite dedicada. Esto sigue las mejores prácticas de Data Warehousing:
+
+| Decisión | Justificación |
+|:---------|:-------------|
+| `dim_clima` separada | Agrupa coherentemente las 6 variables climáticas NASA |
+| `dim_emergencia` separada | Desacopla los datos INDECI de la tabla de hechos |
+| `dim_noticias` separada | Permite escalar el módulo NLP en Fase 2 sin alterar la fact |
+| `fact` solo con 3 métricas | Principio de tabla de hechos limpia: solo FKs + métricas de producción |"""),
 ],"actividad_07_dwh_schema.ipynb")
 
 ok07=execute(p07)
