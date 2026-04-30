@@ -27,66 +27,66 @@ print(f"CWD: {os.getcwd()} | Config OK")
 
 # ── ACTIVIDAD 07 — DISEÑO STAR SCHEMA ────────────────────────────────
 act07 = [
-('md', """# ⭐ Actividad 07: Diseño del Star Schema — Data Warehouse
----
-**Objetivo:** Documentar visualmente el modelo dimensional (Star Schema) para `limon_analytics_db`.
+('md', """## 7.1 Modelo Estrella — Diagrama Multimodal (4 Dimensiones)
 
-Este es el diseño que soportará las consultas analíticas del modelo LSTM-Attention, permitiendo
-cruzar producción agrícola con emergencias, noticias y datos climáticos.
+Este diseño separa las fuentes de datos en 4 dimensiones clave para permitir un análisis granular del impacto climático y social en la producción de limón.
 
----
+### Vista Técnica (Mermaid)
+```mermaid
+erDiagram
+    fact_produccion_limon }|--|| dim_tiempo : "id_tiempo"
+    fact_produccion_limon }|--|| dim_ubicacion : "id_ubicacion"
+    fact_produccion_limon }|--|| dim_clima : "id_clima"
+    fact_produccion_limon }|--|| dim_multimodal : "id_multimodal"
 
-## 7.1 Modelo Estrella — Diagrama Visual
+    dim_tiempo {
+        int id_tiempo PK
+        varchar fecha_evento
+        int anho
+        int mes
+        float month_sin
+        float month_cos
+    }
 
-![Star Schema Diagram](../data/04_reports/g07_star_schema.png)
+    dim_ubicacion {
+        int id_ubicacion PK
+        varchar departamento
+        varchar provincia
+        float lat
+        float lon
+    }
 
+    dim_clima {
+        int id_clima PK
+        float temp_max_c
+        float temp_min_c
+        float precipitacion_mm
+        float radiacion_solar
+        float humedad_rel_pct
+    }
+
+    dim_multimodal {
+        int id_multimodal PK
+        int n_noticias
+        int num_emergencias
+        float avg_sentimiento
+        int total_afectados
+    }
+
+    fact_produccion_limon {
+        int id_hecho PK
+        int id_tiempo FK
+        int id_ubicacion FK
+        int id_clima FK
+        int id_multimodal FK
+        float produccion_t
+        float cosecha_ha
+        float precio_chacra_kg
+    }
 ```
-                    ┌─────────────────────────────┐
-                    │        dim_tiempo            │
-                    │─────────────────────────────│
-                    │ id_tiempo (PK)              │
-                    │ fecha_evento    VARCHAR(7)   │
-                    │ anho            SMALLINT     │
-                    │ mes             SMALLINT     │
-                    │ trimestre       SMALLINT     │
-                    │ month_sin       FLOAT        │
-                    │ month_cos       FLOAT        │
-                    └──────────┬──────────────────┘
-                               │
-                               │ 1:N
-                               │
-┌─────────────────────────────┐│┌────────────────────────────────────────────┐
-│      dim_ubicacion          │││         fact_produccion_limon               │
-│─────────────────────────────│││────────────────────────────────────────────│
-│ id_ubicacion (PK)           │││ id_hecho (PK)                             │
-│ departamento  VARCHAR(60)   ├┤│ id_tiempo (FK) ─────────────► dim_tiempo  │
-│ provincia     VARCHAR(60)   │││ id_ubicacion (FK) ──────────► dim_ubicacion│
-│ lat           FLOAT         │││                                            │
-│ lon           FLOAT         │││ ── MÉTRICAS AGRÍCOLAS (MIDAGRI) ──        │
-└─────────────────────────────┘││ produccion_t         FLOAT                │
-                               ││ cosecha_ha           FLOAT                │
-                               ││ precio_chacra_kg     FLOAT                │
-                               ││                                            │
-                               ││ ── MÉTRICAS EMERGENCIAS (INDECI) ──       │
-                               ││ num_emergencias      INT                  │
-                               ││ total_afectados      INT                  │
-                               ││ has_cultivo_perdidas  FLOAT               │
-                               ││                                            │
-                               ││ ── MÉTRICAS NOTICIAS (AGRARIA.PE) ──      │
-                               ││ n_noticias           INT                  │
-                               ││ avg_sentimiento      FLOAT  ◄── Fase 2   │
-                               ││                                            │
-                               ││ ── MÉTRICAS CLIMÁTICAS (NASA) ──          │
-                               ││ temp_max_c           FLOAT  ◄── TODO     │
-                               ││ temp_min_c           FLOAT  ◄── TODO     │
-                               ││ precipitacion_mm     FLOAT  ◄── TODO     │
-                               ││ humedad_rel_pct      FLOAT  ◄── TODO     │
-                               ││ velocidad_viento     FLOAT  ◄── TODO     │
-                               ││ radiacion_solar      FLOAT  ◄── TODO     │
-                               │└────────────────────────────────────────────┘
 
-    LLAVE PRIMARIA COMPUESTA: (id_tiempo, id_ubicacion) → UNIQUE
-```
+### Vista Conceptual (Diagrama de Arquitectura)
+![Star Schema Diagram](../data/04_reports/g07_star_schema_v2.png)
 
 ---
 
@@ -142,24 +142,32 @@ CREATE TABLE IF NOT EXISTS dim_ubicacion (
     UNIQUE (departamento, provincia)
 );
 
+CREATE TABLE IF NOT EXISTS dim_clima (
+    id_clima          SERIAL PRIMARY KEY,
+    temp_max_c        FLOAT,
+    temp_min_c        FLOAT,
+    precipitacion_mm  FLOAT,
+    humedad_rel_pct   FLOAT,
+    radiacion_solar   FLOAT
+);
+
+CREATE TABLE IF NOT EXISTS dim_multimodal (
+    id_multimodal   SERIAL PRIMARY KEY,
+    n_noticias      INT DEFAULT 0,
+    num_emergencias INT DEFAULT 0,
+    total_afectados INT DEFAULT 0,
+    avg_sentimiento FLOAT
+);
+
 CREATE TABLE IF NOT EXISTS fact_produccion_limon (
     id_hecho              SERIAL PRIMARY KEY,
     id_tiempo             INT NOT NULL REFERENCES dim_tiempo(id_tiempo),
     id_ubicacion          INT NOT NULL REFERENCES dim_ubicacion(id_ubicacion),
+    id_clima              INT REFERENCES dim_clima(id_clima),
+    id_multimodal         INT REFERENCES dim_multimodal(id_multimodal),
     produccion_t          FLOAT DEFAULT 0,
     cosecha_ha            FLOAT DEFAULT 0,
     precio_chacra_kg      FLOAT,
-    num_emergencias       INT   DEFAULT 0,
-    total_afectados       INT   DEFAULT 0,
-    has_cultivo_perdidas  FLOAT DEFAULT 0,
-    n_noticias            INT   DEFAULT 0,
-    avg_sentimiento       FLOAT,
-    temp_max_c            FLOAT,
-    temp_min_c            FLOAT,
-    precipitacion_mm      FLOAT,
-    humedad_rel_pct       FLOAT,
-    velocidad_viento      FLOAT,
-    radiacion_solar       FLOAT,
     UNIQUE (id_tiempo, id_ubicacion)
 );
 
@@ -225,22 +233,32 @@ except Exception as e:
     print("  Asegúrate de que PostgreSQL esté corriendo en localhost:5432")
 """),
 
-('md', "## 8.2 Crear Tablas del Star Schema"),
+('md', """## 8.2 Estructura del Data Warehouse (Star Schema)
+
+| Tabla | Tipo | Descripción |
+|:------|:-----|:------------|
+| **`fact_produccion_limon`** | Hechos | Contiene las métricas de producción y las llaves a dimensiones. |
+| **`dim_tiempo`** | Dimensión | Jerarquía temporal: Mes, Año, Trimestre y Codificación Cíclica. |
+| **`dim_ubicacion`** | Dimensión | Jerarquía geográfica: Departamento, Provincia y Coordenadas. |
+| **`dim_clima`** | Dimensión | Datos de la NASA POWER (Temperatura, Precipitación, Radiación). |
+| **`dim_multimodal`** | Dimensión | Impacto externo (Noticias NLP + Emergencias INDECI). |
+
+## 8.3 Crear Tablas en PostgreSQL
+"""),
 
 ('code', """
 DDL_STMTS = [
     "CREATE TABLE IF NOT EXISTS dim_tiempo (id_tiempo SERIAL PRIMARY KEY, fecha_evento VARCHAR(7) NOT NULL, anho SMALLINT NOT NULL, mes SMALLINT NOT NULL, trimestre SMALLINT, month_sin FLOAT, month_cos FLOAT, UNIQUE(fecha_evento))",
     "CREATE TABLE IF NOT EXISTS dim_ubicacion (id_ubicacion SERIAL PRIMARY KEY, departamento VARCHAR(60) NOT NULL, provincia VARCHAR(60) NOT NULL, lat FLOAT, lon FLOAT, UNIQUE(departamento, provincia))",
+    "CREATE TABLE IF NOT EXISTS dim_clima (id_clima SERIAL PRIMARY KEY, temp_max_c FLOAT, temp_min_c FLOAT, precipitacion_mm FLOAT, humedad_rel_pct FLOAT, radiacion_solar FLOAT)",
+    "CREATE TABLE IF NOT EXISTS dim_multimodal (id_multimodal SERIAL PRIMARY KEY, n_noticias INT DEFAULT 0, num_emergencias INT DEFAULT 0, total_afectados INT DEFAULT 0, avg_sentimiento FLOAT)",
     '''CREATE TABLE IF NOT EXISTS fact_produccion_limon (
         id_hecho SERIAL PRIMARY KEY,
         id_tiempo INT NOT NULL REFERENCES dim_tiempo(id_tiempo),
         id_ubicacion INT NOT NULL REFERENCES dim_ubicacion(id_ubicacion),
+        id_clima INT REFERENCES dim_clima(id_clima),
+        id_multimodal INT REFERENCES dim_multimodal(id_multimodal),
         produccion_t FLOAT DEFAULT 0, cosecha_ha FLOAT DEFAULT 0, precio_chacra_kg FLOAT,
-        num_emergencias INT DEFAULT 0, total_afectados INT DEFAULT 0,
-        has_cultivo_perdidas FLOAT DEFAULT 0, n_noticias INT DEFAULT 0,
-        avg_sentimiento FLOAT,
-        temp_max_c FLOAT, temp_min_c FLOAT, precipitacion_mm FLOAT,
-        humedad_rel_pct FLOAT, velocidad_viento FLOAT, radiacion_solar FLOAT,
         UNIQUE(id_tiempo, id_ubicacion))''',
     "CREATE INDEX IF NOT EXISTS idx_fact_tiempo ON fact_produccion_limon(id_tiempo)",
     "CREATE INDEX IF NOT EXISTS idx_fact_ubicacion ON fact_produccion_limon(id_ubicacion)",

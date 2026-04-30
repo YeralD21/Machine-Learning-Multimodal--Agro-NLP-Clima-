@@ -116,33 +116,58 @@ try:
         conn.execute(text("TRUNCATE TABLE fact_produccion_limon RESTART IDENTITY CASCADE"))
         conn.execute(text("TRUNCATE TABLE dim_tiempo RESTART IDENTITY CASCADE"))
         conn.execute(text("TRUNCATE TABLE dim_ubicacion RESTART IDENTITY CASCADE"))
+        conn.execute(text("TRUNCATE TABLE dim_clima RESTART IDENTITY CASCADE"))
+        conn.execute(text("TRUNCATE TABLE dim_multimodal RESTART IDENTITY CASCADE"))
         conn.commit()
 
-    # dim_tiempo
+    # 1. dim_tiempo
     dim_t = df[['fecha_evento','anho','mes','trimestre','month_sin','month_cos']].drop_duplicates('fecha_evento')
     dim_t.to_sql('dim_tiempo', engine, if_exists='append', index=False, method='multi', chunksize=500)
     print(f"  [OK] dim_tiempo: {len(dim_t)} registros")
 
-    # dim_ubicacion
+    # 2. dim_ubicacion
     dim_u = df[['departamento','provincia']].drop_duplicates().reset_index(drop=True)
     dim_u['lat'] = dim_u['departamento'].map(lambda d: COORDS.get(d,(None,None))[0])
     dim_u['lon'] = dim_u['departamento'].map(lambda d: COORDS.get(d,(None,None))[1])
     dim_u.to_sql('dim_ubicacion', engine, if_exists='append', index=False, method='multi', chunksize=500)
     print(f"  [OK] dim_ubicacion: {len(dim_u)} registros")
 
-    # fact
+    # 3. dim_clima
+    clima_cols = {
+        'T2M_MAX': 'temp_max_c', 'T2M_MIN': 'temp_min_c', 
+        'PRECTOTCORR': 'precipitacion_mm', 'RH2M': 'humedad_rel_pct',
+        'ALLSKY_SFC_SW_DWN': 'radiacion_solar'
+    }
+    dim_c = df[list(clima_cols.keys())].rename(columns=clima_cols)
+    dim_c.to_sql('dim_clima', engine, if_exists='append', index=False, method='multi', chunksize=500)
+    print(f"  [OK] dim_clima: {len(dim_c)} registros")
+
+    # 4. dim_multimodal
+    multi_cols = {
+        'n_noticias': 'n_noticias', 'num_emergencias': 'num_emergencias',
+        'total_afectados': 'total_afectados'
+    }
+    dim_m = df[list(multi_cols.keys())].rename(columns=multi_cols)
+    dim_m['avg_sentimiento'] = 0.0 # Placeholder Fase 2
+    dim_m.to_sql('dim_multimodal', engine, if_exists='append', index=False, method='multi', chunksize=500)
+    print(f"  [OK] dim_multimodal: {len(dim_m)} registros")
+
+    # 5. fact_produccion_limon
     with engine.connect() as conn:
         dt_map = pd.read_sql('SELECT id_tiempo, fecha_evento FROM dim_tiempo', conn)
         du_map = pd.read_sql('SELECT id_ubicacion, departamento, provincia FROM dim_ubicacion', conn)
+        # Como dim_clima y dim_multimodal son 1:1 con las filas del dataframe original (por ahora), 
+        # podemos usar los IDs generados secuencialmente.
+        dc_ids = pd.read_sql('SELECT id_clima FROM dim_clima ORDER BY id_clima', conn)
+        dm_ids = pd.read_sql('SELECT id_multimodal FROM dim_multimodal ORDER BY id_multimodal', conn)
 
     df_f = df.merge(dt_map, on='fecha_evento').merge(du_map, on=['departamento','provincia'])
-    fact_cols = ['id_tiempo','id_ubicacion','produccion_t','cosecha_ha','precio_chacra_kg',
-                 'num_emergencias','total_afectados','n_noticias',
-                 'T2M', 'T2M_MAX', 'T2M_MIN', 'PRECTOTCORR', 'RH2M', 'ALLSKY_SFC_SW_DWN']
-    fact_cols = [c for c in fact_cols if c in df_f.columns]
+    df_f['id_clima'] = dc_ids['id_clima']
+    df_f['id_multimodal'] = dm_ids['id_multimodal']
+    
+    fact_cols = ['id_tiempo','id_ubicacion','id_clima','id_multimodal','produccion_t','cosecha_ha','precio_chacra_kg']
     df_load = df_f[fact_cols].dropna(subset=['id_tiempo','id_ubicacion'])
-    df_load['id_tiempo'] = df_load['id_tiempo'].astype(int)
-    df_load['id_ubicacion'] = df_load['id_ubicacion'].astype(int)
+    
     df_load.to_sql('fact_produccion_limon', engine, if_exists='append', index=False, method='multi', chunksize=500)
     print(f"  [OK] fact_produccion_limon: {len(df_load):,} registros")
     engine.dispose()
