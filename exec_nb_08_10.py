@@ -47,9 +47,9 @@ def execute(path, timeout=600):
 # ── NB 08 PostgreSQL ─────────────────────────────────────────────
 p08 = make_nb([
 ('md', """# 🗄️ Actividad 08 — Diseño e Implementación del Data Warehouse (PostgreSQL 16)
-**DB:** `limon_analytics_db` | **Arquitectura:** Star Schema v2.0 (5 Dimensiones)
+**DB:** `limon_analytics_db` | **Arquitectura:** Star Schema v2.0 (4 Dimensiones)
 
-Implementamos la estructura física del Data Warehouse utilizando un **Star Schema puro** para garantizar la escalabilidad analítica."""),
+Implementamos la estructura física del Data Warehouse utilizando un **Star Schema de 4 dimensiones** para garantizar la escalabilidad analítica."""),
 ('code', SETUP_BASE),
 ('md', "## 8.1 Verificar/Crear Base de Datos"),
 ('code', """
@@ -73,7 +73,7 @@ import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 
 plt.style.use('dark_background')
-fig, ax = plt.subplots(figsize=(14, 9))
+fig, ax = plt.subplots(figsize=(12, 8))
 ax.set_xlim(0, 16); ax.set_ylim(0, 10); ax.axis('off')
 fig.patch.set_facecolor('#0f172a')
 
@@ -89,15 +89,14 @@ def draw_table(ax, x, y, title, columns, color='#0ea5e9'):
 fx, fy = 8, 5
 draw_table(ax, fx, fy, "fact_produccion_limon", 
            ["id_hecho (PK)", "id_tiempo (FK)", "id_ubicacion (FK)", "id_clima (FK)", 
-            "id_emergencia (FK)", "id_noticias (FK)", "produccion_t", "precio_chacra_kg"], 
+            "id_multimodal (FK)", "produccion_t", "precio_chacra_kg"], 
            color='#7c3aed')
 
 dims = [
     (8, 8.5, "dim_tiempo", ["id_tiempo (PK)", "fecha_evento", "anho", "mes", "month_sin/cos"]),
-    (14, 6.5, "dim_ubicacion", ["id_ubicacion (PK)", "departamento", "provincia", "distrito"]),
-    (13, 2.5, "dim_clima", ["id_clima (PK)", "temp_max/min", "precipitacion", "humedad"]),
-    (3, 2.5, "dim_emergencia", ["id_emergencia (PK)", "tipo_evento", "gravedad", "afectados"]),
-    (2, 6.5, "dim_noticias", ["id_noticias (PK)", "n_noticias", "avg_sentimiento"])
+    (14, 5, "dim_ubicacion", ["id_ubicacion (PK)", "departamento", "provincia", "lat/lon"]),
+    (8, 1.5, "dim_clima", ["id_clima (PK)", "temp_max/min", "precipitacion", "radiacion"]),
+    (2, 5, "dim_multimodal", ["id_multimodal (PK)", "n_noticias", "n_emergencias", "sentimiento"])
 ]
 
 for dx, dy, dtitle, dcols in dims:
@@ -105,7 +104,7 @@ for dx, dy, dtitle, dcols in dims:
     ax.annotate("", xy=(fx, fy), xytext=(dx, dy),
                 arrowprops=dict(arrowstyle="<->", color="#22d3ee", lw=1.5, alpha=0.6))
 
-plt.title("Limon Analytics — Star Schema v2.0 (PostgreSQL 16)", color='#f8fafc', size=16, weight='bold', pad=20)
+plt.title("Limon Analytics — Star Schema v2.0 (4 Dimensiones)", color='#f8fafc', size=16, weight='bold', pad=20)
 plt.show()
 """),
 ('md', "## 8.3 Despliegue Físico (DDL SQL)"),
@@ -115,15 +114,13 @@ STMTS = [
     "DROP TABLE IF EXISTS dim_tiempo CASCADE",
     "DROP TABLE IF EXISTS dim_ubicacion CASCADE",
     "DROP TABLE IF EXISTS dim_clima CASCADE",
-    "DROP TABLE IF EXISTS dim_emergencia CASCADE",
-    "DROP TABLE IF EXISTS dim_noticias CASCADE",
+    "DROP TABLE IF EXISTS dim_multimodal CASCADE",
 
     "CREATE TABLE dim_tiempo (id_tiempo SERIAL PRIMARY KEY, fecha_evento VARCHAR(7) UNIQUE NOT NULL, anho SMALLINT, mes SMALLINT, month_sin FLOAT, month_cos FLOAT)",
-    "CREATE TABLE dim_ubicacion (id_ubicacion SERIAL PRIMARY KEY, departamento VARCHAR(60), provincia VARCHAR(60), distrito VARCHAR(60), UNIQUE(departamento, provincia, distrito))",
-    "CREATE TABLE dim_clima (id_clima SERIAL PRIMARY KEY, temp_max_c FLOAT, temp_min_c FLOAT, precipitacion_mm FLOAT)",
-    "CREATE TABLE dim_emergencia (id_emergencia SERIAL PRIMARY KEY, tipo_emergencia VARCHAR(100), num_emergencias INT)",
-    "CREATE TABLE dim_noticias (id_noticias SERIAL PRIMARY KEY, n_noticias INT, avg_sentimiento FLOAT)",
-    "CREATE TABLE fact_produccion_limon (id_hecho SERIAL PRIMARY KEY, id_tiempo INT REFERENCES dim_tiempo(id_tiempo), id_ubicacion INT REFERENCES dim_ubicacion(id_ubicacion), id_clima INT REFERENCES dim_clima(id_clima), id_emergencia INT REFERENCES dim_emergencia(id_emergencia), id_noticias INT REFERENCES dim_noticias(id_noticias), produccion_t FLOAT, precio_chacra_kg FLOAT)"
+    "CREATE TABLE dim_ubicacion (id_ubicacion SERIAL PRIMARY KEY, departamento VARCHAR(60), provincia VARCHAR(60), lat FLOAT, lon FLOAT, UNIQUE(departamento, provincia))",
+    "CREATE TABLE dim_clima (id_clima SERIAL PRIMARY KEY, temp_max_c FLOAT, temp_min_c FLOAT, precipitacion_mm FLOAT, radiacion_solar FLOAT)",
+    "CREATE TABLE dim_multimodal (id_multimodal SERIAL PRIMARY KEY, n_noticias INT, num_emergencias INT, total_afectados INT, avg_sentimiento FLOAT)",
+    "CREATE TABLE fact_produccion_limon (id_hecho SERIAL PRIMARY KEY, id_tiempo INT REFERENCES dim_tiempo(id_tiempo), id_ubicacion INT REFERENCES dim_ubicacion(id_ubicacion), id_clima INT REFERENCES dim_clima(id_clima), id_multimodal INT REFERENCES dim_multimodal(id_multimodal), produccion_t FLOAT, precio_chacra_kg FLOAT)"
 ]
 
 try:
@@ -132,7 +129,7 @@ try:
         for stmt in STMTS:
             conn.execute(text(stmt))
             conn.commit()
-    print("✅ Star Schema de 5 Dimensiones desplegado exitosamente.")
+    print("✅ Star Schema de 4 Dimensiones desplegado exitosamente.")
 except Exception as e:
     print(f"❌ Error al crear tablas: {e}")
 """),
@@ -280,23 +277,48 @@ try:
         conn.execute(text("TRUNCATE TABLE fact_produccion_limon RESTART IDENTITY CASCADE"))
         conn.execute(text("TRUNCATE TABLE dim_tiempo RESTART IDENTITY CASCADE"))
         conn.execute(text("TRUNCATE TABLE dim_ubicacion RESTART IDENTITY CASCADE"))
+        conn.execute(text("TRUNCATE TABLE dim_clima RESTART IDENTITY CASCADE"))
+        conn.execute(text("TRUNCATE TABLE dim_multimodal RESTART IDENTITY CASCADE"))
         conn.commit()
+
+    # 1. dim_tiempo
     dim_t = df[['fecha_evento','anho','mes','trimestre','month_sin','month_cos']].drop_duplicates('fecha_evento')
     dim_t.to_sql('dim_tiempo', engine, if_exists='append', index=False, method='multi', chunksize=500)
     print(f"  ✅ dim_tiempo: {len(dim_t)} registros")
+
+    # 2. dim_ubicacion
     dim_u = df[['departamento','provincia']].drop_duplicates().reset_index(drop=True)
     dim_u['lat'] = dim_u['departamento'].map(lambda d: COORDS.get(d,(None,None))[0])
     dim_u['lon'] = dim_u['departamento'].map(lambda d: COORDS.get(d,(None,None))[1])
     dim_u.to_sql('dim_ubicacion', engine, if_exists='append', index=False, method='multi', chunksize=500)
     print(f"  ✅ dim_ubicacion: {len(dim_u)} registros")
+
+    # 3. dim_clima
+    c_map = {'T2M_MAX':'temp_max_c', 'T2M_MIN':'temp_min_c', 'PRECTOTCORR':'precipitacion_mm', 'ALLSKY_SFC_SW_DWN':'radiacion_solar'}
+    dim_c = df[[k for k in c_map.keys() if k in df.columns]].rename(columns=c_map)
+    dim_c.to_sql('dim_clima', engine, if_exists='append', index=False, method='multi', chunksize=500)
+    print(f"  ✅ dim_clima: {len(dim_c)} registros")
+
+    # 4. dim_multimodal
+    m_map = {'n_noticias':'n_noticias', 'num_emergencias':'num_emergencias', 'total_afectados':'total_afectados'}
+    dim_m = df[[k for k in m_map.keys() if k in df.columns]].rename(columns=m_map)
+    dim_m['avg_sentimiento'] = 0.0
+    dim_m.to_sql('dim_multimodal', engine, if_exists='append', index=False, method='multi', chunksize=500)
+    print(f"  ✅ dim_multimodal: {len(dim_m)} registros")
+
+    # 5. fact
     with engine.connect() as conn:
         dt_map = pd.read_sql('SELECT id_tiempo, fecha_evento FROM dim_tiempo', conn)
         du_map = pd.read_sql('SELECT id_ubicacion, departamento, provincia FROM dim_ubicacion', conn)
+        dc_ids = pd.read_sql('SELECT id_clima FROM dim_clima ORDER BY id_clima', conn)
+        dm_ids = pd.read_sql('SELECT id_multimodal FROM dim_multimodal ORDER BY id_multimodal', conn)
+
     df_f = df.merge(dt_map, on='fecha_evento').merge(du_map, on=['departamento','provincia'])
-    fc = [c for c in ['id_tiempo','id_ubicacion','produccion_t','cosecha_ha','precio_chacra_kg',
-                       'num_emergencias','total_afectados','n_noticias', 'temp_max_c', 'temp_min_c', 'precipitacion_mm', 'humedad_rel_pct', 'velocidad_viento', 'radiacion_solar'] if c in df_f.columns]
+    df_f['id_clima'] = dc_ids['id_clima']
+    df_f['id_multimodal'] = dm_ids['id_multimodal']
+    
+    fc = ['id_tiempo','id_ubicacion','id_clima','id_multimodal','produccion_t','precio_chacra_kg']
     df_load = df_f[fc].dropna(subset=['id_tiempo','id_ubicacion'])
-    df_load[['id_tiempo','id_ubicacion']] = df_load[['id_tiempo','id_ubicacion']].astype(int)
     df_load.to_sql('fact_produccion_limon', engine, if_exists='append', index=False, method='multi', chunksize=500)
     print(f"  ✅ fact_produccion_limon: {len(df_load):,} registros")
     engine.dispose()

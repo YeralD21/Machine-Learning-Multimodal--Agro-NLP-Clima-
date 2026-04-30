@@ -31,26 +31,33 @@ act07 = [
 
 Este diseño separa las fuentes de datos en 4 dimensiones clave para permitir un análisis granular del impacto climático y social en la producción de limón.
 
-### Vista Técnica (Mermaid)
+### Vista Conceptual (Esquema de la Tesis)
+<div align="center">
+    <img src="../data/04_reports/g07_star_schema_v2.png" width="900px" alt="Star Schema 4D">
+</div>
+
+---
+
+### Vista Técnica (Modelo Dimensional)
 ```mermaid
 erDiagram
-    fact_produccion_limon }|--|| dim_tiempo : "id_tiempo"
-    fact_produccion_limon }|--|| dim_ubicacion : "id_ubicacion"
-    fact_produccion_limon }|--|| dim_clima : "id_clima"
-    fact_produccion_limon }|--|| dim_multimodal : "id_multimodal"
+    fact_produccion_limon }|--|| dim_tiempo : "FK_Tiempo"
+    fact_produccion_limon }|--|| dim_ubicacion : "FK_Ubicacion"
+    fact_produccion_limon }|--|| dim_clima : "FK_Clima"
+    fact_produccion_limon }|--|| dim_multimodal : "FK_Multimodal"
 
     dim_tiempo {
         int id_tiempo PK
-        varchar fecha_evento
+        varchar fecha_evento "YYYY-MM"
         int anho
         int mes
-        float month_sin
-        float month_cos
+        float month_sin "Estacionalidad"
+        float month_cos "Estacionalidad"
     }
 
     dim_ubicacion {
         int id_ubicacion PK
-        varchar departamento
+        varchar departamento "Región"
         varchar provincia
         float lat
         float lon
@@ -58,19 +65,18 @@ erDiagram
 
     dim_clima {
         int id_clima PK
-        float temp_max_c
-        float temp_min_c
-        float precipitacion_mm
-        float radiacion_solar
-        float humedad_rel_pct
+        float temp_max_c "NASA"
+        float temp_min_c "NASA"
+        float precipitacion_mm "NASA"
+        float radiacion_solar "NASA"
     }
 
     dim_multimodal {
         int id_multimodal PK
-        int n_noticias
-        int num_emergencias
-        float avg_sentimiento
-        int total_afectados
+        int n_noticias "NLP"
+        int num_emergencias "INDECI"
+        float avg_sentimiento "NLP"
+        int total_afectados "INDECI"
     }
 
     fact_produccion_limon {
@@ -79,14 +85,11 @@ erDiagram
         int id_ubicacion FK
         int id_clima FK
         int id_multimodal FK
-        float produccion_t
+        float produccion_t "Métrica Principal"
         float cosecha_ha
-        float precio_chacra_kg
+        float precio_chacra_kg "Volatilidad"
     }
 ```
-
-### Vista Conceptual (Diagrama de Arquitectura)
-![Star Schema Diagram](../data/04_reports/g07_star_schema_v2.png)
 
 ---
 
