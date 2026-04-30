@@ -85,7 +85,7 @@ print(f"Trimestres: {sorted(df['trimestre'].unique())}")
 ('code', """
 FEATS = ['produccion_t','cosecha_ha','precio_chacra_kg',
          'num_emergencias','total_afectados','has_cultivo_perdidas','n_noticias',
-         'T2M', 'PRECTOTCORR', 'RH2M', 'WS2M']
+         'T2M', 'T2M_MAX', 'T2M_MIN', 'PRECTOTCORR', 'RH2M', 'ALLSKY_SFC_SW_DWN']
 cols = [c for c in FEATS if c in df.columns]
 
 scaler = StandardScaler()
@@ -138,7 +138,7 @@ try:
     df_f = df.merge(dt_map, on='fecha_evento').merge(du_map, on=['departamento','provincia'])
     fact_cols = ['id_tiempo','id_ubicacion','produccion_t','cosecha_ha','precio_chacra_kg',
                  'num_emergencias','total_afectados','n_noticias',
-                 'T2M', 'PRECTOTCORR', 'RH2M', 'WS2M']
+                 'T2M', 'T2M_MAX', 'T2M_MIN', 'PRECTOTCORR', 'RH2M', 'ALLSKY_SFC_SW_DWN']
     fact_cols = [c for c in fact_cols if c in df_f.columns]
     df_load = df_f[fact_cols].dropna(subset=['id_tiempo','id_ubicacion'])
     df_load['id_tiempo'] = df_load['id_tiempo'].astype(int)
@@ -185,7 +185,7 @@ print(f"Dataset: {df.shape}")
 scaler_path = f"{SCALERS}/scaler_fase1_v2.pkl"
 cols_scaled = ['produccion_t','cosecha_ha','precio_chacra_kg',
                'num_emergencias','total_afectados','has_cultivo_perdidas','n_noticias',
-               'T2M', 'PRECTOTCORR', 'RH2M', 'WS2M']
+               'T2M', 'T2M_MAX', 'T2M_MIN', 'PRECTOTCORR', 'RH2M', 'ALLSKY_SFC_SW_DWN']
 cols_scaled = [c for c in cols_scaled if c in df.columns]
 
 if os.path.exists(scaler_path):
@@ -225,7 +225,9 @@ print("[OK] g8_produccion_vs_precio.png")
 ('md', "## 10.3 Gráfico 2 — Heatmap de Correlación"),
 ('code', """
 corr_cols = [c for c in ['produccion_t','precio_chacra_kg','num_emergencias',
-             'total_afectados','n_noticias','T2M','PRECTOTCORR','RH2M','WS2M','month_sin','month_cos'] if c in df.columns]
+             'total_afectados','n_noticias',
+             'T2M','T2M_MAX','T2M_MIN','PRECTOTCORR','RH2M','ALLSKY_SFC_SW_DWN',
+             'month_sin','month_cos'] if c in df.columns]
 corr = df[corr_cols].corr()
 
 fig, ax = plt.subplots(figsize=(12,10))
@@ -332,11 +334,26 @@ for yr, cnt in df.groupby('anho').size().items():
     print(f"  {yr}: {cnt:,} filas")
 print(f"\\nTotal: {len(df):,} filas | {len(df.columns)} columnas")
 print("\\n[ACTIVIDAD 10] COMPLETADA.")
-print("\\n" + "="*60)
-print("  PIPELINE FASE 1 — FINALIZADO EXITOSAMENTE")
-print("="*60)
 """),
-('md', """# Actividad 10 Finalizada OK
+
+    ('md', """## 10.8 Exportación Final del Dataset Maestro
+Generamos el archivo consolidado y mejorado `master_dataset_fase1_v2.csv` con todas las variables climáticas re-integradas y normalización geográfica optimizada.
+"""),
+
+    ('code', """
+# Guardar Dataset Maestro Mejorado
+output_path = os.path.join('data', 'processed', 'master_dataset_fase1_v2.csv')
+os.makedirs(os.path.dirname(output_path), exist_ok=True)
+df.to_csv(output_path, index=False, encoding='utf-8-sig')
+
+print(f"✅ DATASET MAESTRO GENERADO: {output_path}")
+print(f"   - Columnas totales: {len(df.columns)}")
+print(f"   - Registros: {len(df):,}")
+
+display(df.head(5))
+"""),
+
+    ('md', """# Actividad 10 Finalizada OK
 """),
 ]
 nb(act10, "actividad_10_reexploracion.ipynb")

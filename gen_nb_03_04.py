@@ -70,9 +70,11 @@ En esta etapa inicial, se identifican las variables que formarán parte del mode
 | **MIDAGRI** | `MTO_PRECCHAC (S/ x kg)` | **Seleccionada** | Variable objetivo secundaria (Target de volatilidad). |
 | **MIDAGRI** | `COSECHA (ha)` | **Seleccionada** | Predictor clave de la capacidad productiva. |
 | **MIDAGRI** | `SIEMBRA (ha)` | **Descartada** | Alta multicolinealidad con `Cosecha`. Se prefiere `Cosecha` por su relación directa con la producción mensual. |
-| **NASA** | `T2M`, `PRECTOTCORR` | **Seleccionada** | Variables críticas para el ciclo fenológico del limón. |
-| **NASA** | `PS` (Presión) | **Descartada** | Baja variabilidad relevante para el crecimiento del cultivo comparado con temperatura. |
-| **INDECI** | `ide_sinpad` | **Descartada** | Identificador administrativo sin valor predictivo. |
+| **NASA** | `T2M`, `T2M_MAX`, `T2M_MIN` | **Seleccionada** | Variables térmicas críticas para el ciclo fenológico. |
+| **NASA** | `PRECTOTCORR` | **Seleccionada** | Identifica anomalías de lluvias e inundaciones. |
+| **NASA** | `ALLSKY_SFC_SW_DWN` | **Seleccionada** | **Crítica:** Impacto en fotosíntesis y evapotranspiración. Clave para el mecanismo de Attention. |
+| **NASA** | `RH2M` | **Seleccionada** | Humedad relativa: Sinergia con la proliferación de hongos. |
+| **NASA** | `WS2M`, `QV2M` | **Descartada** | Baja sinergia directa detectada en la fase inicial. |
 | **INDECI** | `personas_afectadas` | **Seleccionada** | Proxy de la magnitud del desastre en la zona productora. |
 """),
 
