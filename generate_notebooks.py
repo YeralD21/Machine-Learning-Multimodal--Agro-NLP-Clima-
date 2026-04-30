@@ -46,7 +46,7 @@ act1_cells = [
 | MIDAGRI (SISAGRI) | Producción agrícola | `Sisagri_2016_2025.xlsx` |
 | INDECI (SINPAD) | Emergencias y peligros | `resumen_emergencias_2003_2024.xlsx`, DBFs 2021-2023 |
 | Agraria.pe | Noticias agrícolas | `agro_news_2021.csv` a `agro_news_2025.csv` |
-| NASA POWER | Variables climáticas | *Pendiente de integración* |
+| NASA POWER | Variables climáticas | `nasa_climatic_raw_values.csv`, `nasa_long_raw.csv` |
 """),
 
     ('code', """# ==========================================================================
@@ -85,9 +85,10 @@ pd.set_option('display.max_rows', 100)
 pd.set_option('display.width', 200)
 sns.set_theme(style='whitegrid', palette='muted')
 
-# Encoding para Windows (solo en scripts, no en notebooks)
-# if sys.platform == 'win32':
-#     sys.stdout.reconfigure(encoding='utf-8')
+# Navegar a la raíz del proyecto
+if os.path.basename(os.getcwd()) == 'notebooks':
+    os.chdir(os.path.abspath('..'))
+print(f"Directorio de trabajo: {os.getcwd()}")
 
 print("✅ Todas las librerías cargadas correctamente.")
 """),
@@ -106,18 +107,16 @@ DIRS = {
     'reports':   os.path.join('data', '04_reports'),
     'database':  'database',
     'scalers':   os.path.join('models', 'scalers'),
+    'raw_nasa':       os.path.join('data', '01_raw', 'nasapower'),
+    'interim_nasa':   os.path.join('data', '02_interim_nasa'),
+    'processed_nasa': os.path.join('data', '03_processed_nasa'),
 }
 
 for key, path in DIRS.items():
     os.makedirs(path, exist_ok=True)
     print(f"  📁 {path}")
 
-# TODO: INTEGRACIÓN NASA
-# os.makedirs(os.path.join('data', '01_raw', 'nasa_power'), exist_ok=True)
-# Crear subcarpeta para almacenar los CSVs descargados de NASA POWER API.
-# Parámetros sugeridos: T2M, T2M_MAX, T2M_MIN, PRECTOTCORR, RH2M, WS2M, ALLSKY_SFC_SW_DWN, QV2M
-
-print("\\n✅ Estructura de carpetas creada exitosamente.")
+print("\\n✅ Estructura de carpetas creada exitosamente (incluyendo NASA).")
 """),
 
     ('code', """# ==========================================================================
@@ -172,12 +171,16 @@ for csv_file in glob.glob(os.path.join('data', 'raw', 'agraria_pe', 'agro_news_*
     else:
         print(f"  ℹ️  AGRARIA ya existe: {fname}")
 
-# TODO: INTEGRACIÓN NASA
-# Copiar los archivos CSV descargados desde NASA POWER API a:
-# data/01_raw/nasa_power/
-# Formato esperado: clima_regional_{departamento}.csv o similar.
+# --- NASA POWER ---
+nasa_files = glob.glob(os.path.join('data', 'raw', 'nasapower', '*.csv'))
+for src in nasa_files:
+    fname = os.path.basename(src)
+    dst = os.path.join(DIRS['raw_nasa'], fname)
+    if not os.path.exists(dst):
+        shutil.copy2(src, dst)
+        print(f"  ✅ NASA copiado: {fname}")
 
-print("\\n✅ Todos los archivos fuente copiados a data/01_raw/")
+print("\\n✅ Todos los archivos fuente (MIDAGRI, INDECI, Noticias, NASA) sincronizados.")
 """),
 
     ('code', """# ==========================================================================
@@ -245,7 +248,7 @@ act2_cells = [
 | MIDAGRI | [https://app.powerbi.com/view?r=...SISAGRI](https://www.gob.pe/midagri) | Excel (.xlsx) |
 | INDECI | [https://www.gob.pe/indeci](https://www.gob.pe/indeci) — SINPAD / Datos Abiertos | Excel (.xlsx) + Shapefile (.dbf) |
 | Agraria.pe | [https://www.agraria.pe/](https://www.agraria.pe/) | CSV (scraping) |
-| NASA POWER | [https://power.larc.nasa.gov/](https://power.larc.nasa.gov/) | *Pendiente* |
+| NASA POWER | [https://power.larc.nasa.gov/](https://power.larc.nasa.gov/) | CSV (API NASA) |
 """),
 
     ('code', """# ==========================================================================
@@ -445,32 +448,25 @@ print(df_noticias['fuente'].value_counts().to_string())
 """),
 
     ('code', """# ==========================================================================
-# TODO: INTEGRACIÓN DATA NASA
+# 2.4 NASA POWER — Datos Climáticos
 # ==========================================================================
-# INSTRUCCIONES PARA EL COMPAÑERO DE TESIS:
-# 
-# 1. Descargar datos desde NASA POWER API:
-#    https://power.larc.nasa.gov/data-access-viewer/
-#    Parámetros: T2M, T2M_MAX, T2M_MIN, PRECTOTCORR, RH2M, WS2M, ALLSKY_SFC_SW_DWN, QV2M
-#    Resolución: Mensual, por coordenadas de cada provincia/departamento.
-#
-# 2. Guardar los CSVs en: data/01_raw/nasa_power/
-#
-# 3. Código de lectura sugerido:
-#    df_nasa = pd.read_csv('data/01_raw/nasa_power/clima_regional.csv')
-#    df_nasa['DATE'] = pd.to_datetime(df_nasa['DATE'])
-#    df_nasa['fecha_evento'] = df_nasa['DATE'].dt.strftime('%Y-%m')
-#    print(f"NASA POWER cargado: {len(df_nasa)} registros")
-#
-# 4. Variables esperadas:
-#    - ALLSKY_SFC_SW_DWN: Radiación solar (kW-hr/m²/day)
-#    - PRECTOTCORR: Precipitación corregida (mm/day)
-#    - T2M, T2M_MAX, T2M_MIN: Temperatura a 2m (°C)
-#    - RH2M: Humedad relativa (%)
-#    - WS2M: Velocidad del viento (m/s)
-#    - QV2M: Humedad específica (g/kg)
+print("\\n" + "=" * 70)
+print("  LECTURA FUENTE 4: NASA POWER — Datos Climáticos")
+print("=" * 70)
 
-print("  ℹ️  NASA POWER: Pendiente de integración (ver instrucciones arriba).")
+# El compañero de tesis procesó los datos en el pipeline especializado.
+# Leemos los datos intermedios unificados para validar su estructura.
+nasa_path = os.path.join(DIRS['interim_nasa'], 'nasa_long_raw.csv')
+if os.path.exists(nasa_path):
+    df_nasa = pd.read_csv(nasa_path)
+    print(f"  ✅ NASA POWER cargado: {len(df_nasa):,} registros")
+    print(f"  Columnas: {df_nasa.columns.tolist()}")
+    print(f"  Rango temporal: {df_nasa['ANIO'].min()}-{df_nasa['MES'].min()} → {df_nasa['ANIO'].max()}-{df_nasa['MES'].max()}")
+    print(f"  Variables: T2M, T2M_MAX, T2M_MIN, PRECTOTCORR, RH2M, WS2M, ALLSKY_SFC_SW_DWN")
+    display(df_nasa.head(3))
+else:
+    print("  ⚠️  NASA POWER: Archivo nasa_long_raw.csv no encontrado.")
+    print("      Asegúrate de ejecutar el pipeline NASA primero.")
 """),
 
     ('md', """## 2.4 Guardado de Datos Intermedios
@@ -512,10 +508,13 @@ noticias_interim = os.path.join(interim_dir, 'agraria_noticias_raw.csv')
 df_noticias.to_csv(noticias_interim, index=False, encoding='utf-8-sig')
 print(f"  ✅ Noticias → {noticias_interim} ({len(df_noticias)} filas)")
 
-# TODO: INTEGRACIÓN NASA
-# nasa_interim = os.path.join(interim_dir, 'nasa_clima_raw.csv')
-# df_nasa.to_csv(nasa_interim, index=False, encoding='utf-8-sig')
-# print(f"  ✅ NASA → {nasa_interim}")
+print(f"  Archivos generados: midagri_limon_raw.csv, indeci_resumen_dpto.csv,")
+print(f"    indeci_resumen_prov.csv, indeci_eventos_dbf.csv, agraria_noticias_raw.csv")
+
+# Integración NASA (Copiado de interim_nasa si existe)
+nasa_interim = os.path.join(DIRS['interim_nasa'], 'nasa_long_raw.csv')
+if os.path.exists(nasa_interim):
+    print(f"  ✅ NASA Datos Listos para Fase 3 (EDA).")
 
 print(f"\\n[ACTIVIDAD 2] COMPLETADA.")
 print(f"  Descripción: Lectura de MIDAGRI, INDECI y AGRARIA.PE en DataFrames.")

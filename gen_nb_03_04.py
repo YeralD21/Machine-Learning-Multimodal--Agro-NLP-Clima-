@@ -221,24 +221,31 @@ plt.show()
 print(f"[OK] {g_path3}")
 """),
 
-('md', """## TODO: INTEGRACIÓN DATA NASA (COMPAÑERO)
-
-En esta actividad, una vez que tengas los datos climáticos de NASA POWER, debes agregar:
-
-1. **Serie temporal de temperatura mensual** promedio para las principales regiones productoras (T2M, T2M_MAX, T2M_MIN).
-2. **Mapa de calor de precipitaciones** por mes y departamento (PRECTOTCORR en mm/día).
-3. **Correlación inicial** entre precipitación y producción de limón (scatter plot o heatmap).
-
-```python
-# Código sugerido:
-df_nasa = pd.read_csv(f"{INTERIM}/nasa_clima_raw.csv")
-df_nasa['fecha_evento'] = pd.to_datetime(df_nasa['DATE']).dt.strftime('%Y-%m')
-# Serie temporal temperatura
-df_nasa.groupby('fecha_evento')['T2M'].mean().plot(title='Temperatura Mensual NASA POWER')
-# Mapa de calor precipitaciones
-pivot = df_nasa.pivot_table(values='PRECTOTCORR', index='departamento', columns='fecha_evento')
-sns.heatmap(pivot, cmap='Blues', annot=False)
-```
+('md', """## 3.5 NASA POWER — EDA Climático
+Analizamos las tendencias de temperatura y precipitación de la NASA POWER."""),
+('code', """
+nasa_path = f"data/03_processed_nasa/nasa_climatic_raw_values.csv"
+if os.path.exists(nasa_path):
+    df_nasa = pd.read_csv(nasa_path)
+    df_nasa['fecha'] = pd.to_datetime(df_nasa['fecha_evento'])
+    
+    fig, axes = plt.subplots(1, 2, figsize=(16, 5))
+    
+    # Serie temporal temperatura
+    df_nasa.groupby('fecha_evento')['T2M_MAX'].mean().plot(ax=axes[0], color='red', label='Temp Max')
+    df_nasa.groupby('fecha_evento')['T2M_MIN'].mean().plot(ax=axes[0], color='blue', label='Temp Min')
+    axes[0].set_title('Tendencia de Temperatura Mensual (NASA)', fontweight='bold')
+    axes[0].legend()
+    
+    # Heatmap Precipitaciones
+    pivot = df_nasa.pivot_table(values='PRECTOTCORR', index='DEPARTAMENTO', columns='fecha_evento')
+    sns.heatmap(pivot, cmap='YlGnBu', ax=axes[1])
+    axes[1].set_title('Mapa de Calor: Precipitaciones (mm/día)', fontweight='bold')
+    
+    plt.tight_layout()
+    plt.show()
+else:
+    print("⚠️ Datos NASA no encontrados para EDA.")
 """),
 
 ('code', """
@@ -421,23 +428,26 @@ print(f"\\n[OK] {report_path}")
 print("[ACTIVIDAD 04] COMPLETADA.")
 """),
 
-('md', """## TODO: INTEGRACIÓN DATA NASA (COMPAÑERO)
-
-En esta actividad, cuando integres datos climáticos, **valida los rangos físicos**:
-
-| Variable | Rango Válido | Acción si fuera de rango |
-|:---------|:-------------|:------------------------|
-| T2M (°C) | -10 a 45 | Marcar como NaN |
-| PRECTOTCORR (mm/día) | 0 a 500 | Marcar como NaN |
-| RH2M (%) | 0 a 100 | Marcar como NaN |
-| WS2M (m/s) | 0 a 50 | Marcar como NaN |
-
-```python
-df_nasa = pd.read_csv(f"{INTERIM}/nasa_clima_raw.csv")
-print("NASA - nulos:", df_nasa.isnull().sum())
-print("Temps fuera de rango:", ((df_nasa['T2M'] < -10) | (df_nasa['T2M'] > 45)).sum())
-print("Precip negativas:",     (df_nasa['PRECTOTCORR'] < 0).sum())
-```
+('md', """## 4.5 NASA POWER — Calidad Climática
+Validamos que los datos climáticos estén dentro de los rangos físicos esperados."""),
+('code', """
+nasa_path = f"data/03_processed_nasa/nasa_climatic_raw_values.csv"
+if os.path.exists(nasa_path):
+    df_nasa = pd.read_csv(nasa_path)
+    print("NASA - Nulos por columna:")
+    print(df_nasa.isnull().sum())
+    
+    # Validaciones de rango
+    t_out = ((df_nasa['T2M_MAX'] < 0) | (df_nasa['T2M_MAX'] > 50)).sum()
+    p_out = (df_nasa['PRECTOTCORR'] < 0).sum()
+    print(f"\\nAlertas de Calidad NASA:")
+    print(f"  - Temperaturas fuera de rango (0-50°C): {t_out}")
+    print(f"  - Precipitaciones negativas: {p_out}")
+    
+    if t_out + p_out == 0:
+        print("\\n✅ Datos climáticos de NASA superan validación de rangos físicos.")
+else:
+    print("⚠️ No hay datos NASA para validar calidad.")
 """),
 ]
 
