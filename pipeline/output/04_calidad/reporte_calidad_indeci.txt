@@ -1,0 +1,8 @@
+REPORTE DE CALIDAD — INDECI SHAPEFILES
+============================================================
+Registros totales: 25,025
+En catalogo agricola: 13,487 (53.9%)
+Fuera del catalogo: 11,538 (46.1%)
+Columna mes en texto: True
+Nulos en fenomeno: 0
+Nulos en departamento: 0

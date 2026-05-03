@@ -1,0 +1,85 @@
+{
+  "proyecto": "Prediccion de Produccion de Limon - LSTM-Attention Multimodal",
+  "fase": 1,
+  "cultivo_objetivo": "LIMON",
+  "anho_inicio": 2021,
+  "anho_fin": 2025,
+  "mes_fin": 8,
+  "rango_temporal": {
+    "inicio": "2021-01",
+    "fin": "2025-08"
+  },
+  "sources": {
+    "midagri": "sources/midagri/Sisagri_2016_2025.xlsx",
+    "indeci_resumenes": "sources/indeci/resumenes/",
+    "indeci_shapefiles": "sources/indeci/shapefiles/",
+    "nasa_power": "sources/nasa/nasapower/",
+    "nasa_crudo": "sources/nasa/nasapowercrudo/",
+    "agraria_sin_unif": "sources/agraria-pe/sin-unificar/",
+    "agraria_unif": "sources/agraria-pe/unificado/"
+  },
+  "output": {
+    "lectura": "pipeline/output/02_lectura/",
+    "eda": "pipeline/output/03_eda/",
+    "calidad": "pipeline/output/04_calidad/",
+    "limpieza": "pipeline/output/05_limpieza/",
+    "integracion": "pipeline/output/06_integracion/",
+    "dwh": "pipeline/output/07_dwh/",
+    "etl": "pipeline/output/09_etl/",
+    "reexploracion": "pipeline/output/10_reexploracion/",
+    "config": "pipeline/config/"
+  },
+  "variables_nasa": [
+    "T2M",
+    "T2M_MAX",
+    "T2M_MIN",
+    "PRECTOTCORR",
+    "RH2M",
+    "QV2M",
+    "ALLSKY_SFC_SW_DWN",
+    "WS2M"
+  ],
+  "variables_fase2_excluir": [
+    "month_sin",
+    "month_cos",
+    "sentiment_score"
+  ],
+  "nasa_missing_value": -999.0,
+  "nasa_provincias_clave": [
+    [
+      "PIURA",
+      "PIURA"
+    ],
+    [
+      "PIURA",
+      "SULLANA"
+    ],
+    [
+      "LAMBAYEQUE",
+      "LAMBAYEQUE"
+    ],
+    [
+      "LA LIBERTAD",
+      "VIRU"
+    ],
+    [
+      "ICA",
+      "ICA"
+    ]
+  ],
+  "fenomenos_indeci": [
+    "LLUVIAS INTENSAS",
+    "INUNDACION",
+    "HUAYCO",
+    "SEQUIA",
+    "HELADAS",
+    "FRIAJE",
+    "GRANIZADA",
+    "NEVADA",
+    "VIENTOS FUERTES",
+    "DESLIZAMIENTO",
+    "EROSION"
+  ],
+  "postgresql_uri": "postgresql://postgres:postgres@localhost:5432/limon_analytics_db",
+  "postgresql_db": "limon_analytics_db"
+}

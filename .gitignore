@@ -1,4 +1,6 @@
+# ============================================================
 # Virtual Environments
+# ============================================================
 venv/
 .venv/
 env/
@@ -6,7 +8,9 @@ bin/
 lib/
 share/
 
+# ============================================================
 # Python
+# ============================================================
 __pycache__/
 *.py[cod]
 *$py.class
@@ -27,7 +31,17 @@ wheels/
 .installed.cfg
 *.egg
 
-# Data Files (Avoid pushing heavy raw data to GitHub)
+# ============================================================
+# Archivos de debug y temporales
+# ============================================================
+*.log
+debug_page.html
+checkpoint.json
+scratch/img_b64.txt
+
+# ============================================================
+# DATA ANTIGUA (estructura anterior — se mantiene por compatibilidad)
+# ============================================================
 data/raw/*
 data/interim/*
 data/processed/*
@@ -36,41 +50,78 @@ data/01_raw/*
 data/02_interim/*
 data/03_processed/*
 data/04_reports/*
+data/02_interim_nasa/*
+data/03_processed_nasa/*
 
-# Allow specific data folders requested
+# Excepciones data antigua
 !data/interim/indeci/
 !data/interim/metadata/
 !data/interim/midagri/
 !data/interim/nasa/
-!data/raw/agraria_pe/
-!data/interim/agraria/
-!data/processed/trend_check.png
-!models/scalers/scaler_fase1.pkl
-!models/scalers/scaler_fase2_nlp.pkl
-!data/interim/agraria/noticias_con_sentimiento.csv
-
-# Ensure .gitkeep files are still tracked
-!data/raw/.gitkeep
-!data/interim/.gitkeep
-!data/processed/.gitkeep
-!data/processed/master_dataset_lstm.csv
+!data/interim/indeci/*.csv
+!data/interim/metadata/*.csv
+!data/interim/midagri/*.csv
+!data/interim/nasa/*.csv
 !data/processed/master_dataset_fase1.csv
+!data/processed/master_dataset_lstm.csv
 !data/processed/dataset_fase2_multivariado.csv
 !data/03_processed/master_dataset_fase1_v2.csv
 !data/04_reports/*.png
 !data/04_reports/*.txt
-!database/
-!models/scalers/scaler_fase1_v2.pkl
 !data/external/.gitkeep
+!data/raw/.gitkeep
+!models/scalers/scaler_fase1.pkl
+!models/scalers/scaler_fase1_v2.pkl
+!models/scalers/scaler_fase2_nlp.pkl
+!models/scalers/scaler_nasa_clima.pkl
 
+# ============================================================
+# SOURCES — Datos crudos reorganizados
+# ============================================================
+
+# MIDAGRI: Excel pesado — excluir
+sources/midagri/*.xlsx
+
+# INDECI: Shapefiles y Excel pesados — excluir
+sources/indeci/shapefiles/
+sources/indeci/resumenes/*.xlsx
+
+# NASA POWER CRUDO — excluir (muy pesado)
+sources/nasa/nasapowercrudo/
+
+# NASA POWER PROCESADO — solo subir 5 CSVs de muestra
+sources/nasa/nasapower/
+!sources/nasa/nasapower/PIURA-PIURA.csv
+!sources/nasa/nasapower/PIURA-SULLANA.csv
+!sources/nasa/nasapower/LA LIBERTAD-VIRU.csv
+!sources/nasa/nasapower/ICA-ICA.csv
+!sources/nasa/nasapower/LAMBAYEQUE-LAMBAYEQUE.csv
+
+# NASA proceso data engineering — incluir todo (son reportes y CSVs procesados)
+# sources/nasa/proceso-data-engineering-nasa/ -> se sube completo
+
+# AGRARIA.PE — incluir CSVs de noticias (son ligeros)
+# sources/agraria-pe/ -> se sube completo
+
+# ============================================================
+# PIPELINE OUTPUT — incluir todo excepto archivos muy pesados
+# ============================================================
+
+# CSVs grandes del pipeline (>5MB) — excluir
+pipeline/output/09_etl/master_dataset_fase1.csv
+pipeline/output/09_etl/master_dataset_raw_values.csv
+pipeline/output/02_lectura/nasa_long_raw.csv
+pipeline/output/05_limpieza/nasa_long_clean.csv
+pipeline/output/05_limpieza/agraria_noticias_clean.csv
+pipeline/output/05_limpieza/indeci_eventos_clean.csv
+
+# El resto del pipeline se sube (notebooks, graficos, CSVs pequeños)
+
+# ============================================================
 # IDEs
+# ============================================================
 .vscode/
 .idea/
 *.swp
 *.swo
-
-# Environment & Logs
 .env
-*.log
-checkpoint.json
-debug_page.html

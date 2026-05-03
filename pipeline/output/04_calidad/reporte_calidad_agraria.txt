@@ -1,0 +1,9 @@
+REPORTE DE CALIDAD — AGRARIA.PE
+============================================================
+Noticias totales: 528
+Fechas no parseables: 0
+Fechas fuera de rango 2021-2025: 0
+Duplicados por URL: 0
+Duplicados por titular+fecha: 0
+Sin titular util (<3 palabras): 0
+Sin cuerpo util (<10 palabras): 0

@@ -1,0 +1,9 @@
+REPORTE DE CALIDAD — NASA POWER
+============================================================
+Registros totales: 6,120
+Variables climaticas: 8
+Provincias: 102
+Centinelas -999 residuales: 0
+Provincias con serie completa: 102
+Provincias con serie incompleta: 0
+Nulos ALLSKY_SFC_SW_DWN: 102 (1.67%)

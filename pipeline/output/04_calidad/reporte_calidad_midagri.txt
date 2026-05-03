@@ -1,0 +1,10 @@
+REPORTE DE CALIDAD — MIDAGRI SISAGRI
+============================================================
+Registros totales: 1,596,748
+Registros LIMON: 40,284
+Departamentos unicos: 25
+Variantes de nombre en dptos: 0
+Variantes de nombre en provs: 0
+Outliers PRODUCCION(t): 5,924 (14.7%)
+Outliers MTO_PRECCHAC (S/ x kg): 2,838 (7.0%)
+Outliers COSECHA (ha): 387 (15.3%)
