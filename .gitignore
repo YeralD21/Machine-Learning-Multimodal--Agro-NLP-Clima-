@@ -111,6 +111,7 @@ sources/nasa/nasapower/
 pipeline/output/09_etl/master_dataset_fase1.csv
 pipeline/output/09_etl/master_dataset_raw_values.csv
 pipeline/output/02_lectura/nasa_long_raw.csv
+pipeline/output/02_lectura/midagri_raw.csv
 pipeline/output/05_limpieza/nasa_long_clean.csv
 pipeline/output/05_limpieza/agraria_noticias_clean.csv
 pipeline/output/05_limpieza/indeci_eventos_clean.csv
