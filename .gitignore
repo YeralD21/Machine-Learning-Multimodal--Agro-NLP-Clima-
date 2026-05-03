@@ -86,16 +86,13 @@ sources/midagri/*.xlsx
 sources/indeci/shapefiles/
 sources/indeci/resumenes/*.xlsx
 
-# NASA POWER CRUDO — excluir (muy pesado)
+# NASA POWER CRUDO — excluir todos excepto el archivo de muestra del formato nativo
 sources/nasa/nasapowercrudo/
+!sources/nasa/nasapowercrudo/POWER_Point_Monthly_20210101_20251231_005d90S_078d23W_LST.csv
 
-# NASA POWER PROCESADO — solo subir 5 CSVs de muestra
+# NASA POWER PROCESADO — excluir todos excepto AMAZONAS-BAGUA como muestra
 sources/nasa/nasapower/
-!sources/nasa/nasapower/PIURA-PIURA.csv
-!sources/nasa/nasapower/PIURA-SULLANA.csv
-!sources/nasa/nasapower/LA LIBERTAD-VIRU.csv
-!sources/nasa/nasapower/ICA-ICA.csv
-!sources/nasa/nasapower/LAMBAYEQUE-LAMBAYEQUE.csv
+!sources/nasa/nasapower/AMAZONAS-BAGUA.csv
 
 # NASA proceso data engineering — incluir todo (son reportes y CSVs procesados)
 # sources/nasa/proceso-data-engineering-nasa/ -> se sube completo
