@@ -1,0 +1,34 @@
+{
+  "proyecto": "Prediccion de Produccion de Limon - LSTM-Attention Multimodal",
+  "fase": 2,
+  "base_dataset": "pipeline/output/09_etl/master_dataset_raw_values.csv",
+  "noticias_path": "sources/agraria-pe/unificado/noticias_unificadas_2021_2025.csv",
+  "output": {
+    "nlp":          "notebooks/fase2/output/01_nlp_sentimiento/",
+    "ciclica":      "notebooks/fase2/output/02_codificacion_ciclica/",
+    "lags":         "notebooks/fase2/output/03_rezagos_temporales/",
+    "normalizacion":"notebooks/fase2/output/04_normalizacion_final/",
+    "final":        "notebooks/fase2/output/05_dataset_final/",
+    "scalers":      "notebooks/fase2/scalers/"
+  },
+  "beto_model": "dccuchile/bert-base-spanish-wwm-cased",
+  "sentiment_range": [-1, 1],
+  "lags": [1, 3, 6],
+  "vars_a_rezagar": [
+    "produccion_t",
+    "avg_sentiment",
+    "num_emergencias",
+    "T2M",
+    "PRECTOTCORR"
+  ],
+  "vars_no_escalar": [
+    "fecha_evento",
+    "departamento",
+    "provincia",
+    "month_sin",
+    "month_cos"
+  ],
+  "scaler_fase1": "models/scalers/scaler_fase1.pkl",
+  "scaler_fase2": "notebooks/fase2/scalers/scaler_fase2.pkl",
+  "dataset_final": "notebooks/fase2/output/05_dataset_final/dataset_fase2_multivariado.csv"
+}
