@@ -1,0 +1,14 @@
+{
+  "modelo": "GC1_SARIMA",
+  "orden": "(1, 0, 0)",
+  "orden_estacional": "(2, 1, 0, 12)",
+  "aic": -132.6158,
+  "n_train": 44,
+  "n_test": 12,
+  "split_date": "2024-09-01",
+  "MAE": 0.100639,
+  "RMSE": 0.11786,
+  "MAPE_pct": 270.588,
+  "R2": -7.864449,
+  "nota": "metricas en escala z-score (serie normalizada Fase 2)"
+}

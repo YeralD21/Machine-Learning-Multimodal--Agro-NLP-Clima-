@@ -1,0 +1,102 @@
+{
+  "periodo_comun": {
+    "inicio": "2024-11-01",
+    "fin": "2025-08-01",
+    "T": 10
+  },
+  "rmse_condicionado": {
+    "GC1-SARIMA": {
+      "rmse_global": 0.1286,
+      "rmse_shock": 0.1449,
+      "n_shock": 6,
+      "n_total": 10,
+      "shock_months": [
+        "2024-12",
+        "2025-01",
+        "2025-02",
+        "2025-04",
+        "2025-05",
+        "2025-06"
+      ]
+    },
+    "GC1-Prophet": {
+      "rmse_global": 0.113,
+      "rmse_shock": 0.123,
+      "n_shock": 6,
+      "n_total": 10,
+      "shock_months": [
+        "2024-12",
+        "2025-01",
+        "2025-02",
+        "2025-04",
+        "2025-05",
+        "2025-06"
+      ]
+    },
+    "GC2": {
+      "rmse_global": 0.319,
+      "rmse_shock": 0.3654,
+      "n_shock": 6,
+      "n_total": 10,
+      "shock_months": [
+        "2024-12",
+        "2025-01",
+        "2025-02",
+        "2025-04",
+        "2025-05",
+        "2025-06"
+      ]
+    },
+    "GE": {
+      "rmse_global": 0.0698,
+      "rmse_shock": 0.0717,
+      "n_shock": 6,
+      "n_total": 10,
+      "shock_months": [
+        "2024-12",
+        "2025-01",
+        "2025-02",
+        "2025-04",
+        "2025-05",
+        "2025-06"
+      ]
+    }
+  },
+  "diebold_mariano": {
+    "GE_vs_GC1-SARIMA": {
+      "T": 10,
+      "dm_stat": -3.3039,
+      "dm_star": -3.1343,
+      "pvalue": 0.012,
+      "reject_h0": true,
+      "d_bar": -0.011659,
+      "alpha": 0.05
+    },
+    "GE_vs_GC1-Prophet": {
+      "T": 10,
+      "dm_stat": -3.2345,
+      "dm_star": -3.0685,
+      "pvalue": 0.0134,
+      "reject_h0": true,
+      "d_bar": -0.007903,
+      "alpha": 0.05
+    },
+    "GE_vs_GC2": {
+      "T": 10,
+      "dm_stat": -1.8399,
+      "dm_star": -1.7455,
+      "pvalue": 0.1149,
+      "reject_h0": false,
+      "d_bar": -0.096864,
+      "alpha": 0.05
+    }
+  },
+  "parametros": {
+    "shock_threshold": 0.2,
+    "eps_denominador": 0.05,
+    "dm_horizonte": 1,
+    "dm_alpha": 0.05,
+    "dm_correccion": "Harvey-Leybourne-Newbold 1997",
+    "dm_df": "T-1 (t-distribution)"
+  }
+}

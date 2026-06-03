@@ -1,0 +1,5 @@
+Modelo,RMSE_global,RMSE_shock,N_shock,DM*_vs_GE,p-valor_DM,Signif_5pct
+GC1-SARIMA,0.1286,0.1449,6,-3.1343,0.012,Sí
+GC1-Prophet,0.113,0.123,6,-3.0685,0.0134,Sí
+GC2,0.319,0.3654,6,-1.7455,0.1149,No
+GE,0.0698,0.0717,6,,,

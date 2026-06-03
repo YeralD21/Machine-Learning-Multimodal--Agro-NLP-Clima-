@@ -1,0 +1,13 @@
+{
+  "modelo": "GC1_Prophet",
+  "changepoint_prior_scale": 0.05,
+  "seasonality_mode": "additive",
+  "n_train": 44,
+  "n_test": 12,
+  "split_date": "2024-09-01",
+  "MAE": 0.091884,
+  "RMSE": 0.105071,
+  "MAPE_pct": 242.5042,
+  "R2": -6.0451,
+  "nota": "metricas en escala z-score — media provincial (Fase 2)"
+}

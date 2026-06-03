@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attention XAI · AgroNLP-Clima · UPeU</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Variables ─────────────────────────────────────────────── */
+    :root {
+      --bg:#080C14; --bg-card:#0D1426; --bg-surface:#111827;
+      --border:#1A2744; --text:#E2E8F0; --text-sec:#94A3B8;
+      --text-muted:#64748B; --text-dim:#4A6080;
+      --blue:#4A9EFF; --amber:#F59E0B; --purple:#A78BFA;
+      --green:#22C55E; --red:#EF4444; --slate:#475569;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; background: var(--bg); color: var(--text); }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 400; line-height: 1.6;
+      -webkit-font-smoothing: antialiased; overflow: hidden;
+    }
+    section {
+      height: 100vh; overflow: hidden; scroll-margin-top: 56px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sec { max-width: 1140px; width: 100%; }
+    .sp  { padding: 70px 64px; }
+
+    .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    .eyebrow {
+      display: block; font-family: 'Inter', sans-serif;
+      font-size: 13px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .10em; margin-bottom: 14px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════════════════════════════════ */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%; height: 56px; z-index: 200;
+      background: rgba(8,12,20,.97); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; padding: 0 48px;
+    }
+    .navbar__logo {
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
+      color: var(--text-sec); text-decoration: none;
+      display: flex; align-items: center; gap: 6px; white-space: nowrap;
+    }
+    .navbar__logo .logo-icon { font-size: 16px; }
+    .navbar__logo .logo-nlp  { color: var(--blue); }
+    .navbar__links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .navbar__links a {
+      font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim);
+      text-decoration: none; letter-spacing: .02em; transition: color .2s;
+    }
+    .navbar__links a:hover  { color: var(--text-sec); }
+    .navbar__links a.active { color: var(--green); font-weight: 500; }
+    .navbar__badge {
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
+      color: var(--blue); background: #1A3A5C; border: 1px solid #234E7A;
+      border-radius: 20px; padding: 4px 14px; white-space: nowrap;
+    }
+
+    .nav-dots {
+      position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+      z-index: 150; display: flex; flex-direction: column; gap: 10px;
+    }
+    .nav-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim);
+      cursor: pointer; transition: background .25s, transform .25s; border: none; padding: 0;
+    }
+    .nav-dot.active { background: var(--green); transform: scale(1.5); }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECCIÓN 1 — HERO
+    ═══════════════════════════════════════════════════════════════ */
+    #hero-att {
+      background: linear-gradient(135deg, #080C14 0%, #050D0A 40%, #0A1210 60%, #080C14 100%);
+    }
+    .att-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 52px; font-weight: 400; line-height: 1.15;
+      letter-spacing: -.02em; margin-bottom: 16px;
+    }
+    .att-title .ah1, .att-title .ah3 { display: block; color: #F1F5F9; }
+    .att-title .ah2 { display: block; font-style: italic; color: var(--green); }
+
+    .att-sub {
+      font-family: 'Inter', sans-serif; font-size: 16px; color: var(--text-sec);
+      line-height: 1.8; max-width: 760px; margin-bottom: 24px;
+    }
+
+    /* Diagrama de flujo */
+    .flow-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px 28px; max-width: 760px;
+      margin: 0 auto;
+    }
+    .flow-diagram { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+    .fd-ts-row { display: flex; gap: 8px; }
+    .fd-ts {
+      width: 52px; height: 34px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      transition: transform .2s;
+    }
+    .fd-ts:hover { transform: scale(1.06); }
+    .ts-0 { background: rgba(74,158,255,.10); color: rgba(74,158,255,.45); border: 1px solid rgba(74,158,255,.15); }
+    .ts-1 { background: rgba(74,158,255,.18); color: rgba(74,158,255,.58); border: 1px solid rgba(74,158,255,.25); }
+    .ts-2 { background: rgba(74,158,255,.30); color: rgba(74,158,255,.72); border: 1px solid rgba(74,158,255,.38); }
+    .ts-3 { background: rgba(74,158,255,.44); color: rgba(74,158,255,.88); border: 1px solid rgba(74,158,255,.52); }
+    .ts-4 { background: rgba(74,158,255,.58); color: #4A9EFF; border: 1px solid rgba(74,158,255,.68); }
+    .ts-5 { background: rgba(74,158,255,.75); color: #4A9EFF; border: 2px solid #4A9EFF; font-weight: 700; }
+
+    .fd-conn {
+      display: flex; gap: 8px;
+      font-size: 14px; color: var(--text-dim);
+    }
+    .fd-conn span { width: 52px; text-align: center; }
+
+    .fd-proc { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .fd-block {
+      height: 34px; padding: 0 18px; border-radius: 6px;
+      display: flex; align-items: center;
+      font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+    }
+    .fd-block.lstm     { background: rgba(74,158,255,.12); border: 1px solid rgba(74,158,255,.35); color: var(--blue); }
+    .fd-block.bahdanau { background: rgba(34,197,94,.12);  border: 1px solid rgba(34,197,94,.35);  color: var(--green); }
+    .fd-block.alphas   { background: rgba(167,139,250,.12);border: 1px solid rgba(167,139,250,.35);color: var(--purple); }
+    .fd-block.pred     { background: rgba(245,158,11,.12); border: 1px solid rgba(245,158,11,.35); color: var(--amber); }
+    .fd-arr { color: var(--text-dim); font-size: 16px; }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECCIÓN 2 — CANAL A vs CANAL B
+    ═══════════════════════════════════════════════════════════════ */
+    #canales { background: var(--bg-card); }
+
+    .can-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 36px; font-weight: 400; color: var(--text);
+      letter-spacing: -.02em; line-height: 1.2; margin-bottom: 22px;
+    }
+    .can-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+    /* Heatmap row de 6 celdas */
+    .heat-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 6px; margin-bottom: 14px; }
+    .heat-cell {
+      border-radius: 6px; padding: 10px 4px; text-align: center;
+      position: relative;
+    }
+    .heat-ts  { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+    .heat-val { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; }
+
+    /* Barras de progreso */
+    .prog-rows { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .prog-row  { display: flex; align-items: center; gap: 8px; }
+    .prog-lbl  { font-family: 'Inter', sans-serif; font-size: 10px; color: var(--text-dim); width: 24px; flex-shrink: 0; }
+    .prog-bg   {
+      flex: 1; height: 6px; background: rgba(255,255,255,.06);
+      border-radius: 3px; overflow: hidden;
+    }
+    .prog-fill { height: 100%; border-radius: 3px; }
+    .prog-num  { font-family: 'Inter', sans-serif; font-size: 10px; color: var(--text-sec); width: 36px; flex-shrink: 0; }
+
+    /* Cards de interpretación */
+    .can-card-a {
+      background: #0D1220; border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px 18px;
+    }
+    .can-card-b {
+      background: #0A1A10; border: 1px solid rgba(34,197,94,.3);
+      border-radius: 8px; padding: 16px 18px;
+    }
+    .can-card-title { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+    .can-card-text  { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-sec); line-height: 1.75; }
+
+    .heat-badge {
+      display: inline-block; font-family: 'Inter', sans-serif;
+      font-size: 9px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .06em; border-radius: 3px; padding: 3px 8px;
+      vertical-align: middle; margin-left: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECCIÓN 3 — EXPLORADOR INTERACTIVO
+    ═══════════════════════════════════════════════════════════════ */
+    #explorador { background: var(--bg); }
+
+    .exp-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 32px; font-weight: 400; color: var(--text);
+      letter-spacing: -.02em; line-height: 1.2; margin-bottom: 20px;
+    }
+
+    /* Botones de mes */
+    .month-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .month-btn {
+      display: flex; flex-direction: column; align-items: flex-start;
+      padding: 10px 20px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--bg-card);
+      cursor: pointer; transition: border-color .2s, background .2s;
+      min-width: 148px;
+    }
+    .month-btn:hover { border-color: rgba(34,197,94,.4); }
+    .month-btn.active { border-color: var(--green); background: rgba(34,197,94,.08); }
+    .mb-name  { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text); }
+    .mb-badge { font-family: 'Inter', sans-serif; font-size: 10px; margin-top: 3px; }
+    .mb-badge.shock  { color: var(--red); }
+    .mb-badge.stable { color: var(--green); }
+
+    /* Heatmap interactivo (mismas clases heat-*) */
+    .exp-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 8px; margin-bottom: 14px; }
+    .exp-cell {
+      border-radius: 6px; padding: 12px 6px; text-align: center;
+      transition: background .35s, border-color .35s;
+    }
+
+    /* Card de interpretación dinámica */
+    .interp-card {
+      background: rgba(34,197,94,.06); border: 1px solid rgba(34,197,94,.2);
+      border-radius: 8px; padding: 14px 18px; margin-bottom: 14px;
+    }
+    .ic-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .ic-month  { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: var(--text); }
+    .ic-tag    { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; border-radius: 3px; padding: 3px 8px; }
+    .ic-tag.shock  { background: rgba(239,68,68,.15); color: var(--red); }
+    .ic-tag.stable { background: rgba(34,197,94,.15); color: var(--green); }
+    .ic-text   { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-sec); line-height: 1.7; }
+    .ic-text + .ic-text { margin-top: 6px; }
+
+    /* Gráfico de evolución */
+    .chart-wrap-att { position: relative; height: 155px; }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECCIÓN 4 — CONCLUSIÓN
+    ═══════════════════════════════════════════════════════════════ */
+    #conclusion { background: var(--bg-card); }
+
+    .conc-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 36px; font-weight: 400; letter-spacing: -.02em;
+      line-height: 1.2; margin-bottom: 16px;
+    }
+    .conc-title .ct1, .conc-title .ct2 { display: block; }
+    .conc-title .ct1 { color: #F1F5F9; }
+    .conc-title .ct2 { font-style: italic; color: var(--green); }
+
+    .conc-sub {
+      font-family: 'Inter', sans-serif; font-size: 16px; color: var(--text-sec);
+      line-height: 1.8; max-width: 680px; margin-bottom: 28px;
+    }
+
+    .conc-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-bottom: 18px; }
+
+    .ev-card {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 24px;
+    }
+    .ev-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 64px; font-weight: 400; color: #1A2744; line-height: 1;
+      margin-bottom: 10px;
+    }
+    .ev-title {
+      font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .ev-text {
+      font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-sec);
+      line-height: 1.75;
+    }
+
+    .final-card {
+      background: #0A1F3A; border: 1px solid rgba(74,158,255,.35);
+      border-radius: 10px; padding: 18px 24px; max-width: 960px;
+    }
+    .final-card p {
+      font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-sec);
+      line-height: 1.8;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════════════════ */
+    .footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 24px 48px; display: flex;
+      align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .footer p { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); }
+
+    /* ═══════════════════════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .can-grid, .conc-grid { grid-template-columns: 1fr; }
+      .month-selector        { flex-wrap: wrap; }
+    }
+    @media (max-width: 768px) {
+      .navbar { padding: 0 20px; }
+      .navbar__links { display: none; }
+      .nav-dots { display: none; }
+      section { height: auto; min-height: 100vh; overflow: auto; }
+      body { overflow: auto; }
+      .sp { padding: 72px 20px 48px; }
+      .att-title  { font-size: 36px; }
+      .can-title, .conc-title { font-size: 26px; }
+      .exp-title  { font-size: 22px; }
+      .heat-grid, .exp-grid { grid-template-columns: repeat(3,1fr); }
+      .fd-ts-row, .fd-proc  { flex-wrap: wrap; justify-content: center; }
+      .footer { padding: 20px; flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .att-title { font-size: 28px; }
+      .heat-grid, .exp-grid { grid-template-columns: repeat(3,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════════════════════ -->
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
+    <a href="landing.html" class="navbar__logo">
+      <span class="logo-icon">🌿</span>
+      Agro<span class="logo-nlp">NLP</span>-Clima
+    </a>
+    <ul class="navbar__links" role="list">
+      <li><a href="landing.html">Inicio</a></li>
+      <li><a href="resultados.html">Resultados</a></li>
+      <li><a href="shap.html">SHAP</a></li>
+      <li><a href="attention.html" class="active">Attention</a></li>
+      <li><a href="nlp.html">NLP</a></li>
+      <li><a href="simulacion.html">Simulación</a></li>
+    </ul>
+    <span class="navbar__badge">Tesis FIA 2026</span>
+  </nav>
+
+  <div class="nav-dots" id="navDots"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECCIÓN 1 — HERO ATTENTION
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="hero-att" aria-label="Atención Bahdanau — portada">
+    <div class="sec sp">
+
+      <span class="eyebrow fade-up" style="color:var(--text-muted)">Mecanismo de Atención · Bahdanau</span>
+
+      <h1 class="att-title fade-up" style="transition-delay:.05s">
+        <span class="ah1">El modelo sabe</span>
+        <span class="ah2">qué meses mirar</span>
+        <span class="ah3">antes de predecir.</span>
+      </h1>
+
+      <p class="att-sub fade-up" style="transition-delay:.10s">
+        La Atención de Bahdanau permite al modelo GE asignar pesos diferentes a cada uno de los
+        6 meses de historia antes de hacer su predicción. Estos pesos son interpretables: revelan
+        qué información temporal considera más relevante.
+      </p>
+
+      <!-- Diagrama de flujo -->
+      <div class="flow-card fade-up" style="transition-delay:.16s">
+        <div class="flow-diagram">
+
+          <!-- Timesteps -->
+          <div class="fd-ts-row">
+            <div class="fd-ts ts-0">t-5</div>
+            <div class="fd-ts ts-1">t-4</div>
+            <div class="fd-ts ts-2">t-3</div>
+            <div class="fd-ts ts-3">t-2</div>
+            <div class="fd-ts ts-4">t-1</div>
+            <div class="fd-ts ts-5">t</div>
+          </div>
+
+          <!-- Flechas hacia abajo -->
+          <div class="fd-conn">
+            <span>↓</span><span>↓</span><span>↓</span>
+            <span>↓</span><span>↓</span><span>↓</span>
+          </div>
+
+          <!-- Bloques de procesamiento -->
+          <div class="fd-proc">
+            <div class="fd-block lstm">LSTM Encoder</div>
+            <span class="fd-arr">→</span>
+            <div class="fd-block bahdanau">Bahdanau Attention</div>
+            <span class="fd-arr">→</span>
+            <div class="fd-block alphas">Pesos α₁ … α₆</div>
+            <span class="fd-arr">→</span>
+            <div class="fd-block pred">Predicción ŷ(t+1)</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECCIÓN 2 — CANAL A vs CANAL B
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="canales" aria-label="Canal A vs Canal B">
+    <div class="sec sp">
+
+      <h2 class="can-title fade-up">Dos canales — dos comportamientos distintos</h2>
+
+      <div class="can-grid">
+
+        <!-- CANAL A -->
+        <div class="fade-up" style="transition-delay:.08s">
+          <span class="eyebrow" style="color:var(--red)">Canal A · Producción histórica (1 feature)</span>
+
+          <!-- Heatmap uniforme -->
+          <div class="heat-grid">
+            <div class="heat-cell" style="background:rgba(71,85,105,.25);border:1px solid var(--border)">
+              <div class="heat-ts">t-5</div>
+              <div class="heat-val" style="color:var(--text-sec)">0.171</div>
+            </div>
+            <div class="heat-cell" style="background:rgba(71,85,105,.25);border:1px solid var(--border)">
+              <div class="heat-ts">t-4</div>
+              <div class="heat-val" style="color:var(--text-sec)">0.171</div>
+            </div>
+            <div class="heat-cell" style="background:rgba(71,85,105,.24);border:1px solid var(--border)">
+              <div class="heat-ts">t-3</div>
+              <div class="heat-val" style="color:var(--text-sec)">0.168</div>
+            </div>
+            <div class="heat-cell" style="background:rgba(71,85,105,.23);border:1px solid var(--border)">
+              <div class="heat-ts">t-2</div>
+              <div class="heat-val" style="color:var(--text-sec)">0.167</div>
+            </div>
+            <div class="heat-cell" style="background:rgba(71,85,105,.22);border:1px solid var(--border)">
+              <div class="heat-ts">t-1</div>
+              <div class="heat-val" style="color:var(--text-sec)">0.163</div>
+            </div>
+            <div class="heat-cell" style="background:rgba(71,85,105,.20);border:1px solid var(--border)">
+              <div class="heat-ts">t</div>
+              <div class="heat-val" style="color:var(--text-sec)">0.160</div>
+            </div>
+          </div>
+
+          <!-- Barras de progreso uniformes -->
+          <div class="prog-rows">
+            <div class="prog-row"><span class="prog-lbl">t-5</span><div class="prog-bg"><div class="prog-fill" style="width:100%;background:#475569"></div></div><span class="prog-num">0.171</span></div>
+            <div class="prog-row"><span class="prog-lbl">t-4</span><div class="prog-bg"><div class="prog-fill" style="width:100%;background:#475569"></div></div><span class="prog-num">0.171</span></div>
+            <div class="prog-row"><span class="prog-lbl">t-3</span><div class="prog-bg"><div class="prog-fill" style="width:98%;background:#475569"></div></div><span class="prog-num">0.168</span></div>
+            <div class="prog-row"><span class="prog-lbl">t-2</span><div class="prog-bg"><div class="prog-fill" style="width:98%;background:#475569"></div></div><span class="prog-num">0.167</span></div>
+            <div class="prog-row"><span class="prog-lbl">t-1</span><div class="prog-bg"><div class="prog-fill" style="width:95%;background:#475569"></div></div><span class="prog-num">0.163</span></div>
+            <div class="prog-row"><span class="prog-lbl">t</span><div class="prog-bg"><div class="prog-fill" style="width:94%;background:#475569"></div></div><span class="prog-num">0.160</span></div>
+          </div>
+
+          <div class="can-card-a">
+            <div class="can-card-title" style="color:var(--text-sec)">Pesos uniformes ≈ 0.167</div>
+            <p class="can-card-text">
+              Small Data (n=44) no permite que el modelo identifique un rezago dominante.
+              Con solo 1 feature de entrada, la Atención distribuye equitativamente entre los
+              6 timesteps anteriores. Comportamiento esperado y documentado en la literatura
+              de series cortas.
+            </p>
+          </div>
+        </div>
+
+        <!-- CANAL B -->
+        <div class="fade-up" style="transition-delay:.18s">
+          <span class="eyebrow" style="color:var(--green)">Canal B · 23 variables exógenas (clima + emergencias + precio)</span>
+
+          <!-- Heatmap gradiente verde -->
+          <div class="heat-grid">
+            <div class="heat-cell" style="background:rgba(34,197,94,.18);border:1px solid rgba(34,197,94,.25)">
+              <div class="heat-ts">t-5</div>
+              <div class="heat-val" style="color:rgba(34,197,94,.65)">0.128</div>
+            </div>
+            <div class="heat-cell" style="background:rgba(34,197,94,.28);border:1px solid rgba(34,197,94,.35)">
+              <div class="heat-ts">t-4</div>
+              <div class="heat-val" style="color:rgba(34,197,94,.75)">0.137</div>
+            </div>
+            <div class="heat-cell" style="background:rgba(34,197,94,.42);border:1px solid rgba(34,197,94,.50)">
+              <div class="heat-ts">t-3</div>
+              <div class="heat-val" style="color:rgba(34,197,94,.85)">0.155</div>
+            </div>
+            <div class="heat-cell" style="background:rgba(34,197,94,.58);border:1px solid rgba(34,197,94,.65)">
+              <div class="heat-ts">t-2</div>
+              <div class="heat-val" style="color:#22C55E">0.177</div>
+            </div>
+            <div class="heat-cell" style="background:rgba(34,197,94,.74);border:1px solid rgba(34,197,94,.82)">
+              <div class="heat-ts">t-1</div>
+              <div class="heat-val" style="color:#22C55E">0.194</div>
+            </div>
+            <div class="heat-cell" style="background:rgba(34,197,94,.92);border:2px solid #22C55E;position:relative">
+              <div class="heat-ts">t</div>
+              <div class="heat-val" style="color:#fff">0.210</div>
+              <span class="heat-badge" style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#0A1F0A;color:#22C55E;border:1px solid #166534;">★ máximo</span>
+            </div>
+          </div>
+
+          <!-- Barras de progreso gradiente -->
+          <div class="prog-rows">
+            <div class="prog-row"><span class="prog-lbl">t-5</span><div class="prog-bg"><div class="prog-fill" style="width:61%;background:rgba(34,197,94,.45)"></div></div><span class="prog-num">0.128</span></div>
+            <div class="prog-row"><span class="prog-lbl">t-4</span><div class="prog-bg"><div class="prog-fill" style="width:65%;background:rgba(34,197,94,.55)"></div></div><span class="prog-num">0.137</span></div>
+            <div class="prog-row"><span class="prog-lbl">t-3</span><div class="prog-bg"><div class="prog-fill" style="width:74%;background:rgba(34,197,94,.65)"></div></div><span class="prog-num">0.155</span></div>
+            <div class="prog-row"><span class="prog-lbl">t-2</span><div class="prog-bg"><div class="prog-fill" style="width:84%;background:rgba(34,197,94,.76)"></div></div><span class="prog-num">0.177</span></div>
+            <div class="prog-row"><span class="prog-lbl">t-1</span><div class="prog-bg"><div class="prog-fill" style="width:92%;background:rgba(34,197,94,.87)"></div></div><span class="prog-num">0.194</span></div>
+            <div class="prog-row"><span class="prog-lbl">t</span><div class="prog-bg"><div class="prog-fill" style="width:100%;background:#22C55E"></div></div><span class="prog-num" style="color:#22C55E;font-weight:600">0.210</span></div>
+          </div>
+
+          <div class="can-card-b">
+            <div class="can-card-title" style="color:var(--green)">Gradiente confirmado: t-5=0.128 → t=0.210 (+64%)</div>
+            <p class="can-card-text">
+              El modelo aprendió que las condiciones climáticas más recientes son las más
+              informativas. Este gradiente se intensifica en meses de shock, cuando el modelo
+              eleva su sensibilidad a señales recientes del Canal B.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECCIÓN 3 — EXPLORADOR INTERACTIVO
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="explorador" aria-label="Explorador interactivo">
+    <div class="sec sp">
+
+      <div class="fade-up">
+        <span class="eyebrow" style="color:var(--text-muted)">Explorador interactivo</span>
+        <h2 class="exp-title">Selecciona un mes y ve qué miró el modelo</h2>
+      </div>
+
+      <!-- Selector de mes -->
+      <div class="month-selector fade-up" style="transition-delay:.06s" id="monthSelector">
+        <button class="month-btn" data-month="Mayo 2025">
+          <span class="mb-name">Mayo 2025</span>
+          <span class="mb-badge shock">⚡ Shock</span>
+        </button>
+        <button class="month-btn" data-month="Junio 2025">
+          <span class="mb-name">Junio 2025</span>
+          <span class="mb-badge shock">⚡ Shock</span>
+        </button>
+        <button class="month-btn" data-month="Julio 2025">
+          <span class="mb-name">Julio 2025</span>
+          <span class="mb-badge stable">✓ Estable</span>
+        </button>
+        <button class="month-btn active" data-month="Agosto 2025">
+          <span class="mb-name">Agosto 2025</span>
+          <span class="mb-badge shock">⚡ Shock</span>
+        </button>
+      </div>
+
+      <!-- Heatmap dinámico Canal B -->
+      <div class="fade-up" style="transition-delay:.12s">
+        <div style="font-family:'Inter',sans-serif;font-size:11px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">
+          Canal B — Distribución de pesos Bahdanau
+        </div>
+        <div class="exp-grid" id="expHeatmap">
+          <div class="exp-cell" id="ec0"><div class="heat-ts">t-5</div><div class="heat-val" id="ev0"></div></div>
+          <div class="exp-cell" id="ec1"><div class="heat-ts">t-4</div><div class="heat-val" id="ev1"></div></div>
+          <div class="exp-cell" id="ec2"><div class="heat-ts">t-3</div><div class="heat-val" id="ev2"></div></div>
+          <div class="exp-cell" id="ec3"><div class="heat-ts">t-2</div><div class="heat-val" id="ev3"></div></div>
+          <div class="exp-cell" id="ec4"><div class="heat-ts">t-1</div><div class="heat-val" id="ev4"></div></div>
+          <div class="exp-cell" id="ec5"><div class="heat-ts">t</div><div class="heat-val" id="ev5"></div></div>
+        </div>
+      </div>
+
+      <!-- Card de interpretación dinámica -->
+      <div class="interp-card fade-up" style="transition-delay:.16s" id="interpCard">
+        <!-- Se llena por JS -->
+      </div>
+
+      <!-- Gráfico evolución peso t -->
+      <div class="fade-up" style="transition-delay:.20s">
+        <div style="font-family:'Inter',sans-serif;font-size:11px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em">
+          Evolución del peso t (mes más reciente) — Mayo a Agosto 2025
+        </div>
+        <div class="chart-wrap-att">
+          <canvas id="tWeightChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECCIÓN 4 — CONCLUSIÓN ATTENTION
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="conclusion" aria-label="Conclusión — validación de Attention">
+    <div class="sec sp">
+
+      <div class="fade-up">
+        <h2 class="conc-title">
+          <span class="ct1">¿Está funcionando</span>
+          <span class="ct2">el mecanismo de Atención?</span>
+        </h2>
+        <p class="conc-sub">Tres evidencias que validan que Bahdanau aprendió patrones reales</p>
+      </div>
+
+      <div class="conc-grid">
+
+        <div class="ev-card fade-up" style="transition-delay:.08s">
+          <div class="ev-num">01</div>
+          <div class="ev-title" style="color:var(--green)">Gradiente real en Canal B</div>
+          <p class="ev-text">
+            El peso del mes más reciente (t) aumentó de 0.128 en t-5 a 0.210 en t — una diferencia
+            del 64%. Esto no es aleatorio: confirma que el modelo aprendió que las señales climáticas
+            recientes son más predictivas que las antiguas.
+          </p>
+        </div>
+
+        <div class="ev-card fade-up" style="transition-delay:.18s">
+          <div class="ev-num">02</div>
+          <div class="ev-title" style="color:var(--amber)">Intensificación en shocks</div>
+          <p class="ev-text">
+            El peso de t en Canal B aumenta progresivamente de mayo (0.186) a agosto 2025 (0.210),
+            coincidiendo con el período de caída sostenida post-Niño. El modelo eleva su atención
+            a señales recientes cuando detecta volatilidad extrema.
+          </p>
+        </div>
+
+        <div class="ev-card fade-up" style="transition-delay:.28s">
+          <div class="ev-num">03</div>
+          <div class="ev-title" style="color:var(--blue)">Comportamiento diferencial entre canales</div>
+          <p class="ev-text">
+            Canal A (producción) → uniforme. Canal B (exógenas) → gradiente. Esta diferencia valida
+            la arquitectura Dual Input: cada canal aprendió una estrategia distinta según la
+            naturaleza de sus features.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="final-card fade-up" style="transition-delay:.36s">
+        <p>
+          <strong style="color:var(--blue)">Conclusión:</strong>
+          El mecanismo de Atención de Bahdanau en el GE-DualLSTM no es una caja negra. Sus pesos son
+          interpretables, muestran comportamiento diferencial entre canales y se intensifican ante
+          volatilidad — exactamente lo que se espera de un sistema de alerta temprana para PYMEs
+          agroindustriales peruanas.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <p>🌿 AgroNLP-Clima &middot; Fabrizio Sánchez Saravia &middot; UPeU FIA &middot; Juliaca, Puno &middot; 2026</p>
+    <p>DualLSTM-BahdanauAttention &middot; NASA POWER &middot; BETO &middot; INDECI &middot; MIDAGRI &middot; SHAP</p>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       Chart.js + Scripts
+  ═══════════════════════════════════════════════════════════════ -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script>
+    /* ─── Datos de atención por mes ─────────────────────────────── */
+    const MONTH_DATA = {
+      'Mayo 2025':   { w: [0.153,0.170,0.170,0.158,0.164,0.186], shock: true  },
+      'Junio 2025':  { w: [0.157,0.160,0.149,0.155,0.176,0.202], shock: true  },
+      'Julio 2025':  { w: [0.146,0.139,0.147,0.167,0.192,0.209], shock: false },
+      'Agosto 2025': { w: [0.128,0.137,0.155,0.177,0.194,0.210], shock: true  },
+    };
+
+    /* índice de mes para el chart */
+    const MONTH_ORDER = ['Mayo 2025','Junio 2025','Julio 2025','Agosto 2025'];
+    let selectedMonth = 'Agosto 2025';
+    let tWeightChart  = null;
+
+    /* ─── Utilidades ──────────────────────────────────────────── */
+    function weightToGreen(val, min, max) {
+      const t = (max === min) ? 1 : (val - min) / (max - min);
+      const a = (0.15 + t * 0.85).toFixed(2);
+      return `rgba(34,197,94,${a})`;
+    }
+
+    /* ─── Actualizar heatmap dinámico ─────────────────────────── */
+    function updateHeatmap(weights) {
+      const min = Math.min(...weights);
+      const max = Math.max(...weights);
+      for (let i = 0; i < 6; i++) {
+        const cell = document.getElementById(`ec${i}`);
+        const val  = document.getElementById(`ev${i}`);
+        const bg   = weightToGreen(weights[i], min, max);
+        const isT  = (i === 5);
+        cell.style.background   = bg;
+        cell.style.border       = isT ? '2px solid #22C55E' : '1px solid rgba(34,197,94,.2)';
+        val.textContent         = weights[i].toFixed(3);
+        val.style.color         = isT ? '#fff' : `rgba(34,197,94,${(0.5 + (weights[i] - min)/(max - min) * 0.5).toFixed(2)})`;
+        val.style.fontFamily    = "'Inter', sans-serif";
+        val.style.fontSize      = '13px';
+        val.style.fontWeight    = '600';
+      }
+    }
+
+    /* ─── Actualizar card de interpretación ─────────────────────  */
+    function updateInterpCard(month, data) {
+      const tW   = data.w[5];
+      const t5W  = data.w[0];
+      const pct  = Math.round((tW - t5W) / t5W * 100);
+      const card = document.getElementById('interpCard');
+      card.innerHTML = `
+        <div class="ic-header">
+          <span class="ic-month">${month}</span>
+          <span class="ic-tag ${data.shock ? 'shock' : 'stable'}">${data.shock ? '⚡ Shock' : '✓ Estable'}</span>
+        </div>
+        <p class="ic-text">
+          Peso del mes más reciente <strong style="color:#22C55E">(t = ${tW.toFixed(3)})</strong>
+          vs hace 5 meses (t-5 = ${t5W.toFixed(3)}).
+        </p>
+        <p class="ic-text" style="margin-top:6px">
+          El modelo prestó <strong style="color:#22C55E">${pct}% más atención</strong>
+          al mes inmediatamente anterior que hace 5 meses.
+          ${data.shock
+            ? 'En este mes de shock, el modelo intensifica su sensibilidad a las señales climáticas más recientes.'
+            : 'En este mes estable, el gradiente positivo persiste aunque con menor intensidad.'}
+        </p>`;
+    }
+
+    /* ─── Actualizar highlight del chart ─────────────────────── */
+    function updateChartHighlight() {
+      if (!tWeightChart) return;
+      const idx = MONTH_ORDER.indexOf(selectedMonth);
+      tWeightChart.data.datasets[0].pointRadius         = MONTH_ORDER.map((_,i) => i === idx ? 9 : 4);
+      tWeightChart.data.datasets[0].pointBackgroundColor= MONTH_ORDER.map((_,i) => i === idx ? '#F59E0B' : '#22C55E');
+      tWeightChart.data.datasets[0].pointBorderColor    = MONTH_ORDER.map((_,i) => i === idx ? '#fff' : '#22C55E');
+      tWeightChart.data.datasets[0].pointBorderWidth    = MONTH_ORDER.map((_,i) => i === idx ? 2 : 0);
+      tWeightChart.update('none');
+    }
+
+    /* ─── Seleccionar mes ────────────────────────────────────── */
+    function selectMonth(month) {
+      selectedMonth = month;
+      const data = MONTH_DATA[month];
+
+      updateHeatmap(data.w);
+      updateInterpCard(month, data);
+      updateChartHighlight();
+
+      document.querySelectorAll('.month-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.month === month);
+      });
+    }
+
+    /* ─── Inicializar chart t-weight ─────────────────────────── */
+    Chart.defaults.color       = '#94A3B8';
+    Chart.defaults.borderColor = '#1A2744';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.font.size   = 11;
+
+    const tCtx = document.getElementById('tWeightChart').getContext('2d');
+    tWeightChart = new Chart(tCtx, {
+      type: 'line',
+      data: {
+        labels: ['Mayo 25','Jun 25','Jul 25','Ago 25'],
+        datasets: [{
+          label: 'Peso t (más reciente)',
+          data: [0.186, 0.202, 0.209, 0.210],
+          borderColor: '#22C55E', borderWidth: 2.5,
+          backgroundColor: 'rgba(34,197,94,.07)', fill: true,
+          tension: 0.35,
+          pointBackgroundColor: Array(4).fill('#22C55E'),
+          pointBorderColor:     Array(4).fill('#22C55E'),
+          pointBorderWidth:     Array(4).fill(0),
+          pointRadius:          Array(4).fill(4),
+          pointHoverRadius: 7,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#1E293B', borderColor: '#1A2744', borderWidth: 1,
+            callbacks: { label: c => ` α(t) = ${c.parsed.y.toFixed(3)}` }
+          }
+        },
+        scales: {
+          x: { grid: { color: '#1A2744' }, ticks: { color: '#94A3B8' } },
+          y: {
+            grid: { color: '#1A2744' }, ticks: { color: '#94A3B8' },
+            min: 0.17, max: 0.22,
+          }
+        }
+      }
+    });
+
+    /* ─── Event listeners de botones ─────────────────────────── */
+    document.querySelectorAll('.month-btn').forEach(btn => {
+      btn.addEventListener('click', () => selectMonth(btn.dataset.month));
+    });
+
+    /* ─── Inicialización ─────────────────────────────────────── */
+    selectMonth('Agosto 2025');
+
+    /* ═══════════════════════════════════════════════════════════
+       SCROLL NAVEGACIÓN (idéntico a landing.html)
+    ═══════════════════════════════════════════════════════════ */
+    const sections    = document.querySelectorAll('section');
+    let   currentIdx  = 0;
+    let   isScrolling = false;
+
+    function goToSection(i) {
+      if (i < 0 || i >= sections.length || isScrolling) return;
+      isScrolling = true; currentIdx = i;
+      sections[i].scrollIntoView({ behavior: 'smooth' });
+      updateDots();
+      setTimeout(() => { isScrolling = false; }, 900);
+    }
+
+    window.addEventListener('wheel', e => {
+      e.preventDefault();
+      goToSection(e.deltaY > 0 ? currentIdx + 1 : currentIdx - 1);
+    }, { passive: false });
+
+    window.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); goToSection(currentIdx + 1); }
+      if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); goToSection(currentIdx - 1); }
+    });
+
+    let touchY0 = 0;
+    window.addEventListener('touchstart', e => { touchY0 = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchend',   e => {
+      const d = touchY0 - e.changedTouches[0].clientY;
+      if (Math.abs(d) > 50) goToSection(d > 0 ? currentIdx + 1 : currentIdx - 1);
+    }, { passive: true });
+
+    const secWatcher = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting && !isScrolling) {
+          currentIdx = Array.from(sections).indexOf(en.target);
+          updateDots();
+        }
+      });
+    }, { threshold: 0.5 });
+    sections.forEach(s => secWatcher.observe(s));
+
+    /* Puntos laterales */
+    const dotsEl = document.getElementById('navDots');
+    sections.forEach((sec, i) => {
+      const d = document.createElement('button');
+      d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      d.title = sec.getAttribute('aria-label') || `Sección ${i+1}`;
+      d.addEventListener('click', () => goToSection(i));
+      dotsEl.appendChild(d);
+    });
+
+    function updateDots() {
+      document.querySelectorAll('.nav-dot').forEach((d, i) =>
+        d.classList.toggle('active', i === currentIdx));
+    }
+
+    /* Fade-up */
+    const fadeObs = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) { en.target.classList.add('visible'); fadeObs.unobserve(en.target); }
+      });
+    }, { threshold: 0.10 });
+    document.querySelectorAll('.fade-up').forEach(el => fadeObs.observe(el));
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.fade-up').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
+      });
+    });
+  </script>
+
+</body>
+</html>

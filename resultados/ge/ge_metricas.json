@@ -1,0 +1,23 @@
+{
+  "modelo": "GE_DualLSTM_BahdanauAttention",
+  "referencia": "Gu et al. (2022)",
+  "arquitectura": "DualInput-LSTM(64)-BahdanauAttn(64)",
+  "seq_len": 6,
+  "n_features_a": 1,
+  "n_features_b": 23,
+  "total_features": 24,
+  "lstm_units": 64,
+  "attn_units": 64,
+  "dropout": 0.3,
+  "l2_reg": 0.001,
+  "epochs_run": 20,
+  "best_val_loss": 0.263824,
+  "n_train": 40,
+  "n_test": 10,
+  "split_date": "2024-11-01",
+  "MAE": 0.067272,
+  "RMSE": 0.069804,
+  "MAPE_pct": 161.2058,
+  "R2": -2.344676,
+  "nota": "metricas en z-score — media provincial (Fase 2)"
+}

@@ -1,0 +1,267 @@
+{
+  "modelo": "GE_DualLSTM_BahdanauAttention",
+  "metodo_shap": "KernelExplainer",
+  "n_background": 10,
+  "nsamples": 200,
+  "n_test": 10,
+  "base_value": -0.117732,
+  "periodo_test": "2024-11-01 / 2025-08-01",
+  "ranking_global": [
+    {
+      "rank": 1,
+      "feature": "WS2M",
+      "label": "vel_viento",
+      "importance": 0.070007
+    },
+    {
+      "rank": 2,
+      "feature": "trimestre_num",
+      "label": "trim_num",
+      "importance": 0.044846
+    },
+    {
+      "rank": 3,
+      "feature": "month_cos",
+      "label": "mes_cos",
+      "importance": 0.030846
+    },
+    {
+      "rank": 4,
+      "feature": "trimestre_cos",
+      "label": "trim_cos",
+      "importance": 0.020697
+    },
+    {
+      "rank": 5,
+      "feature": "mes_num",
+      "label": "mes_num",
+      "importance": 0.015104
+    },
+    {
+      "rank": 6,
+      "feature": "ALLSKY_SFC_SW_DWN",
+      "label": "radiacion",
+      "importance": 0.013577
+    },
+    {
+      "rank": 7,
+      "feature": "produccion_t (hist)",
+      "label": "prod_t (hist)",
+      "importance": 0.011952
+    },
+    {
+      "rank": 8,
+      "feature": "month_sin",
+      "label": "mes_sin",
+      "importance": 0.009926
+    },
+    {
+      "rank": 9,
+      "feature": "RH2M",
+      "label": "humedad_rel",
+      "importance": 0.009244
+    },
+    {
+      "rank": 10,
+      "feature": "T2M_MIN",
+      "label": "temp_min",
+      "importance": 0.008756
+    },
+    {
+      "rank": 11,
+      "feature": "T2M",
+      "label": "temp_media",
+      "importance": 0.0082
+    },
+    {
+      "rank": 12,
+      "feature": "num_emergencias",
+      "label": "n_emergencias",
+      "importance": 0.005976
+    },
+    {
+      "rank": 13,
+      "feature": "T2M_MAX",
+      "label": "temp_max",
+      "importance": 0.005759
+    },
+    {
+      "rank": 14,
+      "feature": "total_afectados",
+      "label": "tot_afectados",
+      "importance": 0.005675
+    },
+    {
+      "rank": 15,
+      "feature": "precio_chacra_kg",
+      "label": "precio chacra",
+      "importance": 0.00533
+    },
+    {
+      "rank": 16,
+      "feature": "QV2M",
+      "label": "humedad_esp",
+      "importance": 0.005233
+    },
+    {
+      "rank": 17,
+      "feature": "lag_3",
+      "label": "lag t-3",
+      "importance": 0.005059
+    },
+    {
+      "rank": 18,
+      "feature": "PRECTOTCORR",
+      "label": "precipitacion",
+      "importance": 0.00405
+    },
+    {
+      "rank": 19,
+      "feature": "lag_1",
+      "label": "lag t-1",
+      "importance": 0.002989
+    },
+    {
+      "rank": 20,
+      "feature": "trimestre_sin",
+      "label": "trim_sin",
+      "importance": 0.002535
+    },
+    {
+      "rank": 21,
+      "feature": "hectareas_cultivo_perdidas",
+      "label": "ha_perdidas",
+      "importance": 0.001565
+    },
+    {
+      "rank": 22,
+      "feature": "lon",
+      "label": "longitud",
+      "importance": 0.0
+    },
+    {
+      "rank": 23,
+      "feature": "lat",
+      "label": "latitud",
+      "importance": 0.0
+    },
+    {
+      "rank": 24,
+      "feature": "lag_6",
+      "label": "lag t-6",
+      "importance": 0.0
+    }
+  ],
+  "shap_por_mes": [
+    {
+      "mes": "Nov 2024",
+      "error_abs": 0.040073,
+      "shap_top5": {
+        "WS2M": 0.002667,
+        "trimestre_num": 0.005516,
+        "month_cos": 0.0,
+        "trimestre_cos": 0.0,
+        "mes_num": 0.0
+      }
+    },
+    {
+      "mes": "Dec 2024",
+      "error_abs": 0.025271,
+      "shap_top5": {
+        "WS2M": 0.061015,
+        "trimestre_num": 0.005033,
+        "month_cos": 0.0,
+        "trimestre_cos": 0.002438,
+        "mes_num": 0.0
+      }
+    },
+    {
+      "mes": "Jan 2025",
+      "error_abs": 0.088214,
+      "shap_top5": {
+        "WS2M": 0.081897,
+        "trimestre_num": 0.04085,
+        "month_cos": 0.025589,
+        "trimestre_cos": 0.0,
+        "mes_num": 0.0
+      }
+    },
+    {
+      "mes": "Feb 2025",
+      "error_abs": 0.073697,
+      "shap_top5": {
+        "WS2M": 0.015227,
+        "trimestre_num": 0.0,
+        "month_cos": 0.024195,
+        "trimestre_cos": 0.016893,
+        "mes_num": 0.039446
+      }
+    },
+    {
+      "mes": "Mar 2025",
+      "error_abs": 0.079058,
+      "shap_top5": {
+        "WS2M": 0.040089,
+        "trimestre_num": 0.100228,
+        "month_cos": 0.0564,
+        "trimestre_cos": 0.042613,
+        "mes_num": 0.032496
+      }
+    },
+    {
+      "mes": "Apr 2025",
+      "error_abs": 0.078153,
+      "shap_top5": {
+        "WS2M": 0.035697,
+        "trimestre_num": 0.100849,
+        "month_cos": 0.071182,
+        "trimestre_cos": 0.0,
+        "mes_num": 0.0
+      }
+    },
+    {
+      "mes": "May 2025",
+      "error_abs": 0.072274,
+      "shap_top5": {
+        "WS2M": 0.0,
+        "trimestre_num": 0.0,
+        "month_cos": 0.01256,
+        "trimestre_cos": 0.041003,
+        "mes_num": 0.0
+      }
+    },
+    {
+      "mes": "Jun 2025",
+      "error_abs": 0.075308,
+      "shap_top5": {
+        "WS2M": -0.042682,
+        "trimestre_num": -0.04588,
+        "month_cos": 0.0,
+        "trimestre_cos": 0.0,
+        "mes_num": 0.0
+      }
+    },
+    {
+      "mes": "Jul 2025",
+      "error_abs": 0.062569,
+      "shap_top5": {
+        "WS2M": -0.162503,
+        "trimestre_num": -0.094746,
+        "month_cos": 0.0,
+        "trimestre_cos": -0.031279,
+        "mes_num": -0.079101
+      }
+    },
+    {
+      "mes": "Aug 2025",
+      "error_abs": 0.078105,
+      "shap_top5": {
+        "WS2M": -0.258287,
+        "trimestre_num": -0.055357,
+        "month_cos": -0.118536,
+        "trimestre_cos": -0.07275,
+        "mes_num": 0.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "modelo": "GM_DualLSTM_BahdanauAttention_NLP",
+  "referencia": "Gu et al. (2022) + BETO NLP (Fase 2)",
+  "arquitectura": "DualInput-LSTM(64)-BahdanauAttn(64)+NLP",
+  "seq_len": 6,
+  "n_features_a": 1,
+  "n_features_b": 25,
+  "nlp_features": [
+    "avg_sentiment",
+    "n_noticias_beto"
+  ],
+  "total_features": 26,
+  "lstm_units": 64,
+  "attn_units": 64,
+  "dropout": 0.3,
+  "l2_reg": 0.001,
+  "epochs_run": 21,
+  "best_val_loss": 0.250146,
+  "n_train": 40,
+  "n_test": 10,
+  "split_date": "2024-11-01",
+  "MAE": 0.098058,
+  "RMSE": 0.100678,
+  "MAPE_pct": 364.996,
+  "R2": -5.957645,
+  "nota": "metricas en z-score — media provincial (Fase 2)"
+}

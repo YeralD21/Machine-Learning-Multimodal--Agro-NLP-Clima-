@@ -1,0 +1,29 @@
+{
+  "modelo": "GC2_SARIMAX_LSTM",
+  "sarimax_order": "(1, 0, 0)",
+  "sarimax_seasonal": "(2, 1, 0, 12)",
+  "exog_vars": [
+    "T2M",
+    "PRECTOTCORR",
+    "QV2M",
+    "RH2M",
+    "ALLSKY_SFC_SW_DWN",
+    "WS2M",
+    "num_emergencias",
+    "hectareas_cultivo_perdidas"
+  ],
+  "lstm_units": 32,
+  "seq_len": 6,
+  "epochs_run": 26,
+  "n_train": 44,
+  "n_test": 12,
+  "split_date": "2024-09-01",
+  "MAE": 0.196891,
+  "RMSE": 0.292599,
+  "MAPE_pct": 586.2436,
+  "R2": -53.634372,
+  "ablation_SARIMAX_only_MAE": 0.179828,
+  "ablation_SARIMAX_only_RMSE": 0.272143,
+  "ablation_SARIMAX_only_R2": -46.262216,
+  "nota": "metricas en z-score (media provincial Fase 2)"
+}
