@@ -69,22 +69,23 @@ class HistoricalNewsScraper:
         'agro-en-la-prensa', 'agraria-tv'
     ]
 
-    def __init__(self, use_headless: bool = True):
+    def __init__(self, use_headless: bool = True, min_year: int = 2021, max_year: int = 2025,
+                 data_dir: str = None, checkpoint_name: str = "checkpoint.json"):
         self.logger = logging.getLogger(__name__)
-        
+
         # Keywords de sincronización con MIDAGRI/NASA
         self.keywords = [
-            'limón', 'limon', 'emergencia agraria', 'bloqueo carretera', 
+            'limón', 'limon', 'emergencia agraria', 'bloqueo carretera',
             'paro transporte', 'lluvias intensas', 'sequía', 'sequia',
             'estacionalidad', 'cosecha', 'siembra', 'fertilizantes', 'flete'
         ]
-        self.min_year = 2021
-        self.max_year = 2025
-        
+        self.min_year = min_year
+        self.max_year = max_year
+
         # Persistencia
-        self.data_dir = os.path.join("data", "raw", "agraria_pe")
+        self.data_dir = data_dir or os.path.join("data", "raw", "agraria_pe")
         os.makedirs(self.data_dir, exist_ok=True)
-        self.checkpoint_file = os.path.join(self.data_dir, "checkpoint.json")
+        self.checkpoint_file = os.path.join(self.data_dir, checkpoint_name)
         self.seen_urls_cache = set()
         
         # Selenium

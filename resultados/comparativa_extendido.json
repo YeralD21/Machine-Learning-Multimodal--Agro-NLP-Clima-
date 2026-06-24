@@ -1,0 +1,59 @@
+{
+  "dataset": "master_escalado_extendido.csv",
+  "n_train": 62,
+  "n_test": 12,
+  "modelos": {
+    "GE_sin_NLP": {
+      "orig": {
+        "MAE": 0.0673,
+        "det_orig": "+2.3%"
+      },
+      "ext": {
+        "MAE": 0.0035159906565886225,
+        "RMSE": 0.0047920830737542795,
+        "R2": -402.67761612555023,
+        "n_shocks": 0,
+        "MAE_shock": NaN,
+        "MAE_normal": NaN,
+        "modelo": "GE_DualLSTM_ext"
+      }
+    },
+    "GM_v3_NLP": {
+      "orig": {
+        "MAE": 0.0645,
+        "det_orig": "+11.7%"
+      },
+      "ext": {
+        "MAE": 0.05048850837441301,
+        "RMSE": 0.06319963139731678,
+        "R2": -200910.00768467103,
+        "n_shocks": 0,
+        "MAE_shock": NaN,
+        "MAE_normal": NaN,
+        "modelo": "GM_v3_NLP_ext"
+      }
+    },
+    "XGBoost": {
+      "orig": {
+        "MAE": 0.0471,
+        "det_orig": "+16.5%"
+      },
+      "ext": {
+        "MAE": 0.0004136884377991719,
+        "RMSE": 0.00048625888497466955,
+        "R2": -3.1564359438537464,
+        "n_shocks": 0,
+        "MAE_shock": NaN,
+        "MAE_normal": NaN,
+        "best_params": {
+          "max_depth": 4,
+          "n_estimators": 100,
+          "learning_rate": 0.2,
+          "subsample": 1.0,
+          "colsample_bytree": 0.8
+        },
+        "modelo": "XGBoost_ext"
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
   "proyecto": "Prediccion de Produccion de Limon - LSTM-Attention Multimodal",
   "fase": 2,
   "base_dataset": "pipeline/output/09_etl/master_dataset_raw_values.csv",
-  "noticias_path": "sources/agraria-pe/unificado/noticias_unificadas_2021_2025.csv",
+  "noticias_path": "sources/noticias-ampliado/noticias_unificadas_v2_2021_2025.csv",
   "output": {
     "nlp":          "notebooks/fase2/output/01_nlp_sentimiento/",
     "ciclica":      "notebooks/fase2/output/02_codificacion_ciclica/",

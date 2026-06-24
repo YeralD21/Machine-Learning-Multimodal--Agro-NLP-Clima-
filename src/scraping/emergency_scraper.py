@@ -63,6 +63,8 @@ def run_etl():
     print("=" * 70)
 
     dbf_files = [
+        "data/raw/indeci/E_2019/Emergencias_2019.dbf",
+        "data/raw/indeci/E_2020/Emergencias_2020.dbf",
         "data/raw/indeci/E_2021/Emergencias_2021.dbf",
         "data/raw/indeci/E_2022/Emergencias_2022.dbf",
         "data/raw/indeci/E_2023/E_2023.dbf"
@@ -128,8 +130,8 @@ def run_etl():
 
     df = df.dropna(subset=['fecha_dt'])
     
-    # Acotar a 2021-01 hasta 2025-08
-    start_date = pd.to_datetime('2021-01-01')
+    # Acotar a 2019-01 hasta 2025-08
+    start_date = pd.to_datetime('2019-01-01')
     end_date = pd.to_datetime('2025-08-31')
     df = df[(df['fecha_dt'] >= start_date) & (df['fecha_dt'] <= end_date)]
     
@@ -162,9 +164,9 @@ def run_etl():
     # Redondear hectareas
     df_temporal['hectareas_cultivo_perdidas'] = df_temporal['hectareas_cultivo_perdidas'].round(2)
 
-    # Exportar
+    # Exportar (nuevo archivo 2019-2025, no se sobreescribe el 2021-2025 existente)
     output_dir = os.path.join("data", "interim", "indeci")
-    output_path = os.path.join(output_dir, "indeci_temporal_2021_2025.csv")
+    output_path = os.path.join(output_dir, "indeci_temporal_2019_2025.csv")
     df_temporal.to_csv(output_path, index=False, encoding='utf-8')
 
     print("\n" + "=" * 70)
@@ -179,7 +181,15 @@ def run_etl():
     print(f"  Meses unicos en dataset       : {df_temporal['fecha_evento'].nunique()}")
     print(f"  Archivo guardado en           : {output_path}")
     print("=" * 70)
-    
+
+    # Desglose por anho 2019 / 2020 (post-filtro)
+    print("\n  REGISTROS DE EMERGENCIAS 2019-2020 (post-filtro):")
+    for anho in ['2019', '2020']:
+        df_anho = df_temporal[df_temporal['fecha_evento'].str.startswith(anho)]
+        n_emerg = int(df_anho['num_emergencias'].sum())
+        print(f"    {anho}: {n_emerg} emergencias | {len(df_anho)} filas mes x prov | "
+              f"{df_anho['fecha_evento'].nunique()} meses cubiertos")
+
     print("\n  Ejemplo de salida:")
     print(df_temporal.head(5).to_string(index=False))
 

@@ -1,0 +1,9 @@
+{
+  "MAE": 0.05048850837441301,
+  "RMSE": 0.06319963139731678,
+  "R2": -200910.00768467103,
+  "n_shocks": 0,
+  "MAE_shock": NaN,
+  "MAE_normal": NaN,
+  "modelo": "GM_v3_NLP_ext"
+}

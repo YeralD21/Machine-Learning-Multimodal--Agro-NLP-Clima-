@@ -1,0 +1,9 @@
+{
+  "MAE": 0.0035159906565886225,
+  "RMSE": 0.0047920830737542795,
+  "R2": -402.67761612555023,
+  "n_shocks": 0,
+  "MAE_shock": NaN,
+  "MAE_normal": NaN,
+  "modelo": "GE_DualLSTM_ext"
+}

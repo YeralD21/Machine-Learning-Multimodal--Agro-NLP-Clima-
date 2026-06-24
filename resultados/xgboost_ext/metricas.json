@@ -1,0 +1,16 @@
+{
+  "MAE": 0.0004136884377991719,
+  "RMSE": 0.00048625888497466955,
+  "R2": -3.1564359438537464,
+  "n_shocks": 0,
+  "MAE_shock": NaN,
+  "MAE_normal": NaN,
+  "best_params": {
+    "max_depth": 4,
+    "n_estimators": 100,
+    "learning_rate": 0.2,
+    "subsample": 1.0,
+    "colsample_bytree": 0.8
+  },
+  "modelo": "XGBoost_ext"
+}
