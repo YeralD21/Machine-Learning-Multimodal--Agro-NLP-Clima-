@@ -6,6 +6,7 @@
 <title>DualLSTM-Bahdanau · Monitor de Resiliencia Agroindustrial</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 <style>
 :root {
   --bg:      #1a1a2e;
@@ -62,6 +63,22 @@ body.collapsed .sb-brand{display:none}
 .nav a.active{
   background:rgba(74,158,255,.13);color:var(--blue);
   border-left-color:var(--blue);font-weight:700
+}
+
+/* Lucide sidebar icons + glow */
+.sidebar-icon {
+  color: #38bdf8;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px #38bdf8);
+  transition: filter 0.2s ease;
+}
+.sidebar-item.active .sidebar-icon {
+  filter: drop-shadow(0 0 8px #38bdf8) drop-shadow(0 0 16px #0ea5e9);
+}
+.sidebar-item:hover .sidebar-icon {
+  filter: drop-shadow(0 0 6px #38bdf8);
 }
 .nav a .lbl{overflow:hidden}
 body.collapsed .nav a .lbl{display:none}
@@ -165,12 +182,12 @@ footer{text-align:center;font-size:9px;color:var(--muted);padding:10px 0 4px;bor
   </div>
   <button class="hamb" id="hambBtn" title="Colapsar menú">&#9776;</button>
   <nav class="nav" id="nav">
-    <a data-view="resumen" class="active" title="Resumen General"><span class="ic">📊</span><span class="lbl">Resumen General</span></a>
-    <a data-view="modelos" title="Comparativa de Modelos"><span class="ic">🎯</span><span class="lbl">Comparativa Modelos</span></a>
-    <a data-view="shocks" title="Resiliencia ante Shocks"><span class="ic">⚡</span><span class="lbl">Resiliencia Shocks</span></a>
-    <a data-view="shap" title="Explicabilidad SHAP"><span class="ic">🧠</span><span class="lbl">Explicabilidad SHAP</span></a>
-    <a data-view="atencion" title="Atención Bahdanau"><span class="ic">👁️</span><span class="lbl">Atención Bahdanau</span></a>
-    <a data-view="economico" title="Impacto Económico"><span class="ic">💰</span><span class="lbl">Impacto Económico</span></a>
+    <a data-view="resumen" class="sidebar-item active" title="Resumen General"><i data-lucide="layout-dashboard" class="sidebar-icon"></i><span class="lbl">Resumen General</span></a>
+    <a data-view="modelos" class="sidebar-item" title="Comparativa de Modelos"><i data-lucide="bar-chart-2" class="sidebar-icon"></i><span class="lbl">Comparativa Modelos</span></a>
+    <a data-view="shocks" class="sidebar-item" title="Resiliencia ante Shocks"><i data-lucide="zap" class="sidebar-icon"></i><span class="lbl">Resiliencia Shocks</span></a>
+    <a data-view="shap" class="sidebar-item" title="Explicabilidad SHAP"><i data-lucide="brain" class="sidebar-icon"></i><span class="lbl">Explicabilidad SHAP</span></a>
+    <a data-view="atencion" class="sidebar-item" title="Atención Bahdanau"><i data-lucide="eye" class="sidebar-icon"></i><span class="lbl">Atención Bahdanau</span></a>
+    <a data-view="economico" class="sidebar-item" title="Impacto Económico"><i data-lucide="dollar-sign" class="sidebar-icon"></i><span class="lbl">Impacto Económico</span></a>
   </nav>
   <div class="sb-foot">CRISP-ML(Q) Fase 5 · 2026</div>
 </aside>
@@ -699,6 +716,9 @@ document.getElementById('hambBtn').addEventListener('click', ()=>{
 
 // initial view
 showView('resumen');
+
+// render Lucide SVG icons in the sidebar
+lucide.createIcons();
 </script>
 </body>
 </html>
