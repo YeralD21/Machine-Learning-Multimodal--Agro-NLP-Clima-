@@ -1,31 +1,64 @@
-# --- Machine Learning Multimodal (Agro + NLP + Clima) ---
+# =====================================================================
+# Machine Learning Multimodal (Agro + NLP + Clima)
+# ---------------------------------------------------------------------
+# Python 3.11 OBLIGATORIO (TensorFlow no soporta 3.13+).
+#
+# Versiones SIN fijar a propósito: este repo se desarrolló en Windows y
+# WSL2. Para una reproducción bit-a-bit, construye el venv con estas
+# dependencias y CONGELA las versiones exactas de TU entorno:
+#
+#     python -m venv venv
+#     venv\Scripts\activate            (Windows)  |  source venv/bin/activate (Linux)
+#     pip install -r requirements.txt
+#     pip freeze > requirements.lock.txt   # <-- versiones exactas reproducibles
+#
+# Comparte requirements.lock.txt para que un tercero replique tu entorno.
+# =====================================================================
 
-# Manipulación de datos
+# --- Manipulación de datos ---
 pandas
 numpy
+openpyxl            # lectura de Excel oficial de MIDAGRI (.xlsx)
 
-# Scraping
+# --- Base de datos / DWH (Star Schema PostgreSQL) ---
+sqlalchemy
+psycopg2-binary
+
+# --- Scraping ético (Agraria.pe) ---
 beautifulsoup4
 requests
 selenium
 
-# NLP
+# --- NLP (BETO: dccuchile/bert-base-spanish-wwm-cased) ---
+transformers
 nltk
 spacy
-transformers
 
-# Modelado (LSTM-Attention)
+# --- Modelado clásico (GC1/GC2: SARIMA, Prophet, SARIMAX) ---
+statsmodels
+prophet
+
+# --- Modelado Deep Learning (GE/GM: Dual-LSTM + Bahdanau Attention) ---
 tensorflow
 scikit-learn
 
-# Visualización y Dashboard
-streamlit
-matplotlib
-plotly
+# --- Competidores ---
+xgboost
 
-# Explainable AI (XAI)
+# --- Explainable AI (XAI) ---
 shap
 
-# Jupyter
+# --- Visualización y Dashboard ---
+streamlit
+matplotlib
+seaborn
+plotly
+
+# --- Persistencia de artefactos (scalers, modelos) ---
+joblib
+
+# --- Jupyter / orquestación de notebooks ---
 notebook
 jupyterlab
+ipykernel
+papermill           # requerido por run_pipeline.py para ejecutar notebooks en orden
