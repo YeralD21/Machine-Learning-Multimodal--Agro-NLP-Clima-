@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NLP Engineering · AgroNLP-Clima · UPeU</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#080C14; --bg-card:#0D1426; --bg-surface:#111827;
+      --border:#1A2744; --text:#E2E8F0; --text-sec:#94A3B8;
+      --text-muted:#64748B; --text-dim:#4A6080;
+      --blue:#4A9EFF; --amber:#F59E0B; --purple:#A78BFA;
+      --green:#22C55E; --red:#EF4444; --slate:#475569;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--bg); color: var(--text); }
+    body { font-family: 'Inter', system-ui, sans-serif; font-weight: 400; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow: hidden; }
+    section { height: 100vh; overflow: hidden; scroll-margin-top: 56px; display: flex; align-items: center; justify-content: center; }
+    .sec { max-width: 1140px; width: 100%; }
+    .sp  { padding: 70px 64px; }
+    .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+    .fade-up.visible { opacity: 1; transform: none; }
+    .eyebrow { display: block; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: .10em; margin-bottom: 14px; }
+
+    /* ─── Navbar ─────────────────────────────────────────────── */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%; height: 56px; z-index: 200;
+      background: rgba(8,12,20,.97); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; padding: 0 48px;
+    }
+    .navbar__logo { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-sec); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+    .navbar__logo .logo-icon { font-size: 16px; }
+    .navbar__logo .logo-nlp  { color: var(--blue); }
+    .navbar__links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .navbar__links a { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); text-decoration: none; letter-spacing: .02em; transition: color .2s; }
+    .navbar__links a:hover  { color: var(--text-sec); }
+    .navbar__links a.active { color: var(--amber); font-weight: 500; }
+    .navbar__badge { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: var(--blue); background: #1A3A5C; border: 1px solid #234E7A; border-radius: 20px; padding: 4px 14px; white-space: nowrap; }
+
+    .nav-dots { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 150; display: flex; flex-direction: column; gap: 10px; }
+    .nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); cursor: pointer; transition: background .25s, transform .25s; border: none; padding: 0; }
+    .nav-dot.active { background: var(--amber); transform: scale(1.5); }
+
+    /* ─── KPI cards ──────────────────────────────────────────── */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+    .kpi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; border-top: 3px solid; }
+    .kpi-value { font-family: 'Inter', sans-serif; font-size: 1.7rem; font-weight: 700; line-height: 1; margin-bottom: 5px; }
+    .kpi-label { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); line-height: 1.4; }
+
+    /* ─── Hero ───────────────────────────────────────────────── */
+    #hero-nlp { background: linear-gradient(135deg, #080C14 0%, #110C08 40%, #120E08 60%, #080C14 100%); }
+    .nlp-title { font-family: 'Playfair Display', Georgia, serif; font-size: 52px; font-weight: 400; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 16px; }
+    .nlp-title .nh1, .nlp-title .nh3 { display: block; color: #F1F5F9; }
+    .nlp-title .nh2 { display: block; font-style: italic; color: var(--amber); }
+    .nlp-sub { font-family: 'Inter', sans-serif; font-size: 16px; color: var(--text-sec); line-height: 1.8; max-width: 780px; margin-bottom: 24px; }
+
+    /* ─── Sección 2 — Pipeline ───────────────────────────────── */
+    #pipeline { background: var(--bg-card); }
+    .pip-title { font-family: 'Playfair Display', Georgia, serif; font-size: 36px; font-weight: 400; color: var(--text); letter-spacing: -.02em; line-height: 1.2; margin-bottom: 24px; }
+
+    /* Flow de 4 pasos */
+    .pipe-flow { display: flex; align-items: center; gap: 0; margin-bottom: 24px; flex-wrap: wrap; }
+    .pipe-step {
+      flex: 1; min-width: 180px;
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 16px;
+      text-align: center; position: relative;
+    }
+    .pipe-icon  { font-size: 22px; margin-bottom: 6px; }
+    .pipe-name  { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .pipe-desc  { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); line-height: 1.4; }
+    .pipe-arrow { padding: 0 8px; color: var(--amber); font-size: 18px; flex-shrink: 0; }
+
+    /* Imagen NLP */
+    .img-block { text-align: center; }
+    .img-block img { max-width: 100%; max-height: 220px; border-radius: 8px; border: 1px solid var(--border); object-fit: contain; }
+    .img-placeholder {
+      display: none; width: 100%; height: 150px;
+      background: var(--bg-surface); border: 1px dashed var(--border);
+      border-radius: 8px; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-dim);
+    }
+    .img-caption { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); margin-top: 8px; }
+
+    /* ─── Sección 3 — M1-M4 ─────────────────────────────────── */
+    #mejoras { background: var(--bg); }
+    .mej-title { font-family: 'Playfair Display', Georgia, serif; font-size: 36px; font-weight: 400; color: var(--text); letter-spacing: -.02em; line-height: 1.2; margin-bottom: 22px; }
+    .mej-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+    .mej-card  { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 22px; }
+    .mej-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .10em; margin-bottom: 8px; }
+    .mej-title-sm { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .mej-formula  { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-muted); font-style: italic; margin-bottom: 8px; font-family: monospace; }
+    .mej-text     { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-sec); line-height: 1.7; }
+
+    /* ─── Sección 4 — Diagnóstico ────────────────────────────── */
+    #diagnostico { background: var(--bg-card); }
+    .diag-title { font-family: 'Playfair Display', Georgia, serif; font-size: 36px; font-weight: 400; color: var(--text); letter-spacing: -.02em; line-height: 1.2; margin-bottom: 8px; }
+    .diag-sub   { font-family: 'Inter', sans-serif; font-size: 15px; color: var(--text-sec); margin-bottom: 22px; line-height: 1.7; }
+    .diag-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+    .diag-table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
+    .dt { width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 13px; }
+    .dt thead th { background: #1A2744; color: var(--text-sec); padding: 9px 12px; text-align: left; font-weight: 500; font-size: 11px; }
+    .dt tbody td { padding: 9px 12px; border-bottom: 1px solid var(--border); color: var(--text-sec); }
+    .dt tbody tr:last-child td { border-bottom: none; }
+    .dt tbody td:first-child { color: var(--text-muted); font-size: 12px; }
+    .dt .col-orig { color: var(--red); font-weight: 500; }
+    .dt .col-v2   { color: var(--green); font-weight: 500; }
+
+    .conc-nlp {
+      background: #1A1200; border: 1px solid rgba(245,158,11,.35);
+      border-radius: 10px; padding: 20px 22px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .cn-head { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--amber); margin-bottom: 4px; }
+    .cn-text { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-sec); line-height: 1.75; }
+    .cn-future { background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.2); border-radius: 6px; padding: 12px 14px; }
+    .cn-future-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--amber); margin-bottom: 6px; }
+    .cn-future-text  { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-sec); line-height: 1.6; }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    .footer { background: var(--bg); border-top: 1px solid var(--border); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer p { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 900px) { .mej-grid, .diag-grid { grid-template-columns: 1fr; } .pipe-arrow { display: none; } .pipe-step { min-width: 140px; } }
+    @media (max-width: 768px) {
+      .navbar { padding: 0 20px; } .navbar__links { display: none; } .nav-dots { display: none; }
+      section { height: auto; min-height: 100vh; overflow: auto; } body { overflow: auto; }
+      .sp { padding: 72px 20px 48px; }
+      .nlp-title { font-size: 36px; } .pip-title, .mej-title, .diag-title { font-size: 26px; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .pipe-flow { flex-direction: column; align-items: stretch; }
+      .pipe-arrow { transform: rotate(90deg); padding: 4px 0; text-align: center; }
+      .footer { padding: 20px; flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) { .kpi-grid { grid-template-columns: 1fr 1fr; } .nlp-title { font-size: 28px; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" role="navigation">
+    <a href="landing.html" class="navbar__logo">
+      <span class="logo-icon">🌿</span>Agro<span class="logo-nlp">NLP</span>-Clima
+    </a>
+    <ul class="navbar__links" role="list">
+      <li><a href="landing.html">Inicio</a></li>
+      <li><a href="resultados.html">Resultados</a></li>
+      <li><a href="shap.html">SHAP</a></li>
+      <li><a href="attention.html">Attention</a></li>
+      <li><a href="nlp.html" class="active">NLP</a></li>
+      <li><a href="simulacion.html">Simulación</a></li>
+    </ul>
+    <span class="navbar__badge">Tesis FIA 2026</span>
+  </nav>
+  <div class="nav-dots" id="navDots"></div>
+
+  <!-- ═══ S1 — HERO ═══════════════════════════════════════════ -->
+  <section id="hero-nlp" aria-label="NLP Engineering — portada">
+    <div class="sec sp">
+
+      <span class="eyebrow fade-up" style="color:var(--text-muted)">NLP Engineering · BETO</span>
+
+      <h1 class="nlp-title fade-up" style="transition-delay:.05s">
+        <span class="nh1">El modelo leyó</span>
+        <span class="nh2">las noticias</span>
+        <span class="nh3">del campo peruano.</span>
+      </h1>
+
+      <p class="nlp-sub fade-up" style="transition-delay:.10s">
+        BETO (Spanish BERT fine-tuned) analizó noticias de Agraria.pe para extraer sentimiento
+        mensual sobre el mercado agroindustrial peruano. El resultado fue integrado como feature
+        del Canal B del modelo GE mediante cuatro módulos de ingeniería (M1–M4).
+      </p>
+
+      <div class="kpi-grid fade-up" style="transition-delay:.16s">
+        <div class="kpi-card" style="border-top-color:var(--amber)">
+          <div class="kpi-value" style="color:var(--amber)">58</div>
+          <div class="kpi-label">Meses con noticias · Agraria.pe</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--red)">
+          <div class="kpi-value" style="color:var(--red)">−0.079</div>
+          <div class="kpi-label">avg_sentiment · Sesgo negativo del sector</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--green)">
+          <div class="kpi-value" style="color:var(--green)">4</div>
+          <div class="kpi-label">Mejoras NLP implementadas · M1–M4</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--purple)">
+          <div class="kpi-value" style="color:var(--purple)">0.0646</div>
+          <div class="kpi-label">MAE GM v2 · Mejor modelo NLP</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ S2 — PIPELINE ═══════════════════════════════════════ -->
+  <section id="pipeline" aria-label="Pipeline NLP">
+    <div class="sec sp">
+
+      <h2 class="pip-title fade-up">Pipeline NLP — de noticias a features</h2>
+
+      <!-- 4 pasos con flechas -->
+      <div class="pipe-flow fade-up" style="transition-delay:.08s">
+        <div class="pipe-step">
+          <div class="pipe-icon">🔍</div>
+          <div class="pipe-name">Scraping Agraria.pe</div>
+          <div class="pipe-desc">robots.txt · delays aleatorios · 58 meses</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <div class="pipe-icon">🤖</div>
+          <div class="pipe-name">BETO Sentiment</div>
+          <div class="pipe-desc">bert-base-multilingual-cased · softmax 3 clases</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <div class="pipe-icon">📊</div>
+          <div class="pipe-name">Agregación mensual</div>
+          <div class="pipe-desc">avg_sentiment · n_noticias por mes</div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <div class="pipe-icon">⚙️</div>
+          <div class="pipe-name">Feature Eng. M1–M4</div>
+          <div class="pipe-desc">índice NLP · lag · dropout · PCA 95%</div>
+        </div>
+      </div>
+
+      <!-- Imagen Pipeline -->
+      <div class="img-block fade-up" style="transition-delay:.16s">
+        <img src="../resultados/gm_v2/nlp_features_engineering.png"
+             alt="NLP Features Engineering pipeline"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder">⚠ nlp_features_engineering.png — pendiente en resultados/gm_v2/</div>
+        <p class="img-caption">Diagrama completo del pipeline de ingeniería de features NLP (M1–M4)</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ S3 — MEJORAS M1-M4 ══════════════════════════════════ -->
+  <section id="mejoras" aria-label="Mejoras M1 a M4">
+    <div class="sec sp">
+
+      <h2 class="mej-title fade-up">Cuatro módulos que convirtieron ruido en señal</h2>
+
+      <div class="mej-grid">
+
+        <div class="mej-card fade-up" style="transition-delay:.06s">
+          <div class="mej-label" style="color:var(--amber)">M1 — Índice NLP ponderado</div>
+          <div class="mej-title-sm">nlp_index = avg_sentiment × log(n_noticias + 1)</div>
+          <div class="mej-formula">nlp_index = sentiment × log(n + 1)</div>
+          <p class="mej-text">Meses con pocas noticias tienen señal NLP débil aunque el sentimiento sea extremo. El logaritmo pondera el sentimiento por el volumen informativo — reduce el ruido de meses con 1–2 artículos.</p>
+        </div>
+
+        <div class="mej-card fade-up" style="transition-delay:.12s">
+          <div class="mej-label" style="color:var(--blue)">M2 — Lag temporal</div>
+          <div class="mej-title-sm">nlp_index_lag1 — efecto noticiero retardado</div>
+          <div class="mej-formula">nlp_lag1[t] = nlp_index[t-1]</div>
+          <p class="mej-text">El impacto de una noticia sobre precios de chacra no es inmediato: el mercado tarda 1 mes en ajustarse. El lag-1 captura este efecto retardado, mejorando la correlación con la variable objetivo.</p>
+        </div>
+
+        <div class="mej-card fade-up" style="transition-delay:.18s">
+          <div class="mej-label" style="color:var(--purple)">M3 — Dropout NLP</div>
+          <div class="mej-title-sm">Dropout = 0.50 exclusivo en rama NLP</div>
+          <div class="mej-formula">dropout(nlp_branch, p=0.50)</div>
+          <p class="mej-text">Las features NLP tienen baja correlación causal con la producción provincial (noticias nacionales vs target local). Un dropout mayor que el resto de la red previene que el modelo memorice señales espurias del Canal B.</p>
+        </div>
+
+        <div class="mej-card fade-up" style="transition-delay:.24s">
+          <div class="mej-label" style="color:var(--green)">M4 — PCA al 95% de varianza</div>
+          <div class="mej-title-sm">23 features → 8 componentes principales</div>
+          <div class="mej-formula">PCA(n=8, variance≥95%)</div>
+          <p class="mej-text">El espacio original de embeddings BETO tiene alta multicolinealidad. PCA elimina redundancia antes de la fusión LSTM, reduciendo el riesgo de sobreajuste con n=44 observaciones.</p>
+        </div>
+
+      </div>
+
+      <!-- Imagen PCA -->
+      <div class="img-block fade-up" style="transition-delay:.30s">
+        <img src="../resultados/gm_v2/pca_varianza_explicada.png"
+             alt="PCA varianza explicada Canal B"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder">⚠ pca_varianza_explicada.png — pendiente en resultados/gm_v2/</div>
+        <p class="img-caption">Varianza explicada acumulada del Canal B (M4 · PCA 95%) — 23 features → 8 componentes</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ S4 — DIAGNÓSTICO ═════════════════════════════════════ -->
+  <section id="diagnostico" aria-label="Diagnóstico NLP">
+    <div class="sec sp">
+
+      <div class="fade-up">
+        <span class="eyebrow" style="color:var(--text-muted)">Diagnóstico · Causa raíz</span>
+        <h2 class="diag-title">¿Por qué el NLP crudo empeoró? ¿Cómo M1–M4 lo corrigió?</h2>
+        <p class="diag-sub">GM original (NLP básico) tuvo MAE = 0.0981 — peor que el GE sin NLP (0.0673). Las mejoras M1–M4 revirtieron esta regresión: GM v2 logra MAE = 0.0646.</p>
+      </div>
+
+      <div class="diag-grid">
+
+        <!-- Tabla comparativa -->
+        <div class="fade-up" style="transition-delay:.08s">
+          <div class="diag-table-wrap">
+            <table class="dt">
+              <thead>
+                <tr>
+                  <th>Métrica</th>
+                  <th>GM original · NLP básico</th>
+                  <th>GM v2 · NLP mejorado (M1–M4)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MAE</td>
+                  <td class="col-orig">0.0981 ↑ peor que GE</td>
+                  <td class="col-v2">0.0646 ✓ mejor que GE</td>
+                </tr>
+                <tr>
+                  <td>RMSE</td>
+                  <td class="col-orig">0.1007</td>
+                  <td class="col-v2">0.0771</td>
+                </tr>
+                <tr>
+                  <td>R²</td>
+                  <td class="col-orig">−5.96</td>
+                  <td style="color:var(--text-muted)">−9.86 (alta varianza shocks)</td>
+                </tr>
+                <tr>
+                  <td>Deterioro en shocks</td>
+                  <td class="col-orig">N/D</td>
+                  <td class="col-orig">+29.2% — vulnerable</td>
+                </tr>
+                <tr>
+                  <td>MASE</td>
+                  <td class="col-orig">6.11</td>
+                  <td class="col-v2">4.02</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Card conclusión -->
+        <div class="conc-nlp fade-up" style="transition-delay:.16s">
+
+          <div>
+            <div class="cn-head">Causa raíz identificada: desalineación geográfica</div>
+            <p class="cn-text">
+              Las noticias de Agraria.pe cubren tendencias nacionales del mercado limón.
+              El modelo predice producción de una provincia específica (Piura, Sullana).
+              Un artículo sobre «caída del limón en Lambayeque» introduce ruido geográfico
+              que distorsiona la predicción para el norte chico.
+            </p>
+            <p class="cn-text" style="margin-top:10px">
+              Las mejoras M1–M4 reducen este ruido mediante ponderación por volumen (M1),
+              captura del efecto retardado (M2), regularización específica (M3) y
+              reducción de dimensionalidad (M4) — pero sin eliminar la causa raíz.
+            </p>
+          </div>
+
+          <div class="cn-future">
+            <div class="cn-future-label">🔭 Trabajo futuro</div>
+            <p class="cn-future-text">
+              Scraping regional de fuentes locales (Piura/Sullana) con keywords específicos
+              de limón sutil — «limón Sullana», «Fenómeno Niño Piura», «precio chacra norte».
+              Estimación: reducción adicional de MAE de 15–25% en Canal B.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" role="contentinfo">
+    <p>🌿 AgroNLP-Clima &middot; Fabrizio Sánchez Saravia &middot; UPeU FIA &middot; Juliaca, Puno &middot; 2026</p>
+    <p>DualLSTM-BahdanauAttention &middot; NASA POWER &middot; BETO &middot; INDECI &middot; MIDAGRI &middot; SHAP</p>
+  </footer>
+
+  <script>
+    /* Scroll navegación (sin Chart.js — no hay gráficos en esta página) */
+    const sections = document.querySelectorAll('section');
+    let currentIdx = 0, isScrolling = false;
+
+    function goToSection(i) {
+      if (i < 0 || i >= sections.length || isScrolling) return;
+      isScrolling = true; currentIdx = i;
+      sections[i].scrollIntoView({ behavior: 'smooth' });
+      updateDots();
+      setTimeout(() => { isScrolling = false; }, 900);
+    }
+
+    window.addEventListener('wheel', e => {
+      e.preventDefault();
+      goToSection(e.deltaY > 0 ? currentIdx + 1 : currentIdx - 1);
+    }, { passive: false });
+
+    window.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); goToSection(currentIdx + 1); }
+      if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); goToSection(currentIdx - 1); }
+    });
+
+    let ty0 = 0;
+    window.addEventListener('touchstart', e => { ty0 = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchend',   e => {
+      const d = ty0 - e.changedTouches[0].clientY;
+      if (Math.abs(d) > 50) goToSection(d > 0 ? currentIdx + 1 : currentIdx - 1);
+    }, { passive: true });
+
+    const secWatcher = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting && !isScrolling) { currentIdx = Array.from(sections).indexOf(en.target); updateDots(); } });
+    }, { threshold: 0.5 });
+    sections.forEach(s => secWatcher.observe(s));
+
+    const dotsEl = document.getElementById('navDots');
+    sections.forEach((sec, i) => {
+      const d = document.createElement('button');
+      d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      d.title = sec.getAttribute('aria-label') || `Sección ${i+1}`;
+      d.addEventListener('click', () => goToSection(i));
+      dotsEl.appendChild(d);
+    });
+
+    function updateDots() {
+      document.querySelectorAll('.nav-dot').forEach((d,i) => d.classList.toggle('active', i === currentIdx));
+    }
+
+    const fadeObs = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('visible'); fadeObs.unobserve(en.target); } });
+    }, { threshold: 0.10 });
+    document.querySelectorAll('.fade-up').forEach(el => fadeObs.observe(el));
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.fade-up').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
+      });
+    });
+  </script>
+</body>
+</html>

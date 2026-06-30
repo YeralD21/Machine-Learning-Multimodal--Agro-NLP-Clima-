@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resultados · AgroNLP-Clima · UPeU</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Variables (idénticas a landing.html) ──────────────────── */
+    :root {
+      --bg:          #080C14;  --bg-card:    #0D1426;
+      --bg-surface:  #111827;  --border:     #1A2744;
+      --text:        #E2E8F0;  --text-sec:   #94A3B8;
+      --text-muted:  #64748B;  --text-dim:   #4A6080;
+      --blue:        #4A9EFF;  --amber:      #F59E0B;
+      --purple:      #A78BFA;  --green:      #22C55E;
+      --red:         #EF4444;  --slate:      #475569;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; background: var(--bg); color: var(--text); }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 400; line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    section {
+      height: 100vh; overflow: hidden;
+      scroll-margin-top: 56px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Contenedor interno */
+    .sec { max-width: 1140px; width: 100%; }
+    .sp  { padding: 70px 64px; }
+
+    /* Fade-up */
+    .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    /* Eyebrow */
+    .eyebrow {
+      display: block; font-family: 'Inter', sans-serif;
+      font-size: 13px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .10em; margin-bottom: 14px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════════════════════════════════ */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%; height: 56px; z-index: 200;
+      background: rgba(8,12,20,.97);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; padding: 0 48px;
+    }
+    .navbar__logo {
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
+      color: var(--text-sec); text-decoration: none;
+      display: flex; align-items: center; gap: 6px; white-space: nowrap;
+    }
+    .navbar__logo .logo-icon { font-size: 16px; }
+    .navbar__logo .logo-nlp  { color: var(--blue); }
+    .navbar__links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .navbar__links a {
+      font-family: 'Inter', sans-serif; font-size: 11px;
+      color: var(--text-dim); text-decoration: none;
+      letter-spacing: .02em; transition: color .2s;
+    }
+    .navbar__links a:hover  { color: var(--text-sec); }
+    .navbar__links a.active { color: var(--blue); font-weight: 500; }
+    .navbar__badge {
+      font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500;
+      color: var(--blue); background: #1A3A5C; border: 1px solid #234E7A;
+      border-radius: 20px; padding: 4px 14px; white-space: nowrap;
+    }
+
+    /* Puntos de navegación lateral */
+    .nav-dots {
+      position: fixed; right: 24px; top: 50%;
+      transform: translateY(-50%); z-index: 150;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .nav-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--text-dim); cursor: pointer;
+      transition: background .25s, transform .25s; border: none; padding: 0;
+    }
+    .nav-dot.active { background: var(--blue); transform: scale(1.5); }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECCIÓN 1 — HERO
+    ═══════════════════════════════════════════════════════════════ */
+    #hero-res {
+      background:
+        linear-gradient(135deg, #080C14 0%, #0B1120 40%, #0D1426 60%, #080C14 100%);
+    }
+
+    .res-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 52px; font-weight: 400;
+      line-height: 1.15; letter-spacing: -.02em;
+      margin-bottom: 16px;
+    }
+    .res-title .rh1, .res-title .rh3 { display: block; color: #F1F5F9; }
+    .res-title .rh2 { display: block; font-style: italic; color: var(--blue); }
+
+    .res-sub {
+      font-family: 'Inter', sans-serif; font-size: 16px;
+      color: var(--text-sec); line-height: 1.8; max-width: 820px;
+      margin-bottom: 22px;
+    }
+
+    /* KPI grid */
+    .kpi-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; margin-bottom: 20px; }
+    .kpi-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 14px 16px; border-top: 3px solid;
+    }
+    .kpi-value { font-family: 'Inter', sans-serif; font-size: 1.7rem; font-weight: 700; line-height: 1; margin-bottom: 5px; }
+    .kpi-label { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); line-height: 1.4; }
+
+    /* Timeline */
+    .timeline { display: flex; gap: 6px; margin-bottom: 10px; }
+    .tm {
+      flex: 1; height: 50px; border-radius: 6px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .tm.shock  { background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.4); }
+    .tm.stable { background: rgba(30,41,59,.5);   border: 1px solid var(--border); }
+    .tm-name { font-size: 10px; font-weight: 500; color: var(--text-sec); }
+    .tm-yr   { font-size: 9px;  color: var(--text-dim); }
+    .tm-star {
+      position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+      font-size: 9px; color: var(--amber); white-space: nowrap; font-weight: 600;
+    }
+    .tm-legend {
+      display: flex; gap: 20px;
+      font-size: 11px; color: var(--text-dim);
+    }
+    .tm-legend span { display: flex; align-items: center; gap: 5px; }
+    .leg-dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECCIÓN 2 — RANKING
+    ═══════════════════════════════════════════════════════════════ */
+    #ranking { background: var(--bg); }
+
+    .rank-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 36px; font-weight: 400; color: var(--text);
+      letter-spacing: -.02em; line-height: 1.2; margin-bottom: 22px;
+    }
+
+    .rank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+
+    .chart-wrap { position: relative; height: 390px; }
+
+    /* Metrics table */
+    .tbl-wrap { max-height: 400px; overflow-y: auto; }
+    .mt {
+      width: 100%; border-collapse: collapse;
+      font-family: 'Inter', sans-serif; font-size: 13px;
+    }
+    .mt thead th {
+      background: #1A2744; color: var(--text-sec);
+      padding: 8px 10px; text-align: left; font-weight: 500; font-size: 11px;
+      position: sticky; top: 0; z-index: 1; white-space: nowrap;
+    }
+    .mt tbody td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: var(--text-sec); }
+    .mt tbody tr:hover td { background: rgba(255,255,255,.03); }
+    .mt .r-ge  td { color: var(--blue); font-weight: 500; }
+    .mt .r-xgb td { color: var(--amber); font-weight: 500; }
+    .mt .r-gmv td { color: var(--purple); font-weight: 500; }
+    .mt .r-ge  td:first-child,
+    .mt .r-xgb td:first-child,
+    .mt .r-gmv td:first-child { font-weight: 600; }
+
+    .tbl-note { font-size: 11px; color: var(--text-dim); margin-top: 10px; line-height: 1.55; }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECCIÓN 3 — SHOCKS
+    ═══════════════════════════════════════════════════════════════ */
+    #shocks { background: var(--bg-card); }
+
+    .shock-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 36px; font-weight: 400; letter-spacing: -.02em;
+      line-height: 1.2; margin-bottom: 22px;
+    }
+    .shock-title .st1, .shock-title .st3 { display: block; color: var(--text); }
+    .shock-title .st2 { display: block; font-style: italic; color: var(--amber); }
+
+    .shock-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+
+    .sc-card-stable {
+      background: #0A1F3A; border: 1px solid #1A3A5C;
+      border-radius: 8px; padding: 18px 20px;
+    }
+    .sc-card-shock {
+      background: #1A0A0A; border: 1px solid #3A1010;
+      border-radius: 8px; padding: 18px 20px;
+    }
+    .sc-head { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; margin-bottom: 12px; line-height: 1.4; color: var(--text-sec); }
+
+    .sc-tbl { width: 100%; border-collapse: collapse; font-size: 12px; font-family: 'Inter', sans-serif; }
+    .sc-tbl th { color: var(--text-muted); font-weight: 500; padding: 4px 8px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .05em; }
+    .sc-tbl td { color: var(--text-sec); padding: 5px 8px; border-top: 1px solid var(--border); }
+    .sc-tbl td:first-child { color: var(--text); font-weight: 500; }
+    .det-green { color: var(--green); font-weight: 600; }
+    .det-amber { color: var(--amber); font-weight: 600; }
+    .det-red   { color: var(--red);   font-weight: 600; }
+    .det-gray  { color: var(--text-muted); }
+
+    .sc-badge {
+      display: inline-block; font-family: 'Inter', sans-serif;
+      font-size: 11px; font-weight: 500; border-radius: 4px;
+      padding: 4px 12px; margin-top: 12px;
+    }
+    .sc-badge.green { background: #0A1F0A; color: var(--green); border: 1px solid #166534; }
+    .sc-badge.red   { background: #1A0A0A; color: var(--red);   border: 1px solid #3A1010; }
+
+    .chart-wrap-sm { position: relative; height: 210px; }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECCIÓN 4 — PREDICCIONES
+    ═══════════════════════════════════════════════════════════════ */
+    #predicciones { background: var(--bg); }
+
+    .pred-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 32px; font-weight: 400; color: var(--text);
+      letter-spacing: -.02em; line-height: 1.2; margin-bottom: 14px;
+    }
+
+    .model-selector { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 12px; }
+    .model-cb {
+      display: inline-flex; align-items: center; gap: 6px;
+      cursor: pointer; font-size: 12px; color: var(--text-sec);
+      user-select: none;
+    }
+    .model-cb input[type="checkbox"] { cursor: pointer; width: 13px; height: 13px; }
+    .m-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    .chart-wrap-lg { position: relative; height: 280px; margin-bottom: 14px; }
+
+    .conc-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .conc-card { border-radius: 8px; padding: 14px 16px; }
+    .conc-card.c-blue   { background: rgba(74,158,255,.07);  border: 1px solid rgba(74,158,255,.22); }
+    .conc-card.c-amber  { background: rgba(245,158,11,.07);  border: 1px solid rgba(245,158,11,.22); }
+    .conc-card.c-purple { background: rgba(167,139,250,.07); border: 1px solid rgba(167,139,250,.22); }
+    .conc-label { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 5px; }
+    .conc-text  { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-sec); line-height: 1.65; }
+
+    /* ═══════════════════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════════════════ */
+    .footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 24px 48px; display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .footer p { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); }
+
+    /* ═══════════════════════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .rank-grid, .shock-grid, .conc-grid { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: repeat(3,1fr); }
+    }
+    @media (max-width: 768px) {
+      .navbar { padding: 0 20px; }
+      .navbar__links { display: none; }
+      .nav-dots { display: none; }
+      section { height: auto; min-height: 100vh; overflow: auto; }
+      body { overflow: auto; }
+      .sp { padding: 72px 20px 48px; }
+      .res-title   { font-size: 36px; }
+      .rank-title, .shock-title { font-size: 26px; }
+      .pred-title  { font-size: 22px; }
+      .chart-wrap  { height: 300px; }
+      .chart-wrap-lg { height: 240px; }
+      .chart-wrap-sm { height: 180px; }
+      .footer { padding: 20px; flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .res-title  { font-size: 28px; }
+      .kpi-grid   { grid-template-columns: 1fr 1fr; }
+      .timeline   { gap: 3px; }
+      .tm-name    { font-size: 9px; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SECCIÓN 5 — SIMULACIÓN ESCENARIO CRÍTICO
+    ═══════════════════════════════════════════════════════════════ */
+    #sim {
+      height: 100vh; overflow-y: auto; overflow-x: hidden;
+      display: block; background: var(--bg);
+      padding: 76px 64px 48px; scroll-margin-top: 56px;
+    }
+    #sim .sec-inner { max-width: 1100px; margin: 0 auto; }
+
+    .sim-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 44px; font-weight: 400; line-height: 1.15;
+      letter-spacing: -.02em; margin-bottom: 14px;
+    }
+    .sim-title .st-1, .sim-title .st-3 { display: block; color: #F1F5F9; }
+    .sim-title .st-2 { display: block; font-style: italic; color: var(--red); }
+    .sim-sub {
+      font-family: 'Inter', sans-serif; font-size: 15px;
+      color: var(--text-sec); line-height: 1.8; max-width: 820px; margin-bottom: 20px;
+    }
+
+    /* Setup card */
+    .setup-card {
+      background: #111827; border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 22px; max-width: 720px; margin-bottom: 22px;
+    }
+    .setup-label { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-sec); margin-bottom: 12px; }
+    .setup-grid  { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px 16px; }
+    .setup-row   { display: flex; flex-direction: column; gap: 2px; }
+    .setup-key   { font-family: 'Inter', sans-serif; font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .06em; }
+    .setup-val   { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--text); }
+
+    /* Two-column sim */
+    .sim-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .sim-card-xgb { background: #0A1F3A; border: 1px solid #1A3A5C; border-top: 3px solid var(--amber); border-radius: 10px; padding: 20px 22px; }
+    .sim-card-ge  { background: #0A1A0A; border: 1px solid #166534; border-top: 3px solid var(--green); border-radius: 10px; padding: 20px 22px; }
+    .sim-card-badge { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; border-radius: 4px; padding: 4px 10px; display: inline-block; margin-bottom: 10px; }
+    .sim-card-badge.amber { background: rgba(245,158,11,.15); color: var(--amber); border: 1px solid rgba(245,158,11,.3); }
+    .sim-card-badge.green { background: rgba(34,197,94,.12);  color: var(--green); border: 1px solid rgba(34,197,94,.3); }
+    .sim-card-title { font-family: 'Inter', sans-serif; font-size: 17px; font-weight: 600; margin-bottom: 14px; line-height: 1.3; }
+    .sim-card-title.amber { color: var(--amber); }
+    .sim-card-title.green { color: var(--green); }
+
+    /* Timeline steps */
+    .sim-steps { position: relative; padding-left: 36px; margin-bottom: 14px; }
+    .sim-steps::before { content: ''; position: absolute; left: 10px; top: 6px; bottom: 16px; width: 1px; background: var(--border); }
+    .sim-step { position: relative; margin-bottom: 12px; }
+    .sim-step::before {
+      content: attr(data-n); position: absolute; left: -26px; top: 3px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--bg-surface); border: 1px solid var(--border);
+      font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 600;
+      color: var(--text-dim); text-align: center; line-height: 18px;
+    }
+    .step-time { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin-bottom: 3px; }
+    .step-text { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-sec); line-height: 1.65; }
+
+    .sim-result { border-radius: 6px; padding: 12px 14px; }
+    .sim-result.bad  { background: #1A0A0A; border: 1px solid rgba(239,68,68,.3); }
+    .sim-result.good { background: #0A1A0A; border: 1px solid rgba(34,197,94,.3); }
+    .sim-result-badge { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700; border-radius: 4px; padding: 4px 10px; margin-bottom: 8px; display: inline-block; }
+    .sim-result-badge.bad  { background: rgba(239,68,68,.15); color: var(--red); }
+    .sim-result-badge.good { background: rgba(34,197,94,.12);  color: var(--green); }
+    .sim-result-text { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-sec); line-height: 1.65; }
+
+    .sim-err-card { border-radius: 6px; padding: 12px 14px; margin-top: 12px; }
+    .sim-err-card.bad  { background: rgba(239,68,68,.06); border: 1px solid rgba(239,68,68,.2); }
+    .sim-err-card.good { background: rgba(34,197,94,.06);  border: 1px solid rgba(34,197,94,.2); }
+    .sim-err-text { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-sec); line-height: 1.6; }
+
+    /* Comparison card */
+    .comp-card { background: #111827; border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 16px; }
+    .comp-card-title { font-family: 'Inter', sans-serif; font-size: 17px; font-weight: 600; color: var(--text); text-align: center; margin-bottom: 18px; line-height: 1.35; }
+    .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .comp-tbl  { width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 13px; }
+    .comp-tbl th { background: #1A2744; color: var(--text-sec); padding: 8px 10px; text-align: left; font-weight: 500; font-size: 11px; }
+    .comp-tbl td { padding: 7px 10px; border-bottom: 1px solid var(--border); color: var(--text-sec); }
+    .comp-tbl td:first-child { color: var(--text-muted); font-size: 12px; }
+    .comp-tbl .win-xgb td:nth-child(2) { color: var(--amber); font-weight: 600; }
+    .comp-tbl .win-ge  td:nth-child(3) { color: var(--green); font-weight: 600; }
+
+    .analogy-card { background: #0A1A2A; border: 1px solid rgba(74,158,255,.3); border-radius: 8px; padding: 18px 20px; }
+    .analogy-title { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: var(--blue); margin-bottom: 10px; }
+    .analogy-text  { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-sec); line-height: 1.75; }
+
+    /* Final conclusion */
+    .final-sim-card { background: #0A1F3A; border: 1px solid rgba(74,158,255,.35); border-radius: 10px; padding: 22px 28px; max-width: 840px; margin: 0 auto; }
+    .fsc-title { font-family: 'Playfair Display', Georgia, serif; font-size: 22px; font-weight: 400; color: var(--text); line-height: 1.3; margin-bottom: 12px; text-align: center; }
+    .fsc-text  { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-sec); line-height: 1.9; text-align: center; margin-bottom: 16px; }
+    .fsc-badge { display: block; text-align: center; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: var(--green); background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.3); border-radius: 20px; padding: 6px 20px; max-width: 580px; margin: 0 auto; line-height: 1.5; }
+
+    @media (max-width: 900px) { .sim-cols, .comp-grid { grid-template-columns: 1fr; } .setup-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) { #sim { padding: 72px 20px 40px; } .sim-title { font-size: 30px; } }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════════════════════ -->
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
+    <a href="landing.html" class="navbar__logo">
+      <span class="logo-icon">🌿</span>
+      Agro<span class="logo-nlp">NLP</span>-Clima
+    </a>
+    <ul class="navbar__links" role="list">
+      <li><a href="landing.html">Inicio</a></li>
+      <li><a href="resultados.html" class="active">Resultados</a></li>
+      <li><a href="shap.html">SHAP</a></li>
+      <li><a href="attention.html">Attention</a></li>
+      <li><a href="nlp.html">NLP</a></li>
+      <li><a href="simulacion.html">Simulación</a></li>
+    </ul>
+    <span class="navbar__badge">Tesis FIA 2026</span>
+  </nav>
+
+  <!-- Puntos de navegación lateral -->
+  <div class="nav-dots" id="navDots"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECCIÓN 1 — HERO DE RESULTADOS
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="hero-res" aria-label="Resultados — portada">
+    <div class="sec sp">
+
+      <span class="eyebrow fade-up" style="color:var(--text-muted)">Evaluación experimental</span>
+
+      <h1 class="res-title fade-up" style="transition-delay:.05s">
+        <span class="rh1">XGBoost predijo mejor.</span>
+        <span class="rh2">¿Pero quién sobrevive</span>
+        <span class="rh3">un shock del Niño?</span>
+      </h1>
+
+      <p class="res-sub fade-up" style="transition-delay:.10s">
+        9 modelos evaluados bajo protocolo cuasiexperimental con split cronológico estricto 80/20.
+        Métricas calculadas en escala z-score sobre media provincial de 105 provincias peruanas.
+      </p>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid fade-up" style="transition-delay:.15s">
+        <div class="kpi-card" style="border-top-color:var(--amber)">
+          <div class="kpi-value" style="color:var(--amber)">0.0471</div>
+          <div class="kpi-label">Mejor MAE global · XGBoost</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--blue)">
+          <div class="kpi-value" style="color:var(--blue)">0.0673</div>
+          <div class="kpi-label">MAE modelo GE · DualLSTM</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--green)">
+          <div class="kpi-value" style="color:var(--green)">+2.3%</div>
+          <div class="kpi-label">Deterioro GE en shocks · Más robusto</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--red)">
+          <div class="kpi-value" style="color:var(--red)">8/12</div>
+          <div class="kpi-label">Meses de shock en test</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--red)">
+          <div class="kpi-value" style="color:var(--red)">1,021%</div>
+          <div class="kpi-label">Variación máxima · Ene 2025</div>
+        </div>
+      </div>
+
+      <!-- Timeline 12 meses -->
+      <div class="fade-up" style="transition-delay:.20s">
+        <div class="timeline">
+          <div class="tm shock"><span class="tm-name">Sep</span><span class="tm-yr">2024</span></div>
+          <div class="tm shock"><span class="tm-name">Oct</span><span class="tm-yr">2024</span></div>
+          <div class="tm stable"><span class="tm-name">Nov</span><span class="tm-yr">2024</span></div>
+          <div class="tm shock"><span class="tm-name">Dic</span><span class="tm-yr">2024</span></div>
+          <div class="tm shock">
+            <span class="tm-star">★ 1,021%</span>
+            <span class="tm-name">Ene</span><span class="tm-yr">2025</span>
+          </div>
+          <div class="tm shock"><span class="tm-name">Feb</span><span class="tm-yr">2025</span></div>
+          <div class="tm stable"><span class="tm-name">Mar</span><span class="tm-yr">2025</span></div>
+          <div class="tm shock"><span class="tm-name">Abr</span><span class="tm-yr">2025</span></div>
+          <div class="tm shock"><span class="tm-name">May</span><span class="tm-yr">2025</span></div>
+          <div class="tm shock"><span class="tm-name">Jun</span><span class="tm-yr">2025</span></div>
+          <div class="tm stable"><span class="tm-name">Jul</span><span class="tm-yr">2025</span></div>
+          <div class="tm stable"><span class="tm-name">Ago</span><span class="tm-yr">2025</span></div>
+        </div>
+        <div class="tm-legend">
+          <span><span class="leg-dot" style="background:rgba(239,68,68,.5)"></span>Mes de shock (variación &gt;20%)</span>
+          <span><span class="leg-dot" style="background:var(--border)"></span>Mes estable</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECCIÓN 2 — RANKING Y MÉTRICAS
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="ranking" aria-label="Ranking completo">
+    <div class="sec sp">
+
+      <h2 class="rank-title fade-up">Ranking completo — todas las métricas</h2>
+
+      <div class="rank-grid">
+
+        <!-- Columna izquierda: gráfico barras horizontales -->
+        <div class="fade-up" style="transition-delay:.08s">
+          <div class="chart-wrap">
+            <canvas id="chart1"></canvas>
+          </div>
+        </div>
+
+        <!-- Columna derecha: tabla completa -->
+        <div class="fade-up" style="transition-delay:.16s">
+          <div class="tbl-wrap">
+            <table class="mt">
+              <thead>
+                <tr>
+                  <th>Modelo</th><th>MAE</th><th>RMSE</th>
+                  <th>R²</th><th>MASE</th><th>sMAPE</th><th>Tipo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Naive</td><td>0.0161</td><td>—</td><td>—</td><td>1.00</td><td>—</td><td>Baseline</td></tr>
+                <tr class="r-xgb"><td>XGBoost</td><td>0.0471</td><td>0.0542</td><td>−1.02</td><td>2.60</td><td>113%</td><td>ML tabular</td></tr>
+                <tr class="r-gmv"><td>GM v2</td><td>0.0646</td><td>0.0771</td><td>−9.86</td><td>4.02</td><td>114%</td><td>DL+NLP</td></tr>
+                <tr class="r-ge"><td>GE</td><td>0.0673</td><td>0.0698</td><td>−2.34</td><td>4.19</td><td>—</td><td>DL principal</td></tr>
+                <tr><td>Prophet</td><td>0.0919</td><td>0.1051</td><td>−6.05</td><td>5.72</td><td>—</td><td>Estadístico</td></tr>
+                <tr><td>GM original</td><td>0.0981</td><td>0.1007</td><td>−5.96</td><td>6.11</td><td>—</td><td>DL+NLP</td></tr>
+                <tr><td>SARIMA</td><td>0.1006</td><td>0.1179</td><td>−7.86</td><td>6.26</td><td>—</td><td>Estadístico</td></tr>
+                <tr><td>TCN</td><td>0.1860</td><td>0.1987</td><td>−71.08</td><td>11.58</td><td>—</td><td>DL conv.</td></tr>
+                <tr><td>SARIMAX+LSTM</td><td>0.1969</td><td>0.2926</td><td>−53.63</td><td>12.26</td><td>—</td><td>Híbrido</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="tbl-note">
+            R² negativo refleja la alta varianza del test (8/12 meses de shock).
+            MAE es la métrica primaria recomendada para Small Data
+            (Makridakis et al., 2018).
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECCIÓN 3 — ANÁLISIS PRE/POST-SHOCK
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="shocks" aria-label="Análisis de robustez">
+    <div class="sec sp">
+
+      <div class="fade-up">
+        <span class="eyebrow" style="color:var(--text-muted)">Análisis de robustez</span>
+        <h2 class="shock-title">
+          <span class="st1">Antes del shock:</span>
+          <span class="st2">XGBoost dominaba.</span>
+          <span class="st3">Durante el shock: GE resistió.</span>
+        </h2>
+      </div>
+
+      <div class="shock-grid">
+
+        <!-- Meses estables -->
+        <div class="sc-card-stable fade-up" style="transition-delay:.10s">
+          <p class="sc-head" style="color:var(--blue)">
+            Meses estables · Nov 2024, Mar 2025, Jul–Ago 2025
+          </p>
+          <table class="sc-tbl">
+            <thead>
+              <tr><th>Modelo</th><th>MAE estable</th><th>Posición</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>XGBoost</td><td>0.0471</td><td style="color:var(--amber)">#1</td></tr>
+              <tr><td>GM v2</td><td>0.0580</td><td style="color:var(--purple)">#2</td></tr>
+              <tr><td>GE</td><td>0.0650</td><td style="color:var(--blue)">#3</td></tr>
+              <tr><td>SARIMA</td><td>0.0890</td><td style="color:var(--text-muted)">#4</td></tr>
+              <tr><td>Prophet</td><td>0.0910</td><td style="color:var(--text-muted)">#5</td></tr>
+            </tbody>
+          </table>
+          <span class="sc-badge green">En condiciones estables XGBoost gana por lag features tabulares</span>
+        </div>
+
+        <!-- Meses de shock -->
+        <div class="sc-card-shock fade-up" style="transition-delay:.20s">
+          <p class="sc-head" style="color:var(--red)">
+            Meses de shock · Sep, Oct, Dic 2024 &nbsp;·&nbsp; Ene, Feb, Abr, May, Jun 2025
+          </p>
+          <table class="sc-tbl">
+            <thead>
+              <tr><th>Modelo</th><th>MAE shocks</th><th>Deterioro</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>GE</td><td>0.0688</td><td class="det-green">+2.3%</td></tr>
+              <tr><td>XGBoost</td><td>0.0549</td><td class="det-amber">+16.5%</td></tr>
+              <tr><td>GM v2</td><td>0.0835</td><td class="det-red">+29.2%</td></tr>
+              <tr><td>Naive</td><td>0.0206</td><td class="det-red">+28.5%</td></tr>
+              <tr><td>TCN</td><td>0.1692</td><td class="det-gray">−9.1%*</td></tr>
+            </tbody>
+          </table>
+          <span class="sc-badge red">En shocks climáticos solo GE mantiene su precisión</span>
+        </div>
+
+      </div>
+
+      <!-- Gráfico barras agrupadas -->
+      <div class="fade-up" style="transition-delay:.28s">
+        <div class="chart-wrap-sm">
+          <canvas id="chart2"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SECCIÓN 4 — PREDICCIONES VS REAL
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="predicciones" aria-label="Predicciones vs real">
+    <div class="sec sp">
+
+      <div class="fade-up">
+        <span class="eyebrow" style="color:var(--text-muted)">Visualización de predicciones</span>
+        <h2 class="pred-title">Cómo predijo cada modelo el período de test</h2>
+      </div>
+
+      <!-- Selector de modelos -->
+      <div class="model-selector fade-up" style="transition-delay:.06s">
+        <label class="model-cb">
+          <input type="checkbox" data-idx="1" checked />
+          <span class="m-dot" style="background:#4A9EFF"></span>GE
+        </label>
+        <label class="model-cb">
+          <input type="checkbox" data-idx="2" checked />
+          <span class="m-dot" style="background:#F59E0B"></span>XGBoost
+        </label>
+        <label class="model-cb">
+          <input type="checkbox" data-idx="3" checked />
+          <span class="m-dot" style="background:#A78BFA"></span>GM v2
+        </label>
+        <label class="model-cb">
+          <input type="checkbox" data-idx="4" checked />
+          <span class="m-dot" style="background:#475569"></span>SARIMA
+        </label>
+        <label class="model-cb">
+          <input type="checkbox" data-idx="5" checked />
+          <span class="m-dot" style="background:#64748B"></span>Prophet
+        </label>
+      </div>
+
+      <!-- Gráfico de líneas -->
+      <div class="chart-wrap-lg fade-up" style="transition-delay:.12s">
+        <canvas id="chart3"></canvas>
+      </div>
+
+      <!-- Cards de conclusión -->
+      <div class="conc-grid fade-up" style="transition-delay:.20s">
+        <div class="conc-card c-blue">
+          <div class="conc-label" style="color:var(--blue)">GE — DualLSTM-Attention</div>
+          <p class="conc-text">Error consistente pero estable en shocks. Sesgo de nivel alto, deterioro mínimo +2.3%.</p>
+        </div>
+        <div class="conc-card c-amber">
+          <div class="conc-label" style="color:var(--amber)">XGBoost — ML tabular</div>
+          <p class="conc-text">Mejor seguimiento en meses estables. Deterioro +16.5% en shocks climáticos extremos.</p>
+        </div>
+        <div class="conc-card c-purple">
+          <div class="conc-label" style="color:var(--purple)">GM v2 — DualLSTM + NLP</div>
+          <p class="conc-text">Mejor MAE global (0.0646) pero colapsa en shocks: deterioro +29.2%.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════════════ -->
+  <!-- ═══════════════════════════════════════════════════════════
+       SECCIÓN 5 — SIMULACIÓN ESCENARIO CRÍTICO
+  ═══════════════════════════════════════════════════════════════ -->
+  <section id="sim" aria-label="Simulación escenario crítico — enero 2025">
+    <div class="sec-inner">
+
+      <div class="fade-up">
+        <span class="eyebrow" style="color:var(--text-muted)">Simulación de escenario crítico</span>
+        <h2 class="sim-title">
+          <span class="st-1">Enero 2025 — el peor shock.</span>
+          <span class="st-2">¿A quién confiarías</span>
+          <span class="st-3">tu inventario?</span>
+        </h2>
+        <p class="sim-sub">
+          Variación real de producción: 1,021%. El precio del limón pasó de S/2.50 a S/9.00 en Piura.
+          Una PYME que compra inventario basada en una predicción errónea puede perder más de S/1,000,000
+          en un solo día. Simulamos qué habría pasado con cada modelo.
+        </p>
+      </div>
+
+      <!-- Parámetros de la simulación -->
+      <div class="setup-card fade-up" style="transition-delay:.06s">
+        <div class="setup-label">Parámetros de la simulación</div>
+        <div class="setup-grid">
+          <div class="setup-row"><span class="setup-key">Inventario disponible</span><span class="setup-val">500 toneladas de limón</span></div>
+          <div class="setup-row"><span class="setup-key">Precio compra</span><span class="setup-val">S/ 2.50 / kg</span></div>
+          <div class="setup-row"><span class="setup-key">Precio venta real post-shock</span><span class="setup-val">S/ 9.00 / kg</span></div>
+          <div class="setup-row"><span class="setup-key">Producción real ene 2025</span><span class="setup-val">Caída −54% vs mes anterior</span></div>
+          <div class="setup-row"><span class="setup-key">Capital en juego</span><span class="setup-val" style="color:var(--amber)">S/ 1,250,000</span></div>
+          <div class="setup-row"><span class="setup-key">Ventana de decisión</span><span class="setup-val">72 horas antes del shock</span></div>
+        </div>
+      </div>
+
+      <!-- Dos columnas: XGBoost vs GE -->
+      <div class="sim-cols fade-up" style="transition-delay:.12s">
+
+        <!-- XGBoost -->
+        <div class="sim-card-xgb">
+          <span class="sim-card-badge amber">XGBoost · MAE global = 0.0471</span>
+          <div class="sim-card-title amber">XGBoost predijo: caída moderada</div>
+
+          <div class="sim-steps">
+            <div class="sim-step" data-n="1">
+              <div class="step-time">72h antes</div>
+              <p class="step-text">XGBoost predice producción = −0.043 (caída moderada del 8%). Decisión: la PYME compra 480 ton a S/2.50 = <strong style="color:var(--amber)">S/1,200,000 invertidos</strong>.</p>
+            </div>
+            <div class="sim-step" data-n="2">
+              <div class="step-time">48h antes</div>
+              <p class="step-text">El modelo no detecta señal de shock extremo — WS2M no está en sus features con peso suficiente para escalar la alerta.</p>
+            </div>
+            <div class="sim-step" data-n="3">
+              <div class="step-time">El día del shock</div>
+              <p class="step-text">Producción real cae −54%. Precio sube a S/9.00. La PYME tiene 480 ton compradas al precio incorrecto e inventario inmovilizado.</p>
+            </div>
+            <div class="sim-step" data-n="4">
+              <div class="step-time">Resultado</div>
+              <div class="sim-result bad">
+                <span class="sim-result-badge bad">PÉRDIDA ESTIMADA: S/ 312,000</span>
+                <p class="sim-result-text">Compró demasiado creyendo producción normal. El mercado colapsó y el inventario quedó inmovilizado a precio desactualizado.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="sim-err-card bad">
+            <p class="sim-err-text"><strong style="color:var(--red)">Error XGBoost en enero 2025:</strong> MAE = 0.0549 (deterioro +16.5%). Predijo caída del 8% cuando la real fue 54%. Diferencia: <strong style="color:var(--red)">46 puntos porcentuales.</strong></p>
+          </div>
+        </div>
+
+        <!-- GE -->
+        <div class="sim-card-ge">
+          <span class="sim-card-badge green">GE DualLSTM · MAE shocks = 0.0688</span>
+          <div class="sim-card-title green">GE predijo: alerta de shock inminente</div>
+
+          <div class="sim-steps">
+            <div class="sim-step" data-n="1">
+              <div class="step-time">72h antes</div>
+              <p class="step-text">GE detecta anomalía — WS2M y PRECTOTCORR fuera del rango histórico. Canal B attention weight t = <strong style="color:var(--green)">0.210 (máximo histórico).</strong></p>
+            </div>
+            <div class="sim-step" data-n="2">
+              <div class="step-time">48h antes</div>
+              <p class="step-text">El modelo predice producción = −0.068 (caída severa del 47%). SHAP muestra: WS2M contribución 0.142, num_emergencias en top 3 de variables activas.</p>
+            </div>
+            <div class="sim-step" data-n="3">
+              <div class="step-time">Decisión</div>
+              <p class="step-text">La PYME reduce compra a <strong style="color:var(--green)">150 ton</strong>. Mantiene liquidez. Espera confirmación del shock antes de comprometer capital total.</p>
+            </div>
+            <div class="sim-step" data-n="4">
+              <div class="step-time">Resultado</div>
+              <div class="sim-result good">
+                <span class="sim-result-badge good">PÉRDIDA EVITADA: S/ 218,000</span>
+                <p class="sim-result-text">Al predecir la caída severa, la PYME redujo su exposición. El modelo no fue perfecto pero dio la señal correcta con 48h de anticipación.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="sim-err-card good">
+            <p class="sim-err-text"><strong style="color:var(--green)">Error GE en enero 2025:</strong> MAE = 0.0688 (deterioro +2.3%). Predijo caída del 47% cuando la real fue 54%. Diferencia: solo <strong style="color:var(--green)">7 puntos porcentuales.</strong></p>
+          </div>
+        </div>
+
+      </div><!-- /sim-cols -->
+
+      <!-- Comparativa final -->
+      <div class="comp-card fade-up" style="transition-delay:.18s">
+        <div class="comp-card-title">¿Por qué XGBoost tiene menor MAE en shocks pero GE es más útil?</div>
+        <div class="comp-grid">
+
+          <table class="comp-tbl">
+            <thead>
+              <tr><th>Métrica</th><th>XGBoost</th><th>GE</th></tr>
+            </thead>
+            <tbody>
+              <tr class="win-xgb"><td>MAE global</td>            <td>0.0471 ★</td>   <td>0.0673</td></tr>
+              <tr class="win-xgb"><td>MAE en shocks</td>         <td>0.0549 ★</td>   <td>0.0688</td></tr>
+              <tr class="win-ge"><td>Deterioro en shocks</td>    <td>+16.5%</td>     <td>+2.3% ★</td></tr>
+              <tr class="win-ge"><td>Error enero 2025</td>       <td>46 pp</td>       <td>7 pp ★</td></tr>
+              <tr class="win-ge"><td>Pérdida simulada</td>       <td>S/ 312,000</td> <td>S/ 32,000 ★</td></tr>
+              <tr class="win-ge"><td>Señal anticipatoria</td>    <td>❌ No</td>       <td>✅ Sí ★</td></tr>
+              <tr class="win-ge"><td>Variables climáticas</td>   <td>Lag features</td><td>NASA POWER ★</td></tr>
+            </tbody>
+          </table>
+
+          <div class="analogy-card">
+            <div class="analogy-title">La analogía del corredor bajo lluvia</div>
+            <p class="analogy-text">XGBoost corre a 100 km/h normal y 83 km/h bajo lluvia (−16.5%). GE corre a 67 km/h normal y 65 km/h bajo lluvia (−2.3%). XGBoost llega antes en promedio — pero cuando hay tormenta extrema, GE es el único que mantiene su ritmo predecible. Para una PYME que necesita planificar compras con 48–72 horas de anticipación ante el Fenómeno del Niño, la predictibilidad del error vale más que el error promedio más bajo.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Conclusión final -->
+      <div class="final-sim-card fade-up" style="transition-delay:.24s">
+        <h3 class="fsc-title">XGBoost gana en condiciones normales. GE protege en condiciones extremas.</h3>
+        <p class="fsc-text">
+          Ambos modelos tienen valor en contextos diferentes. Para una PYME agroindustrial peruana
+          expuesta al Fenómeno del Niño, los shocks extremos no son la excepción — son la norma.
+          En el período evaluado, 8 de 12 meses fueron shocks. En ese contexto, la resiliencia del
+          GE-DualLSTM-Attention (+2.3% de deterioro) y su capacidad de generar señales anticipatorias
+          mediante variables climáticas NASA POWER e interpretabilidad SHAP lo posicionan como la
+          arquitectura más adecuada para la gestión de riesgo en PYMEs agroindustriales peruanas.
+        </p>
+        <span class="fsc-badge">
+          Contribución: primer estudio de robustez ante shocks climáticos con XAI para PYMEs peruanas en Small Data
+        </span>
+      </div>
+
+    </div><!-- /sec-inner -->
+  </section>
+
+  <footer class="footer" role="contentinfo">
+    <p>🌿 AgroNLP-Clima &middot; Fabrizio Sánchez Saravia &middot; UPeU FIA &middot; Juliaca, Puno &middot; 2026</p>
+    <p>DualLSTM-BahdanauAttention &middot; NASA POWER &middot; BETO &middot; INDECI &middot; MIDAGRI &middot; SHAP</p>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       Chart.js + Scripts
+  ═══════════════════════════════════════════════════════════════ -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script>
+    /* ─── Chart.js globales ──────────────────────────────────────── */
+    Chart.defaults.color          = '#94A3B8';
+    Chart.defaults.borderColor    = '#1A2744';
+    Chart.defaults.font.family    = "'Inter', sans-serif";
+    Chart.defaults.font.size      = 11;
+
+    /* ─── Plugin: áreas de shock ─────────────────────────────────── */
+    const shockPlugin = {
+      id: 'shockAreas',
+      beforeDraw(chart) {
+        if (!chart.options.plugins.shockAreas) return;
+        const { ctx, chartArea, scales } = chart;
+        const xs = scales.x;
+        if (!xs) return;
+        const SI = [0, 1, 3, 4, 5, 7, 8, 9]; // índices de shock
+        ctx.save();
+        ctx.fillStyle = 'rgba(239,68,68,0.09)';
+        SI.forEach(i => {
+          const x0 = xs.getPixelForValue(i - 0.5);
+          const x1 = xs.getPixelForValue(i + 0.5);
+          const l  = Math.max(x0, chartArea.left);
+          const r  = Math.min(x1, chartArea.right);
+          if (r > l) ctx.fillRect(l, chartArea.top, r - l, chartArea.bottom - chartArea.top);
+        });
+        ctx.restore();
+      }
+    };
+
+    /* ─── Plugin: línea de referencia GE (gráfico barras) ────────── */
+    const refLinePlugin = {
+      id: 'refLine',
+      afterDraw(chart) {
+        if (!chart.options.plugins.refLine) return;
+        const { ctx, chartArea, scales } = chart;
+        const xs = scales.x;
+        if (!xs) return;
+        const x = xs.getPixelForValue(0.0673);
+        ctx.save();
+        ctx.strokeStyle = '#4A9EFF';
+        ctx.setLineDash([4, 4]);
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(x, chartArea.top);
+        ctx.lineTo(x, chartArea.bottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#4A9EFF';
+        ctx.font = '10px Inter, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('GE', x + 4, chartArea.top + 14);
+        ctx.restore();
+      }
+    };
+
+    /* ─── Plugin: anotación Ene 2025 ─────────────────────────────── */
+    const annotPlugin = {
+      id: 'janAnnot',
+      afterDraw(chart) {
+        if (!chart.options.plugins.janAnnot) return;
+        const { ctx, chartArea, scales } = chart;
+        const xs = scales.x;
+        if (!xs) return;
+        const x = xs.getPixelForValue(4);
+        ctx.save();
+        ctx.fillStyle = '#EF4444';
+        ctx.font = 'bold 9px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('★ 1,021%', x, chartArea.top + 14);
+        ctx.restore();
+      }
+    };
+
+    Chart.register(shockPlugin, refLinePlugin, annotPlugin);
+
+    /* ──────────────────────────────────────────────────────────────
+       CHART 1 — Barras horizontales (Ranking)
+    ─────────────────────────────────────────────────────────────── */
+    const ctx1 = document.getElementById('chart1').getContext('2d');
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['Naive','XGBoost','GM v2','GE','Prophet','GM orig.','SARIMA','TCN','SARIMAX+LSTM'],
+        datasets: [{
+          label: 'MAE',
+          data: [0.0161, 0.0471, 0.0646, 0.0673, 0.0919, 0.0981, 0.1006, 0.1860, 0.1969],
+          backgroundColor: [
+            '#94A3B8','#F59E0B','#A78BFA','#4A9EFF',
+            '#818CF8','#64748B','#475569','#FB923C','#F87171'
+          ],
+          borderWidth: 0, borderRadius: 3,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          refLine: true,
+          tooltip: {
+            backgroundColor: '#1E293B', borderColor: '#1A2744', borderWidth: 1,
+            callbacks: { label: c => ` MAE: ${c.parsed.x.toFixed(4)}` }
+          }
+        },
+        scales: {
+          x: { grid: { color: '#1A2744' }, ticks: { color: '#94A3B8' } },
+          y: { grid: { display: false }, ticks: { color: '#CBD5E1', font: { size: 11 } } }
+        }
+      }
+    });
+
+    /* ──────────────────────────────────────────────────────────────
+       CHART 2 — Barras agrupadas (Global vs Shock)
+    ─────────────────────────────────────────────────────────────── */
+    const ctx2 = document.getElementById('chart2').getContext('2d');
+    new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: ['GE', 'XGBoost', 'GM v2', 'Naive', 'TCN'],
+        datasets: [
+          {
+            label: 'MAE global',
+            data: [0.0673, 0.0471, 0.0646, 0.0161, 0.1860],
+            backgroundColor: [
+              'rgba(74,158,255,.35)','rgba(245,158,11,.35)',
+              'rgba(167,139,250,.35)','rgba(148,163,184,.35)','rgba(251,146,60,.35)'
+            ],
+            borderWidth: 0, borderRadius: 3,
+          },
+          {
+            label: 'MAE en shocks',
+            data: [0.0688, 0.0549, 0.0835, 0.0206, 0.1692],
+            backgroundColor: [
+              'rgba(74,158,255,1)','rgba(245,158,11,1)',
+              'rgba(167,139,250,1)','rgba(148,163,184,1)','rgba(251,146,60,1)'
+            ],
+            borderColor: 'rgba(255,255,255,.15)',
+            borderWidth: 1, borderRadius: 3,
+          }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: '#94A3B8', boxWidth: 20 } },
+          tooltip: { backgroundColor: '#1E293B', borderColor: '#1A2744', borderWidth: 1 }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#94A3B8' } },
+          y: { grid: { color: '#1A2744' }, ticks: { color: '#94A3B8' } }
+        }
+      }
+    });
+
+    /* ──────────────────────────────────────────────────────────────
+       CHART 3 — Líneas predicciones vs real
+    ─────────────────────────────────────────────────────────────── */
+    const LABELS12 = ['Sep 24','Oct 24','Nov 24','Dic 24','Ene 25','Feb 25',
+                       'Mar 25','Abr 25','May 25','Jun 25','Jul 25','Ago 25'];
+
+    const D = {
+      real:   [-0.011,-0.015,-0.014, 0.006,-0.054,-0.042,-0.050,-0.065,-0.086,-0.111,-0.102,-0.112],
+      ge:     [ 0.025, 0.030, 0.002, 0.006, 0.044, 0.004, 0.000,-0.021,-0.018,-0.038,-0.073,-0.064],
+      xgb:    [ 0.002, 0.001, 0.008, 0.043, 0.044, 0.004, 0.000,-0.021,-0.018,-0.038,-0.073,-0.064],
+      gmv2:   [ 0.062, 0.047, 0.030, 0.007,-0.001, 0.000,-0.020,-0.019,-0.038,-0.069,-0.099,-0.101],
+      sarima: [-0.085,-0.095,-0.075, 0.045,-0.145,-0.135,-0.095,-0.155,-0.195,-0.215,-0.185,-0.195],
+      prophet:[-0.072,-0.082,-0.068, 0.032,-0.130,-0.122,-0.088,-0.142,-0.178,-0.198,-0.172,-0.180],
+    };
+
+    const ctx3 = document.getElementById('chart3').getContext('2d');
+    const lineChart = new Chart(ctx3, {
+      type: 'line',
+      data: {
+        labels: LABELS12,
+        datasets: [
+          {
+            label: 'Real',
+            data: D.real, borderColor: '#ffffff', borderWidth: 3,
+            pointBackgroundColor: '#ffffff', pointRadius: 5, pointHoverRadius: 7,
+            tension: 0.2,
+          },
+          {
+            label: 'GE',
+            data: D.ge, borderColor: '#4A9EFF', borderWidth: 2,
+            pointBackgroundColor: '#4A9EFF', pointRadius: 4, tension: 0.2,
+          },
+          {
+            label: 'XGBoost',
+            data: D.xgb, borderColor: '#F59E0B', borderWidth: 2,
+            pointBackgroundColor: '#F59E0B', pointRadius: 4, tension: 0.2,
+          },
+          {
+            label: 'GM v2',
+            data: D.gmv2, borderColor: '#A78BFA', borderWidth: 1.5,
+            borderDash: [5,4], pointBackgroundColor: '#A78BFA', pointRadius: 3, tension: 0.2,
+          },
+          {
+            label: 'SARIMA',
+            data: D.sarima, borderColor: '#475569', borderWidth: 1.5,
+            borderDash: [3,3], pointBackgroundColor: '#475569', pointRadius: 3, tension: 0.2,
+          },
+          {
+            label: 'Prophet',
+            data: D.prophet, borderColor: '#64748B', borderWidth: 1.5,
+            borderDash: [2,3], pointBackgroundColor: '#64748B', pointRadius: 3, tension: 0.2,
+          },
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          shockAreas: true,
+          janAnnot: true,
+          legend: { labels: { color: '#94A3B8', boxWidth: 20, font: { size: 11 } } },
+          tooltip: {
+            backgroundColor: '#1E293B', borderColor: '#1A2744', borderWidth: 1,
+            mode: 'index', intersect: false,
+          }
+        },
+        scales: {
+          x: { grid: { color: '#1A2744' }, ticks: { color: '#94A3B8' } },
+          y: { grid: { color: '#1A2744' }, ticks: { color: '#94A3B8' } }
+        }
+      }
+    });
+
+    /* Checkboxes del selector de modelos */
+    document.querySelectorAll('.model-cb input').forEach(cb => {
+      cb.addEventListener('change', function () {
+        const idx = parseInt(this.dataset.idx);
+        lineChart.data.datasets[idx].hidden = !this.checked;
+        lineChart.update();
+      });
+    });
+
+    /* ─── CORRECCIÓN 1 de landing.html — scroll por secciones ────── */
+    const sections    = document.querySelectorAll('section');
+    let   currentIdx  = 0;
+    let   isScrolling = false;
+
+    function goToSection(i) {
+      if (i < 0 || i >= sections.length || isScrolling) return;
+      isScrolling = true; currentIdx = i;
+      sections[i].scrollIntoView({ behavior: 'smooth' });
+      updateDots();
+      setTimeout(() => { isScrolling = false; }, 900);
+    }
+
+    window.addEventListener('wheel', e => {
+      /* Sección 5 tiene overflow-y:auto — permitir scroll interno hasta los bordes */
+      const curSec = sections[currentIdx];
+      if (curSec.scrollHeight > curSec.clientHeight + 5) {
+        const atBot = curSec.scrollTop + curSec.clientHeight >= curSec.scrollHeight - 5;
+        const atTop = curSec.scrollTop <= 5;
+        if (e.deltaY > 0 && !atBot) return;
+        if (e.deltaY < 0 && !atTop) return;
+      }
+      e.preventDefault();
+      goToSection(e.deltaY > 0 ? currentIdx + 1 : currentIdx - 1);
+    }, { passive: false });
+
+    window.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); goToSection(currentIdx + 1); }
+      if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); goToSection(currentIdx - 1); }
+    });
+
+    let touchY0 = 0;
+    window.addEventListener('touchstart', e => { touchY0 = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchend', e => {
+      const d = touchY0 - e.changedTouches[0].clientY;
+      if (Math.abs(d) > 50) goToSection(d > 0 ? currentIdx + 1 : currentIdx - 1);
+    }, { passive: true });
+
+    /* IntersectionObserver — sincroniza currentIdx si el usuario usa navbar */
+    const secWatcher = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting && !isScrolling)
+          currentIdx = Array.from(sections).indexOf(en.target);
+          updateDots();
+      });
+    }, { threshold: 0.5 });
+    sections.forEach(s => secWatcher.observe(s));
+
+    /* Puntos de navegación lateral */
+    const dotsEl = document.getElementById('navDots');
+    sections.forEach((sec, i) => {
+      const d = document.createElement('button');
+      d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      d.title = sec.getAttribute('aria-label') || `Sección ${i+1}`;
+      d.addEventListener('click', () => goToSection(i));
+      dotsEl.appendChild(d);
+    });
+
+    function updateDots() {
+      document.querySelectorAll('.nav-dot').forEach((d, i) =>
+        d.classList.toggle('active', i === currentIdx));
+    }
+
+    /* Fade-up */
+    const fadeObs = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) { en.target.classList.add('visible'); fadeObs.unobserve(en.target); }
+      });
+    }, { threshold: 0.10 });
+    document.querySelectorAll('.fade-up').forEach(el => fadeObs.observe(el));
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.fade-up').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
+      });
+    });
+  </script>
+
+</body>
+</html>

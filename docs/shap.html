@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHAP XAI · AgroNLP-Clima · UPeU</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:#080C14; --bg-card:#0D1426; --bg-surface:#111827;
+      --border:#1A2744; --text:#E2E8F0; --text-sec:#94A3B8;
+      --text-muted:#64748B; --text-dim:#4A6080;
+      --blue:#4A9EFF; --amber:#F59E0B; --purple:#A78BFA;
+      --green:#22C55E; --red:#EF4444; --slate:#475569;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--bg); color: var(--text); }
+    body { font-family: 'Inter', system-ui, sans-serif; font-weight: 400; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow: hidden; }
+    section { height: 100vh; overflow: hidden; scroll-margin-top: 56px; display: flex; align-items: center; justify-content: center; }
+    .sec { max-width: 1140px; width: 100%; }
+    .sp  { padding: 70px 64px; }
+    .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+    .fade-up.visible { opacity: 1; transform: none; }
+    .eyebrow { display: block; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: .10em; margin-bottom: 14px; }
+
+    /* ─── Navbar ─────────────────────────────────────────────── */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%; height: 56px; z-index: 200;
+      background: rgba(8,12,20,.97); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; padding: 0 48px;
+    }
+    .navbar__logo { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-sec); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+    .navbar__logo .logo-icon { font-size: 16px; }
+    .navbar__logo .logo-nlp  { color: var(--blue); }
+    .navbar__links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .navbar__links a { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); text-decoration: none; letter-spacing: .02em; transition: color .2s; }
+    .navbar__links a:hover  { color: var(--text-sec); }
+    .navbar__links a.active { color: var(--purple); font-weight: 500; }
+    .navbar__badge { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; color: var(--blue); background: #1A3A5C; border: 1px solid #234E7A; border-radius: 20px; padding: 4px 14px; white-space: nowrap; }
+
+    .nav-dots { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 150; display: flex; flex-direction: column; gap: 10px; }
+    .nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-dim); cursor: pointer; transition: background .25s, transform .25s; border: none; padding: 0; }
+    .nav-dot.active { background: var(--purple); transform: scale(1.5); }
+
+    /* ─── KPI cards ──────────────────────────────────────────── */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 0; }
+    .kpi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; border-top: 3px solid; }
+    .kpi-value { font-family: 'Inter', sans-serif; font-size: 1.7rem; font-weight: 700; line-height: 1; margin-bottom: 5px; }
+    .kpi-label { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); line-height: 1.4; }
+
+    /* ─── Hero ───────────────────────────────────────────────── */
+    #hero-shap { background: linear-gradient(135deg, #080C14 0%, #0C0A18 40%, #100A14 60%, #080C14 100%); }
+    .shap-title { font-family: 'Playfair Display', Georgia, serif; font-size: 52px; font-weight: 400; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 16px; }
+    .shap-title .sh1, .shap-title .sh3 { display: block; color: #F1F5F9; }
+    .shap-title .sh2 { display: block; font-style: italic; color: var(--purple); }
+    .shap-sub { font-family: 'Inter', sans-serif; font-size: 16px; color: var(--text-sec); line-height: 1.8; max-width: 780px; margin-bottom: 24px; }
+
+    /* ─── Sección 2 — Variables globales ─────────────────────── */
+    #globales { background: var(--bg-card); }
+    .glob-title { font-family: 'Playfair Display', Georgia, serif; font-size: 36px; font-weight: 400; color: var(--text); letter-spacing: -.02em; line-height: 1.2; margin-bottom: 22px; }
+    .glob-grid  { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .chart-wrap { position: relative; height: 390px; }
+    .iv-list  { display: flex; flex-direction: column; gap: 10px; }
+    .iv-card  { background: var(--bg-surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+    .iv-rank  { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+    .iv-feat  { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .iv-shap  { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); margin-bottom: 8px; }
+    .iv-text  { font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-sec); line-height: 1.65; }
+
+    /* ─── Sección 3 — Toggle ─────────────────────────────────── */
+    #toggle-shap { background: var(--bg); }
+    .tgl-title { font-family: 'Playfair Display', Georgia, serif; font-size: 36px; font-weight: 400; color: var(--text); letter-spacing: -.02em; line-height: 1.2; margin-bottom: 18px; }
+    .toggle-group { display: flex; gap: 0; margin-bottom: 18px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); width: fit-content; }
+    .tgl-btn { padding: 9px 28px; background: var(--bg-card); font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: var(--text-dim); cursor: pointer; border: none; transition: background .2s, color .2s; }
+    .tgl-btn + .tgl-btn { border-left: 1px solid var(--border); }
+    .tgl-btn.active { background: rgba(167,139,250,.12); color: var(--purple); }
+    .chart-wrap-tgl { position: relative; height: 270px; }
+    #toggleDesc { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-sec); line-height: 1.75; margin-top: 14px; max-width: 700px; }
+
+    /* ─── Sección 4 — Heatmap ────────────────────────────────── */
+    #heatmap-shap { background: var(--bg-card); }
+    .heat-title { font-family: 'Playfair Display', Georgia, serif; font-size: 32px; font-weight: 400; color: var(--text); letter-spacing: -.02em; line-height: 1.2; margin-bottom: 8px; }
+    .heat-sub   { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-sec); margin-bottom: 20px; }
+    .hm-wrap    { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
+    #shap-heatmap { width: 100%; border-collapse: collapse; }
+    .hm-note    { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); margin-top: 10px; line-height: 1.5; }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    .footer { background: var(--bg); border-top: 1px solid var(--border); padding: 24px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer p { font-family: 'Inter', sans-serif; font-size: 11px; color: var(--text-dim); }
+
+    /* ─── Responsive ─────────────────────────────────────────── */
+    @media (max-width: 900px) { .glob-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      .navbar { padding: 0 20px; } .navbar__links { display: none; } .nav-dots { display: none; }
+      section { height: auto; min-height: 100vh; overflow: auto; } body { overflow: auto; }
+      .sp { padding: 72px 20px 48px; }
+      .shap-title { font-size: 36px; } .glob-title, .tgl-title { font-size: 26px; } .heat-title { font-size: 22px; }
+      .chart-wrap { height: 300px; } .chart-wrap-tgl { height: 240px; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .footer { padding: 20px; flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 480px) { .kpi-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" role="navigation">
+    <a href="landing.html" class="navbar__logo">
+      <span class="logo-icon">🌿</span>Agro<span class="logo-nlp">NLP</span>-Clima
+    </a>
+    <ul class="navbar__links" role="list">
+      <li><a href="landing.html">Inicio</a></li>
+      <li><a href="resultados.html">Resultados</a></li>
+      <li><a href="shap.html" class="active">SHAP</a></li>
+      <li><a href="attention.html">Attention</a></li>
+      <li><a href="nlp.html">NLP</a></li>
+      <li><a href="simulacion.html">Simulación</a></li>
+    </ul>
+    <span class="navbar__badge">Tesis FIA 2026</span>
+  </nav>
+  <div class="nav-dots" id="navDots"></div>
+
+  <!-- ═══ S1 — HERO ═══════════════════════════════════════════ -->
+  <section id="hero-shap" aria-label="SHAP XAI — portada">
+    <div class="sec sp">
+
+      <span class="eyebrow fade-up" style="color:var(--text-muted)">Explicabilidad · XAI</span>
+
+      <h1 class="shap-title fade-up" style="transition-delay:.05s">
+        <span class="sh1">¿Por qué predijo así</span>
+        <span class="sh2">el modelo?</span>
+        <span class="sh3">SHAP lo explica.</span>
+      </h1>
+
+      <p class="shap-sub fade-up" style="transition-delay:.10s">
+        SHAP KernelExplainer calcula la contribución exacta de cada variable a cada predicción
+        mensual del modelo GE. Aplicado con 200 muestras de fondo sobre los 10 meses de test —
+        permite al gerente de una PYME entender la razón detrás de cada pronóstico.
+      </p>
+
+      <div class="kpi-grid fade-up" style="transition-delay:.16s">
+        <div class="kpi-card" style="border-top-color:var(--blue)">
+          <div class="kpi-value" style="color:var(--blue)">WS2M</div>
+          <div class="kpi-label">Variable #1 global · Velocidad del viento 2m</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--purple)">
+          <div class="kpi-value" style="color:var(--purple)">10</div>
+          <div class="kpi-label">Meses de test explicados · Nov 2024 – Ago 2025</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--text-muted)">
+          <div class="kpi-value" style="color:var(--text-sec)">200</div>
+          <div class="kpi-label">Muestras background · KernelExplainer</div>
+        </div>
+        <div class="kpi-card" style="border-top-color:var(--red)">
+          <div class="kpi-value" style="color:var(--red)">2.5×</div>
+          <div class="kpi-label">Escalada SHAP WS2M en meses de shock</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ S2 — VARIABLES GLOBALES ═════════════════════════════ -->
+  <section id="globales" aria-label="Variables SHAP globales">
+    <div class="sec sp">
+
+      <h2 class="glob-title fade-up">Top 10 variables — importancia SHAP global media |φ|</h2>
+
+      <div class="glob-grid">
+
+        <div class="fade-up" style="transition-delay:.08s">
+          <div class="chart-wrap"><canvas id="chartGlobal"></canvas></div>
+        </div>
+
+        <div class="iv-list fade-up" style="transition-delay:.16s">
+
+          <div class="iv-card">
+            <div class="iv-rank" style="color:var(--blue)">#1 · Climática</div>
+            <div class="iv-feat">WS2M — Velocidad del viento 2m</div>
+            <div class="iv-shap">SHAP medio = 0.142</div>
+            <p class="iv-text">Picos de viento aceleran la evapotranspiración del limonero y anticipan el Fenómeno del Niño. Variable dominante en meses de shock: su importancia se escala 2.5× cuando hay volatilidad extrema.</p>
+          </div>
+
+          <div class="iv-card">
+            <div class="iv-rank" style="color:var(--amber)">#2 · Temporal</div>
+            <div class="iv-feat">trimestre_num — Número de trimestre</div>
+            <div class="iv-shap">SHAP medio = 0.098</div>
+            <p class="iv-text">Captura la estacionalidad anual de cuatro fases. El limón tiene ciclos de cosecha marcados (pico trimestre 2–3). El modelo usa esta variable para distinguir épocas de alta y baja producción.</p>
+          </div>
+
+          <div class="iv-card">
+            <div class="iv-rank" style="color:var(--purple)">#3 · Temporal</div>
+            <div class="iv-feat">month_cos — Mes componente coseno</div>
+            <div class="iv-shap">SHAP medio = 0.089</div>
+            <p class="iv-text">La codificación cíclica del mes permite al modelo entender que diciembre y enero son «cercanos» temporalmente. Mejora la predicción de patrones estacionales que cruzan el cambio de año.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ S3 — TOGGLE ESTABLE vs SHOCK ═══════════════════════ -->
+  <section id="toggle-shap" aria-label="Comparativa estable vs shock">
+    <div class="sec sp">
+
+      <div class="fade-up">
+        <span class="eyebrow" style="color:var(--text-muted)">Análisis condicional</span>
+        <h2 class="tgl-title">¿Qué importa en meses estables? ¿Y en shocks?</h2>
+      </div>
+
+      <div class="toggle-group fade-up" style="transition-delay:.06s">
+        <button class="tgl-btn active" data-view="stable">📅 Meses estables</button>
+        <button class="tgl-btn"        data-view="shock">⚡ Meses de shock</button>
+      </div>
+
+      <div class="chart-wrap-tgl fade-up" style="transition-delay:.12s">
+        <canvas id="chartToggle"></canvas>
+      </div>
+
+      <p id="toggleDesc" class="fade-up" style="transition-delay:.18s">
+        En meses de producción normal, la estacionalidad domina (month_cos, trimestre_num).
+        El modelo confía en los patrones históricos del calendario agrícola peruano.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- ═══ S4 — HEATMAP TEMPORAL ═══════════════════════════════ -->
+  <section id="heatmap-shap" aria-label="Heatmap SHAP temporal">
+    <div class="sec sp">
+
+      <div class="fade-up">
+        <span class="eyebrow" style="color:var(--text-muted)">Heatmap temporal</span>
+        <h2 class="heat-title">Contribución SHAP mensual — top 5 variables</h2>
+        <p class="heat-sub">Rojo = contribución positiva alta · Azul = contribución baja · Borde rojo = mes de shock</p>
+      </div>
+
+      <div class="hm-wrap fade-up" style="transition-delay:.10s">
+        <table id="shap-heatmap">
+          <thead><tr></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <p class="hm-note fade-up" style="transition-delay:.16s">
+        SHAP KernelExplainer · 200 muestras background · escala z-score provincial.
+        Los valores SHAP reflejan cuánto empujó cada variable la predicción hacia arriba.
+        Meses con borde rojo = variación real &gt;20% sobre MA3.
+      </p>
+
+    </div>
+  </section>
+
+  <footer class="footer" role="contentinfo">
+    <p>🌿 AgroNLP-Clima &middot; Fabrizio Sánchez Saravia &middot; UPeU FIA &middot; Juliaca, Puno &middot; 2026</p>
+    <p>DualLSTM-BahdanauAttention &middot; NASA POWER &middot; BETO &middot; INDECI &middot; MIDAGRI &middot; SHAP</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script>
+    /* ─── Chart.js defaults ─────────────────────────────────── */
+    Chart.defaults.color       = '#94A3B8';
+    Chart.defaults.borderColor = '#1A2744';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+    Chart.defaults.font.size   = 11;
+
+    /* ─── Chart 1: Top 10 global ─────────────────────────────── */
+    const G_LABELS = ['WS2M','trimestre_num','month_cos','PRECTOTCORR','T2M',
+                      'num_emergencias','T2M_MAX','month_sin','RH2M','precio_chacra'];
+    const G_DATA   = [0.142,0.098,0.089,0.076,0.063,0.058,0.051,0.044,0.038,0.031];
+    const G_COLORS = ['#4A9EFF','#F59E0B','#A78BFA','#34D399','#60A5FA',
+                      '#F87171','#93C5FD','#C4B5FD','#6EE7B7','#FCD34D'];
+
+    new Chart(document.getElementById('chartGlobal').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: [...G_LABELS].reverse(),
+        datasets: [{
+          label: 'SHAP medio |φ|',
+          data: [...G_DATA].reverse(),
+          backgroundColor: [...G_COLORS].reverse(),
+          borderWidth: 0, borderRadius: 4,
+        }]
+      },
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { backgroundColor: '#1E293B', borderColor: '#1A2744', borderWidth: 1,
+                     callbacks: { label: c => ` |φ| = ${c.parsed.x.toFixed(3)}` } }
+        },
+        scales: {
+          x: { grid: { color: '#1A2744' }, ticks: { color: '#94A3B8' } },
+          y: { grid: { display: false }, ticks: { color: '#CBD5E1', font: { size: 11 } } }
+        }
+      }
+    });
+
+    /* ─── Chart 2: Toggle estable / shock ────────────────────── */
+    const VIEWS = {
+      stable: {
+        labels:  ['month_cos','trimestre_num','T2M','WS2M','PRECTOTCORR'],
+        data:    [0.089, 0.078, 0.063, 0.057, 0.042],
+        colors:  ['#A78BFA','#F59E0B','#60A5FA','#4A9EFF','#34D399'],
+        desc: 'En meses de producción normal, la estacionalidad domina (month_cos, trimestre_num). El modelo confía en los patrones históricos del calendario agrícola peruano.',
+      },
+      shock: {
+        labels:  ['WS2M','PRECTOTCORR','num_emergencias','T2M_MAX','month_cos'],
+        data:    [0.142, 0.116, 0.097, 0.078, 0.050],
+        colors:  ['#4A9EFF','#34D399','#F87171','#93C5FD','#A78BFA'],
+        desc: 'En meses de shock climático (8/12), WS2M y PRECTOTCORR dominan con valores SHAP hasta 2.5× mayores. El modelo activa sus señales de alerta climática — confirmando que las variables NASA POWER son las que permiten anticipar el Fenómeno del Niño.',
+      },
+    };
+
+    let activeView = 'stable';
+    const tglCtx = document.getElementById('chartToggle').getContext('2d');
+    const tglChart = new Chart(tglCtx, {
+      type: 'bar',
+      data: {
+        labels: [...VIEWS.stable.labels].reverse(),
+        datasets: [{
+          label: 'SHAP medio |φ|',
+          data: [...VIEWS.stable.data].reverse(),
+          backgroundColor: [...VIEWS.stable.colors].reverse(),
+          borderWidth: 0, borderRadius: 4,
+        }]
+      },
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { backgroundColor: '#1E293B', borderColor: '#1A2744', borderWidth: 1,
+                     callbacks: { label: c => ` |φ| = ${c.parsed.x.toFixed(3)}` } }
+        },
+        scales: {
+          x: { grid: { color: '#1A2744' }, ticks: { color: '#94A3B8' }, max: 0.16 },
+          y: { grid: { display: false }, ticks: { color: '#CBD5E1', font: { size: 12 } } }
+        }
+      }
+    });
+
+    function switchView(view) {
+      activeView = view;
+      const v = VIEWS[view];
+      tglChart.data.labels                           = [...v.labels].reverse();
+      tglChart.data.datasets[0].data                 = [...v.data].reverse();
+      tglChart.data.datasets[0].backgroundColor      = [...v.colors].reverse();
+      tglChart.options.scales.x.max = view === 'shock' ? 0.18 : 0.16;
+      tglChart.update();
+      document.getElementById('toggleDesc').textContent = v.desc;
+      document.querySelectorAll('.tgl-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.view === view));
+    }
+
+    document.querySelectorAll('.tgl-btn').forEach(b =>
+      b.addEventListener('click', () => switchView(b.dataset.view)));
+
+    /* ─── Heatmap temporal (generado por JS) ─────────────────── */
+    const HM = {
+      vars: {
+        'WS2M':          [0.05,0.08,0.12,0.14,0.10,0.06,0.09,0.11,0.08,0.07],
+        'trimestre_num': [0.09,0.08,0.07,0.06,0.08,0.10,0.09,0.08,0.07,0.06],
+        'month_cos':     [0.07,0.09,0.06,0.04,0.08,0.09,0.07,0.06,0.08,0.09],
+        'PRECTOTCORR':   [0.03,0.04,0.08,0.12,0.09,0.04,0.06,0.10,0.07,0.05],
+        'num_emerg.':    [0.02,0.03,0.06,0.10,0.08,0.03,0.05,0.08,0.04,0.03],
+      },
+      months: ['Nov 24','Dic 24','Ene 25','Feb 25','Mar 25','Abr 25','May 25','Jun 25','Jul 25','Ago 25'],
+      shock:  [false,   true,    true,    true,    false,   true,    true,    true,    false,   false],
+      MAX: 0.14,
+    };
+
+    function shColor(val, max) {
+      const t = Math.max(0, Math.min(1, val / max));
+      if (t < 0.5) {
+        const s = t * 2;
+        return `rgb(${Math.round(59+196*s)},${Math.round(130+125*s)},${Math.round(246-9*s)})`;
+      } else {
+        const s = (t - 0.5) * 2;
+        return `rgb(255,${Math.round(255-187*s)},${Math.round(255-187*s)})`;
+      }
+    }
+    function txtColor(bg) {
+      const [r,g,b] = bg.match(/\d+/g).map(Number);
+      return (0.299*r + 0.587*g + 0.114*b)/255 > 0.55 ? '#1E293B' : '#F1F5F9';
+    }
+
+    (function buildHeatmap() {
+      const tbl   = document.getElementById('shap-heatmap');
+      const theadTr = tbl.querySelector('thead tr');
+
+      /* Header */
+      const th0 = document.createElement('th');
+      th0.textContent = 'Variable';
+      th0.style.cssText = 'text-align:left;padding:8px 10px;font-size:11px;color:#64748B;font-weight:500;background:#1A2744;position:sticky;left:0;z-index:2;white-space:nowrap';
+      theadTr.appendChild(th0);
+
+      HM.months.forEach((m, i) => {
+        const th = document.createElement('th');
+        th.textContent = m;
+        th.style.cssText = `padding:7px 8px;font-size:10px;font-weight:500;text-align:center;background:#1A2744;color:${HM.shock[i]?'#EF4444':'#94A3B8'};white-space:nowrap;min-width:54px`;
+        if (HM.shock[i]) th.style.borderBottom = '2px solid rgba(239,68,68,.6)';
+        theadTr.appendChild(th);
+      });
+
+      /* Body */
+      const tbody = tbl.querySelector('tbody');
+      Object.entries(HM.vars).forEach(([name, vals]) => {
+        const tr = document.createElement('tr');
+
+        const td0 = document.createElement('td');
+        td0.textContent = name;
+        td0.style.cssText = 'padding:9px 10px;font-size:12px;color:#E2E8F0;font-weight:500;white-space:nowrap;border-right:1px solid #1A2744;position:sticky;left:0;background:#0D1426';
+        tr.appendChild(td0);
+
+        vals.forEach((v, i) => {
+          const td  = document.createElement('td');
+          const bg  = shColor(v, HM.MAX);
+          const tc  = txtColor(bg);
+          td.textContent = v.toFixed(2);
+          td.style.cssText = `background:${bg};color:${tc};padding:9px 6px;text-align:center;font-size:11px;font-weight:600;font-family:'Inter',sans-serif`;
+          if (HM.shock[i]) td.style.outline = '1px solid rgba(239,68,68,.45)';
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      });
+    })();
+
+    /* ─── Scroll navegación ──────────────────────────────────── */
+    const sections = document.querySelectorAll('section');
+    let currentIdx = 0, isScrolling = false;
+
+    function goToSection(i) {
+      if (i < 0 || i >= sections.length || isScrolling) return;
+      isScrolling = true; currentIdx = i;
+      sections[i].scrollIntoView({ behavior: 'smooth' });
+      updateDots();
+      setTimeout(() => { isScrolling = false; }, 900);
+    }
+
+    window.addEventListener('wheel', e => {
+      e.preventDefault();
+      goToSection(e.deltaY > 0 ? currentIdx + 1 : currentIdx - 1);
+    }, { passive: false });
+
+    window.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); goToSection(currentIdx + 1); }
+      if (e.key === 'ArrowUp'   || e.key === 'PageUp')   { e.preventDefault(); goToSection(currentIdx - 1); }
+    });
+
+    let ty0 = 0;
+    window.addEventListener('touchstart', e => { ty0 = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchend',   e => {
+      const d = ty0 - e.changedTouches[0].clientY;
+      if (Math.abs(d) > 50) goToSection(d > 0 ? currentIdx + 1 : currentIdx - 1);
+    }, { passive: true });
+
+    const secWatcher = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting && !isScrolling) { currentIdx = Array.from(sections).indexOf(en.target); updateDots(); } });
+    }, { threshold: 0.5 });
+    sections.forEach(s => secWatcher.observe(s));
+
+    const dotsEl = document.getElementById('navDots');
+    sections.forEach((sec, i) => {
+      const d = document.createElement('button');
+      d.className = 'nav-dot' + (i === 0 ? ' active' : '');
+      d.title = sec.getAttribute('aria-label') || `Sección ${i+1}`;
+      d.addEventListener('click', () => goToSection(i));
+      dotsEl.appendChild(d);
+    });
+
+    function updateDots() {
+      document.querySelectorAll('.nav-dot').forEach((d,i) => d.classList.toggle('active', i === currentIdx));
+    }
+
+    const fadeObs = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('visible'); fadeObs.unobserve(en.target); } });
+    }, { threshold: 0.10 });
+    document.querySelectorAll('.fade-up').forEach(el => fadeObs.observe(el));
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.fade-up').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
+      });
+    });
+  </script>
+</body>
+</html>
