@@ -1,6 +1,6 @@
 # Modelo Híbrido Dual-LSTM + Bahdanau Attention para Pronóstico Agroindustrial (Agro + NLP + Clima)
 
-Sistema multimodal de pronóstico de demanda/precio agroindustrial para el Perú (cultivo objetivo: **limón/lima**). Integra cuatro fuentes heterogéneas —**MIDAGRI** (estadística de cultivos), **NASA POWER** (clima), **INDECI** (desastres) y **Agraria.pe** (noticias)— mediante un pipeline ETL de 10 actividades hacia un **Data Warehouse en Star Schema**, y aplica **NLP (BETO)** + **LSTM-Attention** con explicabilidad **SHAP**.
+Sistema multimodal de pronóstico de demanda/precio agroindustrial para el Perú (cultivo objetivo: **limón/lima**). Integra cuatro fuentes heterogéneas —**MIDAGRI** (estadística de cultivos), **NASA POWER** (clima), **INDECI** (desastres) y **Agraria.pe** (noticias)— mediante un pipeline ETL de 10 actividades hacia un **Data Warehouse en Star Schema**, y aplica **NLP (RoBERTuito)** + **LSTM-Attention** con explicabilidad **SHAP**.
 
 ---
 
@@ -66,7 +66,7 @@ Orden manual (notebooks, ejecutar secuencialmente — "Run All"):
 1. **Fase 1 — ETL / Data Engineering** → `pipeline/actividad_01_*.ipynb` … `actividad_10_*.ipynb`
    *(configuración → lectura 4 fuentes → EDA → calidad → limpieza → integración DWH → Star Schema → PostgreSQL → ETL → re-exploración)*
 2. **Fase 2 — Features + NLP** → `notebooks/fase2/actividad_01…04`
-   *(sentimiento BETO → encoding temporal cíclico sin/cos → lags t-1/t-3/t-6 → normalización). Salida: `data/processed/master_dataset_fase2_multivariado.csv`*
+   *(sentimiento RoBERTuito → encoding temporal cíclico sin/cos → lags t-1/t-3/t-6 → normalización). Salida: `data/processed/master_dataset_fase2_multivariado.csv`*
 3. **Fase 3 — Modelos clásicos (baselines)** → `notebooks/fase3/actividad_11…14`
    *(GC1: SARIMA, Prophet · GC2: SARIMAX+LSTM · GE: Dual-LSTM + Bahdanau Attention)*
 4. **Fase 4 — Multimodal, competidores, XAI y simulación** → `notebooks/fase4/actividad_15…17` + escenarios
@@ -107,7 +107,7 @@ URL pública (GitHub Pages): `https://yerald21.github.io/Machine-Learning-Multim
 ```
 sources/          CSV/Excel crudos (MIDAGRI, NASA, INDECI, Agraria) — pesados, gitignored
 pipeline/         Fase 1: notebooks ETL actividad_01..10 + DWH
-notebooks/fase2/  Fase 2: NLP (BETO), encoding cíclico, lags, escalado
+notebooks/fase2/  Fase 2: NLP (RoBERTuito), encoding cíclico, lags, escalado
 notebooks/fase3/  Fase 3: modelos clásicos (SARIMA, Prophet, SARIMAX+LSTM, GE)
 notebooks/fase4/  Fase 4: multimodal (GM*), competidores, SHAP, simulaciones
 src/              Lógica núcleo orientada a clases (ver tabla)

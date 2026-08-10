@@ -11,7 +11,7 @@
     "final":        "notebooks/fase2/output/05_dataset_final/",
     "scalers":      "notebooks/fase2/scalers/"
   },
-  "beto_model": "dccuchile/bert-base-spanish-wwm-cased",
+  "beto_model": "pysentimiento/robertuito-sentiment-analysis",
   "sentiment_range": [-1, 1],
   "lags": [1, 3, 6],
   "vars_a_rezagar": [

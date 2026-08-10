@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Multi-crop demand forecasting system for Peru's agro-industrial sector (primary target: lime/limón). Integrates four heterogeneous data sources — MIDAGRI (crop statistics), NASA POWER (climate), INDECI (disasters), Agraria.pe (news) — through a 10-activity ETL pipeline into a Star Schema DWH, then applies NLP (BETO transformer) and LSTM-Attention for demand/price prediction with SHAP explainability.
+Multi-crop demand forecasting system for Peru's agro-industrial sector (primary target: lime/limón). Integrates four heterogeneous data sources — MIDAGRI (crop statistics), NASA POWER (climate), INDECI (disasters), Agraria.pe (news) — through a 10-activity ETL pipeline into a Star Schema DWH, then applies NLP (RoBERTuito sentiment) and LSTM-Attention for demand/price prediction with SHAP explainability.
 
 **Python version: strictly 3.11** (TensorFlow is incompatible with 3.13+). The system may have multiple Python versions installed; always use the venv.
 
@@ -40,7 +40,7 @@ Notebooks in `pipeline/` are the primary execution environment. Run them sequent
 10 sequential activities: environment setup → data loading (4 sources) → EDA → quality audit → cleaning → DWH integration → Star Schema design → PostgreSQL creation → ETL → re-exploration.
 
 **Phase 2 — Feature Engineering + NLP** (`notebooks/fase2/`, `src/`):
-Sentiment analysis via BETO (`dccuchile/bert-base-spanish-wwm-cased`) → cyclic temporal encoding (sin/cos) → lag features (t-1, t-3, t-6) → normalization. Output: 24-column master dataset in `data/processed/master_dataset_fase2_multivariado.csv`. Configuration in `notebooks/fase2/config/fase2_config.json`.
+Sentiment analysis via pysentimiento's RoBERTuito (`pysentimiento/robertuito-sentiment-analysis`, sentiment head over RoBERTuito) → cyclic temporal encoding (sin/cos) → lag features (t-1, t-3, t-6) → normalization. Output: 24-column master dataset in `data/processed/master_dataset_fase2_multivariado.csv`. Configuration in `notebooks/fase2/config/fase2_config.json`.
 
 **Phase 3 — Model Training** (`notebooks/fase4/actividad_15*.ipynb`):
 Multiple model architectures trained and compared. Each produces metrics, predictions, and artifacts in `resultados/<model>/`.
@@ -149,7 +149,8 @@ sources/ (raw CSVs)
 
 ```
 tensorflow          # LSTM-Attention model
-transformers        # BETO (dccuchile/bert-base-spanish-wwm-cased for Spanish NLP)
+pysentimiento       # RoBERTuito sentiment analyzer (pysentimiento/robertuito-sentiment-analysis)
+transformers        # backend de pysentimiento (RoBERTa/BERT en español)
 scikit-learn        # preprocessing, metrics, PCA
 pandas / numpy      # data manipulation
 shap                # model explainability

@@ -16,7 +16,7 @@ de aprendizaje profundo HA-LSTM.
 
 | # | Notebook | Descripción | Entregable |
 |---|----------|-------------|------------|
-| 1 | `actividad_01_nlp_sentimiento.ipynb` | Cuantificación de sentimiento con BETO | `avg_sentiment` [-1, 1] |
+| 1 | `actividad_01_nlp_sentimiento.ipynb` | Cuantificación de sentimiento con RoBERTuito (pysentimiento) | `avg_sentiment` [-1, 1] |
 | 2 | `actividad_02_codificacion_ciclica.ipynb` | month_sin, month_cos, lat, lon | Variables cíclicas y geográficas |
 | 3 | `actividad_03_rezagos_temporales.ipynb` | Lags t-1, t-3, t-6 | Variables de memoria histórica |
 | 4 | `actividad_04_normalizacion_final.ipynb` | Escalado final de todas las variables | scaler_fase2.pkl |
@@ -27,7 +27,7 @@ de aprendizaje profundo HA-LSTM.
 ```
 master_dataset_raw_values.csv (Fase 1 — 5,880 filas × 17 cols)
         ↓ Actividad 1
-+ avg_sentiment (BETO)
++ avg_sentiment (RoBERTuito)
         ↓ Actividad 2
 + month_sin, month_cos, lat, lon
         ↓ Actividad 3
