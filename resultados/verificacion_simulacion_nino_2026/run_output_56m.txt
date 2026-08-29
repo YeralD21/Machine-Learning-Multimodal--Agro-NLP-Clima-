@@ -1,0 +1,137 @@
+﻿Python     : 3.11.9
+TensorFlow : 2.19.0
+XGBoost    : 3.2.0
+Master      : OK
+NLP v1      : OK
+NLP v2      : OK
+Scaler F2   : OK
+GE model    : OK
+GE scalers  : OK
+GM_v3 model : OK
+
+[PATCH] Columnas temporales derivadas de fecha_evento (faltaban en el CSV): []
+Master dataset: (5880, 24)
+Rango: 2021-01-01 -> 2025-08-01
+
+Ultimo mes conocido: 2025-08-01
+  WS2M            : z=0.0645  ->  1.71 m/s
+  PRECTOTCORR     : z=-0.4196  ->  20.94 mm
+  T2M_MAX         : z=-0.0836  ->  27.00 C
+  num_emergencias : z=-0.2498  ->  0.06
+
+Escenario El Nino Q1 2026:
+  WS2M            : 1.71 -> 2.57 m/s  (z=0.8094)
+  PRECTOTCORR     : 20.94 -> 62.82 mm    (z=0.1541)
+  T2M_MAX         : 27.00 -> 29.50 C   (z=0.3543)
+  num_emergencias : 0.06 -> 0.24       (z=-0.1922)
+  nlp_index       : -> -0.6
+Mes  1: sin=+0.5000  cos=+0.8660  trim=1  t_sin=+1.0000  t_cos=+0.0000
+Mes  2: sin=+0.8660  cos=+0.5000  trim=1  t_sin=+1.0000  t_cos=+0.0000
+Mes  3: sin=+1.0000  cos=+0.0000  trim=1  t_sin=+1.0000  t_cos=+0.0000
+
+GE modelo cargado: Canal A=1, Canal B=23
+Scaler A: mean=0.011259  scale=0.071236
+Serie GE: 50 meses | Train: 40
+Ultimo mes: 2025-08-01
+
+GE predicciones Q1 2026 (z-score fase 2):
+  Mes 1: Normal=-0.033425  Nino=0.027803  Delta=0.061228
+  Mes 2: Normal=-0.033218  Nino=0.028090  Delta=0.061308
+  Mes 3: Normal=-0.033137  Nino=0.028349  Delta=0.061486
+[PATCH] STRUCT restringido a 20/20 columnas reales de entrenamiento.
+
+GM_v3 data: 56 meses | Train: 44
+PCA: 20 features -> 8 componentes
+NLP: ['nlp_index', 'nlp_index_lag1']
+GM_v3 modelo reconstruido y pesos cargados
+
+GM_v3 predicciones Q1 2026 (z-score fase 2):
+  Mes 1: Normal=-0.071065  Nino=0.043119  Delta=0.114183
+  Mes 2: Normal=-0.071497  Nino=0.043013  Delta=0.114510
+  Mes 3: Normal=-0.071936  Nino=0.042905  Delta=0.114841
+
+XGBoost reentrenado: 29 features, train=40
+Features climaticas: WS2M, PRECTOTCORR, T2M_MAX estan en posiciones [11, 5, 9]
+
+Top 5 features (importancia):
+                  month_sin: 0.4864
+                  prod_lag1: 0.1325
+                  prod_lag6: 0.0608
+                    mes_num: 0.0528
+                       QV2M: 0.0383
+
+Importancia acumulada:
+  Lags/rolling (8) : 0.2279
+  Clima (8)       : 0.1488
+
+XGBoost predicciones Q1 2026 (z-score fase 2):
+  Mes 1: Normal=-0.012867  Nino=0.013670  Delta=0.026538
+  Mes 2: Normal=0.010355  Nino=0.048048  Delta=0.037693
+  Mes 3: Normal=0.016570  Nino=0.053444  Delta=0.036874
+====================================================================================================
+  Ene-26 - Prediccion Normal vs El Nino
+====================================================================================================
+  Modelo      Pred normal (t)    Pred Nino (t)   Ajuste (t)   Ajuste % Interpretacion                
+  ------------------------------------------------------------------------------------------------
+  GE                    15.38            17.10        +1.71     +11.1% Sobrecompensa                 
+  GM_v3                 14.33            17.53        +3.20     +22.3% Sobrecompensa                 
+  XGBoost               15.96            16.70        +0.74      +4.7% Ajuste moderado               
+
+====================================================================================================
+  Feb-26 - Prediccion Normal vs El Nino
+====================================================================================================
+  Modelo      Pred normal (t)    Pred Nino (t)   Ajuste (t)   Ajuste % Interpretacion                
+  ------------------------------------------------------------------------------------------------
+  GE                    15.39            17.11        +1.72     +11.1% Sobrecompensa                 
+  GM_v3                 14.32            17.52        +3.20     +22.4% Sobrecompensa                 
+  XGBoost               16.61            17.66        +1.05      +6.4% Sobrecompensa                 
+
+====================================================================================================
+  Mar-26 - Prediccion Normal vs El Nino
+====================================================================================================
+  Modelo      Pred normal (t)    Pred Nino (t)   Ajuste (t)   Ajuste % Interpretacion                
+  ------------------------------------------------------------------------------------------------
+  GE                    15.39            17.11        +1.72     +11.2% Sobrecompensa                 
+  GM_v3                 14.31            17.52        +3.21     +22.5% Sobrecompensa                 
+  XGBoost               16.78            17.82        +1.03      +6.1% Sobrecompensa                 
+
+====================================================================================================
+  RESUMEN Q1 2026 - SENSIBILIDAD CLIMATICA PROMEDIO
+====================================================================================================
+  Modelo      Pred normal (t)    Pred Nino (t)  Ajuste prom (t)  Ajuste prom % Sensibilidad        
+  ------------------------------------------------------------------------------------------------
+  GE                    15.39            17.11            +1.72         +11.2% ALTA                
+  GM_v3                 14.32            17.52            +3.20         +22.4% ALTA                
+  XGBoost               16.45            17.39            +0.94          +5.7% ALTA                
+====================================================================================================
+
+[RESULTADO CLAVE] Ajuste_pct promedio Q1 2026 por modelo (ejecucion real):
+  GE        : +11.16%
+  GM_v3     : +22.38%
+  XGBoost   : +5.72%
+
+==============================================================================================================
+  IMPACTO ECONOMICO (celda 25) - Si El Nino causa -40% de produccion real
+==============================================================================================================
+  Mes      Modelo      Pred Nino (t)  Real est. (t)  Error (kg)       Tipo   Perdida (S/)
+  ----------------------------------------------------------------------------------------------------------
+  Ene-26   GE                  17.10           9.23       7,867      Merma      14,161.16
+  Ene-26   GM_v3               17.53           8.60       8,928      Merma      16,070.40
+  Ene-26   XGBoost             16.70           9.58       7,127      Merma      12,827.82
+  ----------------------------------------------------------------------------------------------------------
+  Feb-26   GE                  17.11           9.23       7,872      Merma      14,169.35
+  Feb-26   GM_v3               17.52           8.59       8,932      Merma      16,078.12
+  Feb-26   XGBoost             17.66           9.97       7,699      Merma      13,857.72
+  ----------------------------------------------------------------------------------------------------------
+  Mar-26   GE                  17.11           9.24       7,878      Merma      14,179.95
+  Mar-26   GM_v3               17.52           8.58       8,937      Merma      16,085.96
+  Mar-26   XGBoost             17.82          10.07       7,745      Merma      13,941.71
+  ----------------------------------------------------------------------------------------------------------
+==============================================================================================================
+
+  PERDIDA TOTAL Q1 2026 (celda 25):
+  GE         S/    42,510.46
+  GM_v3      S/    48,234.49
+  XGBoost    S/    40,627.25
+
+FIN EJECUCION

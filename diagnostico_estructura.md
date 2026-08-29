@@ -142,3 +142,128 @@ Usa: `resultados/ge`, `resultados/gc1`, `resultados/gc2`, `resultados/shap`, `re
 4. **No tocar:** `resultados/*_ext`, `resultados/*_final`, `docs/`.
 
 No se ha ejecutado ningún cambio. Quedo a la espera de qué partes de esta propuesta autorizas.
+
+---
+
+## 5. Auditoría exhaustiva carpeta por carpeta
+
+Fecha: 2026-08-12
+Estado: **Solo diagnóstico ampliado — ningún cambio fue ejecutado.**
+
+### 5.1 Carpetas XGBoost — corrección: son 3, no 4
+
+```
+$ find . -iname "*xgboost*" -not -path "./.git/*"
+./notebooks/fase4/actividad_15v3_xgboost_competidor.ipynb   ← notebook fuente, no carpeta
+./resultados/xgboost
+./resultados/xgboost_ext
+./resultados/xgboost_final
+```
+
+Solo hay **3 carpetas** (el cuarto resultado del `find` es el notebook que las genera, no una carpeta). Es el mismo patrón `base / _ext / _final` que ya documenta `CLAUDE.md` para GE y GM_v3 (ver §2.1) — **no es una duplicación accidental**, es una convención repetida 3 veces en el proyecto:
+
+| Carpeta | Contenido | Commit / fecha | Referenciada por | Veredicto |
+|---|---|---|---|---|
+| `resultados/xgboost/` | `xgb_metricas.json`, `xgb_predicciones.csv`, `xgb_feature_importance.png`, `xgb_predicciones_vs_real.png` (201 KB) | `16bab43` — 2026-06-02 (dashboard completo) | `dashboard/app.py` (4 rutas hardcodeadas, líneas 30-31, 881, 884) y **los 4 scripts raíz** `generar_6modelos_figuras.py`, `generar_impacto_economico.py`, `generar_delta_shocks.py`, `visualizar_shocks_comparativo.py` (todos leen `resultados/xgboost/xgb_predicciones.csv`) | **Versión "viva"/canónica** — es la que alimenta el dashboard y las figuras. Conservar tal cual. |
+| `resultados/xgboost_ext/` | Solo `metricas.json` + `predicciones.csv` (6 KB, sin PNG ni modelo) | `2ef26bc` — 2026-06-24 (Jornada Científica: Fase 4 + figuras) | Escrita por `actividad_16_reentrenamiento_extendido.ipynb`; leída por `evaluar_shocks_extendido.ipynb` | Etapa intermedia intencional (n_train=68). Conservar — coherente con `ge_ext`, `gm_v3_ext`. |
+| `resultados/xgboost_final/` | Solo `metricas.json` + `predicciones.csv` (6 KB) | `2ef26bc` — 2026-06-24 | Escrita por `actividad_17_reentrenamiento_final.ipynb`. **No se encontró ningún script/notebook que la lea** (a diferencia de `xgboost_ext`, que sí es leída por `evaluar_shocks_extendido.ipynb`) | Versión final intencional, coherente con `ge_final`, `gm_v3_final` — pero es la única de las 3 tríadas cuya salida "final" no tiene un consumidor downstream verificado. No es basura (el propio `CLAUDE.md` la documenta como versión final del reentrenamiento), pero su propósito hoy es solo de archivo/trazabilidad, no de alimentar el dashboard. |
+
+**Conclusión sobre XGBoost:** ninguna de las 3 carpetas es prescindible ni "una versión vieja de otra" — son 3 etapas distintas del mismo pipeline de reentrenamiento (44 → 68 muestras → final), igual que en GE y GM_v3. **No fusionar ni eliminar.** La única duda real (no una carpeta a eliminar) es si `xgboost_final` debería también alimentar el dashboard en vez de quedar solo como registro — eso es una decisión de producto, no de estructura de carpetas.
+
+### 5.2 Tabla completa de carpetas raíz
+
+| Carpeta | Archivos | Tipos principales | Estado | Veredicto |
+|---|---|---|---|---|
+| `.claude/` | 1 | json (config del CLI) | Activa (config de Claude Code, no de datos) | Mantener, fuera del alcance de la reorganización |
+| `dashboard/` | 22 | 8 png, 7 html, 6 py | Activa (`app.py`, `app_dash.py` son código vivo); **4 de los 6 `.py` son backups** (`app_backup.py`, `app_backup_.py`, `app_backup_20260601_142202.py`, `app_backup_dash_migration.py`) | Mantener carpeta; **archivar o eliminar los 4 backups** (ya señalado en §3.3 del diagnóstico original, aquí confirmado: no son importados por nada, solo duplican `app.py`) |
+| `data/` | 65 | 42 png, 14 csv, 6 txt | Activa pero **internamente fragmentada**: `02_interim_nasa/`, `03_processed/`, `03_processed_nasa/`, `04_reports/`, `external/`, `interim/`, `processed/` — 7 subcarpetas con convenciones de nombre distintas (`02_...`/`03_...` numeradas al estilo pipeline vs. `interim`/`processed` al estilo cookiecutter) | **Fusionar internamente** — no con otra carpeta raíz, sino consolidar las 7 subcarpetas en la jerarquía `raw/interim/processed` que ya propone la estructura objetivo en §3 |
+| `database/` | 3 | sql (DDL) | Activa — referenciada por `CLAUDE.md`, `main_fase1.py`, `main_nasa_pipeline.py`, 5 notebooks de `pipeline/` y `src/data_processing/` | Mantener, sin cambios |
+| `docs/` | 24 | 8 png, 7 html, 6 py, 2 md | Activa (GitHub Pages) — espejo manual de `dashboard/` (mismos 4 backups duplicados) + 2 `.md` que **no existen en `dashboard/`** (`pipeline_fases_234.md`, `nasa_power_pipeline_documentacion.md`) | No tocar (pedido explícito del usuario), pero nota: esos 2 `.md` son documentación real, no copias — si se reorganiza `docs/` no son candidatos a eliminar como los backups |
+| `models/` | 4 | pkl (scalers) | Activa — `models/scalers/*.pkl` referenciado por `main_nasa_pipeline.py`, `pipeline/actividad_09_etl.ipynb`, `pipeline/actividad_10_reexploracion.ipynb`, `src/data_processing/nasa_pipeline/actividad_09_etl_nasa.py` (vivos) y también por `main_fase1.py`, `src/data_processing/fase2_nlp_lags.py`, `src/data_processing/master_unification.py` (parte del "segundo pipeline roto" de §2.2) | Mantener — es un directorio pequeño y activo, pero convive con otros 2 directorios de scalers (`notebooks/fase2/scalers/`, `resultados/*/​*_scalers.pkl`) ya documentados como intencionalmente distintos en `CLAUDE.md` §"Scalers and Normalization". No fusionar — son etapas distintas, no duplicados |
+| `notebooks/` | 61 (+ subcarpetas) | 37 ipynb, 7 py, 7 png, 5 csv, 3 joblib | Activa — core del proyecto (`fase2/`, `fase3/`, `fase4/`) | Mantener como raíz de fases; internamente tiene 2 problemas nuevos, ver §5.3 |
+| `pipeline/` | 139 | 96 png, 28 ipynb, 8 csv | Activa — Fase 1 ETL, invocada por `run_pipeline.py` (10 rutas hardcodeadas) | Mantener en raíz por ahora (riesgo medio de mover, ver §2.2 del diagnóstico original — sin cambios en esta auditoría) |
+| `resultados/` | 112 | 45 png, 24 json, 19 csv, 9 keras, 6 pkl | Activa — 18 subcarpetas, backbone de datos del dashboard | Mantener; ver tríadas `base/_ext/_final` en §5.1 y §5.3 |
+| `scratch/` | 5 | 4 py, 1 txt | **No referenciada por ningún otro archivo** (`check_nlp_results.py`, `debug_cols.py`, `execute_nb.py`, `repro_act06.py`, `img_b64.txt`) — son scripts de debug personal | Residual. `.gitignore` línea 132 ya tiene `scratch/`, pero los 5 archivos se commitearon **antes** de esa regla y `git` los sigue rastreando (`git check-ignore` no los detecta como ignorados porque un tracked file ignora la regla). Candidato a `git rm -r --cached scratch/` si se confirma que ya no se usan, o simplemente dejar tal cual — no estorba a nada activo |
+| `sources/` | 17 | 12 csv, 4 txt, 1 json | Mayormente activa (`agraria-pe/`, `nasa/nasapower*`), pero **contiene un duplicado exacto** — ver hallazgo nuevo en §5.3 | Mantener carpeta; eliminar la subcarpeta duplicada `sources/nasa/proceso-data-engineering-nasa/` |
+| `src/` | 41 | 41 py | Activa — código de clases (`agro/`, `weather/`, `features/`, `models/`, `scraping/`, `data_processing/`) | Mantener, sin cambios — es la única carpeta ya organizada según la regla de `CLAUDE.md` ("todo código nuevo va en `src/`") |
+
+Carpetas raíz que **no** son directorios (archivos sueltos relevantes, ya cubiertos por el diagnóstico original salvo lo nuevo):
+- `20%` (0 bytes) — eliminar, ver §1.1.
+- `gen_nb_*.py`, `exec_nb_*.py`, `generate_notebooks.py`, `setup_project_structure.py` — generadores de un solo uso, código muerto o ya ejecutado, ver §2.2 y §3.2.
+- `generar_*.py` (6 scripts) y `visualizar_shocks_comparativo.py` — **confirmado en esta auditoría que SÍ están activos**: todos escriben directamente a `dashboard/fig_*.png` y leen de `resultados/xgboost/`, `resultados/gm_v3/`, etc. usando rutas relativas asumiendo que se ejecutan desde la raíz del repo. Esto **actualiza el veredicto "⚠️ Verificar primero"** del diagnóstico original (§3.2) a: confirmados como vivos, pero **si se mueven de la raíz hay que ajustar sus rutas relativas** (`'dashboard/fig_...'`, `'resultados/xgboost/...'`), igual que con `run_pipeline.py`.
+
+### 5.3 Sinergias y duplicados detectados (hallazgos nuevos)
+
+**a) `notebooks/fase4/resultados/` — carpeta huérfana por el mismo bug de ruta relativa que en §1.2**
+
+```
+notebooks/fase4/resultados/impacto_economico_nino_2026.png
+notebooks/fase4/resultados/impacto_nino_desglose.png
+notebooks/fase4/resultados/impacto_nino_pred_vs_real.png
+```
+
+`notebooks/fase4/impacto_economico_nino_2026.ipynb` (y su versión `_ejecutado`) guarda las figuras con la ruta relativa `resultados/impacto_*.png`. Como el notebook se ejecuta con cwd = `notebooks/fase4/`, en vez de caer en la carpeta raíz `resultados/` crea una carpeta `resultados/` **anidada dentro de `notebooks/fase4/`**. Verificado por grep: ningún otro script o notebook lee `notebooks/fase4/resultados/`, por lo que no rompe nada activo.
+
+**Propuesta:** mover esas 3 imágenes a `resultados/nino_2026/` (o similar) en la raíz, y corregir la ruta de guardado en el notebook a `../../resultados/nino_2026/...` para que no vuelva a ocurrir. Carpeta destino sugerida: `resultados/`.
+
+**b) `sources/nasa/proceso-data-engineering-nasa/` — duplicado byte a byte de `data/02_interim_nasa/`**
+
+```
+$ diff -q data/02_interim_nasa/nasa_long_clean.csv        sources/nasa/proceso-data-engineering-nasa/nasa_long_clean.csv
+$ diff -q data/02_interim_nasa/nasa_long_raw.csv           sources/nasa/proceso-data-engineering-nasa/nasa_long_raw.csv
+$ diff -q data/02_interim_nasa/nasa_mensual_integrado.csv  sources/nasa/proceso-data-engineering-nasa/nasa_mensual_integrado.csv
+$ diff -q data/02_interim_nasa/nasa_pipeline_config.json   sources/nasa/proceso-data-engineering-nasa/nasa_pipeline_config.json
+(sin diferencias en los 4 archivos comparados)
+```
+
+Los 4 archivos comparados son **idénticos**. `data/02_interim_nasa/nasa_pipeline_config.json` está referenciado activamente por `main_nasa_pipeline.py` y los 10 scripts de `src/data_processing/nasa_pipeline/actividad_0{1..10}_*_nasa.py`. **`sources/nasa/proceso-data-engineering-nasa/` no está referenciada por ningún script ni notebook** — es una copia manual olvidada (probablemente de cuando se guardó una copia de seguridad de un output intermedio dentro de `sources/`, que semánticamente debería contener solo datos crudos de entrada, no salidas del pipeline).
+
+**Propuesta:** eliminar `sources/nasa/proceso-data-engineering-nasa/` y conservar `data/02_interim_nasa/` como única copia (es la canónica y la que usa el pipeline vivo).
+
+**c) Backups de `dashboard/app*.py` duplicados también en `docs/`**
+
+`dashboard/app_backup.py`, `app_backup_.py`, `app_backup_20260601_142202.py`, `app_backup_dash_migration.py` existen **también** en `docs/` (copia manual, ver §2.4). Son 8 archivos (4+4) sin ningún import ni referencia activa. Ya señalado como candidato de limpieza en el diagnóstico original (§3.3); esta auditoría confirma que ninguno de los 8 es importado por `app.py`, `app_dash.py` ni por notebooks.
+
+**Propuesta:** eliminar los 4 de `dashboard/` y, si se decide sincronizar `docs/` en algún momento, sus 4 copias también — pero esto último requiere tocar `docs/`, que el usuario pidió no tocar por ahora.
+
+**d) Tríadas `base / _ext / _final` en `resultados/` — no son duplicados, son 3 pipelines paralelos**
+
+```
+resultados/ge/        resultados/ge_ext/        resultados/ge_final/
+resultados/gm_v3/      resultados/gm_v3_ext/      resultados/gm_v3_final/
+resultados/xgboost/    resultados/xgboost_ext/    resultados/xgboost_final/
+```
+
+Mismo patrón para 3 familias de modelos (GE, GM_v3, XGBoost) — confirma que es una convención deliberada del reentrenamiento (44 → 68 muestras → versión final), no una duplicación accidental. `resultados/gm/` y `resultados/gm_v2/` son familias distintas (no tienen `_ext`/`_final`), igual que `resultados/gc1/`, `gc2/`, `tcn/`, `gm_v4/`, `shap/`, `validacion/` que son de un solo estadio.
+
+**No hay sinergia real que fusionar aquí** — están todas ya bajo el mismo padre `resultados/`, que es justamente la estructura objetivo que propone §3. Lo único accionable es la carpeta huérfana del punto (a).
+
+**e) Figuras dispersas en 6 ubicaciones distintas — NO centralizar, cada una tiene un rol distinto**
+
+| Ubicación | # PNG | Origen | ¿Centralizar en `dashboard/`? |
+|---|---|---|---|
+| `pipeline/output/{03_eda,04_calidad,07_dwh,10_reexploracion}/` | 96 | Salida de las 10 actividades ETL de Fase 1 | No — son output de auditoría/EDA del pipeline, consumidas solo como evidencia dentro de los propios notebooks de `pipeline/` |
+| `resultados/**/*.png` | 45 | Métricas/predicciones por modelo | No — ya están en su carpeta de resultado por modelo, consistente con la tabla de `CLAUDE.md` |
+| `data/{03_processed_nasa/reports,04_reports,processed}/` | 42 | Reportes de calidad/EDA de datos | No — igual que `pipeline/output`, son evidencia del propio proceso de datos |
+| `notebooks/fase2/output/01_nlp_sentimiento/` | 4 | Gráficas de sentimiento NLP | No |
+| `notebooks/fase4/resultados/` | 3 | Ver punto (a) — huérfanas | **Sí**, mover a `resultados/nino_2026/` |
+| `dashboard/` (+ espejo en `docs/`) | 8 | Figuras ya compuestas para el dashboard, generadas por los `generar_*.py` de la raíz | Ya están centralizadas — es el destino final |
+
+La única centralización pendiente real es la del punto (a); el resto de las figuras están donde deben estar dado que cada fase produce su propia evidencia visual junto a su código, y moverlas rompería las rutas relativas de los notebooks que las generan (mismo riesgo que `pipeline/` en §2.2).
+
+**f) Notebooks de la misma fase — ya están agrupados correctamente**
+
+`notebooks/fase2/`, `notebooks/fase3/`, `notebooks/fase4/` ya contienen únicamente notebooks de su propia fase; no se encontraron notebooks de Fase 2/3/4 sueltos en la raíz ni en otras carpetas. La única fase sin agrupar bajo `notebooks/` es **Fase 1**, que vive en `pipeline/` (28 ipynb) — ya cubierto por la propuesta de mover `pipeline/` → `notebooks/fase1/` en §2.2 y §3.2, sin cambios adicionales de esta auditoría.
+
+### 5.4 Resumen de veredictos accionables (nuevos, no incluidos en el diagnóstico original)
+
+| Acción | Ítem | Riesgo | Rompe algo activo |
+|---|---|---|---|
+| Eliminar | `sources/nasa/proceso-data-engineering-nasa/` (duplicado exacto) | Bajo | No — sin referencias |
+| Mover | `notebooks/fase4/resultados/*.png` → `resultados/nino_2026/` | Bajo | No — sin referencias, pero corregir la ruta de guardado en el notebook para que no se regenere la carpeta huérfana |
+| Eliminar | 4 backups de `dashboard/app_backup*.py` (y opcionalmente sus copias en `docs/`) | Bajo | No — sin imports |
+| Confirmar y no mover sin ajustar rutas | `generar_*.py` + `visualizar_shocks_comparativo.py` (raíz) | Medio si se mueven sin actualizar paths | Si se mueven, rompen sus lecturas de `resultados/...` y escrituras a `dashboard/...` (rutas relativas a la raíz) |
+| No tocar | Las 3 tríadas `base/_ext/_final` en `resultados/` (incl. las 3 de XGBoost) | — | Es la convención documentada en `CLAUDE.md`, no duplicación |
+| Considerar (opcional, bajo prioridad) | `git rm -r --cached scratch/` | Bajo | No — nada la referencia; ya está en `.gitignore` para archivos futuros |
+
+No se ha ejecutado ningún cambio de esta sección. Quedo a la espera de qué partes autorizas antes de tocar cualquier carpeta.

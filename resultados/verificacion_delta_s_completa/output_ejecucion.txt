@@ -1,0 +1,86 @@
+====================================================================================================
+  VERIFICACION DELTA_S - MASCARA EMPIRICA SOBRE PRODUCCION REAL (toneladas)
+====================================================================================================
+Scaler  : notebooks/fase2/scalers/standard_scaler_fase2.joblib
+  produccion_t  mean(train)=16.3198  scale(train)=27.9869
+Serie nacional (media mensual de produccion_t en z-score):
+  56 meses | 2021-01-01 -> 2025-08-01
+  max |diff| columna `real` guardada vs serie maestra = 8.33e-17  (verificacion OK)
+
+----------------------------------------------------------------------------------------------------
+  DISTRIBUCION VARIACION MENSUAL REAL (|pct_change| desnormalizado, toneladas)
+----------------------------------------------------------------------------------------------------
+  Ventana test (sep-2024 .. ago-2025, n=12):
+    media    2.96%
+    std      2.68%
+    min      0.09%
+    p50      2.17%
+    p75      3.67%
+    p90      4.99%
+    max     10.19%
+  Serie completa (2021-01 .. 2025-08, n=55):
+    media    4.56%
+    std      3.64%
+    min      0.04%
+    p50      3.75%
+    p75      6.44%
+    p90      9.85%
+    p95     10.98%
+    max     14.89%
+
+----------------------------------------------------------------------------------------------------
+  RANKING MESES MAS VOLATILES (test)
+----------------------------------------------------------------------------------------------------
+    2025-01   10.19% <-- SHOCK (>P75=3.67%)
+    2025-06    5.09% <-- SHOCK (>P75=3.67%)
+    2025-05    4.08% <-- SHOCK (>P75=3.67%)
+    2024-12    3.53%
+    2025-04    2.80%
+    2025-02    2.30%
+    2025-08    2.04%
+    2025-07    1.98%
+    2025-03    1.47%
+    2024-09    1.27%
+    2024-10    0.73%
+    2024-11    0.09%
+
+----------------------------------------------------------------------------------------------------
+  CRITERIO DE SHOCK EMPIRICO
+----------------------------------------------------------------------------------------------------
+  P75 ventana test      = 3.67%
+  Shock months (P75)    = 2025-01, 2025-05, 2025-06  (N=3)
+  [Sensibilidad] P90 test      = 4.99% -> 2025-01, 2025-06
+  [Sensibilidad] Top4 test     = 2024-12, 2025-01, 2025-05, 2025-06
+  [Sensibilidad] P75 serie completa = 6.44% -> 2025-01
+  Referencia: umbral del paper (>20%%) sobre z-score -> 8/12 shocks ficticios;
+  sobre toneladas reales -> 0/12 shocks.
+
+====================================================================================================
+  TABLA 1 OFICIAL - MAE GLOBAL vs MAE SHOCK (criterio P75 test)
+====================================================================================================
+  --------------------------------------------------------------------------
+  Modelo           MAE_global    MAE_shock    Delta_s        N_shock   N_test
+  --------------------------------------------------------------------------
+  Naive              0.016065     0.035483   +120.87%              3       12
+  SARIMA             0.100639     0.145819    +44.89%              3       12
+  Prophet            0.091884     0.128605    +39.97%              3       12
+  SARIMAX_LSTM       0.196891     0.277364    +40.87%              3       12
+  XGBoost            0.047104     0.079525    +68.83%              3       10
+  GE                 0.067272     0.078599    +16.84%              3       10
+  GM_v3              0.064500     0.059273     -8.10%              2        6
+  --------------------------------------------------------------------------
+
+  Naive          | MAE_global=0.016065 MAE_shock=0.035483 N_shock=3 Delta_s=+120.87% | sintetico (shift 1 sobre serie nacional z-score)
+  SARIMA         | MAE_global=0.100639 MAE_shock=0.145819 N_shock=3 Delta_s=+44.89% | resultados\gc1\gc1_sarima_predicciones.csv
+  Prophet        | MAE_global=0.091884 MAE_shock=0.128605 N_shock=3 Delta_s=+39.97% | resultados\gc1\gc1_prophet_predicciones.csv
+  SARIMAX_LSTM   | MAE_global=0.196891 MAE_shock=0.277364 N_shock=3 Delta_s=+40.87% | resultados\gc2\gc2_predicciones.csv
+  XGBoost        | MAE_global=0.047104 MAE_shock=0.079525 N_shock=3 Delta_s=+68.83% | resultados\xgboost\xgb_predicciones.csv
+  GE             | MAE_global=0.067272 MAE_shock=0.078599 N_shock=3 Delta_s=+16.84% | resultados\ge\ge_predicciones.csv
+  GM_v3          | MAE_global=0.064500 MAE_shock=0.059273 N_shock=2 Delta_s=-8.10% | resultados\gm_v3\gm_v3_predicciones.csv
+
+LIMITACIONES:
+  - Cada modelo se evalua sobre su propia ventana de test guardada (N_test).
+    XGBoost y GE: nov-2024..ago-2025 (10m). GM_v3: mar-2025..ago-2025 (6m,
+    por TIMESTEPS=6 en make_seq). GC1/GC2/Naive: sep-2024..ago-2025 (12m).
+  - Delta_s es la tasa de deterioro del MAE en meses de shock
+    = (MAE_shock - MAE_global) / MAE_global * 100.

@@ -1,0 +1,84 @@
+{
+  "descripcion": "Tabla 1 oficial - re-calculo de Delta_s con mascara empirica",
+  "criterio_shock": "variacion mensual absoluta (toneladas desnormalizadas) > P75 ventana test = 3.67%",
+  "shock_months_P75": [
+    "2025-01",
+    "2025-05",
+    "2025-06"
+  ],
+  "n_shock_total": 3,
+  "umbral_paper_errado": 20.0,
+  "shocks_con_umbral_paper_sobre_toneladas": 0,
+  "shocks_con_umbral_paper_sobre_zscore": 8,
+  "ventana_test": [
+    "2024-09-01",
+    "2025-08-01"
+  ],
+  "scaler": "D:\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\notebooks\\fase2\\scalers\\standard_scaler_fase2.joblib",
+  "max_diff_real_col_vs_master": 8.326672684688674e-17,
+  "modelos": [
+    {
+      "Modelo": "Naive",
+      "MAE_global": 0.016065,
+      "MAE_shock": 0.035483,
+      "Delta_s_pct": 120.87,
+      "N_meses_shock": 3,
+      "N_test": 12,
+      "shock_meses": "2025-01|2025-05|2025-06"
+    },
+    {
+      "Modelo": "SARIMA",
+      "MAE_global": 0.100639,
+      "MAE_shock": 0.145819,
+      "Delta_s_pct": 44.89,
+      "N_meses_shock": 3,
+      "N_test": 12,
+      "shock_meses": "2025-01|2025-05|2025-06"
+    },
+    {
+      "Modelo": "Prophet",
+      "MAE_global": 0.091884,
+      "MAE_shock": 0.128605,
+      "Delta_s_pct": 39.97,
+      "N_meses_shock": 3,
+      "N_test": 12,
+      "shock_meses": "2025-01|2025-05|2025-06"
+    },
+    {
+      "Modelo": "SARIMAX_LSTM",
+      "MAE_global": 0.196891,
+      "MAE_shock": 0.277364,
+      "Delta_s_pct": 40.87,
+      "N_meses_shock": 3,
+      "N_test": 12,
+      "shock_meses": "2025-01|2025-05|2025-06"
+    },
+    {
+      "Modelo": "XGBoost",
+      "MAE_global": 0.047104,
+      "MAE_shock": 0.079525,
+      "Delta_s_pct": 68.83,
+      "N_meses_shock": 3,
+      "N_test": 10,
+      "shock_meses": "2025-01|2025-05|2025-06"
+    },
+    {
+      "Modelo": "GE",
+      "MAE_global": 0.067272,
+      "MAE_shock": 0.078599,
+      "Delta_s_pct": 16.84,
+      "N_meses_shock": 3,
+      "N_test": 10,
+      "shock_meses": "2025-01|2025-05|2025-06"
+    },
+    {
+      "Modelo": "GM_v3",
+      "MAE_global": 0.0645,
+      "MAE_shock": 0.059273,
+      "Delta_s_pct": -8.1,
+      "N_meses_shock": 2,
+      "N_test": 6,
+      "shock_meses": "2025-05|2025-06"
+    }
+  ]
+}
