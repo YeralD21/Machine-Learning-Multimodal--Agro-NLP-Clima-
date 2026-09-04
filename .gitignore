@@ -82,6 +82,9 @@ data/03_processed_nasa/*
 # MIDAGRI: Excel pesado — excluir
 sources/midagri/*.xlsx
 
+# MIDAGRI v2: Excel de 218 MB, supera el limite duro de 100 MB de GitHub
+v2_reentrenamiento/data/raw/midagri/*.xlsx
+
 # INDECI: Shapefiles y Excel pesados — excluir
 sources/indeci/shapefiles/
 sources/indeci/resumenes/*.xlsx
