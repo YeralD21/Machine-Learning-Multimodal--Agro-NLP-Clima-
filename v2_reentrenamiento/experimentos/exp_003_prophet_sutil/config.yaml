@@ -39,4 +39,4 @@ modelo_ganador:
 entorno:
   python: '3.11'
   seed: 42
-  fecha_ejecucion: 2026-09-01 22:41
+  fecha_ejecucion: 2026-09-04 07:59
