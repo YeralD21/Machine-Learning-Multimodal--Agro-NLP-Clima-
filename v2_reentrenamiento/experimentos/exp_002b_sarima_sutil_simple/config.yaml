@@ -1,0 +1,52 @@
+experimento: exp_002b_sarima_sutil_simple
+cultivo: SUTIL
+modelo: SARIMA
+descripcion: GC1 univariado parsimonioso. Alternativa a exp_002_sarima_sutil, surgida
+  del diagnostico 02b_diagnostico_sarima_sutil.ipynb.
+seleccion_metodo: seleccion MANUAL por parsimonia (NO por AIC). El diagnostico mostro
+  que el pre-filtro top-5 por AIC descartaba este orden pese a generalizar mejor. El
+  orden se fijo a priori como el SARIMA estacional minimo razonable; no hubo busqueda
+  sobre val ni sobre test.
+estado: ejecutado
+horizonte: CORREGIDO. Un unico forecast a 24 pasos desde el fin de train; val toma los
+  pasos 1..12 y test los pasos 13..24. exp_002 original usaba dos llamadas
+  forecast(steps=12) desde el mismo punto, por lo que test replicaba val.
+datos:
+  entrada: master_dataset_sutil_v2.csv
+  fuente: Midagri (produccion_t)
+  unidades: toneladas (serie cruda, sin StandardScaler)
+  n_filas: 120
+  rango: 2016-01..2025-12
+  nulos: 0
+split:
+  train:
+    rango: 2016-07..2023-12
+    meses: 90
+  val:
+    rango: 2024-01..2024-12
+    meses: 12
+  test:
+    rango: 2025-01..2025-12
+    meses: 12
+shock:
+  definicion: '|100*(y_t - y_{t-1})/y_{t-1}| > P75'
+  escala: serie real en toneladas (NUNCA z-score)
+  umbral_p75_pct: 23.2
+  sobre: TEST unicamente
+delta_s:
+  formula: (MAE_shock - MAE_global) / MAE_global * 100
+  observacion: deterioro relativo del modelo en meses de shock vs todo el test
+modelo:
+  order: (1,1,1)(1,1,0,12)
+  aic_train: 1886.52
+  bic_train: 1899.01
+  n_params: 5
+  mae_val: 4824.13
+diagnostico:
+  ljung_box: residuos no autocorrelacionados (p>0.05 en lags 6,12,18,24)
+  raices: todas fuera del circulo unitario (AR min |r|=1.0643, MA |r|=4.4561)
+  sesgo_mse_test_pct: 1.5
+entorno:
+  python: '3.11'
+  seed: 42
+  fecha_ejecucion: 2026-09-03 22:15
