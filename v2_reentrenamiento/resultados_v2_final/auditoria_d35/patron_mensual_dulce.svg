@@ -1,0 +1,44 @@
+﻿<svg xmlns='http://www.w3.org/2000/svg' width='900' height='430' viewBox='0 0 900 430'>
+<rect width='100%' height='100%' fill='white'/>
+<text x='450' y='24' text-anchor='middle' font-family='Arial' font-size='18' font-weight='700'>Patron mensual TRAIN Limon Dulce</text>
+<line x1='70' y1='45' x2='70' y2='360' stroke='#333'/>
+<line x1='70' y1='360' x2='870' y2='360' stroke='#333'/>
+<circle cx='103.333333333333' cy='279.418996771412' r='4' fill='#2f6fbb'/>
+<text x='103.333333333333' y='388' text-anchor='middle' font-family='Arial' font-size='12'>Ene</text>
+<circle cx='170' cy='213.512528606928' r='4' fill='#2f6fbb'/>
+<text x='170' y='388' text-anchor='middle' font-family='Arial' font-size='12'>Feb</text>
+<circle cx='236.666666666667' cy='133.22756862594' r='4' fill='#2f6fbb'/>
+<text x='236.666666666667' y='388' text-anchor='middle' font-family='Arial' font-size='12'>Mar</text>
+<circle cx='303.333333333333' cy='75.483870967742' r='4' fill='#2f6fbb'/>
+<text x='303.333333333333' y='388' text-anchor='middle' font-family='Arial' font-size='12'>Abr</text>
+<circle cx='370' cy='80.1320111930796' r='4' fill='#2f6fbb'/>
+<text x='370' y='388' text-anchor='middle' font-family='Arial' font-size='12'>May</text>
+<circle cx='436.666666666667' cy='95.7497776451803' r='4' fill='#2f6fbb'/>
+<text x='436.666666666667' y='388' text-anchor='middle' font-family='Arial' font-size='12'>Jun</text>
+<circle cx='503.333333333333' cy='172.015067561604' r='4' fill='#2f6fbb'/>
+<text x='503.333333333333' y='388' text-anchor='middle' font-family='Arial' font-size='12'>Jul</text>
+<circle cx='570' cy='223.763291422731' r='4' fill='#2f6fbb'/>
+<text x='570' y='388' text-anchor='middle' font-family='Arial' font-size='12'>Ago</text>
+<circle cx='636.666666666667' cy='236.508433799735' r='4' fill='#2f6fbb'/>
+<text x='636.666666666667' y='388' text-anchor='middle' font-family='Arial' font-size='12'>Sep</text>
+<circle cx='703.333333333333' cy='266.439076663381' r='4' fill='#2f6fbb'/>
+<text x='703.333333333333' y='388' text-anchor='middle' font-family='Arial' font-size='12'>Oct</text>
+<circle cx='770' cy='319.404626883621' r='4' fill='#2f6fbb'/>
+<text x='770' y='388' text-anchor='middle' font-family='Arial' font-size='12'>Nov</text>
+<circle cx='836.666666666667' cy='329.516129032258' r='4' fill='#2f6fbb'/>
+<text x='836.666666666667' y='388' text-anchor='middle' font-family='Arial' font-size='12'>Dic</text>
+<polyline points='103.333333333333,279.418996771412 170,213.512528606928 236.666666666667,133.22756862594 303.333333333333,75.483870967742 370,80.1320111930796 436.666666666667,95.7497776451803 503.333333333333,172.015067561604 570,223.763291422731 636.666666666667,236.508433799735 703.333333333333,266.439076663381 770,319.404626883621 836.666666666667,329.516129032258' fill='none' stroke='#2f6fbb' stroke-width='2'/>
+<line x1='70' y1='45' x2='870' y2='45' stroke='#eee'/>
+<text x='62' y='49' text-anchor='end' font-family='Arial' font-size='11'>653</text>
+<line x1='70' y1='123.75' x2='870' y2='123.75' stroke='#eee'/>
+<text x='62' y='127.75' text-anchor='end' font-family='Arial' font-size='11'>524</text>
+<line x1='70' y1='202.5' x2='870' y2='202.5' stroke='#eee'/>
+<text x='62' y='206.5' text-anchor='end' font-family='Arial' font-size='11'>395</text>
+<line x1='70' y1='281.25' x2='870' y2='281.25' stroke='#eee'/>
+<text x='62' y='285.25' text-anchor='end' font-family='Arial' font-size='11'>266</text>
+<line x1='70' y1='360' x2='870' y2='360' stroke='#eee'/>
+<text x='62' y='364' text-anchor='end' font-family='Arial' font-size='11'>138</text>
+<text x='450' y='422' text-anchor='middle' font-family='Arial' font-size='12'>Mes calendario</text>
+<text x='20' y='215' transform='rotate(-90 20,215)' text-anchor='middle' font-family='Arial' font-size='12'>Produccion media TRAIN (t)</text>
+</svg>
+
