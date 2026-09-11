@@ -70,6 +70,11 @@ evidencia completa de los 3 pasos y fue **APROBADA explícitamente el
 - Val: 0% (Sutil) ⚠️ / 25% (Dulce)
 - Test: 25% (Sutil) / 25% (Dulce)
 
+**SUPERSEDED POR D35-b (2026-09-10):** esta verificacion queda como
+trazabilidad historica previa. La definicion oficial v2 de shock y los P75
+vigentes son los TRAIN-only documentados en la seccion D35; los porcentajes
+anteriores no deben usarse como fuente normativa del umbral.
+
 **Justificación estadística:** Test de chi2 train vs. val+test compatible (Sutil p=0.11, Dulce p=1.00) — no hay sesgo estructural entre particiones.
 
 **Justificación de dominio:** Los shocks detectados (umbral P75 de variación mensual) correlacionan con eventos reales documentados: El Niño 2015-16, El Niño Costero 2017, cuarentena COVID-19 2020, Ciclón Yaku 2023, crisis de precios del limón 2023-24 — no son ruido estadístico.
@@ -484,6 +489,12 @@ como trabajo futuro antes de cualquier despliegue productivo del modelo.
 
 ## 2026-09-03 — Δs con n_shock=3: la cifra es real, la inferencia no
 
+**SUPERSEDED POR D35-b (2026-09-10):** esta seccion conserva la trazabilidad
+del hallazgo sobre n_shock=3, pero el umbral 23.2% citado abajo es historico/
+heredado y de procedencia temporal no reproducible. La definicion oficial de
+shock, los P75 vigentes y la interpretacion formal de Delta_s quedan fijados
+en la seccion D35 al final de este documento.
+
 **Contexto:** Δs = (MAE_shock − MAE_global)/MAE_global × 100 se calcula
 sobre los meses de test que superan el umbral P75 de variación mensual
 (23.2% para Sutil). En test 2025 eso son **3 meses: 2025-01, 2025-07 y
@@ -522,3 +533,721 @@ de hipótesis con esta muestra. Una evaluación robusta de resiliencia
 requeriría walk-forward validation sobre múltiples ventanas de test, lo que
 extendería el número de meses de shock evaluados sin alterar el split
 declarado. Queda registrado como trabajo pendiente, no ejecutado.
+
+## 2026-09-07 — Corrección de look-ahead y regeneración completa de Fase 2
+
+Auditoría previa (2026-09-05/07) detectó que la agregación provincia→nacional
+de NASA e INDECI ponderaba por la **producción provincial del mismo mes t**:
+
+    ANTES:  C_t = Σ_p( C_{p,t} · Y_{p,t} ) / Σ_p( Y_{p,t} )
+
+Calcular `T2M[t]` exigía conocer la producción provincial de *t*, que es
+precisamente lo que se quiere predecir. La media ponderada es invariante al
+escalado de los pesos, de modo que el **nivel** nacional no entraba
+directamente; lo que entraba era la **composición relativa** entre provincias.
+Aun así es un look-ahead operacional: en despliegue esas columnas no son
+computables antes de observar y_t.
+
+**Magnitud medida del artefacto:** la ponderación por producción elevaba la
+correlación clima–producción de 0.24 a 0.66 (T2M) y de −0.07 a +0.65
+(T2M_MAX) frente a la media espacial simple. Buena parte de la señal climática
+aparente era un efecto de la ponderación, no del clima.
+
+### Decisiones aprobadas y aplicadas
+
+| Id | Decisión |
+|---|---|
+| **D14** | Ponderador espacial = `verde_actual_ha` (superficie en producción activa). Cobertura 99.97 % de observaciones >0 (vs 74.9 % Sutil / 56.0 % Dulce de la producción), 0 outliers, CV interanual mediano 0.133/0.000. NO se usa producción como ponderador. |
+| **D15** | Resumen temporal = **media** sobre **TRAIN 2016-01..2023-12**. Val 2024 y test 2025 excluidos. Pesos congelados. |
+| **D16** | **Vectores independientes por cultivar.** El vector combinado queda PROHIBIDO: Sutil aportaba el 98.35 % del peso (2 261 139 t vs 38 001 t en train), de modo que la serie climática del maestro de Limón Dulce estaba determinada casi por completo por las zonas productoras de Sutil, un régimen climático distinto. |
+| **D17** | Sin exclusión de provincias, sin piso mínimo, sin suavizado. Resultado: 106/106 (Sutil) y 28/28 (Dulce) provincias con peso estrictamente positivo. |
+| **D20-a** | **`n_provincias` ELIMINADA.** Verificado que era exactamente `#{p : produccion[p,t] > 0}` (coincidencia 120/120 meses en ambos cultivos): una transformación contemporánea del target, no una característica agronómica. Rango 60–94 provincias mes a mes sobre 107, incompatible con realidad agronómica; mide cobertura del reporte MIDAGRI. |
+| **D20-b/c** | **`precio_chacra_kg` ELIMINADA** del conjunto predictivo. Se agregaba ponderando por producción (verificado en los dos niveles), viaja en el mismo registro MIDAGRI que el target, y sus ceros son no-observación: `precio = 0` ⟺ `produccion = 0` en el 100 % de los casos (3 118/3 118 Sutil, 1 377/1 377 Dulce). Permanece en `data/interim/` para trazabilidad. |
+| **D6** | **Protocolo temporal: FORECAST ROLLING ONE-STEP-AHEAD.** Información hasta el cierre de *t* predice y[t+1]. Ninguna exógena del mes objetivo entra en la matriz predictiva; todas aparecen solo como `lag1/lag3/lag6`. No es nowcasting. |
+| **D19** | **SHA-256 como convención nueva de v2.** No existía en v1 ni en la Fase 2 v2 original. |
+| **D21** | La cadena `sisagri_2015_2026.xlsx → distrito → provincia → nacional` **no es reproducible**: no existe código en el repositorio que la genere (búsqueda repo-wide; los 4 archivos que la mencionan son consumidores). Los CSV interinos se tratan como **inputs congelados**, registrados por SHA-256. La reconstrucción de Fase 1 queda fuera del alcance de esta corrección. |
+
+### Nueva agregación
+
+    AHORA:  C_{cultivar,t} = Σ_p( w_{cultivar,p} · C_{p,t} ),   w fijo, ajustado solo en TRAIN
+
+Espacio y tiempo quedan separados: primero la agregación espacial crop-aware
+(Actividad 02), después los rezagos sobre la serie nacional ya agregada
+(Actividad 03). Nunca se rezaga a nivel provincial antes de agregar.
+
+**Cobertura de la masa de peso:** NASA 100.000 % en ambos cultivos; INDECI
+100.000 % en Sutil y 97.888 % en Dulce (ANCASH|YUNGAY 0.01126 y ANCASH|CARHUAZ
+0.00986 no tienen registros INDECI). El agregador renormaliza sobre la masa
+realmente presente cada mes; ambos paneles están balanceados.
+
+### `t_index` — definición recuperada y reproducible
+
+La feature existía en los CSV desde el 2026-09-03 pero **ningún código la
+generaba**. Se recuperó su definición por reconstrucción aritmética, verificada
+contra los tres valores publicados (min −1.7129, max +2.6367, media +0.4619):
+
+    t_index = 12·(año − 2016) + (mes − 1) − 6
+
+Base 2016-07 = 0; rango 0..113. Se genera **después** del dropna de lags y
+**antes** del split y del scaler, con `assert` contra `np.arange(len(df))`
+(check, no definición) y contra los valores obligatorios 2016-07=0,
+2023-12=89, 2024-01=90, 2025-12=113.
+
+### Consecuencia estructural ya conocida
+
+Con `lookback = 6`, las 114 filas producen **84 secuencias de entrenamiento**
+(objetivos 2017-01..2023-12), no 90: los seis primeros meses solo pueden actuar
+como contexto. Val y test conservan 12 secuencias cada uno; **enero–diciembre
+2025 se evalúa completo**, tomando como contexto de 2025-01 los meses
+2024-07..2024-12 (observaciones pasadas, no información futura).
+
+### Esquema resultante
+
+| Artefacto | Antes | Después |
+|---|---|---|
+| `master_dataset_{c}_v2.csv` | 120 × 18 | **120 × 16** |
+| `master_dataset_{c}_v2_features.csv` | 114 × 33 | **114 × 48** |
+| `master_dataset_{c}_v2_escalado.csv` | 114 × 33 | **114 × 48** (44 escaladas) |
+| Scaler vigente | `scaler_{c}_v2b_tindex.joblib` (29) | **`scaler_{c}_v2c.joblib` (44, n_samples_seen_=90)** |
+
+Los scalers anteriores se movieron a `resultados_v2_final/scalers/obsoletos/`
+con su README; el estado previo completo con hashes está en
+`resultados_v2_final/pesos/REGISTRO_PRE_REGENERACION.json`.
+
+### Verificación de no afectación de GC1 y del baseline Naive
+
+`produccion_t_{cultivar}` es la **suma** provincial y no depende de los pesos.
+Verificado `max|dif| = 0.000000000000` contra `limon_{c}_nacional_mensual.csv`,
+y contra la serie `real_t` registrada en `exp_002b_sarima_sutil_simple` y
+`exp_003_prophet_dulce` la única diferencia es el redondeo a 2 decimales con
+que esos CSV fueron escritos. Ningún archivo de `experimentos/` fue modificado.
+
+### Limitación declarada — problema temporal aún abierto
+
+Congelar los pesos elimina el look-ahead **del ponderador espacial**. No
+resuelve la disponibilidad del dato climático/desastre del propio mes: con
+granularidad mensual, `C_t` es por definición un agregado del mes completo y no
+existe hasta que *t* termina. El protocolo one-step-ahead (D6) evita el
+problema por diseño al usar solo rezagos. Los rezagos reales de publicación de
+MIDAGRI, NASA POWER e INDECI siguen **NO VERIFICADOS**; para INDECI hay
+evidencia indirecta de consolidación retrospectiva (conteos anuales crecientes
+2016=2 862 → 2025=9 319, atribuidos a mejor reporte). Por eso las variables
+INDECI se usan exclusivamente rezagadas y no se asume que sus valores
+consolidados estuvieran disponibles en tiempo real.
+
+## 2026-09-10 - D35: metricas globales y evaluacion condicional ante shocks
+
+**Estado:** D35-a CERRADO y D35-b CERRADO.
+
+**Alcance:** decision documental para v2. No entrena modelos, no recalcula
+resultados historicos, no modifica datasets, scalers ni notebooks, y no cambia
+artefactos de experimentos ya guardados.
+
+**Trazabilidad interna:**
+
+- `v2_reentrenamiento/auditorias/AUDITORIA_D35_ESTACIONALIDAD_TRAIN.md`
+- `v2_reentrenamiento/auditorias/AUDITORIA_D35_P75_SHOCKS.md`
+- `v2_reentrenamiento/auditorias/RECONSTRUCCION_D35_P75_TRAIN_ONLY.md`
+
+La reconstruccion TRAIN-only es la fuente vigente para P75.
+
+### D35-a - metricas globales
+
+**Estado:** CERRADO.
+
+**Metrica primaria:** MAE.
+
+- Se calcula sobre valores en toneladas, despues de inverse scaling cuando
+  corresponda.
+- Debe calcularse sobre la misma ventana de evaluacion para todos los modelos
+  comparados.
+- Es el criterio principal de error predictivo global.
+- Su interpretacion es directa en unidades fisicas.
+
+**Metrica complementaria:** RMSE.
+
+- Se calcula tambien en toneladas.
+- Complementa MAE dando mayor peso a errores grandes.
+- No sustituye a MAE como criterio primario.
+
+**Comparacion directa contra baseline:**
+
+```text
+RelMAE_N1 = MAE_modelo / MAE_Naive_t-1
+```
+
+Ambos MAE deben calcularse sobre exactamente los mismos meses.
+
+Interpretacion:
+
+- `RelMAE_N1 < 1`: el modelo tiene menor MAE que Naive t-1.
+- `RelMAE_N1 = 1`: el modelo tiene el mismo MAE que Naive t-1.
+- `RelMAE_N1 > 1`: el modelo tiene mayor MAE que Naive t-1.
+
+Si se expresa `(1 - RelMAE_N1) * 100`, debe denominarse "reduccion relativa
+del MAE frente al Naive". No debe llamarse automaticamente "skill score
+estandar".
+
+**Metricas escaladas complementarias:** MASE_1 y RMSSE_1.
+
+Se fija `m=1` para ambos cultivares y para ambas metricas. No se selecciona un
+`m` distinto por cultivar.
+
+Los denominadores se calculan exclusivamente con la serie objetivo original
+TRAIN 2016-01..2023-12, con `N target = 96` meses y 95 diferencias. Nunca se
+calculan denominadores MASE/RMSSE usando validation o test.
+
+MASE:
+
+```text
+D_MASE_1 = mean(|y_t - y_(t-1)|), TRAIN
+MASE_1 = MAE_OOS / D_MASE_1
+```
+
+RMSSE:
+
+```text
+D_RMSSE_1 = mean((y_t - y_(t-1))^2), TRAIN
+RMSSE_1 = sqrt(MSE_OOS / D_RMSSE_1)
+```
+
+Equivalente:
+
+```text
+RMSSE_1 = RMSE_OOS / sqrt(D_RMSSE_1)
+```
+
+Denominadores TRAIN auditados:
+
+| Cultivar | D_MASE_1 | D_RMSSE_1 |
+|---|---:|---:|
+| Sutil | 3374.5715 | 18749601.6694 |
+| Dulce | 73.3380 | 7404.7927 |
+
+**Justificacion de m=1:** la auditoria TRAIN mostro comportamiento estacional
+diferente entre cultivares:
+
+| Cultivar | ACF lag12 | Comparacion TRAIN comun | Ratio MAE seasonal/naive |
+|---|---:|---|---:|
+| Sutil | 0.5652 | Seasonal Naive t-12 peor que Naive t-1 | 1.6882 |
+| Dulce | 0.8437 | Seasonal Naive t-12 mejor que Naive t-1 | 0.3180 |
+
+Sin embargo, no se adoptan denominadores distintos por cultivar. Se fija `m=1`
+de manera homogenea porque el baseline operacional oficial es Naive t-1, evita
+seleccionar post hoc el escalador segun que benchmark funcione mejor en cada
+cultivar, mantiene interpretacion comun entre cultivares y documenta la
+estacionalidad como propiedad de las series sin convertirla automaticamente en
+un denominador diferente.
+
+Seasonal Naive t-12 puede conservarse como diagnostico complementario de
+estructura estacional, pero no es el escalador oficial de D35.
+
+**R2:** R2 se conserva como metrica descriptiva secundaria. No debe utilizarse
+como criterio principal para declarar superioridad de un modelo. No se eliminan
+R2 ni resultados historicos ya registrados.
+
+**Orden recomendado de reporte global:**
+
+1. MAE
+2. RMSE
+3. RelMAE_N1
+4. MASE_1
+5. RMSSE_1
+6. R2
+
+MAE es la metrica primaria.
+
+### D35-b - evaluacion condicional ante shocks
+
+**Estado:** CERRADO.
+
+Para cada cultivar `c`:
+
+```text
+r_t = abs((y_t - y_(t-1)) / y_(t-1))
+P75_c = Q_0.75(r_t)
+```
+
+`P75_c` se estima exclusivamente usando TRAIN 2016-01..2023-12, con
+`N target = 96` meses y `N cambios relativos = 95`. Validation 2024 y test
+2025 no participan en la estimacion del P75. Los umbrales quedan congelados
+antes de la evaluacion fuera de muestra.
+
+**P75 oficiales v2:**
+
+| Cultivar | P75 oficial, proporcion | P75 oficial, porcentaje |
+|---|---:|---:|
+| Sutil | 0.240834900212216 | 24.0834900212216% |
+| Dulce | 0.320281354618397 | 32.0281354618397% |
+
+La implementacion debe usar el valor de precision completa. Los porcentajes
+redondeados son solo para presentacion.
+
+Los antiguos valores Sutil = 23.2% y Dulce = 33.9% quedan identificados como
+umbrales historicos/heredados de procedencia temporal no reproducible. No son
+los umbrales oficiales v2. Cualquier aparicion previa se conserva solo como
+trazabilidad historica superseded.
+
+**Regla de clasificacion:**
+
+```text
+shock_t = 1 si r_t > P75_c
+shock_t = 0 en otro caso
+```
+
+La comparacion es estricta (`>`). Para enero 2025, `y_(t-1)` es la produccion
+de diciembre 2024. Ese contexto historico esta permitido para calcular la
+variacion enero 2025. El P75 permanece congelado y no se recalibra con 2024 ni
+2025.
+
+**Shock mask de test 2025 con P75 TRAIN-only oficial:**
+
+| Cultivar | Shocks test 2025 | n_shock |
+|---|---|---:|
+| Sutil | 2025-01, 2025-07, 2025-11 | 3 |
+| Dulce | 2025-01, 2025-02, 2025-03 | 3 |
+
+Los nuevos P75 exactos difieren de los valores historicos, pero no modifican la
+clasificacion de shocks de test 2025. El cambio corrige trazabilidad y
+reproducibilidad metodologica sin cambiar los seis meses actualmente
+clasificados como shock.
+
+**Metricas condicionales minimas:**
+
+- MAE_global
+- MAE_shock
+- MAE_nonshock
+- n_shock
+- n_nonshock
+- Delta_s
+
+La formula de Delta_s se mantiene:
+
+```text
+Delta_s = ((MAE_shock - MAE_global) / MAE_global) * 100
+```
+
+MAE_global incluye todos los meses de evaluacion, incluidos los meses shock.
+Por tanto, Delta_s debe interpretarse junto con MAE_shock y MAE_nonshock.
+
+Delta_s queda definido formalmente como indice descriptivo de deterioro
+condicional ante shocks propuesto/definido en este estudio. No debe presentarse
+como metrica estandar universal de resiliencia, prueba estadistica, estimador
+causal ni demostracion general de robustez climatica.
+
+Interpretacion:
+
+- `Delta_s > 0`: el MAE en meses shock fue mayor que el MAE global.
+- `Delta_s = 0`: el MAE en meses shock fue igual al MAE global.
+- `Delta_s < 0`: el MAE en meses shock fue menor que el MAE global.
+
+Las comparaciones entre modelos pueden describir menor o mayor deterioro
+observado.
+
+**Limitacion por n_shock:** test 2025 contiene solo `n_shock = 3` por
+cultivar. Por ello, MAE_shock, MAE_nonshock y Delta_s son resultados
+descriptivos/condicionales sobre los episodios observados. No debe formularse
+"se demostro estadisticamente mayor resiliencia". Preferir formulaciones como
+"presento menor deterioro en los episodios de shock observados".
+
+**No DM automatico:** D35 no incorpora automaticamente Diebold-Mariano ni otra
+prueba de significancia. Con horizonte final de 12 meses y subconjunto shock de
+3 observaciones, la significancia no se usa como requisito de superioridad.
+Cualquier inferencia adicional requiere una decision metodologica separada.
+
+**Incertidumbre multi-seed:** si D35 se menciona junto con evaluacion
+multi-seed, debe aclararse que la variabilidad entre seeds de modelos
+estocasticos no equivale a incertidumbre estadistica por multiples realizaciones
+temporales del test. No debe presentarse la distribucion multi-seed como si
+aumentara `n=12` o `n_shock=3`. La politica exacta de seeds permanece en su
+decision metodologica especifica.
+
+## 2026-09-10 - D4/D36/D7/D3-op: arquitectura neuronal GC3/GE y uso de validation
+
+**Estado:** D4 CERRADO; D36 CERRADO; D7 CERRADO; D3-op CERRADO.
+
+Esta decision formaliza solo el diseno metodologico de GC3 y GE en v2. No
+implementa modelos, no entrena redes, no ejecuta HPO y no modifica datasets,
+scalers, features, resultados, notebooks ni PPI. La fuente tecnica de apoyo es
+`v2_reentrenamiento/auditorias/AUDITORIA_D4_D36_ARQUITECTURA_GC3_GE.md`.
+D35 permanece cerrado y no se reabre en esta decision.
+
+### D36 - Estructura funcional GC3/GE
+
+GC3 y GE mantienen dos ramas recurrentes funcionales:
+
+- Rama A: informacion autoregresiva.
+- Rama B: informacion exogena.
+
+**Rama A - autoregresiva, comun a GC3 y GE:**
+
+La Rama A contiene exactamente 4 inputs:
+
+- `produccion_t_{cultivar}`
+- `produccion_t_{cultivar}_lag1`
+- `produccion_t_{cultivar}_lag3`
+- `produccion_t_{cultivar}_lag6`
+
+**Rama B GC3 - exogenas no NLP:**
+
+La Rama B de GC3 contiene exactamente 33 inputs:
+
+- `mes_sin`
+- `mes_cos`
+- `t_index`
+- NASA POWER rezagado en `lag1`, `lag3` y `lag6` para 5 variables:
+  `T2M`, `T2M_MAX`, `WS2M`, `PRECTOTCORR`, `RH2M`
+- INDECI rezagado en `lag1`, `lag3` y `lag6` para 5 variables:
+  `num_emergencias`, `personas_afectadas`, `personas_damnificadas`,
+  `hectareas_cultivo_perdidas`, `hectareas_cultivo_afectadas`
+
+Total GC3: `4 + 33 = 37` inputs.
+
+**Rama B GE - exogenas no NLP + NLP rezagado:**
+
+La Rama B de GE contiene los mismos 33 inputs de GC3 mas 6 variables NLP
+rezagadas:
+
+- `avg_sentiment_lag1`
+- `avg_sentiment_lag3`
+- `avg_sentiment_lag6`
+- `n_noticias_lag1`
+- `n_noticias_lag3`
+- `n_noticias_lag6`
+
+Total GE: `4 + 39 = 43` inputs.
+
+La comparacion GC3 -> GE queda definida como ablacion del valor incremental de
+NLP. GC3 y GE deben mantener identicos:
+
+- arquitectura
+- unidades
+- attention
+- Dense
+- dropout
+- optimizer
+- learning rate
+- batch size
+- max epochs
+- callbacks
+- seeds
+- shuffle
+- split
+- scaler
+- protocolo de evaluacion
+
+La unica diferencia estructural prevista entre GC3 y GE es la entrada de seis
+variables NLP rezagadas adicionales en la Rama B de GE.
+
+**SUPERSEDED POR D36:** cualquier referencia activa o historica a `36 inputs`
+para GC3 o `42 inputs` para GE queda obsoleta. Los conteos oficiales v2 son
+GC3 = 37 inputs y GE = 43 inputs. En este archivo no se localizo una referencia
+activa previa 36/42; si aparece en handoffs, auditorias o documentacion antigua,
+debe leerse solo como trazabilidad superseded.
+
+### D4 - Arquitectura neuronal v2
+
+Para cada cultivar y para ambos modelos GC3/GE, la arquitectura neuronal v2
+queda cerrada como:
+
+```text
+Rama A:
+LSTM(16, return_sequences=True)
+-> BahdanauAttention con dimension/capacidad 16
+
+Rama B:
+LSTM(16, return_sequences=True)
+-> BahdanauAttention con dimension/capacidad 16
+
+Concatenate(context_A, context_B)
+-> Dense(16, activation='relu')
+-> Dropout(0.20)
+-> Dense(8, activation='relu')
+-> Dense(1)
+```
+
+Restricciones arquitectonicas:
+
+- una sola capa LSTM por rama;
+- no stacked LSTM;
+- no bidirectional LSTM.
+
+Regularizacion:
+
+- `dropout = 0.20`
+- `L2 = 0`
+
+Optimizer:
+
+- `Adam`
+- `learning_rate = 0.001`
+
+Compilacion conceptual:
+
+- `optimizer = Adam(learning_rate=0.001)`
+- `loss = MSE`
+- `metric = MAE`
+
+Entrenamiento:
+
+- `batch_size = 8`
+- `max_epochs = 300`
+
+Callbacks:
+
+- `EarlyStopping`: `monitor = "val_loss"`, `patience = 15`,
+  `restore_best_weights = True`.
+- `ReduceLROnPlateau`: `monitor = "val_loss"`, `factor = 0.5`,
+  `patience = 8`, `min_lr = 1e-6`.
+
+No se agregan hiperparametros adicionales en esta decision.
+
+#### D4-loss - Loss oficial de entrenamiento GC3/GE
+
+**Estado:** CERRADO.
+
+GC3 y GE usaran:
+
+- Training loss: Mean Squared Error (MSE).
+- Metrica auxiliar durante `fit`: Mean Absolute Error (MAE).
+
+La metrica primaria de evaluacion fuera de muestra continua siendo MAE segun
+D35-a. Esto no constituye contradiccion: la loss optimiza los pesos durante el
+entrenamiento y las metricas oficiales evaluan el desempeno predictivo fuera de
+muestra.
+
+En los callbacks:
+
+- `val_loss` = MSE sobre validation 2024.
+- `EarlyStopping` monitorea `val_loss`.
+- `ReduceLROnPlateau` monitorea `val_loss`.
+
+Validation 2024 se utiliza unicamente conforme a D3-op para EarlyStopping,
+ReduceLROnPlateau, restauracion del mejor estado de entrenamiento y diagnostico
+de convergencia/generalizacion. No se usa validation para comparar MSE vs MAE
+vs Huber u otras losses. No se realiza seleccion retrospectiva de loss.
+
+Justificacion:
+
+1. MSE era la loss historica de GC3/GE v1.
+2. MSE es una loss estandar de regresion para forecasting.
+3. Se preserva continuidad experimental sin introducir un nuevo hiperparametro
+   ni una busqueda adicional.
+4. MAE sigue siendo primaria para evaluacion porque D35-a asi lo establece.
+5. No se afirma que MSE sea universalmente superior a MAE.
+6. No se probo MSE contra otras losses usando validation ni test.
+
+Requisito futuro de `History`: cada corrida GC3/GE debe guardar `loss`,
+`val_loss`, `mae`, `val_mae` y `learning_rate` para diagnostico grafico
+posterior.
+
+**Justificacion metodologica:** se adopta una arquitectura compacta
+preespecificada debido al regimen Small Data (`84` secuencias efectivas TRAIN),
+preservando DualLSTM + Attention y evitando una busqueda extensiva de
+arquitectura sobre validation de solo 12 meses. La literatura sobre series
+individuales cortas respalda la cautela frente a RNN profundas o con muchos
+parametros; sin embargo, no se afirma que la literatura recomiende exactamente
+16 unidades. La eleccion de 16 unidades es una decision parsimoniosa
+preespecificada y justificada para v2.
+
+Conteos auditados de parametros:
+
+| Arquitectura | GC3 params | GE params | Delta GE-GC3 | Incremento relativo |
+|---|---:|---:|---:|---:|
+| HEREDADA | 68,577 | 70,113 | 1,536 | 2.24% |
+| COMPACTA-16 adoptada | 6,273 | 6,657 | 384 | 6.12% |
+
+El cociente parametros/secuencia es un descriptor de complejidad en regimen
+Small Data y no constituye un criterio formal de validez o invalidez de una
+arquitectura.
+
+### D7 - Shuffle
+
+Para GC3 y GE en v2 se fija:
+
+```text
+shuffle = False
+```
+
+Motivo: decision conservadora para mantener el orden cronologico y reforzar la
+reproducibilidad del entrenamiento.
+
+Debe distinguirse entre:
+
+- mezclar observaciones antes de crear ventanas temporales: no permitido;
+- mezclar ventanas ya formadas durante SGD: no implica automaticamente leakage
+  si cada ventana esta correctamente construida, pero no se utilizara en v2.
+
+### D3-op - Uso operativo de validation 2024
+
+Validation 2024 no puede utilizarse para:
+
+- escoger entre `LSTM8`, `LSTM16`, `LSTM32` o `LSTM64`;
+- seleccionar arquitectura;
+- hacer GridSearch;
+- hacer RandomSearch;
+- ejecutar Optuna;
+- ejecutar busqueda bayesiana;
+- probar multiples combinaciones y elegir la mejor;
+- seleccionar una seed ganadora.
+
+Validation 2024 si puede utilizarse para:
+
+- `EarlyStopping`;
+- `ReduceLROnPlateau`;
+- checkpoint o restauracion del mismo entrenamiento preespecificado;
+- controles tecnicos de convergencia/generalizacion.
+
+Roles por split:
+
+- TRAIN: aprendizaje de parametros.
+- VALIDATION 2024: control del proceso de entrenamiento preespecificado.
+- TEST 2025: evaluacion final unicamente.
+
+El test nunca interviene en seleccion, arquitectura, hiperparametros,
+callbacks, thresholds, seeds ni definicion de metricas.
+
+## 2026-09-10 - D0/D10: reproducibilidad y protocolo multi-seed GC3/GE
+
+**Estado:** D0 CERRADO; D10 CERRADO.
+
+Esta decision formaliza el protocolo de reproducibilidad y multi-seed para GC3
+y GE en v2. No implementa modelos, no entrena redes, no ejecuta seeds, no
+repara el entorno, no usa validation 2024 ni test 2025, y no modifica datasets,
+scalers, features, resultados ni notebooks.
+
+Fuente principal:
+
+- `v2_reentrenamiento/auditorias/AUDITORIA_D0_D10_REPRODUCIBILIDAD_MULTISEED.md`
+
+### D10 - Protocolo multi-seed GC3/GE
+
+Para GC3 y GE se fija antes de cualquier entrenamiento oficial:
+
+```text
+seeds = [0,1,2,3,4,5,6,7,8,9]
+```
+
+Total: 10 seeds.
+
+La eleccion es un compromiso metodologico entre caracterizar variabilidad
+estocastica, evitar dependencia de una unica inicializacion y mantener un costo
+computacional razonable. No se afirma que 10 sea un numero universalmente
+optimo.
+
+Queda prohibido:
+
+- seleccionar la seed con mejor MAE;
+- descartar seeds por bajo rendimiento salvo fallo tecnico verificable;
+- cambiar la lista despues de observar resultados.
+
+GC3 y GE deben ejecutarse emparejados por seed:
+
+```text
+GC3(seed=s) <-> GE(seed=s), para s = 0..9
+```
+
+Las mismas seeds no implican inicializaciones numericamente identicas entre GC3
+y GE, porque las dimensiones de entrada difieren. Su finalidad es controlar el
+protocolo de aleatoriedad de forma comparable.
+
+Se deben reportar todas las seeds individuales y, como resumen, para MAE y las
+demas metricas oficiales cuando corresponda:
+
+- media;
+- mediana;
+- desviacion estandar;
+- minimo;
+- maximo.
+
+La variabilidad entre seeds no debe interpretarse como intervalo de confianza
+temporal ni como incertidumbre de muestreo de la serie. Describe sensibilidad
+del entrenamiento estocastico bajo un mismo protocolo.
+
+### D0 - Reproducibilidad controlada
+
+Para v2, reproducibilidad se define como reproducibilidad controlada dentro de
+un entorno software/hardware congelado.
+
+No se promete identidad bit-a-bit entre hardware, sistemas operativos, drivers
+o versiones diferentes.
+
+En la implementacion posterior debe existir una unica funcion central de
+determinismo. Esa funcion debe controlar como minimo:
+
+- Python `random`;
+- NumPy;
+- TensorFlow/Keras;
+- `PYTHONHASHSEED`;
+- operaciones deterministas de TensorFlow cuando sean compatibles.
+
+API preferida segun compatibilidad del entorno final:
+
+```text
+keras.utils.set_random_seed(seed)
+```
+
+y:
+
+```text
+tf.config.experimental.enable_op_determinism()
+```
+
+o API equivalente vigente.
+
+`TF_DETERMINISTIC_OPS=1` puede utilizarse cuando corresponda.
+
+`TF_ENABLE_ONEDNN_OPTS=0` se documenta como medida conservadora para el entorno
+CPU v2, no como requisito universal de reproducibilidad.
+
+Las variables de entorno que deban actuar antes de inicializar TensorFlow deben
+configurarse antes de importar o inicializar TensorFlow.
+
+Metadata minima por corrida:
+
+- seed;
+- cultivar;
+- modelo;
+- Python version;
+- TensorFlow version;
+- Keras version;
+- NumPy version;
+- OS;
+- CPU/GPU;
+- determinism settings;
+- oneDNN setting;
+- timestamp;
+- git commit/hash;
+- hashes de datasets;
+- hashes de scalers;
+- hash/configuracion del modelo.
+
+### Historial de entrenamiento
+
+Como requisito futuro, sin implementarlo todavia, cada corrida GC3/GE debe
+preservar:
+
+- epoch;
+- loss;
+- val_loss;
+- learning_rate;
+- best_epoch;
+- stopped_epoch.
+
+Esto permitira generar curvas TRAIN/VAL y auditar convergencia/sobreajuste sin
+seleccionar retrospectivamente arquitecturas.
+
+Cada seed tendra sus propios artefactos y nunca debe sobrescribir otra seed.
+
+### XGBoost / GC2
+
+Esta decision no cierra todavia la aplicacion multi-seed a GC2.
+
+Si la configuracion final GC2 contiene estocasticidad relevante, por ejemplo
+`subsample < 1`, `colsample_bytree < 1` u otra fuente equivalente, se evaluara
+usar las mismas 10 seeds.
+
+Si la configuracion final GC2 es esencialmente determinista con `random_state`
+fijado, no debe repetirse automaticamente 10 veces sin justificacion.
+
+La politica de seeds para GC2 se decidira al cerrar el protocolo GC2.

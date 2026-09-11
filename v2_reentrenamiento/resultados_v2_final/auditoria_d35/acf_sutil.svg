@@ -1,0 +1,46 @@
+﻿<svg xmlns='http://www.w3.org/2000/svg' width='860' height='420' viewBox='0 0 860 420'>
+<rect width='100%' height='100%' fill='white'/>
+<text x='430' y='24' text-anchor='middle' font-family='Arial' font-size='18' font-weight='700'>ACF TRAIN Limon Sutil</text>
+<line x1='60' y1='205' x2='835' y2='205' stroke='#333' stroke-width='1'/>
+<line x1='60' y1='172.993334027633' x2='835' y2='172.993334027633' stroke='#999' stroke-dasharray='5,5'/>
+<line x1='60' y1='237.006665972367' x2='835' y2='237.006665972367' stroke='#999' stroke-dasharray='5,5'/>
+<text x='835' y='167.993334027633' text-anchor='end' font-family='Arial' font-size='11' fill='#666'>+/-1.96/sqrt(N)</text>
+<rect x='51.5' y='45' width='17' height='160' fill='#2f6fbb'/>
+<rect x='83.7916666666667' y='70' width='17' height='135.167741549126' fill='#2f6fbb'/>
+<rect x='116.083333333333' y='113' width='17' height='92.0153457980697' fill='#2f6fbb'/>
+<rect x='148.375' y='160' width='17' height='44.6839508707856' fill='#2f6fbb'/>
+<rect x='180.666666666667' y='204' width='17' height='1.27008204734611' fill='#2f6fbb'/>
+<rect x='212.958333333333' y='205' width='17' height='27.0695124475651' fill='#b94a48'/>
+<rect x='245.25' y='205' width='17' height='37.0540929464006' fill='#b94a48'/>
+<rect x='277.541666666667' y='205' width='17' height='28.6520326006599' fill='#b94a48'/>
+<rect x='309.833333333333' y='205' width='17' height='5.28874802826479' fill='#b94a48'/>
+<rect x='342.125' y='176' width='17' height='28.7387792733499' fill='#2f6fbb'/>
+<rect x='374.416666666667' y='142' width='17' height='63.0799903489353' fill='#2f6fbb'/>
+<rect x='406.708333333333' y='119' width='17' height='85.7007980746507' fill='#2f6fbb'/>
+<rect x='439' y='115' width='17' height='90.4374358059518' fill='#2f6fbb'/>
+<rect x='471.291666666667' y='130' width='17' height='75.2801404714612' fill='#2f6fbb'/>
+<rect x='503.583333333333' y='161' width='17' height='44.0872549982959' fill='#2f6fbb'/>
+<rect x='535.875' y='199' width='17' height='5.58014291113454' fill='#2f6fbb'/>
+<rect x='568.166666666667' y='205' width='17' height='30.9159576320787' fill='#b94a48'/>
+<rect x='600.458333333333' y='205' width='17' height='59.7528096965372' fill='#b94a48'/>
+<rect x='632.75' y='205' width='17' height='71.4815394108865' fill='#b94a48'/>
+<rect x='665.041666666667' y='205' width='17' height='57.6627248629891' fill='#b94a48'/>
+<rect x='697.333333333333' y='205' width='17' height='25.1672167469493' fill='#b94a48'/>
+<rect x='729.625' y='192' width='17' height='13.4110532342189' fill='#2f6fbb'/>
+<rect x='761.916666666667' y='163' width='17' height='42.1372072589518' fill='#2f6fbb'/>
+<rect x='794.208333333333' y='148' width='17' height='57.3959700977253' fill='#2f6fbb'/>
+<rect x='826.5' y='150' width='17' height='54.7522412905308' fill='#2f6fbb'/>
+<line x1='60' y1='205' x2='60' y2='210' stroke='#333'/>
+<text x='60' y='398' text-anchor='middle' font-family='Arial' font-size='12'>0</text>
+<line x1='253.75' y1='205' x2='253.75' y2='210' stroke='#333'/>
+<text x='253.75' y='398' text-anchor='middle' font-family='Arial' font-size='12'>6</text>
+<line x1='447.5' y1='205' x2='447.5' y2='210' stroke='#333'/>
+<text x='447.5' y='398' text-anchor='middle' font-family='Arial' font-size='12'>12</text>
+<line x1='641.25' y1='205' x2='641.25' y2='210' stroke='#333'/>
+<text x='641.25' y='398' text-anchor='middle' font-family='Arial' font-size='12'>18</text>
+<line x1='835' y1='205' x2='835' y2='210' stroke='#333'/>
+<text x='835' y='398' text-anchor='middle' font-family='Arial' font-size='12'>24</text>
+<text x='430' y='414' text-anchor='middle' font-family='Arial' font-size='12'>Lag mensual</text>
+<text x='18' y='210' transform='rotate(-90 18,210)' text-anchor='middle' font-family='Arial' font-size='12'>ACF</text>
+</svg>
+

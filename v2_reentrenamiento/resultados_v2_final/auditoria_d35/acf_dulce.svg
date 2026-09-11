@@ -1,0 +1,46 @@
+﻿<svg xmlns='http://www.w3.org/2000/svg' width='860' height='420' viewBox='0 0 860 420'>
+<rect width='100%' height='100%' fill='white'/>
+<text x='430' y='24' text-anchor='middle' font-family='Arial' font-size='18' font-weight='700'>ACF TRAIN Limon Dulce</text>
+<line x1='60' y1='205' x2='835' y2='205' stroke='#333' stroke-width='1'/>
+<line x1='60' y1='172.993334027633' x2='835' y2='172.993334027633' stroke='#999' stroke-dasharray='5,5'/>
+<line x1='60' y1='237.006665972367' x2='835' y2='237.006665972367' stroke='#999' stroke-dasharray='5,5'/>
+<text x='835' y='167.993334027633' text-anchor='end' font-family='Arial' font-size='11' fill='#666'>+/-1.96/sqrt(N)</text>
+<rect x='51.5' y='45' width='17' height='160' fill='#2f6fbb'/>
+<rect x='83.7916666666667' y='75' width='17' height='129.8938712953' fill='#2f6fbb'/>
+<rect x='116.083333333333' y='138' width='17' height='66.7460718873209' fill='#2f6fbb'/>
+<rect x='148.375' y='205' width='17' height='8.21778064025017' fill='#b94a48'/>
+<rect x='180.666666666667' y='205' width='17' height='74.7126093415076' fill='#b94a48'/>
+<rect x='212.958333333333' y='205' width='17' height='117.685312038584' fill='#b94a48'/>
+<rect x='245.25' y='205' width='17' height='131.212621095917' fill='#b94a48'/>
+<rect x='277.541666666667' y='205' width='17' height='112.220521866077' fill='#b94a48'/>
+<rect x='309.833333333333' y='205' width='17' height='67.1112004586475' fill='#b94a48'/>
+<rect x='342.125' y='205' width='17' height='1.38744102865601' fill='#b94a48'/>
+<rect x='374.416666666667' y='138' width='17' height='66.6649680817158' fill='#2f6fbb'/>
+<rect x='406.708333333333' y='87' width='17' height='118.374443594745' fill='#2f6fbb'/>
+<rect x='439' y='70' width='17' height='134.999201481749' fill='#2f6fbb'/>
+<rect x='471.291666666667' y='99' width='17' height='106.336250207086' fill='#2f6fbb'/>
+<rect x='503.583333333333' y='155' width='17' height='49.910946679916' fill='#2f6fbb'/>
+<rect x='535.875' y='205' width='17' height='14.9054480090103' fill='#b94a48'/>
+<rect x='568.166666666667' y='205' width='17' height='70.4070887591125' fill='#b94a48'/>
+<rect x='600.458333333333' y='205' width='17' height='104.828838598381' fill='#b94a48'/>
+<rect x='632.75' y='205' width='17' height='112.253110225512' fill='#b94a48'/>
+<rect x='665.041666666667' y='205' width='17' height='93.7246852937822' fill='#b94a48'/>
+<rect x='697.333333333333' y='205' width='17' height='52.2726410407313' fill='#b94a48'/>
+<rect x='729.625' y='200' width='17' height='5.20240832919373' fill='#2f6fbb'/>
+<rect x='761.916666666667' y='142' width='17' height='62.823789685412' fill='#2f6fbb'/>
+<rect x='794.208333333333' y='100' width='17' height='104.595419614287' fill='#2f6fbb'/>
+<rect x='826.5' y='91' width='17' height='114.184123091086' fill='#2f6fbb'/>
+<line x1='60' y1='205' x2='60' y2='210' stroke='#333'/>
+<text x='60' y='398' text-anchor='middle' font-family='Arial' font-size='12'>0</text>
+<line x1='253.75' y1='205' x2='253.75' y2='210' stroke='#333'/>
+<text x='253.75' y='398' text-anchor='middle' font-family='Arial' font-size='12'>6</text>
+<line x1='447.5' y1='205' x2='447.5' y2='210' stroke='#333'/>
+<text x='447.5' y='398' text-anchor='middle' font-family='Arial' font-size='12'>12</text>
+<line x1='641.25' y1='205' x2='641.25' y2='210' stroke='#333'/>
+<text x='641.25' y='398' text-anchor='middle' font-family='Arial' font-size='12'>18</text>
+<line x1='835' y1='205' x2='835' y2='210' stroke='#333'/>
+<text x='835' y='398' text-anchor='middle' font-family='Arial' font-size='12'>24</text>
+<text x='430' y='414' text-anchor='middle' font-family='Arial' font-size='12'>Lag mensual</text>
+<text x='18' y='210' transform='rotate(-90 18,210)' text-anchor='middle' font-family='Arial' font-size='12'>ACF</text>
+</svg>
+
