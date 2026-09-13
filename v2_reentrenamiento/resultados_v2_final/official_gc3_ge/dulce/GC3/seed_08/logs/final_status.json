@@ -1,0 +1,20 @@
+{
+  "best_epoch": 37,
+  "best_val_loss": 0.2278795689344406,
+  "checkpoint_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_08\\checkpoint_best.keras",
+  "config_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_08\\config.json",
+  "cultivar": "dulce",
+  "final_learning_rate": 0.0005000000237487257,
+  "final_loss": 0.07032988220453262,
+  "final_mae": 0.1808069795370102,
+  "final_val_loss": 0.28735074400901794,
+  "final_val_mae": 0.4528709650039673,
+  "fit_seconds": 6.863343799999939,
+  "history_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_08\\history.csv",
+  "metadata_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_08\\metadata.json",
+  "model_name": "GC3",
+  "seed": 8,
+  "status": "complete",
+  "stopped_epoch": 52,
+  "timestamp_utc": "2026-09-11T16:35:17.273918+00:00"
+}

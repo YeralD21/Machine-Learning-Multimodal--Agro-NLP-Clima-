@@ -1,0 +1,394 @@
+{
+  "all_controls_ok": true,
+  "controls": [
+    {
+      "detail": "90",
+      "name": "sutil TRAIN n=90",
+      "ok": true
+    },
+    {
+      "detail": "2016-07..2023-12",
+      "name": "sutil TRAIN 2016-07..2023-12",
+      "ok": true
+    },
+    {
+      "detail": "12",
+      "name": "sutil VAL n=12",
+      "ok": true
+    },
+    {
+      "detail": "2024-01..2024-12",
+      "name": "sutil VAL 2024-01..2024-12",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "sutil no TEST loaded",
+      "ok": true
+    },
+    {
+      "detail": "12 one-step forecasts",
+      "name": "sutil forecast steps=1 all VAL",
+      "ok": true
+    },
+    {
+      "detail": "['append(refit=False)']",
+      "name": "sutil append refit=False all VAL",
+      "ok": true
+    },
+    {
+      "detail": "[True, True, True, True, True, True, True, True, True, True, True, True]",
+      "name": "sutil coefficients unchanged",
+      "ok": true
+    },
+    {
+      "detail": "['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06', '2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12']",
+      "name": "sutil VAL dates exact",
+      "ok": true
+    },
+    {
+      "detail": "90",
+      "name": "dulce TRAIN n=90",
+      "ok": true
+    },
+    {
+      "detail": "2016-07..2023-12",
+      "name": "dulce TRAIN 2016-07..2023-12",
+      "ok": true
+    },
+    {
+      "detail": "12",
+      "name": "dulce VAL n=12",
+      "ok": true
+    },
+    {
+      "detail": "2024-01..2024-12",
+      "name": "dulce VAL 2024-01..2024-12",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "dulce no TEST loaded",
+      "ok": true
+    },
+    {
+      "detail": "12 one-step forecasts",
+      "name": "dulce forecast steps=1 all VAL",
+      "ok": true
+    },
+    {
+      "detail": "['append(refit=False)']",
+      "name": "dulce append refit=False all VAL",
+      "ok": true
+    },
+    {
+      "detail": "[True, True, True, True, True, True, True, True, True, True, True, True]",
+      "name": "dulce coefficients unchanged",
+      "ok": true
+    },
+    {
+      "detail": "['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06', '2024-07', '2024-08', '2024-09', '2024-10', '2024-11', '2024-12']",
+      "name": "dulce VAL dates exact",
+      "ok": true
+    }
+  ],
+  "cultivars": {
+    "dulce": {
+      "append_methods": [
+        "append(refit=False)"
+      ],
+      "dataset": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\data\\processed\\master_dataset_dulce_v2.csv",
+      "dry_run_rows": [
+        {
+          "forecast_steps": 1,
+          "origin_date": "2023-12",
+          "target_date": "2024-01",
+          "y_pred_dry_run": 295.2652879417023,
+          "y_true_observed": 322.41
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-01",
+          "target_date": "2024-02",
+          "y_pred_dry_run": 429.36854096485797,
+          "y_true_observed": 444.66
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-02",
+          "target_date": "2024-03",
+          "y_pred_dry_run": 589.2972808581584,
+          "y_true_observed": 626.2
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-03",
+          "target_date": "2024-04",
+          "y_pred_dry_run": 685.9826742597393,
+          "y_true_observed": 675.798
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-04",
+          "target_date": "2024-05",
+          "y_pred_dry_run": 616.7869352697005,
+          "y_true_observed": 650.529
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-05",
+          "target_date": "2024-06",
+          "y_pred_dry_run": 594.4448742850028,
+          "y_true_observed": 616.329
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-06",
+          "target_date": "2024-07",
+          "y_pred_dry_run": 446.44440827450336,
+          "y_true_observed": 454.679
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-07",
+          "target_date": "2024-08",
+          "y_pred_dry_run": 359.61774814660157,
+          "y_true_observed": 382.099
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-08",
+          "target_date": "2024-09",
+          "y_pred_dry_run": 353.5675789181574,
+          "y_true_observed": 439.59
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-09",
+          "target_date": "2024-10",
+          "y_pred_dry_run": 329.05925702875373,
+          "y_true_observed": 294.14
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-10",
+          "target_date": "2024-11",
+          "y_pred_dry_run": 249.29192483474276,
+          "y_true_observed": 229.4
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-11",
+          "target_date": "2024-12",
+          "y_pred_dry_run": 261.12607731207237,
+          "y_true_observed": 243.65
+        }
+      ],
+      "fit_kwargs": {
+        "enforce_invertibility": false,
+        "enforce_stationarity": false,
+        "initialization": "approximate_diffuse",
+        "trend": "c"
+      },
+      "order": [
+        1,
+        1,
+        1
+      ],
+      "params_after": [
+        -0.07880806541327616,
+        0.21645097780656394,
+        -0.8169159151963441,
+        -0.017015515017832914,
+        523.0023480482432
+      ],
+      "params_before": [
+        -0.07880806541327616,
+        0.21645097780656394,
+        -0.8169159151963441,
+        -0.017015515017832914,
+        523.0023480482432
+      ],
+      "params_unchanged_all_steps": true,
+      "seasonal_order": [
+        1,
+        1,
+        0,
+        12
+      ],
+      "statsmodels_version": "0.14.6",
+      "target": "produccion_t_dulce",
+      "test_loaded": false,
+      "train_n": 90,
+      "train_range": "2016-07..2023-12",
+      "val_n": 12,
+      "val_range": "2024-01..2024-12"
+    },
+    "sutil": {
+      "append_methods": [
+        "append(refit=False)"
+      ],
+      "dataset": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\data\\processed\\master_dataset_sutil_v2.csv",
+      "dry_run_rows": [
+        {
+          "forecast_steps": 1,
+          "origin_date": "2023-12",
+          "target_date": "2024-01",
+          "y_pred_dry_run": 36917.180324406174,
+          "y_true_observed": 36531.883
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-01",
+          "target_date": "2024-02",
+          "y_pred_dry_run": 40403.18713240745,
+          "y_true_observed": 43992.447
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-02",
+          "target_date": "2024-03",
+          "y_pred_dry_run": 41747.992732443316,
+          "y_true_observed": 44161.843
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-03",
+          "target_date": "2024-04",
+          "y_pred_dry_run": 39536.94440183915,
+          "y_true_observed": 43176.231
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-04",
+          "target_date": "2024-05",
+          "y_pred_dry_run": 41566.65642493255,
+          "y_true_observed": 39200.488
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-05",
+          "target_date": "2024-06",
+          "y_pred_dry_run": 33224.658627098885,
+          "y_true_observed": 30460.085
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-06",
+          "target_date": "2024-07",
+          "y_pred_dry_run": 26908.789763538836,
+          "y_true_observed": 24936.369
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-07",
+          "target_date": "2024-08",
+          "y_pred_dry_run": 21252.940600568178,
+          "y_true_observed": 25176.553
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-08",
+          "target_date": "2024-09",
+          "y_pred_dry_run": 28821.312264951634,
+          "y_true_observed": 24222.32
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-09",
+          "target_date": "2024-10",
+          "y_pred_dry_run": 23804.05034996166,
+          "y_true_observed": 23811.288
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-10",
+          "target_date": "2024-11",
+          "y_pred_dry_run": 29384.56431470133,
+          "y_true_observed": 24280.547
+        },
+        {
+          "forecast_steps": 1,
+          "origin_date": "2024-11",
+          "target_date": "2024-12",
+          "y_pred_dry_run": 29958.746782201346,
+          "y_true_observed": 26555.144
+        }
+      ],
+      "fit_kwargs": {
+        "enforce_invertibility": false,
+        "enforce_stationarity": false,
+        "initialization": "approximate_diffuse",
+        "trend": "c"
+      },
+      "order": [
+        1,
+        1,
+        1
+      ],
+      "params_after": [
+        207.9869971004901,
+        -0.05483771744209054,
+        0.22441134712817645,
+        -0.47318291608103935,
+        20258571.196003255
+      ],
+      "params_before": [
+        207.9869971004901,
+        -0.05483771744209054,
+        0.22441134712817645,
+        -0.47318291608103935,
+        20258571.196003255
+      ],
+      "params_unchanged_all_steps": true,
+      "seasonal_order": [
+        1,
+        1,
+        0,
+        12
+      ],
+      "statsmodels_version": "0.14.6",
+      "target": "produccion_t_sutil",
+      "test_loaded": false,
+      "train_n": 90,
+      "train_range": "2016-07..2023-12",
+      "val_n": 12,
+      "val_range": "2024-01..2024-12"
+    }
+  },
+  "environment": {
+    "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
+    "os": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "statsmodels": "0.14.6"
+  },
+  "finished_utc": "2026-09-12T22:44:31.380427+00:00",
+  "git_commit": "44fe6eafca927ba22d97bf8e46d6ad530cc1a47a",
+  "git_status_sb": "## main...origin/main\n M v2_reentrenamiento/DECISIONES_METODOLOGICAS.md\n?? data/interim/indeci/indeci_temporal_2019_2025.csv\n?? data/interim/nasa/clima_dataset_2019_2020.csv\n?? sources/agraria-pe/sin-unificar/agro_news_2020.csv\n?? sources/agraria-pe/sin-unificar/checkpoint_2019_2020.json\n?? sources/noticias-ampliado/\n?? src/scraping/agronoticias_scraper.py\n?? src/scraping/andina_scraper.py\n?? src/scraping/base_scraper.py\n?? src/scraping/freshfruit_scraper.py\n?? src/scraping/recalcular_sentimiento_v2.py\n?? src/scraping/redagricola_scraper.py\n?? src/scraping/run_expansion.py\n?? src/scraping/unificar_corpus_v2.py\n?? src/weather/nasa_power_downloader.py\n?? v2_reentrenamiento/HANDOFF_CONTEXTO_ACTUAL.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_ENTRENAMIENTO_OFICIAL_GC3_GE.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_EVALUACION_TEST_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_EVALUACION_TEST_GC3_GE.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_METODOLOGICA_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_POST_RUN_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_POST_RUN_GC3_GE.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_PREFLIGHT_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_RUNNER_OFICIAL_GC3_GE.md\n?? v2_reentrenamiento/auditorias/auditar_entrenamiento_oficial_gc3_ge.py\n?? v2_reentrenamiento/auditorias/auditar_post_run_final_gc3_ge.py\n?? v2_reentrenamiento/auditorias/auditar_post_run_gc2_xgboost.py\n?? v2_reentrenamiento/auditorias/auditar_runner_oficial_gc3_ge.py\n?? v2_reentrenamiento/auditorias/auditar_sarima_rolling_preflight.py\n?? v2_reentrenamiento/auditorias/ejecutar_entrenamiento_oficial_gc2_xgboost.py\n?? v2_reentrenamiento/auditorias/ejecutar_entrenamiento_oficial_gc3_ge.py\n?? v2_reentrenamiento/auditorias/entrenamiento_oficial_gc2_xgboost_manifest.json\n?? v2_reentrenamiento/auditorias/entrenamiento_oficial_gc3_ge_manifest.json\n?? v2_reentrenamiento/auditorias/evaluar_test_gc2_xgboost.py\n?? v2_reentrenamiento/auditorias/evaluar_test_gc3_ge.py\n?? v2_reentrenamiento/auditorias/gc2_xgboost_preflight_dry_run.json\n?? v2_reentrenamiento/auditorias/resumen_entrenamiento_oficial_gc3_ge.csv\n?? v2_reentrenamiento/auditorias/resumen_entrenamiento_oficial_gc3_ge.json\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc2_xgboost.csv\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc2_xgboost.json\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc3_ge.csv\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc3_ge.json\n?? v2_reentrenamiento/auditorias/runner_oficial_gc3_ge_dry_run.json\n?? v2_reentrenamiento/resultados_v2_final/evaluacion_test_gc2_xgboost/\n?? v2_reentrenamiento/resultados_v2_final/evaluacion_test_gc3_ge/\n?? v2_reentrenamiento/resultados_v2_final/official_gc2_xgboost/\n?? v2_reentrenamiento/resultados_v2_final/official_gc3_ge/\n?? v2_reentrenamiento/resultados_v2_final/technical_pilot/\n?? v2_reentrenamiento/resultados_v2_final/technical_pilot_scaled/\n?? v2_reentrenamiento/src/models/features_gc2_xgboost.py\n?? v2_reentrenamiento/src/training/config_gc2_xgboost.py\n?? v2_reentrenamiento/src/training/official_runner_gc2_xgboost.py\n?? v2_reentrenamiento/src/training/official_runner_gc3_ge.py\n?? v2_reentrenamiento/src/training/tabular_gc2_xgboost.py",
+  "protocol": {
+    "api": "SARIMAXResults.append(endog, refit=False) after forecast(steps=1)",
+    "fit_kwargs": {
+      "enforce_invertibility": false,
+      "enforce_stationarity": false,
+      "initialization": "approximate_diffuse",
+      "trend": "c"
+    },
+    "fit_period": "TRAIN only: 2016-07..2023-12",
+    "official_metrics_generated": false,
+    "order": [
+      1,
+      1,
+      1
+    ],
+    "seasonal_order": [
+      1,
+      1,
+      0,
+      12
+    ],
+    "state_update_period": "VAL only dry-run: 2024-01..2024-12",
+    "test_forecast_executed": false
+  },
+  "started_utc": "2026-09-12T22:44:30.798234+00:00",
+  "status": "approved"
+}

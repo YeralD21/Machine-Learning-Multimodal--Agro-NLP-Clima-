@@ -1,0 +1,11 @@
+cultivar,model,MAE_shock,shock_MAE_diff_vs_SARIMA,shock_MAE_diff_vs_XGB,shock_error_reduction_vs_SARIMA,shock_error_reduction_vs_XGB,interpretation_note
+dulce,Naive,138.25666666666666,126.65296508694968,48.152165844390964,-126.65296508694968,-48.152165844390964,diferencia/reduccion descriptiva del error absoluto medio; no ahorro economico
+dulce,SARIMA_rolling,11.603701579716985,0.0,-78.50079924255871,-0.0,78.50079924255871,diferencia/reduccion descriptiva del error absoluto medio; no ahorro economico
+dulce,XGBoost,90.1045008222757,78.50079924255871,0.0,-78.50079924255871,-0.0,diferencia/reduccion descriptiva del error absoluto medio; no ahorro economico
+dulce,GC3,118.94419360397342,107.34049202425643,28.83969278169772,-107.34049202425643,-28.83969278169772,diferencia/reduccion descriptiva del error absoluto medio; no ahorro economico
+dulce,GE,99.9075885287912,88.30388694907421,9.803087706515498,-88.30388694907421,-9.803087706515498,diferencia/reduccion descriptiva del error absoluto medio; no ahorro economico
+sutil,Naive,11660.15333333333,3835.75042911523,3363.256816921985,-3835.75042911523,-3363.256816921985,diferencia/reduccion descriptiva del error absoluto medio; no ahorro economico
+sutil,SARIMA_rolling,7824.4029042181,0.0,-472.4936121932451,-0.0,472.4936121932451,diferencia/reduccion descriptiva del error absoluto medio; no ahorro economico
+sutil,XGBoost,8296.896516411345,472.4936121932451,0.0,-472.4936121932451,-0.0,diferencia/reduccion descriptiva del error absoluto medio; no ahorro economico
+sutil,GC3,5594.109032335084,-2230.2938718830164,-2702.7874840762615,2230.2938718830164,2702.7874840762615,diferencia/reduccion descriptiva del error absoluto medio; no ahorro economico
+sutil,GE,7908.4878885615635,84.08498434346347,-388.4086278497816,-84.08498434346347,388.4086278497816,diferencia/reduccion descriptiva del error absoluto medio; no ahorro economico

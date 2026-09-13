@@ -1,0 +1,765 @@
+{
+  "controls": [
+    {
+      "detail": "20",
+      "name": "20 manifest records",
+      "ok": true
+    },
+    {
+      "detail": "[('dulce', 0), ('dulce', 1), ('dulce', 2), ('dulce', 3), ('dulce', 4), ('dulce', 5), ('dulce', 6), ('dulce', 7), ('dulce', 8), ('dulce', 9), ('sutil', 0), ('sutil', 1), ('sutil', 2), ('sutil', 3), ('sutil', 4), ('sutil', 5), ('sutil', 6), ('sutil', 7), ('sutil', 8), ('sutil', 9)]",
+      "name": "expected cultivar/seed pairs",
+      "ok": true
+    },
+    {
+      "detail": "manifest status/returncode",
+      "name": "all subprocesses complete",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "sutil seed_00 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "sutil seed_00 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "sutil seed_00 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "sutil seed_00 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "sutil seed_01 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "sutil seed_01 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "sutil seed_01 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "sutil seed_01 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "sutil seed_02 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "sutil seed_02 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "sutil seed_02 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "sutil seed_02 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "sutil seed_03 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "sutil seed_03 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "sutil seed_03 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "sutil seed_03 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "sutil seed_04 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "sutil seed_04 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "sutil seed_04 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "sutil seed_04 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "sutil seed_05 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "sutil seed_05 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "sutil seed_05 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "sutil seed_05 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "sutil seed_06 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "sutil seed_06 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "sutil seed_06 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "sutil seed_06 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "sutil seed_07 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "sutil seed_07 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "sutil seed_07 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "sutil seed_07 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "sutil seed_08 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "sutil seed_08 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "sutil seed_08 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "sutil seed_08 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "sutil seed_09 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "sutil seed_09 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "sutil seed_09 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "sutil seed_09 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "dulce seed_00 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "dulce seed_00 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "dulce seed_00 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "dulce seed_00 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "dulce seed_01 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "dulce seed_01 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "dulce seed_01 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "dulce seed_01 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "dulce seed_02 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "dulce seed_02 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "dulce seed_02 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "dulce seed_02 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "dulce seed_03 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "dulce seed_03 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "dulce seed_03 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "dulce seed_03 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "dulce seed_04 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "dulce seed_04 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "dulce seed_04 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "dulce seed_04 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "dulce seed_05 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "dulce seed_05 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "dulce seed_05 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "dulce seed_05 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "dulce seed_06 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "dulce seed_06 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "dulce seed_06 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "dulce seed_06 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "dulce seed_07 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "dulce seed_07 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "dulce seed_07 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "dulce seed_07 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "dulce seed_08 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "dulce seed_08 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "dulce seed_08 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "dulce seed_08 no TEST",
+      "ok": true
+    },
+    {
+      "detail": "ok",
+      "name": "dulce seed_09 required artifacts",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [89, 37], 'y': [89]}",
+      "name": "dulce seed_09 train shape",
+      "ok": true
+    },
+    {
+      "detail": "{'X': [12, 37], 'y': [12]}",
+      "name": "dulce seed_09 validation shape",
+      "ok": true
+    },
+    {
+      "detail": "False",
+      "name": "dulce seed_09 no TEST",
+      "ok": true
+    }
+  ],
+  "generated_utc": "2026-09-12T21:09:26.417478+00:00",
+  "manifest": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\auditorias\\entrenamiento_oficial_gc2_xgboost_manifest.json",
+  "rows": [
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "sutil",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00",
+      "seed": 0,
+      "test_loaded": false,
+      "train_mae": 601.1682698224082,
+      "train_r2": 0.9914940527546894,
+      "train_rmse": 744.5341995898683,
+      "train_rows": 89,
+      "val_mae": 4636.178811374259,
+      "val_r2": 0.4388524987371363,
+      "val_rmse": 6132.044207552643,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "sutil",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_01",
+      "seed": 1,
+      "test_loaded": false,
+      "train_mae": 631.5143235278877,
+      "train_r2": 0.9908565323268301,
+      "train_rmse": 771.9315223137337,
+      "train_rows": 89,
+      "val_mae": 4719.800022064325,
+      "val_r2": 0.4326141039519942,
+      "val_rmse": 6166.035608816958,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "sutil",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_02",
+      "seed": 2,
+      "test_loaded": false,
+      "train_mae": 636.8812638439513,
+      "train_r2": 0.9903889900563159,
+      "train_rmse": 791.4214601204312,
+      "train_rows": 89,
+      "val_mae": 4404.311304620439,
+      "val_r2": 0.4851592176838756,
+      "val_rmse": 5873.584637130476,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "sutil",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_03",
+      "seed": 3,
+      "test_loaded": false,
+      "train_mae": 627.9012700136952,
+      "train_r2": 0.9906099550200543,
+      "train_rmse": 782.2708465863984,
+      "train_rows": 89,
+      "val_mae": 4399.868058238559,
+      "val_r2": 0.4941852385512403,
+      "val_rmse": 5821.8700880721835,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "sutil",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_04",
+      "seed": 4,
+      "test_loaded": false,
+      "train_mae": 671.1833481628366,
+      "train_r2": 0.9900292205379672,
+      "train_rmse": 806.0980384004192,
+      "train_rows": 89,
+      "val_mae": 4174.3392902682235,
+      "val_r2": 0.5145208502787366,
+      "val_rmse": 5703.63928655542,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "sutil",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_05",
+      "seed": 5,
+      "test_loaded": false,
+      "train_mae": 634.0394397835004,
+      "train_r2": 0.9904777352926833,
+      "train_rmse": 787.7591098624054,
+      "train_rows": 89,
+      "val_mae": 4519.765186093017,
+      "val_r2": 0.47318035882592957,
+      "val_rmse": 5941.522410339322,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "sutil",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_06",
+      "seed": 6,
+      "test_loaded": false,
+      "train_mae": 661.9166842275923,
+      "train_r2": 0.9900925422339587,
+      "train_rmse": 803.5343073348585,
+      "train_rows": 89,
+      "val_mae": 4343.036135821731,
+      "val_r2": 0.47278222568709094,
+      "val_rmse": 5943.76707818001,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "sutil",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_07",
+      "seed": 7,
+      "test_loaded": false,
+      "train_mae": 633.086654942064,
+      "train_r2": 0.9906171270396862,
+      "train_rmse": 781.9720443126265,
+      "train_rows": 89,
+      "val_mae": 4374.932285292026,
+      "val_r2": 0.4880450205567597,
+      "val_rmse": 5857.100097644348,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "sutil",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_08",
+      "seed": 8,
+      "test_loaded": false,
+      "train_mae": 621.8394613252749,
+      "train_r2": 0.9908312498733494,
+      "train_rmse": 772.9980132258013,
+      "train_rows": 89,
+      "val_mae": 4534.7281403300785,
+      "val_r2": 0.44307327397223706,
+      "val_rmse": 6108.939022902876,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "sutil",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_09",
+      "seed": 9,
+      "test_loaded": false,
+      "train_mae": 644.2037555689685,
+      "train_r2": 0.9902518809032835,
+      "train_rmse": 797.0466161728475,
+      "train_rows": 89,
+      "val_mae": 4706.915026724453,
+      "val_r2": 0.448760764050643,
+      "val_rmse": 6077.665886330437,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "dulce",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_00",
+      "seed": 0,
+      "test_loaded": false,
+      "train_mae": 6.352738063001637,
+      "train_r2": 0.9970164247254473,
+      "train_rmse": 7.910169384654574,
+      "train_rows": 89,
+      "val_mae": 46.27664145860206,
+      "val_r2": 0.8773762749586824,
+      "val_rmse": 54.103799715305264,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "dulce",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_01",
+      "seed": 1,
+      "test_loaded": false,
+      "train_mae": 5.9697721421132695,
+      "train_r2": 0.9972577811358329,
+      "train_rmse": 7.583476420054685,
+      "train_rows": 89,
+      "val_mae": 45.88895050210829,
+      "val_r2": 0.8715735683625034,
+      "val_rmse": 55.36913287105335,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "dulce",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_02",
+      "seed": 2,
+      "test_loaded": false,
+      "train_mae": 6.537351900536261,
+      "train_r2": 0.9969294327939191,
+      "train_rmse": 8.024659014223037,
+      "train_rows": 89,
+      "val_mae": 47.08379978063339,
+      "val_r2": 0.8648781680097584,
+      "val_rmse": 56.794107175735704,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "dulce",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_03",
+      "seed": 3,
+      "test_loaded": false,
+      "train_mae": 6.099737000303145,
+      "train_r2": 0.997330961115454,
+      "train_rmse": 7.481604289558446,
+      "train_rows": 89,
+      "val_mae": 49.29961768987315,
+      "val_r2": 0.8624149611105358,
+      "val_rmse": 57.30943405747556,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "dulce",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_04",
+      "seed": 4,
+      "test_loaded": false,
+      "train_mae": 6.2759789320812835,
+      "train_r2": 0.9971125686654251,
+      "train_rmse": 7.781675494797085,
+      "train_rows": 89,
+      "val_mae": 48.69607793267238,
+      "val_r2": 0.865470771659369,
+      "val_rmse": 56.66942940332328,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "dulce",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_05",
+      "seed": 5,
+      "test_loaded": false,
+      "train_mae": 6.247133310402181,
+      "train_r2": 0.9971117100572724,
+      "train_rmse": 7.782832390429146,
+      "train_rows": 89,
+      "val_mae": 49.21304887907462,
+      "val_r2": 0.8509508667020244,
+      "val_rmse": 59.649284932090104,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "dulce",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_06",
+      "seed": 6,
+      "test_loaded": false,
+      "train_mae": 5.833639784266558,
+      "train_r2": 0.997436054271294,
+      "train_rmse": 7.332831368944926,
+      "train_rows": 89,
+      "val_mae": 48.82404093882363,
+      "val_r2": 0.8510864465591248,
+      "val_rmse": 59.622149311477784,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "dulce",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_07",
+      "seed": 7,
+      "test_loaded": false,
+      "train_mae": 6.117652267990325,
+      "train_r2": 0.997263437644023,
+      "train_rmse": 7.575650979715188,
+      "train_rows": 89,
+      "val_mae": 47.08761890904881,
+      "val_r2": 0.8682823317672499,
+      "val_rmse": 56.074128329559116,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "dulce",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_08",
+      "seed": 8,
+      "test_loaded": false,
+      "train_mae": 6.422347924915878,
+      "train_r2": 0.9969442369568069,
+      "train_rmse": 8.005290948259521,
+      "train_rows": 89,
+      "val_mae": 55.45888910746883,
+      "val_r2": 0.8229397659531237,
+      "val_rmse": 65.01312340974584,
+      "val_rows": 12
+    },
+    {
+      "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+      "cultivar": "dulce",
+      "missing_files": "",
+      "model_name": "GC2_XGBoost",
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_09",
+      "seed": 9,
+      "test_loaded": false,
+      "train_mae": 6.423653578748145,
+      "train_r2": 0.9970424527129979,
+      "train_rmse": 7.87559060499474,
+      "train_rows": 89,
+      "val_mae": 46.958423209723684,
+      "val_r2": 0.8763285485416226,
+      "val_rmse": 54.334445987496636,
+      "val_rows": 12
+    }
+  ],
+  "status": "approved",
+  "summary_csv": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\auditorias\\resumen_post_run_gc2_xgboost.csv"
+}

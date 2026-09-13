@@ -1,0 +1,29 @@
+cultivar,modelo,tipo,ranking,nombre,mean_abs_SHAP,SD_seeds,grupo,shock_mean_abs_SHAP,nonshock_mean_abs_SHAP,diferencia_shock_menos_nonshock,nota
+sutil,XGBoost,top_feature,1,produccion_t_sutil,0.665813895499,0.028165758145,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+sutil,XGBoost,top_feature,2,WS2M_lag3,0.143613429471,0.0206561986062,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+sutil,XGBoost,top_feature,3,T2M_lag6,0.100826953404,0.0133965042155,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+sutil,XGBoost,top_feature,4,RH2M_lag3,0.0688375463427,0.0084490293628,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+sutil,XGBoost,top_feature,5,WS2M_lag1,0.0568089384128,0.0118605142189,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+sutil,XGBoost,top_feature,6,mes_cos,0.0504781255398,0.00851511620381,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+sutil,XGBoost,top_feature,7,num_emergencias_lag3,0.0467838417256,0.0107548745286,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+sutil,XGBoost,top_feature,8,personas_afectadas_lag3,0.0370306786443,0.00519808429156,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+sutil,XGBoost,top_feature,9,T2M_MAX_lag1,0.0309521113381,0.00679282938557,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+sutil,XGBoost,top_feature,10,RH2M_lag6,0.0272520168374,0.00363653773801,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+sutil,XGBoost,grupo,,INDECI,0.221673888969,0.0202385652722,INDECI,0.226545380061,0.220050058606,0.00649532145564,Grupo equivalente cuando aplica.
+sutil,XGBoost,grupo,,NASA/clima,0.538837890325,0.0303806990731,NASA/clima,0.509796861744,0.548518233185,-0.0387213714412,Grupo equivalente cuando aplica.
+sutil,XGBoost,grupo,,produccion historica,0.716056569118,0.0247456420371,produccion historica,0.415891173393,0.816111701026,-0.400220527632,Grupo equivalente cuando aplica.
+sutil,XGBoost,grupo,,temporalidad,0.0730942826846,0.00937675090521,temporalidad,0.0828955012627,0.0698272098252,0.0130682914375,Grupo equivalente cuando aplica.
+dulce,XGBoost,top_feature,1,mes_sin,0.421590485777,0.0411807711174,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+dulce,XGBoost,top_feature,2,produccion_t_dulce,0.210127697649,0.0146268511165,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+dulce,XGBoost,top_feature,3,produccion_t_dulce_lag6,0.155306525641,0.0177069054642,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+dulce,XGBoost,top_feature,4,RH2M_lag1,0.121253301332,0.0300927874008,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+dulce,XGBoost,top_feature,5,produccion_t_dulce_lag3,0.0493597975819,0.0155218870473,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+dulce,XGBoost,top_feature,6,T2M_MAX_lag6,0.0436298929119,0.00727218298249,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+dulce,XGBoost,top_feature,7,hectareas_cultivo_perdidas_lag3,0.0325181370562,0.0041869816446,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+dulce,XGBoost,top_feature,8,produccion_t_dulce_lag1,0.0294381967515,0.0104203805438,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+dulce,XGBoost,top_feature,9,RH2M_lag6,0.0256223105388,0.00449639415094,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+dulce,XGBoost,top_feature,10,PRECTOTCORR_lag6,0.0218366373157,0.00359227182905,,,,,Magnitudes XGBoost descriptivas; no equivalencia directa con redes.
+dulce,XGBoost,grupo,,INDECI,0.132960867083,0.00709270300476,INDECI,0.134512567387,0.132443633649,0.00206893373842,Grupo equivalente cuando aplica.
+dulce,XGBoost,grupo,,NASA/clima,0.31637340684,0.0315027079002,NASA/clima,0.292166803079,0.32444227476,-0.032275471681,Grupo equivalente cuando aplica.
+dulce,XGBoost,grupo,,produccion historica,0.444232217623,0.03316750554,produccion historica,0.449537625965,0.442463748176,0.00707387778903,Grupo equivalente cuando aplica.
+dulce,XGBoost,grupo,,temporalidad,0.438671764433,0.0447732138546,temporalidad,0.478525925467,0.425387044089,0.0531388813779,Grupo equivalente cuando aplica.

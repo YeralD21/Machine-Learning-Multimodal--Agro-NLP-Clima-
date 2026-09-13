@@ -1,0 +1,81 @@
+{
+  "artifacts": {
+    "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\config.json",
+    "feature_importance": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\feature_importance.csv",
+    "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\metadata.json",
+    "metrics": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\metricas.json",
+    "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\model.joblib",
+    "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\model.xgboost.json",
+    "predictions": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\predicciones_train_val.csv"
+  },
+  "config_hash": "36380dff35eb0898bbca3f4af419771c8ace70f2d9336ff6e54efa4efeaf3921",
+  "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
+  "cultivar": "sutil",
+  "dataset_hash": "d664fd728798d52e5c1bbe702745d40d49b8761513cef148e0a56f2481ca7941",
+  "dataset_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\data\\processed\\master_dataset_sutil_v2_escalado.csv",
+  "finished_utc": "2026-09-12T21:07:38.363551+00:00",
+  "git_commit": "44fe6eafca927ba22d97bf8e46d6ad530cc1a47a",
+  "git_status_sb": "## main...origin/main\n M v2_reentrenamiento/DECISIONES_METODOLOGICAS.md\n?? data/interim/indeci/indeci_temporal_2019_2025.csv\n?? data/interim/nasa/clima_dataset_2019_2020.csv\n?? sources/agraria-pe/sin-unificar/agro_news_2020.csv\n?? sources/agraria-pe/sin-unificar/checkpoint_2019_2020.json\n?? sources/noticias-ampliado/\n?? src/scraping/agronoticias_scraper.py\n?? src/scraping/andina_scraper.py\n?? src/scraping/base_scraper.py\n?? src/scraping/freshfruit_scraper.py\n?? src/scraping/recalcular_sentimiento_v2.py\n?? src/scraping/redagricola_scraper.py\n?? src/scraping/run_expansion.py\n?? src/scraping/unificar_corpus_v2.py\n?? src/weather/nasa_power_downloader.py\n?? v2_reentrenamiento/HANDOFF_CONTEXTO_ACTUAL.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_ENTRENAMIENTO_OFICIAL_GC3_GE.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_EVALUACION_TEST_GC3_GE.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_METODOLOGICA_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_POST_RUN_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_POST_RUN_GC3_GE.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_PREFLIGHT_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_RUNNER_OFICIAL_GC3_GE.md\n?? v2_reentrenamiento/auditorias/auditar_entrenamiento_oficial_gc3_ge.py\n?? v2_reentrenamiento/auditorias/auditar_post_run_final_gc3_ge.py\n?? v2_reentrenamiento/auditorias/auditar_post_run_gc2_xgboost.py\n?? v2_reentrenamiento/auditorias/auditar_runner_oficial_gc3_ge.py\n?? v2_reentrenamiento/auditorias/ejecutar_entrenamiento_oficial_gc2_xgboost.py\n?? v2_reentrenamiento/auditorias/ejecutar_entrenamiento_oficial_gc3_ge.py\n?? v2_reentrenamiento/auditorias/entrenamiento_oficial_gc2_xgboost_manifest.json\n?? v2_reentrenamiento/auditorias/entrenamiento_oficial_gc3_ge_manifest.json\n?? v2_reentrenamiento/auditorias/evaluar_test_gc3_ge.py\n?? v2_reentrenamiento/auditorias/gc2_xgboost_preflight_dry_run.json\n?? v2_reentrenamiento/auditorias/resumen_entrenamiento_oficial_gc3_ge.csv\n?? v2_reentrenamiento/auditorias/resumen_entrenamiento_oficial_gc3_ge.json\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc2_xgboost.csv\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc2_xgboost.json\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc3_ge.csv\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc3_ge.json\n?? v2_reentrenamiento/auditorias/runner_oficial_gc3_ge_dry_run.json\n?? v2_reentrenamiento/resultados_v2_final/evaluacion_test_gc3_ge/\n?? v2_reentrenamiento/resultados_v2_final/official_gc2_xgboost/\n?? v2_reentrenamiento/resultados_v2_final/official_gc3_ge/\n?? v2_reentrenamiento/resultados_v2_final/technical_pilot/\n?? v2_reentrenamiento/resultados_v2_final/technical_pilot_scaled/\n?? v2_reentrenamiento/src/models/features_gc2_xgboost.py\n?? v2_reentrenamiento/src/training/config_gc2_xgboost.py\n?? v2_reentrenamiento/src/training/official_runner_gc2_xgboost.py\n?? v2_reentrenamiento/src/training/official_runner_gc3_ge.py\n?? v2_reentrenamiento/src/training/tabular_gc2_xgboost.py",
+  "metrics": {
+    "train": {
+      "mae": 601.1682698224082,
+      "r2": 0.9914940527546894,
+      "rmse": 744.5341995898683
+    },
+    "train_scaled": {
+      "mae": 0.07475807208772518,
+      "r2": 0.9914940527546894,
+      "rmse": 0.09258629265506431
+    },
+    "validation": {
+      "mae": 4636.178811374259,
+      "r2": 0.4388524987371363,
+      "rmse": 6132.044207552643
+    },
+    "validation_scaled": {
+      "mae": 0.5765304111853541,
+      "r2": 0.4388524987371363,
+      "rmse": 0.7625482347043373
+    }
+  },
+  "model_name": "GC2_XGBoost",
+  "os": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9",
+  "scaler_hash": "ba51666f00ded716c63698dd04e29068d58d3cab064202384bfbd4435fbf350e",
+  "scaler_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\scalers\\scaler_sutil_v2c.joblib",
+  "seed": 0,
+  "started_utc": "2026-09-12T21:07:38.170267+00:00",
+  "status": "complete",
+  "test_loaded": false,
+  "train_dates": {
+    "target_first": "2016-08",
+    "target_last": "2023-12",
+    "x_first": "2016-07",
+    "x_last": "2023-11"
+  },
+  "train_shape": {
+    "X": [
+      89,
+      37
+    ],
+    "y": [
+      89
+    ]
+  },
+  "validation_dates": {
+    "target_first": "2024-01",
+    "target_last": "2024-12",
+    "x_first": "2023-12",
+    "x_last": "2024-11"
+  },
+  "validation_shape": {
+    "X": [
+      12,
+      37
+    ],
+    "y": [
+      12
+    ]
+  },
+  "xgboost_version": "3.2.0"
+}

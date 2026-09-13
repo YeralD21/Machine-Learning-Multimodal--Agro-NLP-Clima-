@@ -1,0 +1,827 @@
+{
+  "duration_seconds": 108.25869389999934,
+  "finished_utc": "2026-09-12T21:09:22.183227+00:00",
+  "records": [
+    {
+      "cultivar": "sutil",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "sutil",
+        "metrics": {
+          "train": {
+            "mae": 601.1682698224082,
+            "r2": 0.9914940527546894,
+            "rmse": 744.5341995898683
+          },
+          "train_scaled": {
+            "mae": 0.07475807208772518,
+            "r2": 0.9914940527546894,
+            "rmse": 0.09258629265506431
+          },
+          "validation": {
+            "mae": 4636.178811374259,
+            "r2": 0.4388524987371363,
+            "rmse": 6132.044207552643
+          },
+          "validation_scaled": {
+            "mae": 0.5765304111853541,
+            "r2": 0.4388524987371363,
+            "rmse": 0.7625482347043373
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00",
+        "seed": 0,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00",
+      "seed": 0,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.409691199998633
+    },
+    {
+      "cultivar": "sutil",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "sutil",
+        "metrics": {
+          "train": {
+            "mae": 631.5143235278877,
+            "r2": 0.9908565323268301,
+            "rmse": 771.9315223137337
+          },
+          "train_scaled": {
+            "mae": 0.07853174509139581,
+            "r2": 0.9908565323268301,
+            "rmse": 0.09599327723827666
+          },
+          "validation": {
+            "mae": 4719.800022064325,
+            "r2": 0.4326141039519942,
+            "rmse": 6166.035608816958
+          },
+          "validation_scaled": {
+            "mae": 0.5869290978936156,
+            "r2": 0.4326141039519942,
+            "rmse": 0.7667752236417794
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_01",
+        "seed": 1,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_01",
+      "seed": 1,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_01\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_01\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.21995650000099
+    },
+    {
+      "cultivar": "sutil",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "sutil",
+        "metrics": {
+          "train": {
+            "mae": 636.8812638439513,
+            "r2": 0.9903889900563159,
+            "rmse": 791.4214601204312
+          },
+          "train_scaled": {
+            "mae": 0.07919914909652957,
+            "r2": 0.9903889900563159,
+            "rmse": 0.0984169417074091
+          },
+          "validation": {
+            "mae": 4404.311304620439,
+            "r2": 0.4851592176838756,
+            "rmse": 5873.584637130476
+          },
+          "validation_scaled": {
+            "mae": 0.5476966076484112,
+            "r2": 0.4851592176838757,
+            "rmse": 0.7304075842952752
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_02",
+        "seed": 2,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_02",
+      "seed": 2,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_02\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_02\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.214137599999958
+    },
+    {
+      "cultivar": "sutil",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "sutil",
+        "metrics": {
+          "train": {
+            "mae": 627.9012700136952,
+            "r2": 0.9906099550200543,
+            "rmse": 782.2708465863984
+          },
+          "train_scaled": {
+            "mae": 0.07808244507236686,
+            "r2": 0.9906099550200543,
+            "rmse": 0.09727902032904652
+          },
+          "validation": {
+            "mae": 4399.868058238559,
+            "r2": 0.4941852385512403,
+            "rmse": 5821.8700880721835
+          },
+          "validation_scaled": {
+            "mae": 0.5471440692827083,
+            "r2": 0.4941852385512404,
+            "rmse": 0.723976639449124
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_03",
+        "seed": 3,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_03",
+      "seed": 3,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_03\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_03\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.169335700000374
+    },
+    {
+      "cultivar": "sutil",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "sutil",
+        "metrics": {
+          "train": {
+            "mae": 671.1833481628366,
+            "r2": 0.9900292205379672,
+            "rmse": 806.0980384004192
+          },
+          "train_scaled": {
+            "mae": 0.08346477291767367,
+            "r2": 0.9900292205379672,
+            "rmse": 0.10024204251883512
+          },
+          "validation": {
+            "mae": 4174.3392902682235,
+            "r2": 0.5145208502787366,
+            "rmse": 5703.63928655542
+          },
+          "validation_scaled": {
+            "mae": 0.5190985174129085,
+            "r2": 0.5145208502787367,
+            "rmse": 0.7092740890543887
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_04",
+        "seed": 4,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_04",
+      "seed": 4,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_04\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_04\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.209453299998131
+    },
+    {
+      "cultivar": "sutil",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "sutil",
+        "metrics": {
+          "train": {
+            "mae": 634.0394397835004,
+            "r2": 0.9904777352926833,
+            "rmse": 787.7591098624054
+          },
+          "train_scaled": {
+            "mae": 0.07884575504924467,
+            "r2": 0.9904777352926833,
+            "rmse": 0.09796151140886576
+          },
+          "validation": {
+            "mae": 4519.765186093017,
+            "r2": 0.47318035882592957,
+            "rmse": 5941.522410339322
+          },
+          "validation_scaled": {
+            "mae": 0.5620538351123364,
+            "r2": 0.47318035882592946,
+            "rmse": 0.7388559625646852
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_05",
+        "seed": 5,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_05",
+      "seed": 5,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_05\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_05\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.316238399998838
+    },
+    {
+      "cultivar": "sutil",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "sutil",
+        "metrics": {
+          "train": {
+            "mae": 661.9166842275923,
+            "r2": 0.9900925422339587,
+            "rmse": 803.5343073348585
+          },
+          "train_scaled": {
+            "mae": 0.08231242013184159,
+            "r2": 0.9900925422339587,
+            "rmse": 0.0999232306296625
+          },
+          "validation": {
+            "mae": 4343.036135821731,
+            "r2": 0.47278222568709094,
+            "rmse": 5943.76707818001
+          },
+          "validation_scaled": {
+            "mae": 0.5400767552440343,
+            "r2": 0.47278222568709116,
+            "rmse": 0.7391350974569786
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_06",
+        "seed": 6,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_06",
+      "seed": 6,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_06\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_06\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.513856699999451
+    },
+    {
+      "cultivar": "sutil",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "sutil",
+        "metrics": {
+          "train": {
+            "mae": 633.086654942064,
+            "r2": 0.9906171270396862,
+            "rmse": 781.9720443126265
+          },
+          "train_scaled": {
+            "mae": 0.07872727182011278,
+            "r2": 0.9906171270396862,
+            "rmse": 0.09724186287572785
+          },
+          "validation": {
+            "mae": 4374.932285292026,
+            "r2": 0.4880450205567597,
+            "rmse": 5857.100097644348
+          },
+          "validation_scaled": {
+            "mae": 0.544043189869943,
+            "r2": 0.4880450205567597,
+            "rmse": 0.7283576550939204
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_07",
+        "seed": 7,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_07",
+      "seed": 7,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_07\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_07\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.4192456000018865
+    },
+    {
+      "cultivar": "sutil",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "sutil",
+        "metrics": {
+          "train": {
+            "mae": 621.8394613252749,
+            "r2": 0.9908312498733494,
+            "rmse": 772.9980132258013
+          },
+          "train_scaled": {
+            "mae": 0.07732863095133083,
+            "r2": 0.9908312498733494,
+            "rmse": 0.09612590034646033
+          },
+          "validation": {
+            "mae": 4534.7281403300785,
+            "r2": 0.44307327397223706,
+            "rmse": 6108.939022902876
+          },
+          "validation_scaled": {
+            "mae": 0.5639145481067698,
+            "r2": 0.44307327397223695,
+            "rmse": 0.7596749974655228
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_08",
+        "seed": 8,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_08",
+      "seed": 8,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_08\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_08\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.4702653999993345
+    },
+    {
+      "cultivar": "sutil",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "sutil",
+        "metrics": {
+          "train": {
+            "mae": 644.2037555689685,
+            "r2": 0.9902518809032835,
+            "rmse": 797.0466161728475
+          },
+          "train_scaled": {
+            "mae": 0.08010973502017175,
+            "r2": 0.9902518809032835,
+            "rmse": 0.09911645604105059
+          },
+          "validation": {
+            "mae": 4706.915026724453,
+            "r2": 0.448760764050643,
+            "rmse": 6077.665886330437
+          },
+          "validation_scaled": {
+            "mae": 0.5853267887585164,
+            "r2": 0.448760764050643,
+            "rmse": 0.7557860373928591
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_09",
+        "seed": 9,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_09",
+      "seed": 9,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_09\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_09\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.322756900000968
+    },
+    {
+      "cultivar": "dulce",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "dulce",
+        "metrics": {
+          "train": {
+            "mae": 6.352738063001637,
+            "r2": 0.9970164247254473,
+            "rmse": 7.910169384654574
+          },
+          "train_scaled": {
+            "mae": 0.044054034352706946,
+            "r2": 0.9970164247254473,
+            "rmse": 0.05485428020979206
+          },
+          "validation": {
+            "mae": 46.27664145860206,
+            "r2": 0.8773762749586824,
+            "rmse": 54.103799715305264
+          },
+          "validation_scaled": {
+            "mae": 0.32091245260345186,
+            "r2": 0.8773762749586824,
+            "rmse": 0.37519107944202673
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_00",
+        "seed": 0,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_00",
+      "seed": 0,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_00\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_00\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.430776299999707
+    },
+    {
+      "cultivar": "dulce",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "dulce",
+        "metrics": {
+          "train": {
+            "mae": 5.9697721421132695,
+            "r2": 0.9972577811358329,
+            "rmse": 7.583476420054685
+          },
+          "train_scaled": {
+            "mae": 0.04139829856328567,
+            "r2": 0.9972577811358329,
+            "rmse": 0.05258877784804802
+          },
+          "validation": {
+            "mae": 45.88895050210829,
+            "r2": 0.8715735683625034,
+            "rmse": 55.36913287105335
+          },
+          "validation_scaled": {
+            "mae": 0.3182239503314817,
+            "r2": 0.8715735683625034,
+            "rmse": 0.38396572586347955
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_01",
+        "seed": 1,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_01",
+      "seed": 1,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_01\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_01\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.40422050000052
+    },
+    {
+      "cultivar": "dulce",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "dulce",
+        "metrics": {
+          "train": {
+            "mae": 6.537351900536261,
+            "r2": 0.9969294327939191,
+            "rmse": 8.024659014223037
+          },
+          "train_scaled": {
+            "mae": 0.04533426726331625,
+            "r2": 0.9969294327939192,
+            "rmse": 0.055648226068100326
+          },
+          "validation": {
+            "mae": 47.08379978063339,
+            "r2": 0.8648781680097584,
+            "rmse": 56.794107175735704
+          },
+          "validation_scaled": {
+            "mae": 0.32650981551912667,
+            "r2": 0.8648781680097584,
+            "rmse": 0.3938474282644976
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_02",
+        "seed": 2,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_02",
+      "seed": 2,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_02\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_02\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.412771300001623
+    },
+    {
+      "cultivar": "dulce",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "dulce",
+        "metrics": {
+          "train": {
+            "mae": 6.099737000303145,
+            "r2": 0.997330961115454,
+            "rmse": 7.481604289558446
+          },
+          "train_scaled": {
+            "mae": 0.042299559762875576,
+            "r2": 0.997330961115454,
+            "rmse": 0.05188232996810124
+          },
+          "validation": {
+            "mae": 49.29961768987315,
+            "r2": 0.8624149611105358,
+            "rmse": 57.30943405747556
+          },
+          "validation_scaled": {
+            "mae": 0.34187574393061043,
+            "r2": 0.862414961110536,
+            "rmse": 0.3974210413941271
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_03",
+        "seed": 3,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_03",
+      "seed": 3,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_03\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_03\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.5009069000007
+    },
+    {
+      "cultivar": "dulce",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "dulce",
+        "metrics": {
+          "train": {
+            "mae": 6.2759789320812835,
+            "r2": 0.9971125686654251,
+            "rmse": 7.781675494797085
+          },
+          "train_scaled": {
+            "mae": 0.04352173641173825,
+            "r2": 0.997112568665425,
+            "rmse": 0.05396321966522739
+          },
+          "validation": {
+            "mae": 48.69607793267238,
+            "r2": 0.865470771659369,
+            "rmse": 56.66942940332328
+          },
+          "validation_scaled": {
+            "mae": 0.33769040511555715,
+            "r2": 0.8654707716593691,
+            "rmse": 0.3929828311703932
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_04",
+        "seed": 4,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_04",
+      "seed": 4,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_04\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_04\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.475577899997006
+    },
+    {
+      "cultivar": "dulce",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "dulce",
+        "metrics": {
+          "train": {
+            "mae": 6.247133310402181,
+            "r2": 0.9971117100572724,
+            "rmse": 7.782832390429146
+          },
+          "train_scaled": {
+            "mae": 0.04332170203352623,
+            "r2": 0.9971117100572724,
+            "rmse": 0.053971242335044994
+          },
+          "validation": {
+            "mae": 49.21304887907462,
+            "r2": 0.8509508667020244,
+            "rmse": 59.649284932090104
+          },
+          "validation_scaled": {
+            "mae": 0.34127541926320415,
+            "r2": 0.8509508667020242,
+            "rmse": 0.4136470953866282
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_05",
+        "seed": 5,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_05",
+      "seed": 5,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_05\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_05\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.508090999999695
+    },
+    {
+      "cultivar": "dulce",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "dulce",
+        "metrics": {
+          "train": {
+            "mae": 5.833639784266558,
+            "r2": 0.997436054271294,
+            "rmse": 7.332831368944926
+          },
+          "train_scaled": {
+            "mae": 0.04045426789342038,
+            "r2": 0.997436054271294,
+            "rmse": 0.050850641381154554
+          },
+          "validation": {
+            "mae": 48.82404093882363,
+            "r2": 0.8510864465591248,
+            "rmse": 59.622149311477784
+          },
+          "validation_scaled": {
+            "mae": 0.33857778416581197,
+            "r2": 0.8510864465591248,
+            "rmse": 0.413458919272521
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_06",
+        "seed": 6,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_06",
+      "seed": 6,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_06\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_06\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.48005369999737
+    },
+    {
+      "cultivar": "dulce",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "dulce",
+        "metrics": {
+          "train": {
+            "mae": 6.117652267990325,
+            "r2": 0.997263437644023,
+            "rmse": 7.575650979715188
+          },
+          "train_scaled": {
+            "mae": 0.04242379592849455,
+            "r2": 0.997263437644023,
+            "rmse": 0.05253451113436923
+          },
+          "validation": {
+            "mae": 47.08761890904881,
+            "r2": 0.8682823317672499,
+            "rmse": 56.074128329559116
+          },
+          "validation_scaled": {
+            "mae": 0.3265362998496219,
+            "r2": 0.8682823317672499,
+            "rmse": 0.3888546247665205
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_07",
+        "seed": 7,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_07",
+      "seed": 7,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_07\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_07\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.518022100000962
+    },
+    {
+      "cultivar": "dulce",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "dulce",
+        "metrics": {
+          "train": {
+            "mae": 6.422347924915878,
+            "r2": 0.9969442369568069,
+            "rmse": 8.005290948259521
+          },
+          "train_scaled": {
+            "mae": 0.04453675459359283,
+            "r2": 0.9969442369568069,
+            "rmse": 0.055513915250490604
+          },
+          "validation": {
+            "mae": 55.45888910746883,
+            "r2": 0.8229397659531237,
+            "rmse": 65.01312340974584
+          },
+          "validation_scaled": {
+            "mae": 0.3845881542216465,
+            "r2": 0.8229397659531238,
+            "rmse": 0.45084345421861294
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_08",
+        "seed": 8,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_08",
+      "seed": 8,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_08\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_08\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.559717200001614
+    },
+    {
+      "cultivar": "dulce",
+      "error_tail": "",
+      "model_name": "GC2_XGBoost",
+      "result": {
+        "cultivar": "dulce",
+        "metrics": {
+          "train": {
+            "mae": 6.423653578748145,
+            "r2": 0.9970424527129979,
+            "rmse": 7.87559060499474
+          },
+          "train_scaled": {
+            "mae": 0.044545808849916484,
+            "r2": 0.9970424527129979,
+            "rmse": 0.05461448837013143
+          },
+          "validation": {
+            "mae": 46.958423209723684,
+            "r2": 0.8763285485416226,
+            "rmse": 54.334445987496636
+          },
+          "validation_scaled": {
+            "mae": 0.3256403724998955,
+            "r2": 0.8763285485416226,
+            "rmse": 0.3767905313157973
+          }
+        },
+        "model_name": "GC2_XGBoost",
+        "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_09",
+        "seed": 9,
+        "status": "complete"
+      },
+      "returncode": 0,
+      "run_dir": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_09",
+      "seed": 9,
+      "status": "complete",
+      "stderr_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_09\\logs\\subprocess_stderr.log",
+      "stdout_log": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_09\\logs\\subprocess_stdout.log",
+      "subprocess_seconds": 5.651058499999635
+    }
+  ],
+  "started_utc": "2026-09-12T21:07:33.924466+00:00"
+}

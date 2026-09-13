@@ -1,0 +1,90 @@
+{
+  "batch_size": 8,
+  "callbacks": [
+    {
+      "class": "EarlyStopping",
+      "factor": null,
+      "min_lr": null,
+      "monitor": "val_loss",
+      "patience": 15,
+      "restore_best_weights": true
+    },
+    {
+      "class": "ReduceLROnPlateau",
+      "factor": 0.5,
+      "min_lr": 1e-06,
+      "monitor": "val_loss",
+      "patience": 8,
+      "restore_best_weights": null
+    },
+    {
+      "class": "ModelCheckpoint",
+      "factor": null,
+      "min_lr": null,
+      "monitor": "val_loss",
+      "patience": null,
+      "restore_best_weights": null
+    },
+    {
+      "class": "_LearningRateLogger",
+      "factor": null,
+      "min_lr": null,
+      "monitor": null,
+      "patience": null,
+      "restore_best_weights": null
+    }
+  ],
+  "cultivar": "sutil",
+  "features_a": [
+    "produccion_t_sutil",
+    "produccion_t_sutil_lag1",
+    "produccion_t_sutil_lag3",
+    "produccion_t_sutil_lag6"
+  ],
+  "features_b": [
+    "mes_sin",
+    "mes_cos",
+    "t_index",
+    "T2M_lag1",
+    "T2M_lag3",
+    "T2M_lag6",
+    "T2M_MAX_lag1",
+    "T2M_MAX_lag3",
+    "T2M_MAX_lag6",
+    "WS2M_lag1",
+    "WS2M_lag3",
+    "WS2M_lag6",
+    "PRECTOTCORR_lag1",
+    "PRECTOTCORR_lag3",
+    "PRECTOTCORR_lag6",
+    "RH2M_lag1",
+    "RH2M_lag3",
+    "RH2M_lag6",
+    "num_emergencias_lag1",
+    "num_emergencias_lag3",
+    "num_emergencias_lag6",
+    "personas_afectadas_lag1",
+    "personas_afectadas_lag3",
+    "personas_afectadas_lag6",
+    "personas_damnificadas_lag1",
+    "personas_damnificadas_lag3",
+    "personas_damnificadas_lag6",
+    "hectareas_cultivo_perdidas_lag1",
+    "hectareas_cultivo_perdidas_lag3",
+    "hectareas_cultivo_perdidas_lag6",
+    "hectareas_cultivo_afectadas_lag1",
+    "hectareas_cultivo_afectadas_lag3",
+    "hectareas_cultivo_afectadas_lag6"
+  ],
+  "learning_rate": 0.001,
+  "lookback": 6,
+  "loss": "mse",
+  "max_epochs": 300,
+  "metric": "mae",
+  "model_name": "GC3",
+  "must_retrain_official_seed0": true,
+  "official_result": false,
+  "run_label": "TECHNICAL_PILOT",
+  "seed": 0,
+  "shuffle": false
+}

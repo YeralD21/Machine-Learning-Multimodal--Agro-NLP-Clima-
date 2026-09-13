@@ -1,0 +1,27 @@
+cultivar,modelo,grupo,n_shock,n_nonshock,mean_abs_SHAP_shock,mean_abs_SHAP_nonshock,diferencia_shock_menos_nonshock,ratio_shock_sobre_nonshock,nota
+sutil,GC3,INDECI,3,9,0.734933503093,0.737981500218,-0.00304799712492,0.995869819062,Descriptivo; sin significancia inferencial ni causalidad.
+sutil,GC3,NASA/clima,3,9,0.769007458292,0.716253081137,0.0527543771555,1.07365326383,Descriptivo; sin significancia inferencial ni causalidad.
+sutil,GC3,produccion historica,3,9,0.211845525208,0.232562819963,-0.0207172947544,0.910917425418,Descriptivo; sin significancia inferencial ni causalidad.
+sutil,GC3,temporalidad,3,9,0.146805018352,0.155329966735,-0.00852494838298,0.945117168553,Descriptivo; sin significancia inferencial ni causalidad.
+sutil,GE,INDECI,3,9,0.455981653854,0.456633636116,-0.00065198226213,0.998572198343,Descriptivo; sin significancia inferencial ni causalidad.
+sutil,GE,NASA/clima,3,9,0.682409287345,0.644800337896,0.0376089494491,1.05832650394,Descriptivo; sin significancia inferencial ni causalidad.
+sutil,GE,NLP,3,9,0.137273715582,0.168454845383,-0.0311811298015,0.814899181258,Descriptivo; sin significancia inferencial ni causalidad.
+sutil,GE,produccion historica,3,9,0.136759312742,0.170836187854,-0.0340768751122,0.800528942139,Descriptivo; sin significancia inferencial ni causalidad.
+sutil,GE,temporalidad,3,9,0.133515049379,0.112329637043,0.0211854123363,1.18860038093,Descriptivo; sin significancia inferencial ni causalidad.
+sutil,XGBoost,INDECI,3,9,0.226545380061,0.220050058606,0.00649532145564,1.02951747206,Descriptivo; sin significancia inferencial ni causalidad.
+sutil,XGBoost,NASA/clima,3,9,0.509796861744,0.548518233185,-0.0387213714412,0.929407321218,Descriptivo; sin significancia inferencial ni causalidad.
+sutil,XGBoost,produccion historica,3,9,0.415891173393,0.816111701026,-0.400220527632,0.509600797134,Descriptivo; sin significancia inferencial ni causalidad.
+sutil,XGBoost,temporalidad,3,9,0.0828955012627,0.0698272098252,0.0130682914375,1.18715184912,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,GC3,INDECI,3,9,0.668874648316,0.599469212965,0.0694054353512,1.11577814815,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,GC3,NASA/clima,3,9,0.905699680234,0.775017486718,0.130682193516,1.16861838056,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,GC3,produccion historica,3,9,0.373289988682,0.30868019835,0.0646097903323,1.2093097992,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,GC3,temporalidad,3,9,0.18211741001,0.217025260176,-0.0349078501662,0.839153054636,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,GE,INDECI,3,9,0.613475901051,0.546817955863,0.0666579451878,1.12190152952,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,GE,NASA/clima,3,9,0.887457326377,0.772025547668,0.115431778708,1.14951808144,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,GE,NLP,3,9,0.16614904373,0.182735693018,-0.016586649288,0.909231475175,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,GE,produccion historica,3,9,0.371126903922,0.301811984692,0.0693149192297,1.2296625805,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,GE,temporalidad,3,9,0.172095815373,0.217718534937,-0.0456227195641,0.790450916008,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,XGBoost,INDECI,3,9,0.134512567387,0.132443633649,0.00206893373842,1.01562123963,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,XGBoost,NASA/clima,3,9,0.292166803079,0.32444227476,-0.032275471681,0.900520141203,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,XGBoost,produccion historica,3,9,0.449537625965,0.442463748176,0.00707387778903,1.01598747427,Descriptivo; sin significancia inferencial ni causalidad.
+dulce,XGBoost,temporalidad,3,9,0.478525925467,0.425387044089,0.0531388813779,1.12491889943,Descriptivo; sin significancia inferencial ni causalidad.
