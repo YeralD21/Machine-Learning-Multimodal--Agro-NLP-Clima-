@@ -1,0 +1,1150 @@
+{
+  "status": "PASS",
+  "created_utc": "2026-09-13T19:56:33.781030+00:00",
+  "official_complete_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\shap\\official_test_2025\\complete.json",
+  "official_complete_sha256": "cec8c57a7349a35ba390973b2558394493cb98d80f679b7fa7f09fbc53e2575a",
+  "total_explanations": 720,
+  "neural_explanations": 480,
+  "xgboost_explanations": 240,
+  "reconstruction_error": {
+    "max": 1.1121708811678843e-06,
+    "mean": 7.132767059770804e-08,
+    "median": 1.1350493878126144e-09,
+    "p95": 4.35580827518045e-07,
+    "p99": 6.598169056393185e-07
+  },
+  "prediction_error_scaled": {
+    "max": 2.889480590351212e-07,
+    "mean": 3.2313002878686026e-08,
+    "median": 1.9216155999757234e-08,
+    "p95": 1.2000518803123578e-07,
+    "p99": 2.235241394266097e-07
+  },
+  "checks": [
+    {
+      "name": "2 cultivares",
+      "status": "PASS"
+    },
+    {
+      "name": "GC3/GE/XGBoost",
+      "status": "PASS"
+    },
+    {
+      "name": "10 seeds cada uno",
+      "status": "PASS"
+    },
+    {
+      "name": "12 meses cada seed",
+      "status": "PASS"
+    },
+    {
+      "name": "480 explicaciones neuronales",
+      "status": "PASS"
+    },
+    {
+      "name": "240 explicaciones XGBoost",
+      "status": "PASS"
+    },
+    {
+      "name": "720 explicaciones totales",
+      "status": "PASS"
+    },
+    {
+      "name": "ningun modelo faltante",
+      "status": "PASS"
+    },
+    {
+      "name": "ningun mes faltante",
+      "status": "PASS"
+    },
+    {
+      "name": "ningun duplicado",
+      "status": "PASS"
+    },
+    {
+      "name": "background correcto",
+      "status": "PASS"
+    },
+    {
+      "name": "explainers correctos",
+      "status": "PASS"
+    },
+    {
+      "name": "parametros correctos",
+      "status": "PASS"
+    },
+    {
+      "name": "hashes congelados intactos",
+      "status": "PASS"
+    },
+    {
+      "name": "predicciones dentro de atol=1e-6",
+      "status": "PASS"
+    },
+    {
+      "name": "shapes correctos",
+      "status": "PASS"
+    },
+    {
+      "name": "reconstruccion SHAP",
+      "status": "PASS"
+    },
+    {
+      "name": "archivos RAW presentes",
+      "status": "PASS"
+    },
+    {
+      "name": "agregaciones reproducibles",
+      "status": "PASS"
+    }
+  ],
+  "failures": [],
+  "top_features": {
+    "sutil/GC3": [
+      {
+        "rank": 1,
+        "feature": "personas_afectadas_lag3",
+        "mean_abs_shap": 0.0863823519644408,
+        "seed_sd": 0.044312038990524556
+      },
+      {
+        "rank": 2,
+        "feature": "num_emergencias_lag1",
+        "mean_abs_shap": 0.07404700663741723,
+        "seed_sd": 0.03779795142547906
+      },
+      {
+        "rank": 3,
+        "feature": "produccion_t_sutil_lag6",
+        "mean_abs_shap": 0.07015272121473307,
+        "seed_sd": 0.03353011524686589
+      },
+      {
+        "rank": 4,
+        "feature": "WS2M_lag3",
+        "mean_abs_shap": 0.06800726407784813,
+        "seed_sd": 0.03286660725732881
+      },
+      {
+        "rank": 5,
+        "feature": "PRECTOTCORR_lag6",
+        "mean_abs_shap": 0.06509067438743064,
+        "seed_sd": 0.032132160547561774
+      },
+      {
+        "rank": 6,
+        "feature": "t_index",
+        "mean_abs_shap": 0.06043943903178123,
+        "seed_sd": 0.02847509336759825
+      },
+      {
+        "rank": 7,
+        "feature": "personas_afectadas_lag1",
+        "mean_abs_shap": 0.060074352137614064,
+        "seed_sd": 0.03379275822802169
+      },
+      {
+        "rank": 8,
+        "feature": "personas_damnificadas_lag3",
+        "mean_abs_shap": 0.059344916296023106,
+        "seed_sd": 0.03219984237583945
+      },
+      {
+        "rank": 9,
+        "feature": "PRECTOTCORR_lag3",
+        "mean_abs_shap": 0.05809959678977824,
+        "seed_sd": 0.031143163499389365
+      },
+      {
+        "rank": 10,
+        "feature": "produccion_t_sutil_lag3",
+        "mean_abs_shap": 0.05748529303897386,
+        "seed_sd": 0.027977671970115383
+      }
+    ],
+    "sutil/GE": [
+      {
+        "rank": 1,
+        "feature": "personas_afectadas_lag3",
+        "mean_abs_shap": 0.0579508989566108,
+        "seed_sd": 0.053547990183618076
+      },
+      {
+        "rank": 2,
+        "feature": "WS2M_lag1",
+        "mean_abs_shap": 0.053195365484018944,
+        "seed_sd": 0.04374679710749341
+      },
+      {
+        "rank": 3,
+        "feature": "produccion_t_sutil_lag6",
+        "mean_abs_shap": 0.05286115390172104,
+        "seed_sd": 0.036255455469201774
+      },
+      {
+        "rank": 4,
+        "feature": "T2M_lag1",
+        "mean_abs_shap": 0.05238229751921797,
+        "seed_sd": 0.035923466263559245
+      },
+      {
+        "rank": 5,
+        "feature": "T2M_MAX_lag3",
+        "mean_abs_shap": 0.05232817726002661,
+        "seed_sd": 0.03511841327956918
+      },
+      {
+        "rank": 6,
+        "feature": "T2M_lag6",
+        "mean_abs_shap": 0.05227270617809362,
+        "seed_sd": 0.04260328602905202
+      },
+      {
+        "rank": 7,
+        "feature": "num_emergencias_lag1",
+        "mean_abs_shap": 0.051893357699591046,
+        "seed_sd": 0.04863152603278209
+      },
+      {
+        "rank": 8,
+        "feature": "PRECTOTCORR_lag3",
+        "mean_abs_shap": 0.05162278528638163,
+        "seed_sd": 0.04279126559482707
+      },
+      {
+        "rank": 9,
+        "feature": "PRECTOTCORR_lag6",
+        "mean_abs_shap": 0.050811529475545104,
+        "seed_sd": 0.04376776986446279
+      },
+      {
+        "rank": 10,
+        "feature": "WS2M_lag3",
+        "mean_abs_shap": 0.05065148941123425,
+        "seed_sd": 0.042771952296805554
+      }
+    ],
+    "sutil/XGBoost": [
+      {
+        "rank": 1,
+        "feature": "produccion_t_sutil",
+        "mean_abs_shap": 0.6658138954989273,
+        "seed_sd": 0.028165758145010593
+      },
+      {
+        "rank": 2,
+        "feature": "WS2M_lag3",
+        "mean_abs_shap": 0.14361342947098213,
+        "seed_sd": 0.020656198606214142
+      },
+      {
+        "rank": 3,
+        "feature": "T2M_lag6",
+        "mean_abs_shap": 0.10082695340397549,
+        "seed_sd": 0.01339650421552379
+      },
+      {
+        "rank": 4,
+        "feature": "RH2M_lag3",
+        "mean_abs_shap": 0.06883754634268371,
+        "seed_sd": 0.008449029362798946
+      },
+      {
+        "rank": 5,
+        "feature": "WS2M_lag1",
+        "mean_abs_shap": 0.056808938412776414,
+        "seed_sd": 0.011860514218931207
+      },
+      {
+        "rank": 6,
+        "feature": "mes_cos",
+        "mean_abs_shap": 0.05047812553983325,
+        "seed_sd": 0.008515116203810305
+      },
+      {
+        "rank": 7,
+        "feature": "num_emergencias_lag3",
+        "mean_abs_shap": 0.04678384172556444,
+        "seed_sd": 0.010754874528581107
+      },
+      {
+        "rank": 8,
+        "feature": "personas_afectadas_lag3",
+        "mean_abs_shap": 0.03703067864432038,
+        "seed_sd": 0.005198084291557517
+      },
+      {
+        "rank": 9,
+        "feature": "T2M_MAX_lag1",
+        "mean_abs_shap": 0.030952111338145488,
+        "seed_sd": 0.006792829385573115
+      },
+      {
+        "rank": 10,
+        "feature": "RH2M_lag6",
+        "mean_abs_shap": 0.027252016837428526,
+        "seed_sd": 0.0036365377380055065
+      }
+    ],
+    "dulce/GC3": [
+      {
+        "rank": 1,
+        "feature": "produccion_t_dulce_lag1",
+        "mean_abs_shap": 0.09151573708258051,
+        "seed_sd": 0.02077165345223458
+      },
+      {
+        "rank": 2,
+        "feature": "produccion_t_dulce_lag6",
+        "mean_abs_shap": 0.09044695860265504,
+        "seed_sd": 0.02158954003902719
+      },
+      {
+        "rank": 3,
+        "feature": "produccion_t_dulce_lag3",
+        "mean_abs_shap": 0.08730974395861513,
+        "seed_sd": 0.01620510467614023
+      },
+      {
+        "rank": 4,
+        "feature": "t_index",
+        "mean_abs_shap": 0.08103806434271235,
+        "seed_sd": 0.01131950852428107
+      },
+      {
+        "rank": 5,
+        "feature": "mes_cos",
+        "mean_abs_shap": 0.07759796305150342,
+        "seed_sd": 0.0156820786810599
+      },
+      {
+        "rank": 6,
+        "feature": "T2M_lag1",
+        "mean_abs_shap": 0.0678280526239187,
+        "seed_sd": 0.016119168052214153
+      },
+      {
+        "rank": 7,
+        "feature": "T2M_MAX_lag1",
+        "mean_abs_shap": 0.06782767177945744,
+        "seed_sd": 0.007416699826521913
+      },
+      {
+        "rank": 8,
+        "feature": "T2M_lag6",
+        "mean_abs_shap": 0.06599190997690699,
+        "seed_sd": 0.011151697277566796
+      },
+      {
+        "rank": 9,
+        "feature": "WS2M_lag3",
+        "mean_abs_shap": 0.06306108293812826,
+        "seed_sd": 0.006605030889073181
+      },
+      {
+        "rank": 10,
+        "feature": "PRECTOTCORR_lag6",
+        "mean_abs_shap": 0.062426250276490694,
+        "seed_sd": 0.006754879701723686
+      }
+    ],
+    "dulce/GE": [
+      {
+        "rank": 1,
+        "feature": "produccion_t_dulce_lag1",
+        "mean_abs_shap": 0.09270135666161725,
+        "seed_sd": 0.01603683244163456
+      },
+      {
+        "rank": 2,
+        "feature": "produccion_t_dulce_lag3",
+        "mean_abs_shap": 0.09024415557003634,
+        "seed_sd": 0.019677626559362362
+      },
+      {
+        "rank": 3,
+        "feature": "produccion_t_dulce_lag6",
+        "mean_abs_shap": 0.08319109687422119,
+        "seed_sd": 0.01536145912668268
+      },
+      {
+        "rank": 4,
+        "feature": "t_index",
+        "mean_abs_shap": 0.08208624254245647,
+        "seed_sd": 0.013861906848381046
+      },
+      {
+        "rank": 5,
+        "feature": "mes_cos",
+        "mean_abs_shap": 0.07907357119194292,
+        "seed_sd": 0.015018406087557046
+      },
+      {
+        "rank": 6,
+        "feature": "T2M_lag6",
+        "mean_abs_shap": 0.07703169885333712,
+        "seed_sd": 0.01569436133717974
+      },
+      {
+        "rank": 7,
+        "feature": "T2M_MAX_lag1",
+        "mean_abs_shap": 0.06914018983810971,
+        "seed_sd": 0.008373975812066814
+      },
+      {
+        "rank": 8,
+        "feature": "WS2M_lag1",
+        "mean_abs_shap": 0.0684168608319112,
+        "seed_sd": 0.012284761557186783
+      },
+      {
+        "rank": 9,
+        "feature": "T2M_lag1",
+        "mean_abs_shap": 0.06346463790038874,
+        "seed_sd": 0.011595681534042888
+      },
+      {
+        "rank": 10,
+        "feature": "WS2M_lag3",
+        "mean_abs_shap": 0.05906274090296506,
+        "seed_sd": 0.007955944249969257
+      }
+    ],
+    "dulce/XGBoost": [
+      {
+        "rank": 1,
+        "feature": "mes_sin",
+        "mean_abs_shap": 0.4215904857768919,
+        "seed_sd": 0.041180771117405916
+      },
+      {
+        "rank": 2,
+        "feature": "produccion_t_dulce",
+        "mean_abs_shap": 0.21012769764854133,
+        "seed_sd": 0.014626851116515134
+      },
+      {
+        "rank": 3,
+        "feature": "produccion_t_dulce_lag6",
+        "mean_abs_shap": 0.15530652564096575,
+        "seed_sd": 0.017706905464171377
+      },
+      {
+        "rank": 4,
+        "feature": "RH2M_lag1",
+        "mean_abs_shap": 0.12125330133180796,
+        "seed_sd": 0.0300927874007584
+      },
+      {
+        "rank": 5,
+        "feature": "produccion_t_dulce_lag3",
+        "mean_abs_shap": 0.04935979758194359,
+        "seed_sd": 0.015521887047275447
+      },
+      {
+        "rank": 6,
+        "feature": "T2M_MAX_lag6",
+        "mean_abs_shap": 0.043629892911932686,
+        "seed_sd": 0.0072721829824943865
+      },
+      {
+        "rank": 7,
+        "feature": "hectareas_cultivo_perdidas_lag3",
+        "mean_abs_shap": 0.03251813705624803,
+        "seed_sd": 0.004186981644604911
+      },
+      {
+        "rank": 8,
+        "feature": "produccion_t_dulce_lag1",
+        "mean_abs_shap": 0.029438196751455807,
+        "seed_sd": 0.010420380543821495
+      },
+      {
+        "rank": 9,
+        "feature": "RH2M_lag6",
+        "mean_abs_shap": 0.025622310538816844,
+        "seed_sd": 0.004496394150943334
+      },
+      {
+        "rank": 10,
+        "feature": "PRECTOTCORR_lag6",
+        "mean_abs_shap": 0.021836637315709593,
+        "seed_sd": 0.0035922718290508954
+      }
+    ]
+  },
+  "groups": {
+    "sutil/GC3": [
+      {
+        "group": "INDECI",
+        "mean_abs_shap": 0.737219500937176,
+        "relative_share": 0.39909169524102484,
+        "seed_sd": 0.34079668139561553
+      },
+      {
+        "group": "NASA_clima",
+        "mean_abs_shap": 0.729441675425639,
+        "relative_share": 0.3948811913615937,
+        "seed_sd": 0.2888408179557216
+      },
+      {
+        "group": "produccion_historica",
+        "mean_abs_shap": 0.22738349627397078,
+        "relative_share": 0.12309341367455696,
+        "seed_sd": 0.0964417141144741
+      },
+      {
+        "group": "temporalidad",
+        "mean_abs_shap": 0.15319872963933678,
+        "relative_share": 0.08293369972282458,
+        "seed_sd": 0.07011343821405162
+      }
+    ],
+    "sutil/GE": [
+      {
+        "group": "INDECI",
+        "mean_abs_shap": 0.4564706405501539,
+        "relative_share": 0.29425499889209583,
+        "seed_sd": 0.34907382703348105
+      },
+      {
+        "group": "NASA_clima",
+        "mean_abs_shap": 0.6542025752582703,
+        "relative_share": 0.4217190788564587,
+        "seed_sd": 0.4725521147935687
+      },
+      {
+        "group": "NLP",
+        "mean_abs_shap": 0.16065956293277567,
+        "relative_share": 0.10356609015600919,
+        "seed_sd": 0.10936905234771012
+      },
+      {
+        "group": "produccion_historica",
+        "mean_abs_shap": 0.16231696907599086,
+        "relative_share": 0.1046345050758554,
+        "seed_sd": 0.1063767149542143
+      },
+      {
+        "group": "temporalidad",
+        "mean_abs_shap": 0.11762599012717298,
+        "relative_share": 0.07582532701958085,
+        "seed_sd": 0.08297736255129114
+      }
+    ],
+    "sutil/XGBoost": [
+      {
+        "group": "INDECI",
+        "mean_abs_shap": 0.22167388896941936,
+        "relative_share": 0.14304654737177067,
+        "seed_sd": 0.020238565272159406
+      },
+      {
+        "group": "NASA_clima",
+        "mean_abs_shap": 0.5388378903248167,
+        "relative_share": 0.3477130308959714,
+        "seed_sd": 0.03038069907305979
+      },
+      {
+        "group": "produccion_historica",
+        "mean_abs_shap": 0.716056569117733,
+        "relative_share": 0.4620725535667299,
+        "seed_sd": 0.024745642037069804
+      },
+      {
+        "group": "temporalidad",
+        "mean_abs_shap": 0.07309428268460844,
+        "relative_share": 0.04716786816552787,
+        "seed_sd": 0.009376750905207518
+      }
+    ],
+    "dulce/GC3": [
+      {
+        "group": "INDECI",
+        "mean_abs_shap": 0.6168205718024524,
+        "relative_share": 0.3150838322893999,
+        "seed_sd": 0.1058842751341703
+      },
+      {
+        "group": "NASA_clima",
+        "mean_abs_shap": 0.807688035097066,
+        "relative_share": 0.41258260996227536,
+        "seed_sd": 0.08511315523513505
+      },
+      {
+        "group": "produccion_historica",
+        "mean_abs_shap": 0.32483264593300304,
+        "relative_share": 0.16593077405669857,
+        "seed_sd": 0.038945275651908605
+      },
+      {
+        "group": "temporalidad",
+        "mean_abs_shap": 0.2082982976345164,
+        "relative_share": 0.1064027836916261,
+        "seed_sd": 0.02119794355961902
+      }
+    ],
+    "dulce/GE": [
+      {
+        "group": "INDECI",
+        "mean_abs_shap": 0.5634824421602408,
+        "relative_share": 0.2724231856010322,
+        "seed_sd": 0.10279573127446283
+      },
+      {
+        "group": "NASA_clima",
+        "mean_abs_shap": 0.8008834923454771,
+        "relative_share": 0.38719792482547283,
+        "seed_sd": 0.09100170625332733
+      },
+      {
+        "group": "NLP",
+        "mean_abs_shap": 0.17858903069559723,
+        "relative_share": 0.08634127528264621,
+        "seed_sd": 0.012312949729800782
+      },
+      {
+        "group": "produccion_historica",
+        "mean_abs_shap": 0.3191407144999156,
+        "relative_share": 0.15429288225156892,
+        "seed_sd": 0.030049691649432893
+      },
+      {
+        "group": "temporalidad",
+        "mean_abs_shap": 0.20631285504613572,
+        "relative_share": 0.09974473203927996,
+        "seed_sd": 0.022147483386000626
+      }
+    ],
+    "dulce/XGBoost": [
+      {
+        "group": "INDECI",
+        "mean_abs_shap": 0.1329608670831618,
+        "relative_share": 0.09980261900331461,
+        "seed_sd": 0.007092703004760225
+      },
+      {
+        "group": "NASA_clima",
+        "mean_abs_shap": 0.31637340683995774,
+        "relative_share": 0.23747509532921515,
+        "seed_sd": 0.03150270790019911
+      },
+      {
+        "group": "produccion_historica",
+        "mean_abs_shap": 0.4442322176229065,
+        "relative_share": 0.33344802675426555,
+        "seed_sd": 0.03316750553995932
+      },
+      {
+        "group": "temporalidad",
+        "mean_abs_shap": 0.43867176443346806,
+        "relative_share": 0.32927425891320455,
+        "seed_sd": 0.04477321385464177
+      }
+    ]
+  },
+  "nlp_ge": {
+    "sutil": {
+      "participation_total_abs": 0.10356609015600919,
+      "variables": [
+        {
+          "rank": 1,
+          "feature": "n_noticias_lag6",
+          "mean_abs_shap": 0.031274401527161905,
+          "relative_within_nlp": 0.19466255824589768
+        },
+        {
+          "rank": 2,
+          "feature": "n_noticias_lag1",
+          "mean_abs_shap": 0.029323508167492685,
+          "relative_within_nlp": 0.18251953156229136
+        },
+        {
+          "rank": 3,
+          "feature": "avg_sentiment_lag6",
+          "mean_abs_shap": 0.027083394955584105,
+          "relative_within_nlp": 0.1685763017226465
+        },
+        {
+          "rank": 4,
+          "feature": "avg_sentiment_lag3",
+          "mean_abs_shap": 0.02642177091162049,
+          "relative_within_nlp": 0.16445812766636295
+        },
+        {
+          "rank": 5,
+          "feature": "avg_sentiment_lag1",
+          "mean_abs_shap": 0.02340992221004399,
+          "relative_within_nlp": 0.1457113525189866
+        },
+        {
+          "rank": 6,
+          "feature": "n_noticias_lag3",
+          "mean_abs_shap": 0.02314656516087249,
+          "relative_within_nlp": 0.1440721282838149
+        }
+      ]
+    },
+    "dulce": {
+      "participation_total_abs": 0.08634127528264621,
+      "variables": [
+        {
+          "rank": 1,
+          "feature": "n_noticias_lag1",
+          "mean_abs_shap": 0.03295508890874241,
+          "relative_within_nlp": 0.18453030838671128
+        },
+        {
+          "rank": 2,
+          "feature": "avg_sentiment_lag1",
+          "mean_abs_shap": 0.03214866723952051,
+          "relative_within_nlp": 0.18001479214206337
+        },
+        {
+          "rank": 3,
+          "feature": "n_noticias_lag3",
+          "mean_abs_shap": 0.030216649993432536,
+          "relative_within_nlp": 0.16919656193742624
+        },
+        {
+          "rank": 4,
+          "feature": "avg_sentiment_lag3",
+          "mean_abs_shap": 0.02888697454922256,
+          "relative_within_nlp": 0.16175111336182815
+        },
+        {
+          "rank": 5,
+          "feature": "avg_sentiment_lag6",
+          "mean_abs_shap": 0.027343630086005533,
+          "relative_within_nlp": 0.1531092362140226
+        },
+        {
+          "rank": 6,
+          "feature": "n_noticias_lag6",
+          "mean_abs_shap": 0.027038019918673706,
+          "relative_within_nlp": 0.15139798795794837
+        }
+      ]
+    }
+  },
+  "shock_vs_nonshock": {
+    "sutil/GC3": {
+      "groups": [
+        {
+          "group": "INDECI",
+          "shock_mean_abs": 0.7349335030934829,
+          "nonshock_mean_abs": 0.737981500218407,
+          "difference_shock_minus_nonshock": -0.0030479971249240956
+        },
+        {
+          "group": "NASA_clima",
+          "shock_mean_abs": 0.7690074582922497,
+          "nonshock_mean_abs": 0.7162530811367687,
+          "difference_shock_minus_nonshock": 0.052754377155481036
+        },
+        {
+          "group": "produccion_historica",
+          "shock_mean_abs": 0.21184552520818442,
+          "nonshock_mean_abs": 0.23256281996256628,
+          "difference_shock_minus_nonshock": -0.02071729475438186
+        },
+        {
+          "group": "temporalidad",
+          "shock_mean_abs": 0.14680501835210485,
+          "nonshock_mean_abs": 0.15532996673508073,
+          "difference_shock_minus_nonshock": -0.008524948382975878
+        }
+      ]
+    },
+    "sutil/GE": {
+      "groups": [
+        {
+          "group": "INDECI",
+          "shock_mean_abs": 0.4559816538535566,
+          "nonshock_mean_abs": 0.4566336361156863,
+          "difference_shock_minus_nonshock": -0.0006519822621297022
+        },
+        {
+          "group": "NASA_clima",
+          "shock_mean_abs": 0.6824092873451036,
+          "nonshock_mean_abs": 0.6448003378959926,
+          "difference_shock_minus_nonshock": 0.037608949449111084
+        },
+        {
+          "group": "NLP",
+          "shock_mean_abs": 0.13727371558162532,
+          "nonshock_mean_abs": 0.1684548453831591,
+          "difference_shock_minus_nonshock": -0.031181129801533786
+        },
+        {
+          "group": "produccion_historica",
+          "shock_mean_abs": 0.13675931274183692,
+          "nonshock_mean_abs": 0.17083618785404214,
+          "difference_shock_minus_nonshock": -0.034076875112205224
+        },
+        {
+          "group": "temporalidad",
+          "shock_mean_abs": 0.13351504937943445,
+          "nonshock_mean_abs": 0.11232963704308581,
+          "difference_shock_minus_nonshock": 0.021185412336348644
+        }
+      ]
+    },
+    "sutil/XGBoost": {
+      "groups": [
+        {
+          "group": "INDECI",
+          "shock_mean_abs": 0.22654538006115105,
+          "nonshock_mean_abs": 0.22005005860550883,
+          "difference_shock_minus_nonshock": 0.006495321455642217
+        },
+        {
+          "group": "NASA_clima",
+          "shock_mean_abs": 0.5097968617439317,
+          "nonshock_mean_abs": 0.5485182331851118,
+          "difference_shock_minus_nonshock": -0.03872137144118015
+        },
+        {
+          "group": "produccion_historica",
+          "shock_mean_abs": 0.41589117339336407,
+          "nonshock_mean_abs": 0.8161117010258561,
+          "difference_shock_minus_nonshock": -0.400220527632492
+        },
+        {
+          "group": "temporalidad",
+          "shock_mean_abs": 0.08289550126269962,
+          "nonshock_mean_abs": 0.06982720982524472,
+          "difference_shock_minus_nonshock": 0.013068291437454901
+        }
+      ]
+    },
+    "dulce/GC3": {
+      "groups": [
+        {
+          "group": "INDECI",
+          "shock_mean_abs": 0.6688746483158298,
+          "nonshock_mean_abs": 0.5994692129646599,
+          "difference_shock_minus_nonshock": 0.06940543535116983
+        },
+        {
+          "group": "NASA_clima",
+          "shock_mean_abs": 0.9056996802344278,
+          "nonshock_mean_abs": 0.7750174867179453,
+          "difference_shock_minus_nonshock": 0.13068219351648247
+        },
+        {
+          "group": "produccion_historica",
+          "shock_mean_abs": 0.3732899886822414,
+          "nonshock_mean_abs": 0.3086801983499236,
+          "difference_shock_minus_nonshock": 0.06460979033231778
+        },
+        {
+          "group": "temporalidad",
+          "shock_mean_abs": 0.18211741000983844,
+          "nonshock_mean_abs": 0.21702526017607573,
+          "difference_shock_minus_nonshock": -0.03490785016623729
+        }
+      ]
+    },
+    "dulce/GE": {
+      "groups": [
+        {
+          "group": "INDECI",
+          "shock_mean_abs": 0.6134759010510911,
+          "nonshock_mean_abs": 0.5468179558632908,
+          "difference_shock_minus_nonshock": 0.06665794518780022
+        },
+        {
+          "group": "NASA_clima",
+          "shock_mean_abs": 0.8874573263766518,
+          "nonshock_mean_abs": 0.7720255476684189,
+          "difference_shock_minus_nonshock": 0.11543177870823285
+        },
+        {
+          "group": "NLP",
+          "shock_mean_abs": 0.16614904372959244,
+          "nonshock_mean_abs": 0.18273569301759887,
+          "difference_shock_minus_nonshock": -0.016586649288006433
+        },
+        {
+          "group": "produccion_historica",
+          "shock_mean_abs": 0.3711269039221937,
+          "nonshock_mean_abs": 0.3018119846924896,
+          "difference_shock_minus_nonshock": 0.06931491922970412
+        },
+        {
+          "group": "temporalidad",
+          "shock_mean_abs": 0.1720958153730597,
+          "nonshock_mean_abs": 0.21771853493716103,
+          "difference_shock_minus_nonshock": -0.04562271956410133
+        }
+      ]
+    },
+    "dulce/XGBoost": {
+      "groups": [
+        {
+          "group": "INDECI",
+          "shock_mean_abs": 0.13451256738697642,
+          "nonshock_mean_abs": 0.13244363364855694,
+          "difference_shock_minus_nonshock": 0.0020689337384194872
+        },
+        {
+          "group": "NASA_clima",
+          "shock_mean_abs": 0.29216680307917686,
+          "nonshock_mean_abs": 0.32444227476021803,
+          "difference_shock_minus_nonshock": -0.03227547168104117
+        },
+        {
+          "group": "produccion_historica",
+          "shock_mean_abs": 0.4495376259646794,
+          "nonshock_mean_abs": 0.4424637481756489,
+          "difference_shock_minus_nonshock": 0.007073877789030514
+        },
+        {
+          "group": "temporalidad",
+          "shock_mean_abs": 0.47852592546692,
+          "nonshock_mean_abs": 0.4253870440889841,
+          "difference_shock_minus_nonshock": 0.05313888137793593
+        }
+      ]
+    }
+  },
+  "timestep": {
+    "sutil/GC3": [
+      {
+        "timestep": 0,
+        "offset_from_origin": -5,
+        "description": "t-5 respecto al origen de prediccion",
+        "mean_abs_shap": 0.5314484095939463,
+        "seed_sd": 0.21117219362109038
+      },
+      {
+        "timestep": 1,
+        "offset_from_origin": -4,
+        "description": "t-4 respecto al origen de prediccion",
+        "mean_abs_shap": 0.3667540413374941,
+        "seed_sd": 0.166709078049061
+      },
+      {
+        "timestep": 2,
+        "offset_from_origin": -3,
+        "description": "t-3 respecto al origen de prediccion",
+        "mean_abs_shap": 0.3321489540495851,
+        "seed_sd": 0.1524212676373357
+      },
+      {
+        "timestep": 3,
+        "offset_from_origin": -2,
+        "description": "t-2 respecto al origen de prediccion",
+        "mean_abs_shap": 0.2552841420716542,
+        "seed_sd": 0.11116230771524668
+      },
+      {
+        "timestep": 4,
+        "offset_from_origin": -1,
+        "description": "t-1 respecto al origen de prediccion",
+        "mean_abs_shap": 0.21590030062693394,
+        "seed_sd": 0.09651639488355451
+      },
+      {
+        "timestep": 5,
+        "offset_from_origin": 0,
+        "description": "t0 respecto al origen de prediccion",
+        "mean_abs_shap": 0.14570755459650872,
+        "seed_sd": 0.06901078090097887
+      }
+    ],
+    "sutil/GE": [
+      {
+        "timestep": 0,
+        "offset_from_origin": -5,
+        "description": "t-5 respecto al origen de prediccion",
+        "mean_abs_shap": 0.4316643937824266,
+        "seed_sd": 0.31422582667871723
+      },
+      {
+        "timestep": 1,
+        "offset_from_origin": -4,
+        "description": "t-4 respecto al origen de prediccion",
+        "mean_abs_shap": 0.29896578187888656,
+        "seed_sd": 0.2233160579776542
+      },
+      {
+        "timestep": 2,
+        "offset_from_origin": -3,
+        "description": "t-3 respecto al origen de prediccion",
+        "mean_abs_shap": 0.2591378810657631,
+        "seed_sd": 0.19336646933288035
+      },
+      {
+        "timestep": 3,
+        "offset_from_origin": -2,
+        "description": "t-2 respecto al origen de prediccion",
+        "mean_abs_shap": 0.24239703111161356,
+        "seed_sd": 0.17371107092571486
+      },
+      {
+        "timestep": 4,
+        "offset_from_origin": -1,
+        "description": "t-1 respecto al origen de prediccion",
+        "mean_abs_shap": 0.19105976910870198,
+        "seed_sd": 0.13748602227128326
+      },
+      {
+        "timestep": 5,
+        "offset_from_origin": 0,
+        "description": "t0 respecto al origen de prediccion",
+        "mean_abs_shap": 0.12805088099697176,
+        "seed_sd": 0.09133870461042555
+      }
+    ],
+    "dulce/GC3": [
+      {
+        "timestep": 0,
+        "offset_from_origin": -5,
+        "description": "t-5 respecto al origen de prediccion",
+        "mean_abs_shap": 0.8755171667265064,
+        "seed_sd": 0.11200916753700424
+      },
+      {
+        "timestep": 1,
+        "offset_from_origin": -4,
+        "description": "t-4 respecto al origen de prediccion",
+        "mean_abs_shap": 0.311396561003292,
+        "seed_sd": 0.05156531447451095
+      },
+      {
+        "timestep": 2,
+        "offset_from_origin": -3,
+        "description": "t-3 respecto al origen de prediccion",
+        "mean_abs_shap": 0.2732806261010533,
+        "seed_sd": 0.0444632245673147
+      },
+      {
+        "timestep": 3,
+        "offset_from_origin": -2,
+        "description": "t-2 respecto al origen de prediccion",
+        "mean_abs_shap": 0.2215658997562798,
+        "seed_sd": 0.03649678269978581
+      },
+      {
+        "timestep": 4,
+        "offset_from_origin": -1,
+        "description": "t-1 respecto al origen de prediccion",
+        "mean_abs_shap": 0.1702563655996329,
+        "seed_sd": 0.028519947460137893
+      },
+      {
+        "timestep": 5,
+        "offset_from_origin": 0,
+        "description": "t0 respecto al origen de prediccion",
+        "mean_abs_shap": 0.10562293128027327,
+        "seed_sd": 0.01777609935070558
+      }
+    ],
+    "dulce/GE": [
+      {
+        "timestep": 0,
+        "offset_from_origin": -5,
+        "description": "t-5 respecto al origen de prediccion",
+        "mean_abs_shap": 0.9543131486394637,
+        "seed_sd": 0.08379400137084077
+      },
+      {
+        "timestep": 1,
+        "offset_from_origin": -4,
+        "description": "t-4 respecto al origen de prediccion",
+        "mean_abs_shap": 0.322124670994009,
+        "seed_sd": 0.05614488050051574
+      },
+      {
+        "timestep": 2,
+        "offset_from_origin": -3,
+        "description": "t-3 respecto al origen de prediccion",
+        "mean_abs_shap": 0.2648916153524804,
+        "seed_sd": 0.04672827850622011
+      },
+      {
+        "timestep": 3,
+        "offset_from_origin": -2,
+        "description": "t-2 respecto al origen de prediccion",
+        "mean_abs_shap": 0.23030156566351917,
+        "seed_sd": 0.0421929714844797
+      },
+      {
+        "timestep": 4,
+        "offset_from_origin": -1,
+        "description": "t-1 respecto al origen de prediccion",
+        "mean_abs_shap": 0.1785973834284694,
+        "seed_sd": 0.03175911049561937
+      },
+      {
+        "timestep": 5,
+        "offset_from_origin": 0,
+        "description": "t0 respecto al origen de prediccion",
+        "mean_abs_shap": 0.11818015066942471,
+        "seed_sd": 0.02167359628314035
+      }
+    ]
+  },
+  "seed_variability": {
+    "sutil/GC3": {
+      "total_importance_mean": 1.8472434022761224,
+      "total_importance_median": 2.141845046767912,
+      "total_importance_sd": 0.771220943100379,
+      "total_importance_min": 0.4973158342367204,
+      "total_importance_max": 2.669750052768734,
+      "interpretation": "Variabilidad descriptiva entre las 10 seeds; no es intervalo de confianza temporal."
+    },
+    "sutil/GE": {
+      "total_importance_mean": 1.5512757379443638,
+      "total_importance_median": 1.4806824282429716,
+      "total_importance_sd": 1.1082529151954157,
+      "total_importance_min": 0.2787623453588897,
+      "total_importance_max": 3.595005803303669,
+      "interpretation": "Variabilidad descriptiva entre las 10 seeds; no es intervalo de confianza temporal."
+    },
+    "sutil/XGBoost": {
+      "total_importance_mean": 1.5496626310965778,
+      "total_importance_median": 1.5526313045682705,
+      "total_importance_sd": 0.024894404982882205,
+      "total_importance_min": 1.503699150868594,
+      "total_importance_max": 1.5851410955807903,
+      "interpretation": "Variabilidad descriptiva entre las 10 seeds; no es intervalo de confianza temporal."
+    },
+    "dulce/GC3": {
+      "total_importance_mean": 1.957639550467038,
+      "total_importance_median": 1.950238349078139,
+      "total_importance_sd": 0.16849337401618467,
+      "total_importance_min": 1.668050036495212,
+      "total_importance_max": 2.203089593015193,
+      "interpretation": "Variabilidad descriptiva entre las 10 seeds; no es intervalo de confianza temporal."
+    },
+    "dulce/GE": {
+      "total_importance_mean": 2.068408534747366,
+      "total_importance_median": 2.0496810710202835,
+      "total_importance_sd": 0.18292727752060434,
+      "total_importance_min": 1.7724272259220015,
+      "total_importance_max": 2.313232178536964,
+      "interpretation": "Variabilidad descriptiva entre las 10 seeds; no es intervalo de confianza temporal."
+    },
+    "dulce/XGBoost": {
+      "total_importance_mean": 1.3322382559794943,
+      "total_importance_median": 1.334046080615579,
+      "total_importance_sd": 0.01271505076001705,
+      "total_importance_min": 1.3093415658871284,
+      "total_importance_max": 1.3541567307354019,
+      "interpretation": "Variabilidad descriptiva entre las 10 seeds; no es intervalo de confianza temporal."
+    }
+  },
+  "technical_incidents": {
+    "warnings": [],
+    "fallback_used": false,
+    "notes": [
+      "La primera invocacion sandbox fallo antes de entrar al script por ruta de interprete base del venv; se reintento con el prefijo aprobado del venv, sin cambiar protocolo.",
+      "No se detectaron warnings de explainer en metadata."
+    ]
+  },
+  "artifact_manifest": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\shap\\official_test_2025\\metadata\\MANIFEST_SHA256.json",
+  "artifact_manifest_sha256": "cf3fcbbe60c027aac500103afd3875a39a8b2a55a42055de74fffb70dadeef6a"
+}

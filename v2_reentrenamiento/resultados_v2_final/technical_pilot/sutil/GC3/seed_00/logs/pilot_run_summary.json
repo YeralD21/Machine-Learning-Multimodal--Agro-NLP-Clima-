@@ -1,0 +1,131 @@
+{
+  "best_epoch": 279,
+  "best_val_loss": 94221704.0,
+  "checkpoint_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot\\sutil\\GC3\\seed_00\\checkpoint_best.keras",
+  "config_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot\\sutil\\GC3\\seed_00\\config.json",
+  "dataset_hash": "a6f23d0eb3178514c75f6851f3c2039837a192acc5f2b008bc445dda35968cc9",
+  "dataset_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\data\\processed\\master_dataset_sutil_v2_features.csv",
+  "determinism": {
+    "enable_op_determinism_used": true,
+    "keras_set_random_seed_used": true,
+    "pythonhashseed": "0",
+    "seed": 0,
+    "tensorflow_previously_loaded": false,
+    "tf_deterministic_ops": "1",
+    "tf_enable_onednn_opts": "0"
+  },
+  "epochs_executed": 294,
+  "estimated_minutes_40_runs": 22.052760666666774,
+  "estimated_seconds_40_runs": 1323.1656400000065,
+  "figures": {
+    "mae": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot\\sutil\\GC3\\seed_00\\figures\\pilot_metric_mae.png",
+    "mse": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot\\sutil\\GC3\\seed_00\\figures\\pilot_loss_mse.png"
+  },
+  "final_val_loss_after_restore": 94221704.0,
+  "fit_seconds": 33.07914100000016,
+  "history_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot\\sutil\\GC3\\seed_00\\history.csv",
+  "keras": "3.14.0",
+  "metadata_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot\\sutil\\GC3\\seed_00\\metadata.json",
+  "model_fit_executed": true,
+  "numpy": "2.4.4",
+  "official_result": false,
+  "pandas": "3.0.2",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "preflight": {
+    "callbacks": [
+      {
+        "class": "EarlyStopping",
+        "factor": null,
+        "min_lr": null,
+        "monitor": "val_loss",
+        "patience": 15,
+        "restore_best_weights": true
+      },
+      {
+        "class": "ReduceLROnPlateau",
+        "factor": 0.5,
+        "min_lr": 1e-06,
+        "monitor": "val_loss",
+        "patience": 8,
+        "restore_best_weights": null
+      },
+      {
+        "class": "ModelCheckpoint",
+        "factor": null,
+        "min_lr": null,
+        "monitor": "val_loss",
+        "patience": null,
+        "restore_best_weights": null
+      },
+      {
+        "class": "_LearningRateLogger",
+        "factor": null,
+        "min_lr": null,
+        "monitor": null,
+        "patience": null,
+        "restore_best_weights": null
+      }
+    ],
+    "learning_rate": 0.0010000000474974513,
+    "loss": "mse",
+    "optimizer": "Adam",
+    "params": 6273,
+    "shuffle": false
+  },
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "reduce_lr_epochs": [
+    287
+  ],
+  "restore_best_weights_verified": true,
+  "run_label": "TECHNICAL_PILOT",
+  "scaler_hash": "ba51666f00ded716c63698dd04e29068d58d3cab064202384bfbd4435fbf350e",
+  "scaler_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\scalers\\scaler_sutil_v2c.joblib",
+  "seconds_per_epoch": 0.11251408503401417,
+  "shapes": {
+    "Xa_train": [
+      84,
+      6,
+      4
+    ],
+    "Xa_val": [
+      12,
+      6,
+      4
+    ],
+    "Xb_train": [
+      84,
+      6,
+      33
+    ],
+    "Xb_val": [
+      12,
+      6,
+      33
+    ],
+    "y_train": [
+      84
+    ],
+    "y_val": [
+      12
+    ]
+  },
+  "stopped_epoch": 294,
+  "tensorflow": "2.21.0",
+  "test_loaded_into_sequence_object": false,
+  "test_used": false,
+  "tf_devices": {
+    "cpu": [
+      "PhysicalDevice(name='/physical_device:CPU:0', device_type='CPU')"
+    ],
+    "gpu": [],
+    "logical": [
+      "LogicalDevice(name='/device:CPU:0', device_type='CPU')"
+    ]
+  },
+  "timestamp_utc": "2026-09-11T01:51:24.774095+00:00",
+  "total_script_seconds": 37.54455430000053,
+  "train_target_end": "2023-12-01",
+  "train_target_start": "2017-01-01",
+  "validation_target_end": "2024-12-01",
+  "validation_target_start": "2024-01-01"
+}

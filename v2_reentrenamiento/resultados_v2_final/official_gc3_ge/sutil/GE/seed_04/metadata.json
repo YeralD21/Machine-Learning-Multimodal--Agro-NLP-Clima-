@@ -1,0 +1,33 @@
+{
+  "batch_size": 8,
+  "best_epoch": 18,
+  "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
+  "cultivar": "sutil",
+  "dataset_hash": "d664fd728798d52e5c1bbe702745d40d49b8761513cef148e0a56f2481ca7941",
+  "determinism_settings": {
+    "enable_op_determinism_used": true,
+    "keras_set_random_seed_used": true,
+    "pythonhashseed": "4",
+    "seed": 4,
+    "tensorflow_previously_loaded": false,
+    "tf_deterministic_ops": "1",
+    "tf_enable_onednn_opts": "0"
+  },
+  "git_commit": "44fe6eafca927ba22d97bf8e46d6ad530cc1a47a",
+  "gpu": "[]",
+  "keras_version": "3.14.0",
+  "learning_rate": 0.001,
+  "lookback": 6,
+  "max_epochs": 300,
+  "model_config_hash": "5faf64061d38db1ebebba6654d67722fec43035572d1472f3de2588fed6f345a",
+  "model_name": "GE",
+  "numpy_version": "2.4.4",
+  "one_dnn_setting": "0",
+  "os": "Windows-10-10.0.26200-SP0",
+  "python_version": "3.11.9",
+  "scaler_hash": "ba51666f00ded716c63698dd04e29068d58d3cab064202384bfbd4435fbf350e",
+  "seed": 4,
+  "stopped_epoch": 33,
+  "tensorflow_version": "2.21.0",
+  "timestamp_utc": "2026-09-11T16:30:16.995449+00:00"
+}

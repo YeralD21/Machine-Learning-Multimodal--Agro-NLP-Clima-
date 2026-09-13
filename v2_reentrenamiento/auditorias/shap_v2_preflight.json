@@ -1,0 +1,1604 @@
+{
+  "environment": {
+    "keras": "3.14.0",
+    "python": "3.11.9",
+    "shap": "0.51.0",
+    "tensorflow": "2.21.0",
+    "tf_deterministic_ops": "1",
+    "tf_enable_onednn_opts": "0",
+    "xgboost": "3.2.0"
+  },
+  "feature_audit": {
+    "dulce_GC3": {
+      "lookback": 6,
+      "rama_a": [
+        "produccion_t_dulce",
+        "produccion_t_dulce_lag1",
+        "produccion_t_dulce_lag3",
+        "produccion_t_dulce_lag6"
+      ],
+      "rama_a_n": 4,
+      "rama_b": [
+        "mes_sin",
+        "mes_cos",
+        "t_index",
+        "T2M_lag1",
+        "T2M_lag3",
+        "T2M_lag6",
+        "T2M_MAX_lag1",
+        "T2M_MAX_lag3",
+        "T2M_MAX_lag6",
+        "WS2M_lag1",
+        "WS2M_lag3",
+        "WS2M_lag6",
+        "PRECTOTCORR_lag1",
+        "PRECTOTCORR_lag3",
+        "PRECTOTCORR_lag6",
+        "RH2M_lag1",
+        "RH2M_lag3",
+        "RH2M_lag6",
+        "num_emergencias_lag1",
+        "num_emergencias_lag3",
+        "num_emergencias_lag6",
+        "personas_afectadas_lag1",
+        "personas_afectadas_lag3",
+        "personas_afectadas_lag6",
+        "personas_damnificadas_lag1",
+        "personas_damnificadas_lag3",
+        "personas_damnificadas_lag6",
+        "hectareas_cultivo_perdidas_lag1",
+        "hectareas_cultivo_perdidas_lag3",
+        "hectareas_cultivo_perdidas_lag6",
+        "hectareas_cultivo_afectadas_lag1",
+        "hectareas_cultivo_afectadas_lag3",
+        "hectareas_cultivo_afectadas_lag6"
+      ],
+      "rama_b_n": 33,
+      "target": "produccion_t_dulce",
+      "total_inputs": 37
+    },
+    "dulce_GE": {
+      "lookback": 6,
+      "rama_a": [
+        "produccion_t_dulce",
+        "produccion_t_dulce_lag1",
+        "produccion_t_dulce_lag3",
+        "produccion_t_dulce_lag6"
+      ],
+      "rama_a_n": 4,
+      "rama_b": [
+        "mes_sin",
+        "mes_cos",
+        "t_index",
+        "T2M_lag1",
+        "T2M_lag3",
+        "T2M_lag6",
+        "T2M_MAX_lag1",
+        "T2M_MAX_lag3",
+        "T2M_MAX_lag6",
+        "WS2M_lag1",
+        "WS2M_lag3",
+        "WS2M_lag6",
+        "PRECTOTCORR_lag1",
+        "PRECTOTCORR_lag3",
+        "PRECTOTCORR_lag6",
+        "RH2M_lag1",
+        "RH2M_lag3",
+        "RH2M_lag6",
+        "num_emergencias_lag1",
+        "num_emergencias_lag3",
+        "num_emergencias_lag6",
+        "personas_afectadas_lag1",
+        "personas_afectadas_lag3",
+        "personas_afectadas_lag6",
+        "personas_damnificadas_lag1",
+        "personas_damnificadas_lag3",
+        "personas_damnificadas_lag6",
+        "hectareas_cultivo_perdidas_lag1",
+        "hectareas_cultivo_perdidas_lag3",
+        "hectareas_cultivo_perdidas_lag6",
+        "hectareas_cultivo_afectadas_lag1",
+        "hectareas_cultivo_afectadas_lag3",
+        "hectareas_cultivo_afectadas_lag6",
+        "avg_sentiment_lag1",
+        "avg_sentiment_lag3",
+        "avg_sentiment_lag6",
+        "n_noticias_lag1",
+        "n_noticias_lag3",
+        "n_noticias_lag6"
+      ],
+      "rama_b_n": 39,
+      "target": "produccion_t_dulce",
+      "total_inputs": 43
+    },
+    "dulce_XGBoost": {
+      "predictors": [
+        "produccion_t_dulce",
+        "produccion_t_dulce_lag1",
+        "produccion_t_dulce_lag3",
+        "produccion_t_dulce_lag6",
+        "mes_sin",
+        "mes_cos",
+        "t_index",
+        "T2M_lag1",
+        "T2M_lag3",
+        "T2M_lag6",
+        "T2M_MAX_lag1",
+        "T2M_MAX_lag3",
+        "T2M_MAX_lag6",
+        "WS2M_lag1",
+        "WS2M_lag3",
+        "WS2M_lag6",
+        "PRECTOTCORR_lag1",
+        "PRECTOTCORR_lag3",
+        "PRECTOTCORR_lag6",
+        "RH2M_lag1",
+        "RH2M_lag3",
+        "RH2M_lag6",
+        "num_emergencias_lag1",
+        "num_emergencias_lag3",
+        "num_emergencias_lag6",
+        "personas_afectadas_lag1",
+        "personas_afectadas_lag3",
+        "personas_afectadas_lag6",
+        "personas_damnificadas_lag1",
+        "personas_damnificadas_lag3",
+        "personas_damnificadas_lag6",
+        "hectareas_cultivo_perdidas_lag1",
+        "hectareas_cultivo_perdidas_lag3",
+        "hectareas_cultivo_perdidas_lag6",
+        "hectareas_cultivo_afectadas_lag1",
+        "hectareas_cultivo_afectadas_lag3",
+        "hectareas_cultivo_afectadas_lag6"
+      ],
+      "predictors_n": 37,
+      "target": "produccion_t_dulce"
+    },
+    "sutil_GC3": {
+      "lookback": 6,
+      "rama_a": [
+        "produccion_t_sutil",
+        "produccion_t_sutil_lag1",
+        "produccion_t_sutil_lag3",
+        "produccion_t_sutil_lag6"
+      ],
+      "rama_a_n": 4,
+      "rama_b": [
+        "mes_sin",
+        "mes_cos",
+        "t_index",
+        "T2M_lag1",
+        "T2M_lag3",
+        "T2M_lag6",
+        "T2M_MAX_lag1",
+        "T2M_MAX_lag3",
+        "T2M_MAX_lag6",
+        "WS2M_lag1",
+        "WS2M_lag3",
+        "WS2M_lag6",
+        "PRECTOTCORR_lag1",
+        "PRECTOTCORR_lag3",
+        "PRECTOTCORR_lag6",
+        "RH2M_lag1",
+        "RH2M_lag3",
+        "RH2M_lag6",
+        "num_emergencias_lag1",
+        "num_emergencias_lag3",
+        "num_emergencias_lag6",
+        "personas_afectadas_lag1",
+        "personas_afectadas_lag3",
+        "personas_afectadas_lag6",
+        "personas_damnificadas_lag1",
+        "personas_damnificadas_lag3",
+        "personas_damnificadas_lag6",
+        "hectareas_cultivo_perdidas_lag1",
+        "hectareas_cultivo_perdidas_lag3",
+        "hectareas_cultivo_perdidas_lag6",
+        "hectareas_cultivo_afectadas_lag1",
+        "hectareas_cultivo_afectadas_lag3",
+        "hectareas_cultivo_afectadas_lag6"
+      ],
+      "rama_b_n": 33,
+      "target": "produccion_t_sutil",
+      "total_inputs": 37
+    },
+    "sutil_GE": {
+      "lookback": 6,
+      "rama_a": [
+        "produccion_t_sutil",
+        "produccion_t_sutil_lag1",
+        "produccion_t_sutil_lag3",
+        "produccion_t_sutil_lag6"
+      ],
+      "rama_a_n": 4,
+      "rama_b": [
+        "mes_sin",
+        "mes_cos",
+        "t_index",
+        "T2M_lag1",
+        "T2M_lag3",
+        "T2M_lag6",
+        "T2M_MAX_lag1",
+        "T2M_MAX_lag3",
+        "T2M_MAX_lag6",
+        "WS2M_lag1",
+        "WS2M_lag3",
+        "WS2M_lag6",
+        "PRECTOTCORR_lag1",
+        "PRECTOTCORR_lag3",
+        "PRECTOTCORR_lag6",
+        "RH2M_lag1",
+        "RH2M_lag3",
+        "RH2M_lag6",
+        "num_emergencias_lag1",
+        "num_emergencias_lag3",
+        "num_emergencias_lag6",
+        "personas_afectadas_lag1",
+        "personas_afectadas_lag3",
+        "personas_afectadas_lag6",
+        "personas_damnificadas_lag1",
+        "personas_damnificadas_lag3",
+        "personas_damnificadas_lag6",
+        "hectareas_cultivo_perdidas_lag1",
+        "hectareas_cultivo_perdidas_lag3",
+        "hectareas_cultivo_perdidas_lag6",
+        "hectareas_cultivo_afectadas_lag1",
+        "hectareas_cultivo_afectadas_lag3",
+        "hectareas_cultivo_afectadas_lag6",
+        "avg_sentiment_lag1",
+        "avg_sentiment_lag3",
+        "avg_sentiment_lag6",
+        "n_noticias_lag1",
+        "n_noticias_lag3",
+        "n_noticias_lag6"
+      ],
+      "rama_b_n": 39,
+      "target": "produccion_t_sutil",
+      "total_inputs": 43
+    },
+    "sutil_XGBoost": {
+      "predictors": [
+        "produccion_t_sutil",
+        "produccion_t_sutil_lag1",
+        "produccion_t_sutil_lag3",
+        "produccion_t_sutil_lag6",
+        "mes_sin",
+        "mes_cos",
+        "t_index",
+        "T2M_lag1",
+        "T2M_lag3",
+        "T2M_lag6",
+        "T2M_MAX_lag1",
+        "T2M_MAX_lag3",
+        "T2M_MAX_lag6",
+        "WS2M_lag1",
+        "WS2M_lag3",
+        "WS2M_lag6",
+        "PRECTOTCORR_lag1",
+        "PRECTOTCORR_lag3",
+        "PRECTOTCORR_lag6",
+        "RH2M_lag1",
+        "RH2M_lag3",
+        "RH2M_lag6",
+        "num_emergencias_lag1",
+        "num_emergencias_lag3",
+        "num_emergencias_lag6",
+        "personas_afectadas_lag1",
+        "personas_afectadas_lag3",
+        "personas_afectadas_lag6",
+        "personas_damnificadas_lag1",
+        "personas_damnificadas_lag3",
+        "personas_damnificadas_lag6",
+        "hectareas_cultivo_perdidas_lag1",
+        "hectareas_cultivo_perdidas_lag3",
+        "hectareas_cultivo_perdidas_lag6",
+        "hectareas_cultivo_afectadas_lag1",
+        "hectareas_cultivo_afectadas_lag3",
+        "hectareas_cultivo_afectadas_lag6"
+      ],
+      "predictors_n": 37,
+      "target": "produccion_t_sutil"
+    }
+  },
+  "feature_groups_recommended": {
+    "INDECI": [
+      "num_emergencias_lag1",
+      "num_emergencias_lag3",
+      "num_emergencias_lag6",
+      "personas_afectadas_lag1",
+      "personas_afectadas_lag3",
+      "personas_afectadas_lag6",
+      "personas_damnificadas_lag1",
+      "personas_damnificadas_lag3",
+      "personas_damnificadas_lag6",
+      "hectareas_cultivo_perdidas_lag1",
+      "hectareas_cultivo_perdidas_lag3",
+      "hectareas_cultivo_perdidas_lag6",
+      "hectareas_cultivo_afectadas_lag1",
+      "hectareas_cultivo_afectadas_lag3",
+      "hectareas_cultivo_afectadas_lag6"
+    ],
+    "NASA": [
+      "T2M_lag1",
+      "T2M_lag3",
+      "T2M_lag6",
+      "T2M_MAX_lag1",
+      "T2M_MAX_lag3",
+      "T2M_MAX_lag6",
+      "WS2M_lag1",
+      "WS2M_lag3",
+      "WS2M_lag6",
+      "PRECTOTCORR_lag1",
+      "PRECTOTCORR_lag3",
+      "PRECTOTCORR_lag6",
+      "RH2M_lag1",
+      "RH2M_lag3",
+      "RH2M_lag6"
+    ],
+    "NLP": [
+      "avg_sentiment_lag1",
+      "avg_sentiment_lag3",
+      "avg_sentiment_lag6",
+      "n_noticias_lag1",
+      "n_noticias_lag3",
+      "n_noticias_lag6"
+    ],
+    "produccion": "Rama A completa: produccion contemporanea al origen y lags 1/3/6 dentro de la ventana",
+    "temporalidad": [
+      "mes_sin",
+      "mes_cos",
+      "t_index"
+    ]
+  },
+  "generated_utc": "2026-09-13T02:03:23.893215+00:00",
+  "git_commit_current": "44fe6eafca927ba22d97bf8e46d6ad530cc1a47a",
+  "git_status_sb": "## main...origin/main\n M v2_reentrenamiento/DECISIONES_METODOLOGICAS.md\n?? data/interim/indeci/indeci_temporal_2019_2025.csv\n?? data/interim/nasa/clima_dataset_2019_2020.csv\n?? sources/agraria-pe/sin-unificar/agro_news_2020.csv\n?? sources/agraria-pe/sin-unificar/checkpoint_2019_2020.json\n?? sources/noticias-ampliado/\n?? src/scraping/agronoticias_scraper.py\n?? src/scraping/andina_scraper.py\n?? src/scraping/base_scraper.py\n?? src/scraping/freshfruit_scraper.py\n?? src/scraping/recalcular_sentimiento_v2.py\n?? src/scraping/redagricola_scraper.py\n?? src/scraping/run_expansion.py\n?? src/scraping/unificar_corpus_v2.py\n?? src/weather/nasa_power_downloader.py\n?? v2_reentrenamiento/HANDOFF_CONTEXTO_ACTUAL.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_COMPARACION_FINAL_MODELOS.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_ENTRENAMIENTO_OFICIAL_GC3_GE.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_EVALUACION_TEST_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_EVALUACION_TEST_GC3_GE.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_EVALUACION_TEST_SARIMA_ROLLING.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_METODOLOGICA_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_METODOLOGICA_SARIMA_ROLLING.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_METODOLOGICA_SHAP_V2.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_POST_RUN_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_POST_RUN_GC3_GE.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_PREFLIGHT_FINAL_SARIMA_ROLLING.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_PREFLIGHT_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_PREFLIGHT_SARIMA_ROLLING.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_PREFLIGHT_SHAP_V2.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_RUNNER_OFICIAL_GC3_GE.md\n?? v2_reentrenamiento/auditorias/auditar_entrenamiento_oficial_gc3_ge.py\n?? v2_reentrenamiento/auditorias/auditar_post_run_final_gc3_ge.py\n?? v2_reentrenamiento/auditorias/auditar_post_run_gc2_xgboost.py\n?? v2_reentrenamiento/auditorias/auditar_runner_oficial_gc3_ge.py\n?? v2_reentrenamiento/auditorias/auditar_sarima_rolling_preflight.py\n?? v2_reentrenamiento/auditorias/auditar_sarima_rolling_preflight_final.py\n?? v2_reentrenamiento/auditorias/auditar_shap_v2_preflight.py\n?? v2_reentrenamiento/auditorias/consolidar_comparacion_final_modelos.py\n?? v2_reentrenamiento/auditorias/ejecutar_entrenamiento_oficial_gc2_xgboost.py\n?? v2_reentrenamiento/auditorias/ejecutar_entrenamiento_oficial_gc3_ge.py\n?? v2_reentrenamiento/auditorias/entrenamiento_oficial_gc2_xgboost_manifest.json\n?? v2_reentrenamiento/auditorias/entrenamiento_oficial_gc3_ge_manifest.json\n?? v2_reentrenamiento/auditorias/evaluar_test_gc2_xgboost.py\n?? v2_reentrenamiento/auditorias/evaluar_test_gc3_ge.py\n?? v2_reentrenamiento/auditorias/evaluar_test_sarima_rolling.py\n?? v2_reentrenamiento/auditorias/gc2_xgboost_preflight_dry_run.json\n?? v2_reentrenamiento/auditorias/resumen_entrenamiento_oficial_gc3_ge.csv\n?? v2_reentrenamiento/auditorias/resumen_entrenamiento_oficial_gc3_ge.json\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc2_xgboost.csv\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc2_xgboost.json\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc3_ge.csv\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc3_ge.json\n?? v2_reentrenamiento/auditorias/runner_oficial_gc3_ge_dry_run.json\n?? v2_reentrenamiento/auditorias/sarima_rolling_preflight_dry_run.json\n?? v2_reentrenamiento/auditorias/sarima_rolling_preflight_final.json\n?? v2_reentrenamiento/auditorias/shap_v2_preflight.json\n?? v2_reentrenamiento/resultados_v2_final/comparacion_final/\n?? v2_reentrenamiento/resultados_v2_final/evaluacion_test_gc2_xgboost/\n?? v2_reentrenamiento/resultados_v2_final/evaluacion_test_gc3_ge/\n?? v2_reentrenamiento/resultados_v2_final/evaluacion_test_sarima_rolling/\n?? v2_reentrenamiento/resultados_v2_final/official_gc2_xgboost/\n?? v2_reentrenamiento/resultados_v2_final/official_gc3_ge/\n?? v2_reentrenamiento/resultados_v2_final/technical_pilot/\n?? v2_reentrenamiento/resultados_v2_final/technical_pilot_scaled/\n?? v2_reentrenamiento/src/models/features_gc2_xgboost.py\n?? v2_reentrenamiento/src/training/config_gc2_xgboost.py\n?? v2_reentrenamiento/src/training/official_runner_gc2_xgboost.py\n?? v2_reentrenamiento/src/training/official_runner_gc3_ge.py\n?? v2_reentrenamiento/src/training/tabular_gc2_xgboost.py",
+  "historical_shap_v1": {
+    "historical_v1": [
+      "actividad_16_shap.ipynb/gen_nb_actividad16.py documented KernelExplainer with k-means background for a v1 GE-style dual-input wrapper; this is antecedent only and is not automatically valid for v2.",
+      "generar_shap_shocks.py and visualizar_shocks_comparativo.py consume resultados/shap/shap_resultados.json for legacy dashboard figures; they do not implement v2 SHAP."
+    ],
+    "verified_code": [
+      {
+        "hits": [
+          "KernelExplainer",
+          "shap.kmeans",
+          "shap_values"
+        ],
+        "path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\gen_nb_actividad16.py",
+        "sha256": "f496afd19904057847ec7c5daa266d83ff1c7a28ea0ae49035b48146987a4078"
+      },
+      {
+        "hits": [
+          "KernelExplainer",
+          "shap.kmeans",
+          "shap_values"
+        ],
+        "path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\notebooks\\fase4\\actividad_16_shap.ipynb",
+        "sha256": "c0abb2d6200e1789f3b82ffb2ecd2f2c138002ea02a554d247fa8784727ca244"
+      },
+      {
+        "hits": [
+          "KernelExplainer",
+          "shap.kmeans",
+          "shap_values"
+        ],
+        "path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\notebooks\\fase4\\actividad_16_ejecutado.ipynb",
+        "sha256": "a0d3ace7df10025349b538897e637c05023aea806a4e7158ffde2ef9ddd7d075"
+      },
+      {
+        "hits": [
+          "KernelExplainer"
+        ],
+        "path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\docs\\shap.html",
+        "sha256": "ee0d29ae8637e6cb356a9008229b8ae52407826b600e9bae95bb2982b3ff50a6"
+      },
+      {
+        "hits": [
+          "KernelExplainer"
+        ],
+        "path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\dashboard\\shap.html",
+        "sha256": "855f54a321105883505d62106de7896ecbebbbafaf3c9fc2f70b4c548d2afd88"
+      }
+    ]
+  },
+  "official_artifacts": {
+    "GC3_GE": {
+      "dulce_GC3": {
+        "all_10_seeds_present": true,
+        "dataset_hashes": [
+          "38466a4f9581f7d8058962248161d7cb1d467a82e7c2092de73364920dd84f80"
+        ],
+        "keras_versions": [
+          "3.14.0"
+        ],
+        "paths": [
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_00\\checkpoint_best.keras",
+            "checkpoint_hash": "e38e1356ec4ec740264519464d18ff4cdc3bfcabc47021e51775d3500638043d",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_00\\config.json",
+            "config_hash": "3b5ce0e23600eb47c171a1e44d15519fa23a5529c62a815f00cafccf06a11345",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_00\\metadata.json",
+            "metadata_hash": "8653774f7c4f4c2a1323937c008240677c64e0f2c1d730de0d74fe0ce183bab8",
+            "seed": 0
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_01\\checkpoint_best.keras",
+            "checkpoint_hash": "a50c44937188f5e67dde67a311f998e2aac3ddc1b1d706197a7d920558ccb02f",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_01\\config.json",
+            "config_hash": "3c3b15ea4f3070795711f870312ef377ca5e94fb951ea4a82d74c2ba97ecfa07",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_01\\metadata.json",
+            "metadata_hash": "d2c25fda28bee585f6439d6b4263665962b4ccab83757592b9a1c15bd8788efe",
+            "seed": 1
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_02\\checkpoint_best.keras",
+            "checkpoint_hash": "6f87a1608d3211a67b9c7defeb72ba34be2f86fbbe89c5e3184f63be26322932",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_02\\config.json",
+            "config_hash": "6d55c3352fe4ae159ea0b34ac0ae92a1b8d42d453345079b1f46cab4a417e2f1",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_02\\metadata.json",
+            "metadata_hash": "99f1e38bc17e889e43fd0c1df241e47a46e0acc8fa5149256209836c4db4ddcb",
+            "seed": 2
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_03\\checkpoint_best.keras",
+            "checkpoint_hash": "fcd8f3757755aedb65f52247500fb67cac38ea68bf1eb02142aae9884d762b96",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_03\\config.json",
+            "config_hash": "6137d4bc0e2542694a662ad483a2afcce551d2d3a671666404e2b24f049d6729",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_03\\metadata.json",
+            "metadata_hash": "baa6946cf6894cd48bc39389d3d0d5e2fdb89862c071a47f94ea4ff9453ac771",
+            "seed": 3
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_04\\checkpoint_best.keras",
+            "checkpoint_hash": "93fcd2ff7cb8a9cefccdcc78d6c94651d365edb42daa166c917a6e79b302de6a",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_04\\config.json",
+            "config_hash": "a63cd5aca88f80db0e4fabc03ef3a5465f60c1b051a65f49109a40aa313460c8",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_04\\metadata.json",
+            "metadata_hash": "c4bbb3d6b8555e4331757f7f207346633854225ac48ee42aba6ae8eabd0d2851",
+            "seed": 4
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_05\\checkpoint_best.keras",
+            "checkpoint_hash": "570b28ade94046ef3ea9641e8838c5cceef8fe649b743c6db3bc9e899dfc5ff8",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_05\\config.json",
+            "config_hash": "dd577123500f2338171be229689e6cff097bb81c877135281edd767ade3791b3",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_05\\metadata.json",
+            "metadata_hash": "a7a5201e23fc1e153003b8ab1376cecc02f1e0f1cdf9254d53682ce1df6bfbf5",
+            "seed": 5
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_06\\checkpoint_best.keras",
+            "checkpoint_hash": "1a4e522235b8168376ede7199de7d09cc9e1100d8fa28e0f26c556e63cdda421",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_06\\config.json",
+            "config_hash": "6836e1418d1a30b274b8439266d0073e76ce2d91e6b41140f8fe91a892032981",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_06\\metadata.json",
+            "metadata_hash": "ba3e10559d56102a7b80f1d2dc01121202ee55577cf69ea8b04c376e9bf4727d",
+            "seed": 6
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_07\\checkpoint_best.keras",
+            "checkpoint_hash": "e20ace2fad9a1b3d800c0c3276788dcd664a58c7d7dcbc28056ee55b09d07a71",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_07\\config.json",
+            "config_hash": "6bca9fe8f8b8e395597e57e7235aa733e02bdf45722faba2040bfe151f965115",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_07\\metadata.json",
+            "metadata_hash": "0ff8b71dfa675673fc56a550b17d16900fcd530568600b951f4cc9b9a1dc315e",
+            "seed": 7
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_08\\checkpoint_best.keras",
+            "checkpoint_hash": "e145c095496671163de416a819763ecae35411dac3b28ef22967e376287a8176",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_08\\config.json",
+            "config_hash": "416ec38ac670a51221f82ff3a139daff2fc54af98193a416b3e7558c670cdde0",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_08\\metadata.json",
+            "metadata_hash": "5ad1a76b8d52a420646862c2026a25e06dbd1522a96f9c72743c3650209f2fe6",
+            "seed": 8
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_09\\checkpoint_best.keras",
+            "checkpoint_hash": "970a04234d98f23532a13e98f775177a704bf4e5269bb772b98af03455cbf26b",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_09\\config.json",
+            "config_hash": "ffec5db0ace27676165150e1c3dd4064f909246245407013c2f585b260a5b582",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GC3\\seed_09\\metadata.json",
+            "metadata_hash": "b74a757ec0be16f1f9c0ac2337221fb5ab306e5d50011a8f65f021c07cda2495",
+            "seed": 9
+          }
+        ],
+        "scaler_hashes": [
+          "1bf919b4c00d236801f12df420b79a16f47c4fe4df3b711472cdc36428eb962b"
+        ],
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "tensorflow_versions": [
+          "2.21.0"
+        ]
+      },
+      "dulce_GE": {
+        "all_10_seeds_present": true,
+        "dataset_hashes": [
+          "38466a4f9581f7d8058962248161d7cb1d467a82e7c2092de73364920dd84f80"
+        ],
+        "keras_versions": [
+          "3.14.0"
+        ],
+        "paths": [
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_00\\checkpoint_best.keras",
+            "checkpoint_hash": "a53c679c07e29c0903fe1083b303941865ded17f3d06a71586da17eaa9164bba",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_00\\config.json",
+            "config_hash": "983cafc3302591b48f8d6ccb2b5a1162601b00d8580d6e512cb996aed0d138d4",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_00\\metadata.json",
+            "metadata_hash": "072adfd18557285bc21daad992104bc36cc52af4ff2d5a0bfbbe06e158dd976c",
+            "seed": 0
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_01\\checkpoint_best.keras",
+            "checkpoint_hash": "82461f1333978327b97dc539e3b67f561f6d3440adb97012f2ba712b4d6ca659",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_01\\config.json",
+            "config_hash": "d4f94e51c1d45b4e3f44a896fc66f3de1fe65d1a9ca32a899494fa8f89baca01",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_01\\metadata.json",
+            "metadata_hash": "f8def836bb071bc30e162b99417cce5429acc817405fc8c66bbb316f88d55598",
+            "seed": 1
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_02\\checkpoint_best.keras",
+            "checkpoint_hash": "bf45e7ae2b5c9d0e3cd26ebd9a82e281efa93f87587701909f3e2aa88b5f2d45",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_02\\config.json",
+            "config_hash": "8241e0e414ca7844ee4e0d0c6996aaec6c4f349a378e6a73eda88a842bffeacc",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_02\\metadata.json",
+            "metadata_hash": "c9b021596158e0899748dc023a6372da43eedfce66ea3b7665dd7477305051f7",
+            "seed": 2
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_03\\checkpoint_best.keras",
+            "checkpoint_hash": "f7b7482a385298529eb01e4275ae2ebea432d2eb293b5613b3bebb7902fa4c8e",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_03\\config.json",
+            "config_hash": "693afd178d55ccaae8efd88acaab9a9f50c99a95a5ff78eec09510b412d4d562",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_03\\metadata.json",
+            "metadata_hash": "c1715da2a3ea9d976751c9f5ff56b2129e7832ad77cd0b96505450a33b36bc4c",
+            "seed": 3
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_04\\checkpoint_best.keras",
+            "checkpoint_hash": "b7100a15725d68110d77a442738782db6d8c7bcd2de622b4ccf3e23a01183182",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_04\\config.json",
+            "config_hash": "a49e3c3b2f8a16557e4ce2e23b89f7af7250e7ff2b06a463c8df8372e4f236e6",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_04\\metadata.json",
+            "metadata_hash": "fe489b4715d55716ced1ab30f703daec6d4e7914a40daf4a4d76b957ac4b9512",
+            "seed": 4
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_05\\checkpoint_best.keras",
+            "checkpoint_hash": "3934444e7044cf7c6182d75116c0b5150069541ce7021757bc0f4671eea61d42",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_05\\config.json",
+            "config_hash": "4aed32ed5a41cdf5fe2c95d1432a81160f2e658ef9a99a0511e2224aa4ea25ca",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_05\\metadata.json",
+            "metadata_hash": "0692d787aecfdc34ffc43a90cc5395d14721a479ef00956baf7790dedb5c081e",
+            "seed": 5
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_06\\checkpoint_best.keras",
+            "checkpoint_hash": "4f364ee49aa3f3f8f0777c690f382c4a4ff741baf49224c9261669b87e2dad51",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_06\\config.json",
+            "config_hash": "1be76a102c70053f97a08d7f681235393ac99f26743e2c3056d0b843d0dc8afa",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_06\\metadata.json",
+            "metadata_hash": "197e87cac47ca3d29d25237e3eba2c43fc28bf9024a86eeb2e48134a38b060a5",
+            "seed": 6
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_07\\checkpoint_best.keras",
+            "checkpoint_hash": "716c69fd06c85665c98ef5b6127b5cae2cd0a4307ef051e17c961e7e07c1c279",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_07\\config.json",
+            "config_hash": "772447e8788d2227546e2845e24d0550609f7e2f8c1916a5ea0f5ebec2e8e6ee",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_07\\metadata.json",
+            "metadata_hash": "291bb1c51d08733d9cab9115fbccded7cd4597377aff09c80f715d95f18b4c33",
+            "seed": 7
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_08\\checkpoint_best.keras",
+            "checkpoint_hash": "b0e382abdf7932ecfcc668b4d4bc466f9f28fcadc8d4f1a8cf4b74e7ce6a0514",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_08\\config.json",
+            "config_hash": "40e15bd352fe4df713923668ca905aabb3eeb39917574eb2b95c6009481f41d0",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_08\\metadata.json",
+            "metadata_hash": "24b39581d98b1155502ab41828da4d8b173b24d8ddd6a88a158ded227e9119c6",
+            "seed": 8
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_09\\checkpoint_best.keras",
+            "checkpoint_hash": "bd262168fc35aa03bd5326e1213c18b094e8073bfd01246036bbe830cd4e0d76",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_09\\config.json",
+            "config_hash": "ac8f6aac02fde90e8048ff81a9d3d1a942f9bf67b843504874fda0acd1afafea",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\dulce\\GE\\seed_09\\metadata.json",
+            "metadata_hash": "6804dd76ace4e5fa7fb85062742f74b3adbe1f76f8da9747833f94ff002d0218",
+            "seed": 9
+          }
+        ],
+        "scaler_hashes": [
+          "1bf919b4c00d236801f12df420b79a16f47c4fe4df3b711472cdc36428eb962b"
+        ],
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "tensorflow_versions": [
+          "2.21.0"
+        ]
+      },
+      "sutil_GC3": {
+        "all_10_seeds_present": true,
+        "dataset_hashes": [
+          "d664fd728798d52e5c1bbe702745d40d49b8761513cef148e0a56f2481ca7941"
+        ],
+        "keras_versions": [
+          "3.14.0"
+        ],
+        "paths": [
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_00\\checkpoint_best.keras",
+            "checkpoint_hash": "70d867970974e2d213e9b6a1d22451d9c2d7cbf9cf6200f48f4aef412d738235",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_00\\config.json",
+            "config_hash": "1babae4e455b96ab75dbd743333323eedd486621b56145c3e5295b7094db2f05",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_00\\metadata.json",
+            "metadata_hash": "c6408246521f35f29ee99fa878a0e915ce80f94b5b6ca9c650d26fe59dbb388e",
+            "seed": 0
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_01\\checkpoint_best.keras",
+            "checkpoint_hash": "bf3fd70ca229875f6d1f2797ccc12d9aa6cac83ad3d1e17885972b5ed717ebf5",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_01\\config.json",
+            "config_hash": "467b29b956868c262489bc7047186bc5a0a2b4eb71fd6a62fc5fffbd6b4516ff",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_01\\metadata.json",
+            "metadata_hash": "c00006ef8eece26279a61e8eecc70dfccf4f7d4416633b11f0f65fa557103115",
+            "seed": 1
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_02\\checkpoint_best.keras",
+            "checkpoint_hash": "ffac71f50accba558862bdbe6019a2c3dcee5443bb1153a358b2cc0e566f1473",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_02\\config.json",
+            "config_hash": "780c538e7e4ae080c41b45fe04be270f6c164f4fd39275278fb5b02371ddc8ee",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_02\\metadata.json",
+            "metadata_hash": "ec2da06fcd7f3e19121674654a119f14b8611923e14e62f75bc62bf45ba80fa5",
+            "seed": 2
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_03\\checkpoint_best.keras",
+            "checkpoint_hash": "89f499f83dce8523ffb5cc8ca0f76e60e2fd753ee8ed17ea16f7170351d9dfe9",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_03\\config.json",
+            "config_hash": "d217ecfd32c82387d1149bec115c5437a1519e778d0613df7f46525261783f01",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_03\\metadata.json",
+            "metadata_hash": "4bd32d47bc18d836a98d4d6c215c124f0d1e742ab8bb46af9bd440fca68654fb",
+            "seed": 3
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_04\\checkpoint_best.keras",
+            "checkpoint_hash": "4251ce78a9dc547bea5b34272c54a80cbf6c8ee2e36deea5c5b9f3fcfb9a2988",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_04\\config.json",
+            "config_hash": "8cc467341048aff8f1beb2fd687151868522ede61fdbe91b6fa21b626346fad9",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_04\\metadata.json",
+            "metadata_hash": "3f72bd291f322c95cd2a18315238056a62aeb17760468a216309e9f90bb7a36d",
+            "seed": 4
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_05\\checkpoint_best.keras",
+            "checkpoint_hash": "9048d12f2938fcb12db9c3feb965258088e452c59a73bf8d8bcfa2d40e58522c",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_05\\config.json",
+            "config_hash": "9778671e057c57c867b6a19cd496e301114dac7d19eb321b1f4242d558deb3e9",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_05\\metadata.json",
+            "metadata_hash": "65e8315c89e68fa072e1ddac6de40c759542bb555afd9d1928c4be5fcfc5e75f",
+            "seed": 5
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_06\\checkpoint_best.keras",
+            "checkpoint_hash": "6da1cfba32f8de08ef15fdc30c514820fb2d0acf6b5fbadce63608ccf62d8052",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_06\\config.json",
+            "config_hash": "ccd53d6d50439c2d5de53e389db3f708e6d4e12768f29f95ed72941882e8e74e",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_06\\metadata.json",
+            "metadata_hash": "432299746c03c6bb503ea307ccf14205cec2acff177613aad3588453b4d59be4",
+            "seed": 6
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_07\\checkpoint_best.keras",
+            "checkpoint_hash": "976e38f34250502af6d9749f9b8574fd563bc0b0a8ad6d0935555c196298e997",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_07\\config.json",
+            "config_hash": "9e36541b44e7b9a2f97b24d821dfa28b568a49ce4f8864bfe8f38ebf7c78e3a5",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_07\\metadata.json",
+            "metadata_hash": "d17fc6a8ba7a0f0ecb9632df13e7c83c1f2ee548c936aa138b7d32abb5ca49fd",
+            "seed": 7
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_08\\checkpoint_best.keras",
+            "checkpoint_hash": "a377d30c970c1effb2e22af378bfffeb18ada4e1bcac014f01f87c5d3f5e95e8",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_08\\config.json",
+            "config_hash": "6e19dd02755f977505e922d07d90f38a66caf2292b73d7536ef50b42b9600e4b",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_08\\metadata.json",
+            "metadata_hash": "9df65d40de4743d718e4df099bbddbccaeaf933b8c9be35fc49837edb5b54f7e",
+            "seed": 8
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_09\\checkpoint_best.keras",
+            "checkpoint_hash": "348bb345e37fd663ce25f4467afefefbf67eaeb23570e89d939988416e895d59",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_09\\config.json",
+            "config_hash": "3254963152906edd200624843eaa5faf98d8316d08e4e1c96fc00667343bbd81",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_09\\metadata.json",
+            "metadata_hash": "0af44c1e5b4db478fc2af3f727314b39de687f8f976864528f9ea800325d75d8",
+            "seed": 9
+          }
+        ],
+        "scaler_hashes": [
+          "ba51666f00ded716c63698dd04e29068d58d3cab064202384bfbd4435fbf350e"
+        ],
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "tensorflow_versions": [
+          "2.21.0"
+        ]
+      },
+      "sutil_GE": {
+        "all_10_seeds_present": true,
+        "dataset_hashes": [
+          "d664fd728798d52e5c1bbe702745d40d49b8761513cef148e0a56f2481ca7941"
+        ],
+        "keras_versions": [
+          "3.14.0"
+        ],
+        "paths": [
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_00\\checkpoint_best.keras",
+            "checkpoint_hash": "5a86f0bca06717fc8501acc157555f15829a130d967fc0dd3144ea1bb07765e9",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_00\\config.json",
+            "config_hash": "50e545e661a3c2575d1ceda9a564549132f498bdb8fa3e58ff07258e14e07444",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_00\\metadata.json",
+            "metadata_hash": "050a628e3e7c8989579484d9d6d9d891e2a3f92c0bfd9ed146ace8c44ffe6f96",
+            "seed": 0
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_01\\checkpoint_best.keras",
+            "checkpoint_hash": "c3f87ad239f818c740908116cddcc3a8eda717b3ffa1bad1313b560f1be3d8d8",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_01\\config.json",
+            "config_hash": "887929da5407fa2eae25b988019ca41563e42445b78a9a356e32089a37cef84d",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_01\\metadata.json",
+            "metadata_hash": "fc72f02e767c948fca5374bdfd8b4d8716bf472daa147c0ec75cb2ff132b9943",
+            "seed": 1
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_02\\checkpoint_best.keras",
+            "checkpoint_hash": "bfb165adbc0df23dc52d0425ac8ee187ca99edb12f1dd89db77bf62727cd67b1",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_02\\config.json",
+            "config_hash": "d3e6fe8492c3f7ef5d7c1e1ca3029c9a16690afb744d8e74ddca969c88181de4",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_02\\metadata.json",
+            "metadata_hash": "cf32a6d492ac18938dde19e1b652ad96f876f8d73118a717b050ac5c08ff4434",
+            "seed": 2
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_03\\checkpoint_best.keras",
+            "checkpoint_hash": "97e1c11ce2ae40716a95df4c932e0bae7d3f976df13757b952410561c8d73234",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_03\\config.json",
+            "config_hash": "1fa9fd9ee28ca1c02edf9d9bebec36269a932c3db6eab263176f6e55ea68ec6f",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_03\\metadata.json",
+            "metadata_hash": "95ddd5cf7b7dd2bccf700dea73ee29c0179d8b5440d7ea7b1042086ebd48f356",
+            "seed": 3
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_04\\checkpoint_best.keras",
+            "checkpoint_hash": "757fc39c07fa3c14562e0e7760a67c8da753ed3aac4b86ab308739a602440a6a",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_04\\config.json",
+            "config_hash": "a0bb36d7a7a1934eba3e9433e0797f708398512507665cc0a7d3e39c2860c024",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_04\\metadata.json",
+            "metadata_hash": "a83d8fec3e1945bba8ecbb1d2dd510c777b759669eb3d6df54cd4fd8d69917ea",
+            "seed": 4
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_05\\checkpoint_best.keras",
+            "checkpoint_hash": "86cd2c41cae22adf7508e45d40f27665da915ac15c9d5fce3c1f8d04d8f4a90f",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_05\\config.json",
+            "config_hash": "a223d2c7aff713e3d3120c9b5f1b1ac8b2d18e83c4d2338515bf63508f92fc83",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_05\\metadata.json",
+            "metadata_hash": "aeec0185f108debca31113a80acd0d5123e92df0d48191dd4f9a640232296cee",
+            "seed": 5
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_06\\checkpoint_best.keras",
+            "checkpoint_hash": "b80a6fed6438e8e3b8f8be9c90cdecd8abd02ce3a801ddfa440b8ccf33d2ea78",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_06\\config.json",
+            "config_hash": "788a208425079a45175de12799eb1f6d59534cf166ec2209b388408a27fad3fa",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_06\\metadata.json",
+            "metadata_hash": "cd4236dd773523bf768af393330211ec931879dae5e870e626c212f87a3c3767",
+            "seed": 6
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_07\\checkpoint_best.keras",
+            "checkpoint_hash": "a1a77dc2d9826a9fdaf04ca56c8144d16e39fc3911f97adc395bb7bda4f2e078",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_07\\config.json",
+            "config_hash": "e822de6153cc48a272cc429fda8e8d229ced4bacd89dba6ea31d380f3262c55c",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_07\\metadata.json",
+            "metadata_hash": "365823a2b4d928433af7252005b484d57130fcf7d52be955f2f110952d83a116",
+            "seed": 7
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_08\\checkpoint_best.keras",
+            "checkpoint_hash": "e178a33a4caecb0612889b263030d2e6f56b2e4a014f9e39df8e42b4aab7120f",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_08\\config.json",
+            "config_hash": "ed3fb3ee28400abd9fab32b6b98877aff6f95c4559c6298dd869ac3892010033",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_08\\metadata.json",
+            "metadata_hash": "b354a6f79bff3a40c82cf61a0f990d714c042d572de3a69586f93a9bf8462ad6",
+            "seed": 8
+          },
+          {
+            "checkpoint": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_09\\checkpoint_best.keras",
+            "checkpoint_hash": "4d1dcccfd63f5d07693a60a06907e244cbf6d7db448158ec5abb373af825c15f",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_09\\config.json",
+            "config_hash": "ed13011e862b75239349a9d7a2c6f842c40a30b003976b7015ffa31ce74220d0",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GE\\seed_09\\metadata.json",
+            "metadata_hash": "bb23d5307ad1c31ac7b3c671877035dd9554ce2a91322999a8a21dca4595c7e5",
+            "seed": 9
+          }
+        ],
+        "scaler_hashes": [
+          "ba51666f00ded716c63698dd04e29068d58d3cab064202384bfbd4435fbf350e"
+        ],
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "tensorflow_versions": [
+          "2.21.0"
+        ]
+      }
+    },
+    "XGBoost": {
+      "dulce": {
+        "all_10_seeds_present": true,
+        "feature_counts": [
+          37
+        ],
+        "params": {
+          "booster": "gbtree",
+          "colsample_bytree": 0.8,
+          "eval_metric": "mae",
+          "gamma": 0.0,
+          "learning_rate": 0.05,
+          "max_depth": 2,
+          "min_child_weight": 1,
+          "n_estimators": 200,
+          "n_jobs": 1,
+          "objective": "reg:squarederror",
+          "random_state": 0,
+          "reg_alpha": 0.0,
+          "reg_lambda": 1.0,
+          "subsample": 0.8,
+          "tree_method": "hist"
+        },
+        "paths": [
+          {
+            "booster_hash": "7a84c8b6e4bd4640e9d834452d03000c50c0a4a021c1df3a6871ae4622069bee",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_00\\config.json",
+            "config_hash": "90bcd6c2cd4f891d38c2abde9e2d3d8db5df26e2a87d9e21c14083b66f8940a1",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_00\\metadata.json",
+            "metadata_hash": "e4f70b8a7c987f431a2b31744e97ff7176ba02269c3141fe9d86d5cb6df2d4a6",
+            "model_hash": "d71f71406fc98f1f52bd73eba9f17a7af01ea9ef1e67e099da20cc94a2e34d20",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_00\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_00\\model.xgboost.json",
+            "seed": 0
+          },
+          {
+            "booster_hash": "654d7bf576573923e8c884dccd754171b42afd7c92698956a33525c933c34f14",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_01\\config.json",
+            "config_hash": "abda1eac81ab3cf2e3e6d85c2890a71bd680cafa23f1329d5823df0e2b18c9c2",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_01\\metadata.json",
+            "metadata_hash": "d1627adec75419de0654521ceea1e1e03e42cb58cc76aa56017f93cbca6aef27",
+            "model_hash": "6450745f2864468bba570c6bdf5adf05d950cca3e2e5f377867b48ee8a323206",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_01\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_01\\model.xgboost.json",
+            "seed": 1
+          },
+          {
+            "booster_hash": "51781a5473435d21940bfc3ca25351c7dc02e0e2548256fa0c984d5f9ae5d5eb",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_02\\config.json",
+            "config_hash": "da5e064f6077440488f441aa3ff3cf8aa5bab7a5fe75590a5b36e6d0e34b9e8e",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_02\\metadata.json",
+            "metadata_hash": "1f759d75f4d70b40498dd7a2e996c0963f6e17022257c75d0e4f91ae254cbe65",
+            "model_hash": "8694ef4c908b5ae13e7892516d04b1bf2c1aa60d5b6676ddda2ca6f0b5a3f5c3",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_02\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_02\\model.xgboost.json",
+            "seed": 2
+          },
+          {
+            "booster_hash": "dcdf7a34531711a362c4487a7fd1fbb2efa79ef837dfbb012394a13cc78851da",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_03\\config.json",
+            "config_hash": "885e8c1e9457030933d605749ad7717eca0ba59e79fa4c7e87793567856ccc75",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_03\\metadata.json",
+            "metadata_hash": "6a1d7d13c3061ddface2e12fa0533791dffd4c4313b21798f3178aa64e997ff3",
+            "model_hash": "67b9c56acd70ddb67c5ca16379dfeeb1b07f1c3a2a3f4afa21415d4cb0685be5",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_03\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_03\\model.xgboost.json",
+            "seed": 3
+          },
+          {
+            "booster_hash": "3383b474200252c0f480a2c8aeab2cb888f32e66e0da8bb889bceed6568d7696",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_04\\config.json",
+            "config_hash": "dfa176f72fa877c4060a35c0fb69add8e6aa0817026cfce7902b69f10f851a07",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_04\\metadata.json",
+            "metadata_hash": "e5101539fdf39033c3db8c1fc961a0471870bbaf4656886d9a194e53ede1ffef",
+            "model_hash": "33acd07923b0d1a93ea9c0c0ab56dd5d5efd8eb881e32c6080b248c28ba269c8",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_04\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_04\\model.xgboost.json",
+            "seed": 4
+          },
+          {
+            "booster_hash": "20d56a42f1ab077dda855b4fa58c9cd934c9e19c8c4f972b178039987ebf1e82",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_05\\config.json",
+            "config_hash": "531b93310ab17b456fb3fa8316961709752332d7dec11ac91c434ecddc914aee",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_05\\metadata.json",
+            "metadata_hash": "dacc8b81f887f79b00d1b17f316d62ec5db9ae8be0f5f00911ec66945928ffe4",
+            "model_hash": "06ba01afd7d718008c3362b8fa4568939472c1eefcda09103dc7701fb986330f",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_05\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_05\\model.xgboost.json",
+            "seed": 5
+          },
+          {
+            "booster_hash": "727949d8c8b04d2710c7b9246c6ba02edc13e91826a9f27aa641b12846a24afe",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_06\\config.json",
+            "config_hash": "19868d871b93af0e11c002f75f8bbf82839e9203a11e6e252831bfda5cf7c40d",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_06\\metadata.json",
+            "metadata_hash": "8b1493103744f20d9b66a74e47bc8af5ec450b22fd8ea6746791966381b3d724",
+            "model_hash": "409389419182e439caa8a726ab964c4fec31d0c38411a37fca2fe83bdda1800e",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_06\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_06\\model.xgboost.json",
+            "seed": 6
+          },
+          {
+            "booster_hash": "7477eee3b5bd8619121c70f671d4e69e6b02d96cb393ad89d7ac0cb9c87665cc",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_07\\config.json",
+            "config_hash": "99b0699d696bca22e07c4f21eeb440c653cb46cc9e87cd047e9105d53cbd4de2",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_07\\metadata.json",
+            "metadata_hash": "481a69684227cf864cdcbc919ef1dff728f6085e3feaf847d59a8674e7d410dc",
+            "model_hash": "eff56ad3dda7a6fb40dbe18fc15057cfb4e88b87f7e0032a13b69d3ad1249e7f",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_07\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_07\\model.xgboost.json",
+            "seed": 7
+          },
+          {
+            "booster_hash": "947726a845bee3e4dbdd9f687ab11e5f4286d847fb9793c412c2147de9136f47",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_08\\config.json",
+            "config_hash": "cee28ee0b4a36c2b94dd857a87a1f2242038766b6056b834796db5e1f00ce0d4",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_08\\metadata.json",
+            "metadata_hash": "0b3448fe1441ccbcbd281076eef5c55e5546edb706a85ec3e28fc3f791f72bed",
+            "model_hash": "6dde157f7fe3061ad89c57dd402adf61691f9c93a32d9272f78449deca584474",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_08\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_08\\model.xgboost.json",
+            "seed": 8
+          },
+          {
+            "booster_hash": "b1849aef327706cb35fef34941dc9f35daa915377a260d5e684ddbc78c15991a",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_09\\config.json",
+            "config_hash": "cca2d3fd14aa08c2a08a7ae95c8a921065dc2315924f60c93b1d7d01fa476e50",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_09\\metadata.json",
+            "metadata_hash": "588336195f2c9be2e12746c5352f8f26596aa94c385bae17aec1decebee63e83",
+            "model_hash": "d15cc99e6e49aaefa2d4845cb5af013d809eb76985ff4c00dbd4025e92cfc43f",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_09\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\dulce\\GC2_XGBoost\\seed_09\\model.xgboost.json",
+            "seed": 9
+          }
+        ],
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "sutil": {
+        "all_10_seeds_present": true,
+        "feature_counts": [
+          37
+        ],
+        "params": {
+          "booster": "gbtree",
+          "colsample_bytree": 0.8,
+          "eval_metric": "mae",
+          "gamma": 0.0,
+          "learning_rate": 0.05,
+          "max_depth": 2,
+          "min_child_weight": 1,
+          "n_estimators": 200,
+          "n_jobs": 1,
+          "objective": "reg:squarederror",
+          "random_state": 0,
+          "reg_alpha": 0.0,
+          "reg_lambda": 1.0,
+          "subsample": 0.8,
+          "tree_method": "hist"
+        },
+        "paths": [
+          {
+            "booster_hash": "c419183150976f6b8408258423a5f7bcabb8ec5d9f0558b4255dff9c4a824913",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\config.json",
+            "config_hash": "c85a7a91e9853062ea77477a50512731fccec3d45f305e9af4ec2cfa90ae4376",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\metadata.json",
+            "metadata_hash": "a511ca6b168575d53fc061dc7ae6f74dda558fb11f10268623a3308e06e82326",
+            "model_hash": "acaf1d44edc01823febf6aa95ce4b3ea89a7cea694bdc7cfbe8365304e443e8b",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_00\\model.xgboost.json",
+            "seed": 0
+          },
+          {
+            "booster_hash": "88ebf2156be3f703a78d584005b8152c56fcaac3537f2cfb10bf5eb8d0671533",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_01\\config.json",
+            "config_hash": "91687f7880a873970be84f165372e76c3eb9cdd48651552dbd703f916f7d7b1c",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_01\\metadata.json",
+            "metadata_hash": "e9397031263c6bfbc903ffbfc58d3ab30aa00447a888a9429e0d6356a01aa818",
+            "model_hash": "ef322b4cc6e8689d067c8b3a07a175730a2a8ba006f2cf6e45a59230d279b225",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_01\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_01\\model.xgboost.json",
+            "seed": 1
+          },
+          {
+            "booster_hash": "5ca97dfc991d82eae9639b82e4cd00b958d30dcce061a0702e2068925e3ab7f1",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_02\\config.json",
+            "config_hash": "fe03aa46c3ac0b98c96a76bf2810bd7da2937c7d63c07eb6b30e833b0f40217e",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_02\\metadata.json",
+            "metadata_hash": "c3fea50206f05409e6a9569960f23959d1b7c991ed2476dbce2f3c4d4470c071",
+            "model_hash": "4d18262bf29c94df9944893eede19ab5b20e67275cdb152301ae568038d31426",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_02\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_02\\model.xgboost.json",
+            "seed": 2
+          },
+          {
+            "booster_hash": "93b2b7e21443eec2316d309c08ffab8bc7b2fc6716142c0936e306f7dfb6de4c",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_03\\config.json",
+            "config_hash": "e03241ace92cd531703388db0240b447ad6dc06bc41cd7783bf9e010f23ec898",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_03\\metadata.json",
+            "metadata_hash": "e67cb663efee7ff4686e54b89c8d730711a1b8e0f0be3d3dab2f5086ad0f5fb5",
+            "model_hash": "6a94eb25eb1e09ceb70de96475ef9aa695ebedd9973526da835e6621e2bd530f",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_03\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_03\\model.xgboost.json",
+            "seed": 3
+          },
+          {
+            "booster_hash": "774206f035b90738a0ce127c411e36ca4a551893c71b1eb3795e629815ab3382",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_04\\config.json",
+            "config_hash": "4ca168e0045cba142cdbca1e6a6602c0a94e6a7d0a4d05c1f55f5215da451d40",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_04\\metadata.json",
+            "metadata_hash": "92845f2f977b7d372c51ff58f11213325d41e02098c96e940cb2f824967d68d8",
+            "model_hash": "7997fae68e6f97370c41b24ceaeef2416a72c523240fde9074d63788f9bd9b28",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_04\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_04\\model.xgboost.json",
+            "seed": 4
+          },
+          {
+            "booster_hash": "d8dfac63dd3ddf23690a9507266d2538bfae3b6d0833643fada7bfe53c115923",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_05\\config.json",
+            "config_hash": "a0c6405eb25af5eedca5882c009376adb23b4c420391e58fff27d986907a3df9",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_05\\metadata.json",
+            "metadata_hash": "4ea6fcb3debec395dde34160d38711dff876cc8971da80887c0937a46afc7d78",
+            "model_hash": "0134f39afa9d167dcb7392f35c80d494bd33cb35dc601a24731ff539bd3a207f",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_05\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_05\\model.xgboost.json",
+            "seed": 5
+          },
+          {
+            "booster_hash": "64be54ce5b3f41e3e5d234c82d126d4e1846d2b6fad04c350566d0210ac5a5fe",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_06\\config.json",
+            "config_hash": "ed2cea1ffbc6afaea6bc35dbc153eef6275061f0c21e75822212dbcba821a27d",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_06\\metadata.json",
+            "metadata_hash": "70ea3c628733dda1b29134116efa07874167184fa8f64456ae455a0fc7e9fdb7",
+            "model_hash": "d66ba0cdaa5571f3c41daa4c056a824d636505eb024a377c0e4c5ef2c2cc9c5d",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_06\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_06\\model.xgboost.json",
+            "seed": 6
+          },
+          {
+            "booster_hash": "2a1c60d53c3dc10958ca228eb5f2ae02f915e63423ba93a00a62f2ee2d86655a",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_07\\config.json",
+            "config_hash": "2f7d57f9145819ca8cf953039ae515a487b3ad78e5425558223dbac50b497072",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_07\\metadata.json",
+            "metadata_hash": "328d88e1a0790b2487b0412246c1253acf79ac930dedf27ad5613c47e6402327",
+            "model_hash": "61f29a78afb76e9de9fbfb8cbfea1ef3d7a2a6e57e76ac4dd5136d0e58c96e8a",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_07\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_07\\model.xgboost.json",
+            "seed": 7
+          },
+          {
+            "booster_hash": "c0ec933021f0d2fcc7b472566777f9f7934925d2bcfdaacb4128646bcc2c4a83",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_08\\config.json",
+            "config_hash": "6109f2646f4cdbd07b9ff696a545c3f184191f5a60d410d5987fb553e8c1c8a8",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_08\\metadata.json",
+            "metadata_hash": "65f814f00ae239e8023fe93dbe0c3f5f33b8d88af8f889909915469ec7723050",
+            "model_hash": "b3e892a273a4a3648f75b9e3b3c422daa32c08f889e9b8200d8a6d21ef12d2c6",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_08\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_08\\model.xgboost.json",
+            "seed": 8
+          },
+          {
+            "booster_hash": "864af0509f40ce9b98ebef293807cd1028b89c48049d502cb9b7fdbbea784741",
+            "config": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_09\\config.json",
+            "config_hash": "01f97b448a2439a6177d77c6d0fbc15a1b2421f8fe4c3f872d556b960c79f610",
+            "metadata": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_09\\metadata.json",
+            "metadata_hash": "8e13138ac0680dea444549c8c703087b451e487ea862bd8c7d1f75161082c62d",
+            "model_hash": "17dd9848c14e3d186792c4d7bf83b524257ebe9997c6fbe3440fdd931d4a988f",
+            "model_joblib": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_09\\model.joblib",
+            "model_xgboost_json": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc2_xgboost\\sutil\\GC2_XGBoost\\seed_09\\model.xgboost.json",
+            "seed": 9
+          }
+        ],
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      }
+    }
+  },
+  "preflight": {
+    "background_n": 8,
+    "explain_n": 2,
+    "neural": [
+      {
+        "cultivar": "sutil",
+        "deep_explainer": {
+          "elapsed_seconds": 0.656,
+          "error": "in user code:\n\n    File \"C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\venv\\Lib\\site-packages\\shap\\explainers\\_deep\\deep_tf.py\", line 265, in grad_graph  *\n        x_grad = tape.gradient(out, shap_rAnD)\n\n    LookupError: gradient registry has no entry for: shap_BatchMatMulV2\n",
+          "error_type": "StagingError",
+          "name": "DeepExplainer",
+          "ok": false
+        },
+        "gradient_explainer": {
+          "elapsed_seconds": 0.173,
+          "error": "in user code:\n\n    File \"C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\venv\\Lib\\site-packages\\shap\\explainers\\_gradient.py\", line 304, in grad_graph  *\n        x_grad = tape.gradient(out, x)\n\n    LookupError: gradient registry has no entry for: shap_StridedSlice\n",
+          "error_type": "StagingError",
+          "name": "GradientExplainer",
+          "ok": false
+        },
+        "kernel_explainer": {
+          "background_flat_shape": [
+            8,
+            222
+          ],
+          "elapsed_seconds": 0.631,
+          "expected_value": -0.9271870292723179,
+          "max_additivity_abs_error": 1.1920928955078125e-07,
+          "notes": "model-agnostic flatten/unflatten compatibility probe; nsamples=20 only",
+          "ok": true,
+          "sample_flat_shape": [
+            2,
+            222
+          ],
+          "shap_shape": [
+            2,
+            222
+          ]
+        },
+        "model": "GC3",
+        "model_input_shapes": [
+          [
+            null,
+            6,
+            4
+          ],
+          [
+            null,
+            6,
+            33
+          ]
+        ],
+        "model_output_shape": [
+          null,
+          1
+        ],
+        "seed": 0,
+        "test_loaded": false,
+        "train_shapes": {
+          "X_a": [
+            84,
+            6,
+            4
+          ],
+          "X_b": [
+            84,
+            6,
+            33
+          ],
+          "y": [
+            84
+          ]
+        },
+        "train_target_first": "2017-01-01",
+        "train_target_last": "2023-12-01",
+        "validation_shapes": {
+          "X_a": [
+            12,
+            6,
+            4
+          ],
+          "X_b": [
+            12,
+            6,
+            33
+          ],
+          "y": [
+            12
+          ]
+        },
+        "validation_target_first": "2024-01-01",
+        "validation_target_last": "2024-12-01"
+      },
+      {
+        "cultivar": "sutil",
+        "deep_explainer": {
+          "elapsed_seconds": 0.248,
+          "error": "in user code:\n\n    File \"C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\venv\\Lib\\site-packages\\shap\\explainers\\_deep\\deep_tf.py\", line 265, in grad_graph  *\n        x_grad = tape.gradient(out, shap_rAnD)\n\n    LookupError: gradient registry has no entry for: shap_BatchMatMulV2\n",
+          "error_type": "StagingError",
+          "name": "DeepExplainer",
+          "ok": false
+        },
+        "gradient_explainer": {
+          "elapsed_seconds": 0.142,
+          "error": "in user code:\n\n    File \"C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\venv\\Lib\\site-packages\\shap\\explainers\\_gradient.py\", line 304, in grad_graph  *\n        x_grad = tape.gradient(out, x)\n\n    LookupError: gradient registry has no entry for: shap_StridedSlice\n",
+          "error_type": "StagingError",
+          "name": "GradientExplainer",
+          "ok": false
+        },
+        "kernel_explainer": {
+          "background_flat_shape": [
+            8,
+            258
+          ],
+          "elapsed_seconds": 0.628,
+          "expected_value": -0.01610534975770861,
+          "max_additivity_abs_error": 5.215406418540569e-08,
+          "notes": "model-agnostic flatten/unflatten compatibility probe; nsamples=20 only",
+          "ok": true,
+          "sample_flat_shape": [
+            2,
+            258
+          ],
+          "shap_shape": [
+            2,
+            258
+          ]
+        },
+        "model": "GE",
+        "model_input_shapes": [
+          [
+            null,
+            6,
+            4
+          ],
+          [
+            null,
+            6,
+            39
+          ]
+        ],
+        "model_output_shape": [
+          null,
+          1
+        ],
+        "seed": 0,
+        "test_loaded": false,
+        "train_shapes": {
+          "X_a": [
+            84,
+            6,
+            4
+          ],
+          "X_b": [
+            84,
+            6,
+            39
+          ],
+          "y": [
+            84
+          ]
+        },
+        "train_target_first": "2017-01-01",
+        "train_target_last": "2023-12-01",
+        "validation_shapes": {
+          "X_a": [
+            12,
+            6,
+            4
+          ],
+          "X_b": [
+            12,
+            6,
+            39
+          ],
+          "y": [
+            12
+          ]
+        },
+        "validation_target_first": "2024-01-01",
+        "validation_target_last": "2024-12-01"
+      },
+      {
+        "cultivar": "dulce",
+        "deep_explainer": {
+          "elapsed_seconds": 0.25,
+          "error": "in user code:\n\n    File \"C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\venv\\Lib\\site-packages\\shap\\explainers\\_deep\\deep_tf.py\", line 265, in grad_graph  *\n        x_grad = tape.gradient(out, shap_rAnD)\n\n    LookupError: gradient registry has no entry for: shap_BatchMatMulV2\n",
+          "error_type": "StagingError",
+          "name": "DeepExplainer",
+          "ok": false
+        },
+        "gradient_explainer": {
+          "elapsed_seconds": 0.152,
+          "error": "in user code:\n\n    File \"C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\venv\\Lib\\site-packages\\shap\\explainers\\_gradient.py\", line 304, in grad_graph  *\n        x_grad = tape.gradient(out, x)\n\n    LookupError: gradient registry has no entry for: shap_StridedSlice\n",
+          "error_type": "StagingError",
+          "name": "GradientExplainer",
+          "ok": false
+        },
+        "kernel_explainer": {
+          "background_flat_shape": [
+            8,
+            222
+          ],
+          "elapsed_seconds": 0.605,
+          "expected_value": 0.5792612135410309,
+          "max_additivity_abs_error": 5.960464477539063e-08,
+          "notes": "model-agnostic flatten/unflatten compatibility probe; nsamples=20 only",
+          "ok": true,
+          "sample_flat_shape": [
+            2,
+            222
+          ],
+          "shap_shape": [
+            2,
+            222
+          ]
+        },
+        "model": "GC3",
+        "model_input_shapes": [
+          [
+            null,
+            6,
+            4
+          ],
+          [
+            null,
+            6,
+            33
+          ]
+        ],
+        "model_output_shape": [
+          null,
+          1
+        ],
+        "seed": 0,
+        "test_loaded": false,
+        "train_shapes": {
+          "X_a": [
+            84,
+            6,
+            4
+          ],
+          "X_b": [
+            84,
+            6,
+            33
+          ],
+          "y": [
+            84
+          ]
+        },
+        "train_target_first": "2017-01-01",
+        "train_target_last": "2023-12-01",
+        "validation_shapes": {
+          "X_a": [
+            12,
+            6,
+            4
+          ],
+          "X_b": [
+            12,
+            6,
+            33
+          ],
+          "y": [
+            12
+          ]
+        },
+        "validation_target_first": "2024-01-01",
+        "validation_target_last": "2024-12-01"
+      },
+      {
+        "cultivar": "dulce",
+        "deep_explainer": {
+          "elapsed_seconds": 0.256,
+          "error": "in user code:\n\n    File \"C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\venv\\Lib\\site-packages\\shap\\explainers\\_deep\\deep_tf.py\", line 265, in grad_graph  *\n        x_grad = tape.gradient(out, shap_rAnD)\n\n    LookupError: gradient registry has no entry for: shap_BatchMatMulV2\n",
+          "error_type": "StagingError",
+          "name": "DeepExplainer",
+          "ok": false
+        },
+        "gradient_explainer": {
+          "elapsed_seconds": 0.142,
+          "error": "in user code:\n\n    File \"C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\venv\\Lib\\site-packages\\shap\\explainers\\_gradient.py\", line 304, in grad_graph  *\n        x_grad = tape.gradient(out, x)\n\n    LookupError: gradient registry has no entry for: shap_StridedSlice\n",
+          "error_type": "StagingError",
+          "name": "GradientExplainer",
+          "ok": false
+        },
+        "kernel_explainer": {
+          "background_flat_shape": [
+            8,
+            258
+          ],
+          "elapsed_seconds": 0.615,
+          "expected_value": 0.5627763997763395,
+          "max_additivity_abs_error": 0.0005450712404015956,
+          "notes": "model-agnostic flatten/unflatten compatibility probe; nsamples=20 only",
+          "ok": true,
+          "sample_flat_shape": [
+            2,
+            258
+          ],
+          "shap_shape": [
+            2,
+            258
+          ]
+        },
+        "model": "GE",
+        "model_input_shapes": [
+          [
+            null,
+            6,
+            4
+          ],
+          [
+            null,
+            6,
+            39
+          ]
+        ],
+        "model_output_shape": [
+          null,
+          1
+        ],
+        "seed": 0,
+        "test_loaded": false,
+        "train_shapes": {
+          "X_a": [
+            84,
+            6,
+            4
+          ],
+          "X_b": [
+            84,
+            6,
+            39
+          ],
+          "y": [
+            84
+          ]
+        },
+        "train_target_first": "2017-01-01",
+        "train_target_last": "2023-12-01",
+        "validation_shapes": {
+          "X_a": [
+            12,
+            6,
+            4
+          ],
+          "X_b": [
+            12,
+            6,
+            39
+          ],
+          "y": [
+            12
+          ]
+        },
+        "validation_target_first": "2024-01-01",
+        "validation_target_last": "2024-12-01"
+      }
+    ],
+    "scope": "tiny TRAIN/VAL compatibility probes only",
+    "technical_sentinel_seed": 0,
+    "test_loaded": false,
+    "xgboost": [
+      {
+        "cultivar": "sutil",
+        "features_n": 37,
+        "model": "XGBoost",
+        "seed": 0,
+        "test_loaded": false,
+        "train_shape": [
+          89,
+          37
+        ],
+        "tree_explainer": {
+          "elapsed_seconds": 0.026,
+          "expected_value": -0.5280856038279071,
+          "max_additivity_abs_error": 4.311751635732719e-07,
+          "ok": true,
+          "output_units": "scaled target units, because the frozen XGBoost model was trained on scaled v2 data",
+          "shap_shape": [
+            2,
+            37
+          ]
+        },
+        "validation_shape": [
+          12,
+          37
+        ],
+        "validation_target_first": "2024-01-01",
+        "validation_target_last": "2024-12-01"
+      },
+      {
+        "cultivar": "dulce",
+        "features_n": 37,
+        "model": "XGBoost",
+        "seed": 0,
+        "test_loaded": false,
+        "train_shape": [
+          89,
+          37
+        ],
+        "tree_explainer": {
+          "elapsed_seconds": 0.025,
+          "expected_value": -0.6737239690649528,
+          "max_additivity_abs_error": 3.253059606134201e-07,
+          "ok": true,
+          "output_units": "scaled target units, because the frozen XGBoost model was trained on scaled v2 data",
+          "shap_shape": [
+            2,
+            37
+          ]
+        },
+        "validation_shape": [
+          12,
+          37
+        ],
+        "validation_target_first": "2024-01-01",
+        "validation_target_last": "2024-12-01"
+      }
+    ]
+  }
+}

@@ -1,0 +1,387 @@
+{
+  "all_controls_ok": true,
+  "artifacts": {
+    "audit": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\auditorias\\AUDITORIA_COMPARACION_FINAL_MODELOS.md",
+    "figures": [
+      "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\comparacion_final\\figuras\\sutil_mae_global_por_modelo.png",
+      "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\comparacion_final\\figuras\\sutil_mae_shock_por_modelo.png",
+      "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\comparacion_final\\figuras\\sutil_delta_s_por_modelo.png",
+      "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\comparacion_final\\figuras\\sutil_real_vs_predicted_modelos.png",
+      "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\comparacion_final\\figuras\\dulce_mae_global_por_modelo.png",
+      "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\comparacion_final\\figuras\\dulce_mae_shock_por_modelo.png",
+      "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\comparacion_final\\figuras\\dulce_delta_s_por_modelo.png",
+      "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\comparacion_final\\figuras\\dulce_real_vs_predicted_modelos.png"
+    ],
+    "short_paper_summary": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\comparacion_final\\RESUMEN_SHORT_PAPER_RESULTADOS.md",
+    "tabla_diferencia_error_shock_ton": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\comparacion_final\\tabla_diferencia_error_shock_ton.csv",
+    "tabla_maestra": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\comparacion_final\\tabla_maestra_modelos.csv",
+    "tabla_shocks": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\comparacion_final\\tabla_shocks_modelos.csv"
+  },
+  "controls": [
+    {
+      "detail": "['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12']",
+      "name": "sutil Naive mismos 12 meses TEST",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-07', '2025-11']",
+      "name": "sutil Naive mascara shock oficial",
+      "ok": true
+    },
+    {
+      "detail": "3",
+      "name": "sutil Naive n_shock=3",
+      "ok": true
+    },
+    {
+      "detail": "9",
+      "name": "sutil Naive n_nonshock=9",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12']",
+      "name": "sutil SARIMA_rolling mismos 12 meses TEST",
+      "ok": true
+    },
+    {
+      "detail": "comparado contra Naive; tolerancia=0.01 t por redondeo de artefactos CSV",
+      "name": "sutil SARIMA_rolling mismos y_true",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-07', '2025-11']",
+      "name": "sutil SARIMA_rolling mascara shock oficial",
+      "ok": true
+    },
+    {
+      "detail": "3",
+      "name": "sutil SARIMA_rolling n_shock=3",
+      "ok": true
+    },
+    {
+      "detail": "9",
+      "name": "sutil SARIMA_rolling n_nonshock=9",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12']",
+      "name": "sutil XGBoost mismos 12 meses TEST",
+      "ok": true
+    },
+    {
+      "detail": "comparado contra Naive; tolerancia=0.01 t por redondeo de artefactos CSV",
+      "name": "sutil XGBoost mismos y_true",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-07', '2025-11']",
+      "name": "sutil XGBoost mascara shock oficial",
+      "ok": true
+    },
+    {
+      "detail": "3",
+      "name": "sutil XGBoost n_shock=3",
+      "ok": true
+    },
+    {
+      "detail": "9",
+      "name": "sutil XGBoost n_nonshock=9",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12']",
+      "name": "sutil GC3 mismos 12 meses TEST",
+      "ok": true
+    },
+    {
+      "detail": "comparado contra Naive; tolerancia=0.01 t por redondeo de artefactos CSV",
+      "name": "sutil GC3 mismos y_true",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-07', '2025-11']",
+      "name": "sutil GC3 mascara shock oficial",
+      "ok": true
+    },
+    {
+      "detail": "3",
+      "name": "sutil GC3 n_shock=3",
+      "ok": true
+    },
+    {
+      "detail": "9",
+      "name": "sutil GC3 n_nonshock=9",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12']",
+      "name": "sutil GE mismos 12 meses TEST",
+      "ok": true
+    },
+    {
+      "detail": "comparado contra Naive; tolerancia=0.01 t por redondeo de artefactos CSV",
+      "name": "sutil GE mismos y_true",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-07', '2025-11']",
+      "name": "sutil GE mascara shock oficial",
+      "ok": true
+    },
+    {
+      "detail": "3",
+      "name": "sutil GE n_shock=3",
+      "ok": true
+    },
+    {
+      "detail": "9",
+      "name": "sutil GE n_nonshock=9",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12']",
+      "name": "dulce Naive mismos 12 meses TEST",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03']",
+      "name": "dulce Naive mascara shock oficial",
+      "ok": true
+    },
+    {
+      "detail": "3",
+      "name": "dulce Naive n_shock=3",
+      "ok": true
+    },
+    {
+      "detail": "9",
+      "name": "dulce Naive n_nonshock=9",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12']",
+      "name": "dulce SARIMA_rolling mismos 12 meses TEST",
+      "ok": true
+    },
+    {
+      "detail": "comparado contra Naive; tolerancia=0.01 t por redondeo de artefactos CSV",
+      "name": "dulce SARIMA_rolling mismos y_true",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03']",
+      "name": "dulce SARIMA_rolling mascara shock oficial",
+      "ok": true
+    },
+    {
+      "detail": "3",
+      "name": "dulce SARIMA_rolling n_shock=3",
+      "ok": true
+    },
+    {
+      "detail": "9",
+      "name": "dulce SARIMA_rolling n_nonshock=9",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12']",
+      "name": "dulce XGBoost mismos 12 meses TEST",
+      "ok": true
+    },
+    {
+      "detail": "comparado contra Naive; tolerancia=0.01 t por redondeo de artefactos CSV",
+      "name": "dulce XGBoost mismos y_true",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03']",
+      "name": "dulce XGBoost mascara shock oficial",
+      "ok": true
+    },
+    {
+      "detail": "3",
+      "name": "dulce XGBoost n_shock=3",
+      "ok": true
+    },
+    {
+      "detail": "9",
+      "name": "dulce XGBoost n_nonshock=9",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12']",
+      "name": "dulce GC3 mismos 12 meses TEST",
+      "ok": true
+    },
+    {
+      "detail": "comparado contra Naive; tolerancia=0.01 t por redondeo de artefactos CSV",
+      "name": "dulce GC3 mismos y_true",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03']",
+      "name": "dulce GC3 mascara shock oficial",
+      "ok": true
+    },
+    {
+      "detail": "3",
+      "name": "dulce GC3 n_shock=3",
+      "ok": true
+    },
+    {
+      "detail": "9",
+      "name": "dulce GC3 n_nonshock=9",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03', '2025-04', '2025-05', '2025-06', '2025-07', '2025-08', '2025-09', '2025-10', '2025-11', '2025-12']",
+      "name": "dulce GE mismos 12 meses TEST",
+      "ok": true
+    },
+    {
+      "detail": "comparado contra Naive; tolerancia=0.01 t por redondeo de artefactos CSV",
+      "name": "dulce GE mismos y_true",
+      "ok": true
+    },
+    {
+      "detail": "['2025-01', '2025-02', '2025-03']",
+      "name": "dulce GE mascara shock oficial",
+      "ok": true
+    },
+    {
+      "detail": "3",
+      "name": "dulce GE n_shock=3",
+      "ok": true
+    },
+    {
+      "detail": "9",
+      "name": "dulce GE n_nonshock=9",
+      "ok": true
+    },
+    {
+      "detail": "SARIMA/XGB/GC3/GE manifests y predicciones congeladas",
+      "name": "horizonte t -> t+1 verificado por artefactos oficiales",
+      "ok": true
+    },
+    {
+      "detail": "10",
+      "name": "tabla maestra 10 filas",
+      "ok": true
+    },
+    {
+      "detail": "10",
+      "name": "tabla shocks 10 filas",
+      "ok": true
+    },
+    {
+      "detail": "10",
+      "name": "tabla diferencias shock 10 filas",
+      "ok": true
+    },
+    {
+      "detail": "['cultivar', 'model', 'MAE', 'MAE_SD', 'RMSE', 'RMSE_SD', 'RelMAE_N1', 'RelMAE_N1_SD', 'MASE_1', 'MASE_1_SD', 'RMSSE_1', 'RMSSE_1_SD', 'R2', 'R2_SD', 'n_seeds', 'source']",
+      "name": "metricas D35 presentes",
+      "ok": true
+    },
+    {
+      "detail": "['cultivar', 'model', 'MAE_global', 'MAE_global_SD', 'MAE_shock', 'MAE_shock_SD', 'MAE_nonshock', 'MAE_nonshock_SD', 'Delta_s', 'Delta_s_SD', 'n_shock', 'n_nonshock', 'n_seeds']",
+      "name": "shocks D35-b presentes",
+      "ok": true
+    },
+    {
+      "detail": "7824.402904",
+      "name": "chequeo especial Sutil SARIMA",
+      "ok": true
+    },
+    {
+      "detail": "8296.896516",
+      "name": "chequeo especial Sutil XGBoost",
+      "ok": true
+    },
+    {
+      "detail": "5594.109032",
+      "name": "chequeo especial Sutil GC3",
+      "ok": true
+    },
+    {
+      "detail": "7908.487889",
+      "name": "chequeo especial Sutil GE",
+      "ok": true
+    },
+    {
+      "detail": "solo lectura de artefactos congelados",
+      "name": "no retraining/no nueva apertura TEST",
+      "ok": true
+    }
+  ],
+  "generated_utc": "2026-09-13T00:34:04.582348+00:00",
+  "git_status_sb": "## main...origin/main\n M v2_reentrenamiento/DECISIONES_METODOLOGICAS.md\n?? data/interim/indeci/indeci_temporal_2019_2025.csv\n?? data/interim/nasa/clima_dataset_2019_2020.csv\n?? sources/agraria-pe/sin-unificar/agro_news_2020.csv\n?? sources/agraria-pe/sin-unificar/checkpoint_2019_2020.json\n?? sources/noticias-ampliado/\n?? src/scraping/agronoticias_scraper.py\n?? src/scraping/andina_scraper.py\n?? src/scraping/base_scraper.py\n?? src/scraping/freshfruit_scraper.py\n?? src/scraping/recalcular_sentimiento_v2.py\n?? src/scraping/redagricola_scraper.py\n?? src/scraping/run_expansion.py\n?? src/scraping/unificar_corpus_v2.py\n?? src/weather/nasa_power_downloader.py\n?? v2_reentrenamiento/HANDOFF_CONTEXTO_ACTUAL.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_ENTRENAMIENTO_OFICIAL_GC3_GE.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_EVALUACION_TEST_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_EVALUACION_TEST_GC3_GE.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_EVALUACION_TEST_SARIMA_ROLLING.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_METODOLOGICA_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_METODOLOGICA_SARIMA_ROLLING.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_POST_RUN_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_POST_RUN_GC3_GE.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_PREFLIGHT_FINAL_SARIMA_ROLLING.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_PREFLIGHT_GC2_XGBOOST.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_PREFLIGHT_SARIMA_ROLLING.md\n?? v2_reentrenamiento/auditorias/AUDITORIA_RUNNER_OFICIAL_GC3_GE.md\n?? v2_reentrenamiento/auditorias/auditar_entrenamiento_oficial_gc3_ge.py\n?? v2_reentrenamiento/auditorias/auditar_post_run_final_gc3_ge.py\n?? v2_reentrenamiento/auditorias/auditar_post_run_gc2_xgboost.py\n?? v2_reentrenamiento/auditorias/auditar_runner_oficial_gc3_ge.py\n?? v2_reentrenamiento/auditorias/auditar_sarima_rolling_preflight.py\n?? v2_reentrenamiento/auditorias/auditar_sarima_rolling_preflight_final.py\n?? v2_reentrenamiento/auditorias/consolidar_comparacion_final_modelos.py\n?? v2_reentrenamiento/auditorias/ejecutar_entrenamiento_oficial_gc2_xgboost.py\n?? v2_reentrenamiento/auditorias/ejecutar_entrenamiento_oficial_gc3_ge.py\n?? v2_reentrenamiento/auditorias/entrenamiento_oficial_gc2_xgboost_manifest.json\n?? v2_reentrenamiento/auditorias/entrenamiento_oficial_gc3_ge_manifest.json\n?? v2_reentrenamiento/auditorias/evaluar_test_gc2_xgboost.py\n?? v2_reentrenamiento/auditorias/evaluar_test_gc3_ge.py\n?? v2_reentrenamiento/auditorias/evaluar_test_sarima_rolling.py\n?? v2_reentrenamiento/auditorias/gc2_xgboost_preflight_dry_run.json\n?? v2_reentrenamiento/auditorias/resumen_entrenamiento_oficial_gc3_ge.csv\n?? v2_reentrenamiento/auditorias/resumen_entrenamiento_oficial_gc3_ge.json\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc2_xgboost.csv\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc2_xgboost.json\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc3_ge.csv\n?? v2_reentrenamiento/auditorias/resumen_post_run_gc3_ge.json\n?? v2_reentrenamiento/auditorias/runner_oficial_gc3_ge_dry_run.json\n?? v2_reentrenamiento/auditorias/sarima_rolling_preflight_dry_run.json\n?? v2_reentrenamiento/auditorias/sarima_rolling_preflight_final.json\n?? v2_reentrenamiento/resultados_v2_final/comparacion_final/\n?? v2_reentrenamiento/resultados_v2_final/evaluacion_test_gc2_xgboost/\n?? v2_reentrenamiento/resultados_v2_final/evaluacion_test_gc3_ge/\n?? v2_reentrenamiento/resultados_v2_final/evaluacion_test_sarima_rolling/\n?? v2_reentrenamiento/resultados_v2_final/official_gc2_xgboost/\n?? v2_reentrenamiento/resultados_v2_final/official_gc3_ge/\n?? v2_reentrenamiento/resultados_v2_final/technical_pilot/\n?? v2_reentrenamiento/resultados_v2_final/technical_pilot_scaled/\n?? v2_reentrenamiento/src/models/features_gc2_xgboost.py\n?? v2_reentrenamiento/src/training/config_gc2_xgboost.py\n?? v2_reentrenamiento/src/training/official_runner_gc2_xgboost.py\n?? v2_reentrenamiento/src/training/official_runner_gc3_ge.py\n?? v2_reentrenamiento/src/training/tabular_gc2_xgboost.py",
+  "hashes": {
+    "gc3_ge_manifest": "d4ee7a5217d468720b004bf2fd099c1cd09c5aeca4b5ffc1717d43cb926aacb7",
+    "gc3_ge_predictions": "4124e4c24120bac199e1f623238181cc80c0c67d51755e57551c5ded2c95ab29",
+    "gc3_ge_summary": "d816f2dc529f765813eb85ff469b21e6e32004178906034b271a346949952c52",
+    "naive_dulce_metrics": "76e4b678ca09d21c7e041ec2a72ea0c4cc3028406cbfa891e34052aefdc194d9",
+    "naive_dulce_predictions": "e2a9e6dc61a4cfbdd350c7ee0099c5feac84248ddc896d554be6e5f59f75f767",
+    "naive_sutil_metrics": "3669bc8081109f37e539a95af983b2517b34f9f3ab632436cff41c8e53ea47a4",
+    "naive_sutil_predictions": "3b19bcbdf005714fc525cc4942bdcd8849e06aca01068a67b08d50bc92140ac2",
+    "sarima_manifest": "ece6345c30d78bb9e2ab4a34b02c46703091312d90f46caa320eb599ea719a60",
+    "sarima_metrics": "aad8401d5fef21d42f140e969f9da27974f28458cc91d48d599f3962d7fb1057",
+    "sarima_predictions": "561d0969ac05ad57f19464107e3857e84c553428a12712b1efdf8a645b1abc10",
+    "sarima_shocks": "f258f325c58c41eeb386795821616c38e25175d9e944d17a35b7ce1b909939e3",
+    "xgb_manifest": "c380471cc389ca76aa7bb2e5e8648ddd0303e7ac477ebc138032e2a7a68e228f",
+    "xgb_predictions": "14c9d40716359d98926ae7e85743b4e2eaaf8ce89fea820261660442fa814bae",
+    "xgb_shock_summary": "d69449b85d68ca55745b2fe19f6c4202fea20401a98e433a9fb32db8f51440c3",
+    "xgb_summary": "9ba9198bf458dc53169d20f9ef677ef4ded07641d7b4e307bb63dfc650f20856"
+  },
+  "models": [
+    "Naive",
+    "SARIMA_rolling",
+    "XGBoost",
+    "GC3",
+    "GE"
+  ],
+  "shock_months": {
+    "dulce": [
+      "2025-01",
+      "2025-02",
+      "2025-03"
+    ],
+    "sutil": [
+      "2025-01",
+      "2025-07",
+      "2025-11"
+    ]
+  },
+  "sources": {
+    "gc3_ge_manifest": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\evaluacion_test_gc3_ge\\manifest_evaluacion_test_gc3_ge.json",
+    "gc3_ge_predictions": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\evaluacion_test_gc3_ge\\predicciones_test_gc3_ge.csv",
+    "gc3_ge_summary": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\evaluacion_test_gc3_ge\\resumen_test_multiseed_gc3_ge.csv",
+    "naive_dulce_metrics": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\experimentos\\exp_001_naive_dulce\\metricas.json",
+    "naive_dulce_predictions": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\experimentos\\exp_001_naive_dulce\\predicciones.csv",
+    "naive_sutil_metrics": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\experimentos\\exp_001_naive_sutil\\metricas.json",
+    "naive_sutil_predictions": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\experimentos\\exp_001_naive_sutil\\predicciones.csv",
+    "sarima_manifest": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\evaluacion_test_sarima_rolling\\manifest_evaluacion_test_sarima_rolling.json",
+    "sarima_metrics": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\evaluacion_test_sarima_rolling\\metricas_test_sarima_rolling.csv",
+    "sarima_predictions": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\evaluacion_test_sarima_rolling\\predicciones_test_sarima_rolling.csv",
+    "sarima_shocks": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\evaluacion_test_sarima_rolling\\metricas_shock_sarima_rolling.csv",
+    "xgb_manifest": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\evaluacion_test_gc2_xgboost\\manifest_evaluacion_test_gc2_xgboost.json",
+    "xgb_predictions": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\evaluacion_test_gc2_xgboost\\predicciones_test_gc2_xgboost.csv",
+    "xgb_shock_summary": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\evaluacion_test_gc2_xgboost\\resumen_shock_multiseed_gc2_xgboost.csv",
+    "xgb_summary": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\evaluacion_test_gc2_xgboost\\resumen_test_multiseed_gc2_xgboost.csv"
+  },
+  "status": "approved",
+  "test_months": [
+    "2025-01",
+    "2025-02",
+    "2025-03",
+    "2025-04",
+    "2025-05",
+    "2025-06",
+    "2025-07",
+    "2025-08",
+    "2025-09",
+    "2025-10",
+    "2025-11",
+    "2025-12"
+  ]
+}

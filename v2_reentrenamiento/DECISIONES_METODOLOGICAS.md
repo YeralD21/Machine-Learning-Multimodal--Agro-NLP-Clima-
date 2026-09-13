@@ -1251,3 +1251,455 @@ Si la configuracion final GC2 es esencialmente determinista con `random_state`
 fijado, no debe repetirse automaticamente 10 veces sin justificacion.
 
 La politica de seeds para GC2 se decidira al cerrar el protocolo GC2.
+## 2026-09-11 - D37-D45: protocolo GC2/XGBoost v2
+
+**Estado:** D37, D38, D39, D40, D41, D42, D43, D44 y D45
+**CERRADAS**.
+
+Esta decision formaliza el protocolo metodologico de GC2/XGBoost v2. No
+entrena XGBoost, no ejecuta `model.fit()`, no hace HPO, no abre TEST 2025, no
+modifica datasets ni scalers, no modifica GC3/GE y no altera resultados
+oficiales existentes.
+
+GC2 queda definido como XGBoost tabular NO-NLP. La configuracion se documenta
+como configuracion v2 preespecificada y congelada, anclada en antecedentes
+historicos v1 y completada con defaults explicitos, sin optimizacion sobre v2.
+No se afirma que sea optima.
+
+### D37 - Features GC2
+
+GC2/XGBoost usa exactamente las 37 features NO-NLP de GC3.
+
+Produccion:
+
+- `produccion_t_{cultivar}`
+- `produccion_t_{cultivar}_lag1`
+- `produccion_t_{cultivar}_lag3`
+- `produccion_t_{cultivar}_lag6`
+
+Temporales:
+
+- `mes_sin`
+- `mes_cos`
+- `t_index`
+
+NASA POWER rezagado en `lag1`, `lag3` y `lag6`:
+
+- `T2M`
+- `T2M_MAX`
+- `WS2M`
+- `PRECTOTCORR`
+- `RH2M`
+
+INDECI rezagado en `lag1`, `lag3` y `lag6`:
+
+- `num_emergencias`
+- `personas_afectadas`
+- `personas_damnificadas`
+- `hectareas_cultivo_perdidas`
+- `hectareas_cultivo_afectadas`
+
+Quedan excluidos explicitamente:
+
+- NLP;
+- `precio_chacra_kg`;
+- `n_provincias`;
+- `total_afectados`;
+- exogenas contemporaneas;
+- `lag2`;
+- rolling mean/std;
+- cualquier feature nueva post-TEST.
+
+### D38 - Representacion temporal
+
+GC2/XGBoost es tabular y usa:
+
+```text
+X_t -> y_(t+1)
+```
+
+No se construyen ventanas LSTM.
+
+TRAIN:
+
+- X: 2016-07..2023-11
+- targets: 2016-08..2023-12
+- n = 89 pares
+
+VAL:
+
+- X: 2023-12..2024-11
+- targets: 2024-01..2024-12
+- n = 12 pares
+
+No se restringe XGBoost artificialmente a las 84 observaciones de la LSTM. La
+comparacion con GC3/GE exige misma informacion disponible, target, horizonte y
+periodo de evaluacion, no identico `n` TRAIN cuando las arquitecturas tienen
+requerimientos diferentes.
+
+### D39 - Scaling
+
+GC2 usa exclusivamente:
+
+```text
+master_dataset_{cultivar}_v2_escalado.csv
+```
+
+No se vuelve a escalar y no se refittea scaler. El scaling se conserva por
+trazabilidad y consistencia de pipeline, no porque XGBoost lo necesite
+algoritmicamente. El target se modela en escala estandarizada. En evaluacion
+futura, las predicciones y valores reales se invertiran a toneladas con el
+scaler v2c TRAIN-only.
+
+### D40 - Estrategia de hiperparametros
+
+No hay HPO, no hay grid y no hay seleccion mediante TimeSeriesSplit. La
+configuracion queda preespecificada antes del entrenamiento GC2. No se usan
+resultados TEST de GC3/GE para justificarla.
+
+### D41 - Configuracion oficial XGBoost
+
+Configuracion oficial:
+
+```text
+objective = "reg:squarederror"
+eval_metric = "mae"
+booster = "gbtree"
+max_depth = 2
+min_child_weight = 1
+learning_rate = 0.05
+n_estimators = 200
+subsample = 0.8
+colsample_bytree = 0.8
+reg_alpha = 0.0
+reg_lambda = 1.0
+gamma = 0.0
+tree_method = "hist"
+n_jobs = 1
+random_state = seed
+```
+
+`min_child_weight=1` queda cerrado explicitamente. No usar `3`.
+
+### D42 - Early stopping
+
+No se usa early stopping. `n_estimators` queda fijo en 200. VAL 2024 no
+selecciona `best_iteration`.
+
+### D43 - Seeds/stochasticity
+
+Seeds oficiales GC2:
+
+```text
+0,1,2,3,4,5,6,7,8,9
+```
+
+Se usan porque `subsample=0.8` y `colsample_bytree=0.8` introducen
+stochasticity real. El total futuro esperado es:
+
+```text
+2 cultivares x 10 seeds = 20 corridas
+```
+
+No se selecciona best seed. La variabilidad entre seeds describe sensibilidad
+a la stochasticity del boosting, no incertidumbre temporal.
+
+### D44 - Validacion
+
+VAL 2024 se usa solo como diagnostico/pre-flight. No se usa para HPO,
+seleccion de hiperparametros, early stopping, seleccion de seed ni seleccion
+de `n_estimators`. No se usa TRAIN-only CV porque D40 cierra la configuracion
+sin tuning. TEST 2025 permanece prohibido hasta autorizacion de evaluacion
+final.
+
+### D45 - Reproducibilidad y artefactos
+
+Cada futura corrida oficial debe guardar como minimo:
+
+- config;
+- metadata;
+- modelo;
+- feature_list;
+- seed y random_state;
+- versiones;
+- OS;
+- CPU/GPU;
+- tree_method;
+- n_jobs;
+- hash dataset;
+- hash scaler;
+- hash modelo;
+- hash codigo/git;
+- timing;
+- logs;
+- predicciones VAL diagnosticas;
+- metricas VAL diagnosticas;
+- estado de corrida.
+
+Debe registrar ademas:
+
+- `train_first_x`;
+- `train_first_target`;
+- `train_last_x`;
+- `train_last_target`;
+- `train_n`;
+- `val_first_x`;
+- `val_first_target`;
+- `val_last_x`;
+- `val_last_target`;
+- `val_n`;
+- `test_loaded = false`;
+- `hpo_performed = false`;
+- `early_stopping = false`;
+- `best_seed_selection = false`;
+- lista de exclusiones verificadas.
+
+## 2026-09-12 - D46-D50: protocolo SARIMA rolling one-step v2
+
+**Estado:** D46, D47, D48, D49 y D50 **CERRADAS**.
+
+Esta decision formaliza el protocolo SARIMA rolling one-step para la futura
+comparacion principal v2. No abre TEST 2025, no genera forecasts TEST, no
+calcula metricas TEST, no re-selecciona ordenes y no modifica los resultados
+fixed-origin existentes de GC1.
+
+### D46 - Mecanismo rolling
+
+El mecanismo aprobado es:
+
+```text
+forecast(steps=1)
+SARIMAXResults.append([y_real], refit=False)
+```
+
+Los parametros SARIMA permanecen congelados. No se permite refit mensual. La
+actualizacion secuencial incorpora la observacion real ya disponible para
+actualizar el estado del filtro, no para reestimar coeficientes.
+
+### D47 - Periodo de estimacion
+
+Se mantiene exactamente el TRAIN historico real de GC1:
+
+```text
+2016-07..2023-12
+```
+
+No se amplia retrospectivamente a 2016-01. La razon es que ese fue el periodo
+efectivamente usado por GC1 vigente; modificarlo despues del cierre del modelo
+redefiniria la muestra de estimacion. La comparabilidad entre familias exige el
+mismo horizonte y origen informativo, no identico numero de observaciones de
+entrenamiento.
+
+### D48 - Tratamiento de VAL 2024
+
+VAL 2024 se usa exclusivamente como flujo observado para actualizacion
+secuencial de estado:
+
+```text
+modelo ajustado en TRAIN hasta 2023-12
+append Jan-2024 con refit=False
+...
+append Dec-2024 con refit=False
+```
+
+VAL no se usa para reestimar parametros, seleccionar hiperparametros,
+seleccionar modelos ni modificar GC1. Al finalizar, el estado queda actualizado
+hasta 2024-12 con los mismos coeficientes estimados originalmente.
+
+### D49 - Especificacion por cultivar
+
+No se impone una unica especificacion SARIMA a ambos cultivares. Se conservan
+las especificaciones GC1 ya existentes y congeladas:
+
+```text
+SUTIL:
+order = (1,1,1)
+seasonal_order = (1,1,0,12)
+fuente = exp_002b_sarima_sutil_simple
+
+DULCE:
+order = (1,0,0)
+seasonal_order = (0,1,0,12)
+fuente = exp_002_sarima_dulce
+```
+
+No se ejecuta grid search, auto_arima, AIC/BIC ni ningun criterio de
+re-seleccion.
+
+### D50 - Reproducibilidad
+
+La futura evaluacion rolling debe registrar como minimo:
+
+- cultivar;
+- order;
+- seasonal_order;
+- train_first;
+- train_last;
+- train_n;
+- val_first;
+- val_last;
+- val_n;
+- statsmodels_version;
+- fit_params iniciales;
+- hash dataset;
+- hash codigo;
+- git hash;
+- timestamp.
+
+Y por cada actualizacion:
+
+- observed_date;
+- observed_y;
+- forecast_origin;
+- forecast_target;
+- append_refit = false.
+
+Debe verificarse que los parametros despues de cada `append(refit=False)` son
+identicos a los parametros iniciales dentro de tolerancia numerica.
+
+### Pre-flight final
+
+El pre-flight final corregido se ejecuto solo con TRAIN+VAL:
+
+```text
+v2_reentrenamiento/auditorias/AUDITORIA_PREFLIGHT_FINAL_SARIMA_ROLLING.md
+v2_reentrenamiento/auditorias/sarima_rolling_preflight_final.json
+```
+
+Resultado:
+
+```text
+status = approved
+38/38 controles OK
+TEST 2025 cargado = NO
+forecasts TEST = NO
+metricas TEST = NO
+refit durante VAL = NO
+```
+
+## 2026-09-12 - D51-D61: cierre formal del protocolo SHAP v2
+
+**Estado: D51-D61 CERRADAS por aprobacion expresa del usuario.** Este cierre
+es documental. SHAP TEST OFICIAL TODAVIA NO EJECUTADO. La siguiente sesion
+debe comenzar por la auditoria/preflight del script oficial; solo despues
+de verificarlo procede la ejecucion post-hoc prevista. No se ejecuta hoy.
+
+### Decisiones aprobadas
+
+| ID | Decision cerrada | Estado |
+|---|---|---|
+| D51 | SHAP para GC3, GE y XGBoost. No forzar SHAP en Naive/SARIMA. | CERRADA |
+| D52 | GC3/GE: PermutationExplainer, RNG=1729, max_evals GC3=7120 y GE=8272. Fallback SamplingExplainer nsamples=65536, mismo background, exclusivamente por fallo tecnico real. | CERRADA |
+| D53 | XGBoost: TreeExplainer. | CERRADA |
+| D54 | Todas las 10 seeds oficiales 0..9, por cultivar/modelo. No best seed ni seed representativa. | CERRADA |
+| D55 | 32 referencias exclusivamente TRAIN por cultivar; indices aproximadamente equiespaciados, seleccion determinista, mismos indices entre seeds correspondientes. Guardar indices exactos y hashes. | CERRADA |
+| D56 | Preservar SHAP firmado elemental sample x timestep x feature antes de agregar. | CERRADA |
+| D57 | Grupos: produccion historica, temporalidad, NASA/clima, INDECI, NLP solo GE; nombres de builders oficiales. | CERRADA |
+| D58 | Shock/nonshock solo descriptivo; n_shock=3 por cultivar, n_nonshock=9. | CERRADA |
+| D59 | NLP: mean absolute SHAP, participacion relativa en total absoluto, ranking de seis variables y shock/nonshock; sin causalidad. | CERRADA |
+| D60 | Attention solo como diagnostico separado si posteriormente se decide implementarlo. No attention=explanation. | CERRADA |
+| D61 | Reproducibilidad completa: versiones, hashes, background, parametros, shapes, tiempos, seeds, outputs y errores de reconstruccion. | CERRADA |
+
+### D52 - Justificacion previa al SHAP oficial TEST
+
+PermutationExplainer se eligio **antes** del SHAP oficial TEST y solo por
+compatibilidad con GC3/GE, reproducibilidad, estabilidad numerica,
+fidelidad/reconstruccion, ausencia de warnings/excepciones de los explainers
+y coste viable. No se eligio por resultados cientificos, ranking deseado de
+variables, apariencia de figuras ni desempeno predictivo TEST.
+
+Evidencia: `auditorias/AUDITORIA_BENCHMARK_EXPLAINER_SHAP_V2.md` y
+`auditorias/shap_v2_explainer_benchmark.json`. Benchmark solo TRAIN+VAL,
+ambos cultivares, GC3/GE seed 0 como centinela tecnico; dos objetivos VAL
+(2024-01, 2024-07) por centinela. 156 corridas neuronales y 12 TreeExplainer.
+TEST no se uso para generar SHAP ni para elegir explainer/background.
+
+- Maximo error de reconstruccion neuronal observado: 1.30385160446167e-7
+  (aproximadamente 1.30e-7), en unidades escaladas.
+- Repetir igual RNG/config produjo SHAP identico.
+- Spearman del ranking elemental entre RNG para Permutation con N=32 y
+  presupuesto alto: 0.9835..0.9920.
+- Coste extrapolado de 480 explicaciones neuronales: 602.84 s, mas IO/informes.
+- Sin warnings/excepciones de explainers en el benchmark final. Los warnings
+  de entorno/carga Keras se documentan por separado; no se modificaron capas.
+
+**Limitacion:** dos muestras VAL por centinela no certifican estabilidad de
+todas las futuras explicaciones, meses o seeds. Aditividad pequena no prueba
+convergencia de cada atribucion. El enmascaramiento marginal puede romper
+dependencias entre lags; no implica causalidad.
+
+Se conserva la implementacion tecnica probada: wrapper flatten/unflatten de
+las dos ramas, inferencia `training=False`, link identity,
+`Independent(background, max_samples=32)`, `batch_size=1024`.
+`max_evals=16*(2*P+1)`, P=222 para GC3 y P=258 para GE. El RNG del explainer
+1729 es distinto de las seeds 0..9 de los modelos. XGBoost se explica con
+TreeExplainer sobre el modelo escalado, output raw y background explicito
+interventional, conforme al benchmark.
+
+Fallback aprobado solo por fallo tecnico real documentado (excepcion,
+shape/no-finitos o reconstruccion fuera de tolerancia tecnica 1e-5 escalado):
+SamplingExplainer, nsamples=65536, min_samples_per_feature=100, RNG=1729,
+mismo wrapper y background. Detener/registrar el fallo antes de sustituir;
+no mezclar metodos silenciosamente ni cambiar por resultados cientificos.
+
+### D55 - Background oficial e integridad
+
+32 referencias exclusivamente TRAIN por cultivar. Cobertura temporal mas
+representativa que primeros-N, seleccion determinista/reproducible y coste
+viable, independiente de resultados TEST. VAL y TEST quedan excluidos del
+background oficial. La regla exacta, sin muestreo aleatorio, es:
+
+```text
+indices = np.rint(np.linspace(0, n_train - 1, 32)).astype(int)
+
+GC3/GE: n_train=84 ventanas, objetivos 2017-01..2023-12
+[0, 3, 5, 8, 11, 13, 16, 19, 21, 24, 27, 29, 32, 35, 37, 40,
+ 43, 46, 48, 51, 54, 56, 59, 62, 64, 67, 70, 72, 75, 78, 80, 83]
+
+XGBoost: n_train=89 pares, objetivos 2016-08..2023-12
+[0, 3, 6, 9, 11, 14, 17, 20, 23, 26, 28, 31, 34, 37, 40, 43,
+ 45, 48, 51, 54, 57, 60, 62, 65, 68, 71, 74, 77, 79, 82, 85, 88]
+```
+
+GC3/GE comparten fechas y valores de sus features comunes; conservar los
+mismos indices en todas las seeds. Cada cultivar tiene sus propios valores.
+N=32 cubre los doce meses objetivo pero no es una muestra estacionalmente
+balanceada; no se afirma que sea optima ni identica a TRAIN completo.
+
+Hashes SHA256 del array background (shape/dtype/bytes, funcion `array_hash`
+del benchmark; no confundir con hash del archivo NPZ):
+
+| Cultivar | Modelo | SHA256 background N=32 |
+|---|---|---|
+| sutil | GC3 | 4d95df53dfeaa745e0752465ead086efced9947d7af4d83ee64d6fcc14d8c5a3 |
+| sutil | GE | a8a25c6720e2e3d1a8c9dd5ca111cade33260403d4ea92637d3072a8ade36818 |
+| dulce | GC3 | d3c84a671da84253c3e5fb0a8edb7af3d7ac3f8c8dc4bd96c3fcd216d20bd32c |
+| dulce | GE | 01895908a544ead3ab1dcb359b3de99cb0e057d64e09d52c87800248846de69e |
+| sutil | XGBoost | 71d3dbb62dc1fa60e8362b73296b6be423f13fa03f78e57af898c0114ead9980 |
+| dulce | XGBoost | 41021ad468e00e8b23dcfc710e6e2922c2539349b84ab616bdbec3546b774be2 |
+
+Indices, fechas, arrays y hashes de archivo se conservan en el JSON y en
+`auditorias/shap_v2_benchmark_arrays/`. Esas evidencias tecnicas se preservan
+sin reescribir su estado historico pendiente: esta seccion registra la
+aprobacion posterior. JSON SHA256:
+`c29b4ffa1fa7b03daa15db52a770214ba92587fd4d152cbaa3cd82cea7f18641`.
+
+### Correccion del lector y restriccion futura
+
+El lector neuronal anterior podia cargar el CSV completo antes de filtrar
+TEST. Por ello su `test_loaded=False` no acreditaba ausencia de carga.
+El benchmark final corrigio la lectura con `csv.DictReader` e `islice(...,102)`:
+solo se parsean las 102 filas TRAIN+VAL 2016-07..2024-12, sin pedir el registro
+103; fechas exactas verificadas. No basta cargar todo y filtrar despues.
+La lectura binaria para hashing no usa valores TEST para analisis.
+
+La incidencia **no produjo SHAP TEST oficial, no modifico modelos ni
+predicciones y no intervino en seleccion mediante resultados TEST**.
+Todo futuro preflight debe mantener el lector acotado; no reutilizar el
+lector anterior ni ejecutar sus generadores para reconstruir este cierre.
+
+### Continuidad
+
+Consultar `HANDOFF_SESION.md`, que reemplaza el punto de reanudacion obsoleto
+de `HANDOFF_CONTEXTO_ACTUAL.md`. No entrenar, tunear, modificar modelos ni
+predicciones, ni ejecutar SHAP TEST durante este cierre. No commit ni push.

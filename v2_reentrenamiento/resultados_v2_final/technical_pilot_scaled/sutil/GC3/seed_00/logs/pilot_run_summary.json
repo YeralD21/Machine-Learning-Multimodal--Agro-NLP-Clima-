@@ -1,0 +1,273 @@
+{
+  "alignment_examples": [
+    {
+      "fecha_final_secuencia": "2016-12-01",
+      "fecha_target": "2017-01-01",
+      "produccion_t_input_raw": 16714.142,
+      "produccion_t_input_scaled": -0.835396336805367,
+      "sequence_index": 0,
+      "target_inverse_toneladas": 18255.799,
+      "target_raw_toneladas": 18255.799,
+      "target_scaled_model": -0.6436841142447973
+    },
+    {
+      "fecha_final_secuencia": "2020-06-01",
+      "fecha_target": "2020-07-01",
+      "produccion_t_input_raw": 26948.624,
+      "produccion_t_input_scaled": 0.4373091294404612,
+      "sequence_index": 42,
+      "target_inverse_toneladas": 15387.758,
+      "target_raw_toneladas": 15387.758,
+      "target_scaled_model": -1.0003383599718552
+    },
+    {
+      "fecha_final_secuencia": "2023-11-01",
+      "fecha_target": "2023-12-01",
+      "produccion_t_input_raw": 24158.06,
+      "produccion_t_input_scaled": 0.0902895092282392,
+      "sequence_index": 83,
+      "target_inverse_toneladas": 30799.027,
+      "target_raw_toneladas": 30799.027,
+      "target_scaled_model": 0.9161246616138856
+    }
+  ],
+  "best_epoch": 70,
+  "best_val_loss": 0.5792437195777893,
+  "checkpoint_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot_scaled\\sutil\\GC3\\seed_00\\checkpoint_best.keras",
+  "config_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot_scaled\\sutil\\GC3\\seed_00\\config.json",
+  "dataset_hash": "d664fd728798d52e5c1bbe702745d40d49b8761513cef148e0a56f2481ca7941",
+  "dataset_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\data\\processed\\master_dataset_sutil_v2_escalado.csv",
+  "determinism": {
+    "enable_op_determinism_used": true,
+    "keras_set_random_seed_used": true,
+    "pythonhashseed": "0",
+    "seed": 0,
+    "tensorflow_previously_loaded": false,
+    "tf_deterministic_ops": "1",
+    "tf_enable_onednn_opts": "0"
+  },
+  "epochs_executed": 85,
+  "estimated_minutes_40_runs": 7.347322533332772,
+  "estimated_seconds_40_runs": 440.8393519999663,
+  "figures": {
+    "mae": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot_scaled\\sutil\\GC3\\seed_00\\figures\\pilot_metric_mae.png",
+    "mse": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot_scaled\\sutil\\GC3\\seed_00\\figures\\pilot_loss_mse.png"
+  },
+  "final_val_loss_after_restore": 0.5792436599731445,
+  "fit_seconds": 11.020983799999158,
+  "history_columns": [
+    "epoch",
+    "loss",
+    "val_loss",
+    "mae",
+    "val_mae",
+    "learning_rate"
+  ],
+  "history_inf_count": 0,
+  "history_nan_count": 0,
+  "history_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot_scaled\\sutil\\GC3\\seed_00\\history.csv",
+  "history_rows": 85,
+  "keras": "3.14.0",
+  "log_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot_scaled\\sutil\\GC3\\seed_00\\logs\\pilot_run_summary.json",
+  "metadata_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\technical_pilot_scaled\\sutil\\GC3\\seed_00\\metadata.json",
+  "model_fit_executed": true,
+  "numpy": "2.4.4",
+  "official_result": false,
+  "pandas": "3.0.2",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "preflight": {
+    "callbacks": [
+      {
+        "class": "EarlyStopping",
+        "factor": null,
+        "min_lr": null,
+        "monitor": "val_loss",
+        "patience": 15,
+        "restore_best_weights": true
+      },
+      {
+        "class": "ReduceLROnPlateau",
+        "factor": 0.5,
+        "min_lr": 1e-06,
+        "monitor": "val_loss",
+        "patience": 8,
+        "restore_best_weights": null
+      },
+      {
+        "class": "ModelCheckpoint",
+        "factor": null,
+        "min_lr": null,
+        "monitor": "val_loss",
+        "patience": null,
+        "restore_best_weights": null
+      },
+      {
+        "class": "_LearningRateLogger",
+        "factor": null,
+        "min_lr": null,
+        "monitor": null,
+        "patience": null,
+        "restore_best_weights": null
+      }
+    ],
+    "learning_rate": 0.0010000000474974513,
+    "loss": "mse",
+    "optimizer": "Adam",
+    "params": 6273,
+    "shuffle": false
+  },
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "raw_dataset_hash": "a6f23d0eb3178514c75f6851f3c2039837a192acc5f2b008bc445dda35968cc9",
+  "raw_dataset_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\data\\processed\\master_dataset_sutil_v2_features.csv",
+  "raw_pilot_discarded": true,
+  "reduce_lr_epochs": [
+    78
+  ],
+  "restore_best_weights_verified": true,
+  "run_label": "TECHNICAL_PILOT_SCALED",
+  "scale_checks": {
+    "max_abs_diff_scaled_csv_vs_formula": 3.552713678800501e-15,
+    "mes_sin_cos_raw": true,
+    "rama_a_produccion_scaled": true,
+    "rama_b_non_calendar_scaled": true,
+    "scaled_columns_checked": [
+      "produccion_t_sutil",
+      "produccion_t_sutil_lag1",
+      "produccion_t_sutil_lag3",
+      "produccion_t_sutil_lag6",
+      "t_index",
+      "T2M_lag1",
+      "T2M_lag3",
+      "T2M_lag6",
+      "T2M_MAX_lag1",
+      "T2M_MAX_lag3",
+      "T2M_MAX_lag6",
+      "WS2M_lag1",
+      "WS2M_lag3",
+      "WS2M_lag6",
+      "PRECTOTCORR_lag1",
+      "PRECTOTCORR_lag3",
+      "PRECTOTCORR_lag6",
+      "RH2M_lag1",
+      "RH2M_lag3",
+      "RH2M_lag6",
+      "num_emergencias_lag1",
+      "num_emergencias_lag3",
+      "num_emergencias_lag6",
+      "personas_afectadas_lag1",
+      "personas_afectadas_lag3",
+      "personas_afectadas_lag6",
+      "personas_damnificadas_lag1",
+      "personas_damnificadas_lag3",
+      "personas_damnificadas_lag6",
+      "hectareas_cultivo_perdidas_lag1",
+      "hectareas_cultivo_perdidas_lag3",
+      "hectareas_cultivo_perdidas_lag6",
+      "hectareas_cultivo_afectadas_lag1",
+      "hectareas_cultivo_afectadas_lag3",
+      "hectareas_cultivo_afectadas_lag6",
+      "produccion_t_sutil"
+    ],
+    "train_scaled_abs_mean_max": 4.925689485920278e-15,
+    "train_scaled_std_pop_max": 1.0000000000000002,
+    "train_scaled_std_pop_min": 0.9999999999999998,
+    "unchanged_raw_columns": [
+      "a\u00f1o",
+      "mes",
+      "mes_sin",
+      "mes_cos"
+    ]
+  },
+  "scaler_applied_again": false,
+  "scaler_hash": "ba51666f00ded716c63698dd04e29068d58d3cab064202384bfbd4435fbf350e",
+  "scaler_params_hash": "4e4d0e1fa6555d605e71cf9c378c4a33e6a8a6b0d238024be6d447f813fee80e",
+  "scaler_params_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\scalers\\scaler_sutil_v2c_parametros.csv",
+  "scaler_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\scalers\\scaler_sutil_v2c.joblib",
+  "seconds_per_epoch": 0.12965863294116656,
+  "shapes": {
+    "Xa_train": [
+      84,
+      6,
+      4
+    ],
+    "Xa_val": [
+      12,
+      6,
+      4
+    ],
+    "Xb_train": [
+      84,
+      6,
+      33
+    ],
+    "Xb_val": [
+      12,
+      6,
+      33
+    ],
+    "y_train": [
+      84
+    ],
+    "y_val": [
+      12
+    ]
+  },
+  "stopped_epoch": 85,
+  "target_scaler_params": {
+    "mean_train": 23431.995422222222,
+    "scale_train": 8041.516494927326,
+    "var_train": 64665987.53818826
+  },
+  "target_stats": {
+    "train": {
+      "max": 2.2925680236317647,
+      "mean": 0.03572110604675931,
+      "min": -2.310547324493194,
+      "std_pop": 1.024248432864827,
+      "std_sample": 1.0304001304148298
+    },
+    "validation": {
+      "max": 2.5778530194963087,
+      "mean": 1.0914323291277532,
+      "min": 0.0471667972100834,
+      "std_pop": 1.0179555237443636,
+      "std_sample": 1.0632198686434413
+    }
+  },
+  "technical_comparison_with_raw_pilot": {
+    "raw_best_val_loss": 94221704.0,
+    "raw_epochs": 294,
+    "raw_fit_seconds": 33.07914100000016,
+    "raw_reduce_lr_epochs": [
+      287
+    ],
+    "raw_y_train_range": "4851.691000..41867.719000",
+    "raw_y_val_range": "23811.288000..44161.843000",
+    "scaled_best_val_loss": 0.5792437195777893,
+    "scaled_epochs": 85,
+    "scaled_fit_seconds": 11.020983799999158,
+    "scaled_reduce_lr_epochs": [
+      78
+    ],
+    "scaled_y_train_range": "-2.310547..2.292568",
+    "scaled_y_val_range": "0.047167..2.577853"
+  },
+  "tensorflow": "2.21.0",
+  "test_loaded_into_sequence_object": false,
+  "test_used": false,
+  "tf_devices": {
+    "cpu": [
+      "PhysicalDevice(name='/physical_device:CPU:0', device_type='CPU')"
+    ],
+    "gpu": [],
+    "logical": [
+      "LogicalDevice(name='/device:CPU:0', device_type='CPU')"
+    ]
+  },
+  "timestamp_utc": "2026-09-11T02:30:36.123058+00:00",
+  "total_script_seconds": 15.997186799999326,
+  "train_target_end": "2023-12-01",
+  "train_target_start": "2017-01-01",
+  "validation_target_end": "2024-12-01",
+  "validation_target_start": "2024-01-01"
+}

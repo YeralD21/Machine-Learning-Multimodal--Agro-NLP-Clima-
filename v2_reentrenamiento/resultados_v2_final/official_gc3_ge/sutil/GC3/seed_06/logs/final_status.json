@@ -1,0 +1,20 @@
+{
+  "best_epoch": 1,
+  "best_val_loss": 2.4618027210235596,
+  "checkpoint_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_06\\checkpoint_best.keras",
+  "config_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_06\\config.json",
+  "cultivar": "sutil",
+  "final_learning_rate": 0.0005000000237487257,
+  "final_loss": 0.26358750462532043,
+  "final_mae": 0.38881009817123413,
+  "final_val_loss": 2.604473829269409,
+  "final_val_mae": 1.3161438703536987,
+  "fit_seconds": 3.487687699999924,
+  "history_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_06\\history.csv",
+  "metadata_path": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\resultados_v2_final\\official_gc3_ge\\sutil\\GC3\\seed_06\\metadata.json",
+  "model_name": "GC3",
+  "seed": 6,
+  "status": "complete",
+  "stopped_epoch": 16,
+  "timestamp_utc": "2026-09-11T16:30:56.338756+00:00"
+}
