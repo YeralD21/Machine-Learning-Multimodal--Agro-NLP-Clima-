@@ -1,0 +1,88 @@
+{
+  "reales_2025": {
+    "GC3 (Fase B)/dulce": {
+      "n_shock": 12,
+      "Delta_s": 0.0
+    },
+    "GC3 (Fase B)/sutil": {
+      "n_shock": 12,
+      "Delta_s": 0.0
+    },
+    "SARIMA (Fase B)/dulce": {
+      "n_shock": 12,
+      "Delta_s": 0.0
+    },
+    "SARIMA (Fase B)/sutil": {
+      "n_shock": 12,
+      "Delta_s": 0.0
+    },
+    "GC3 oficial 10 seeds/dulce": {
+      "n_shock": 12,
+      "Delta_s": 0.0
+    },
+    "GC3 oficial 10 seeds/sutil": {
+      "n_shock": 12,
+      "Delta_s": 0.0
+    },
+    "GE oficial 10 seeds/dulce": {
+      "n_shock": 12,
+      "Delta_s": 0.0
+    },
+    "GE oficial 10 seeds/sutil": {
+      "n_shock": 12,
+      "Delta_s": 0.0
+    },
+    "XGB-37 oficial 10 seeds/dulce": {
+      "n_shock": 12,
+      "Delta_s": 0.0
+    },
+    "XGB-37 oficial 10 seeds/sutil": {
+      "n_shock": 12,
+      "Delta_s": 0.0
+    },
+    "Chronos (Fase B)/dulce": {
+      "n_shock": 12,
+      "Delta_s": 0.0
+    },
+    "Chronos (Fase B)/sutil": {
+      "n_shock": 12,
+      "Delta_s": 0.0
+    }
+  },
+  "sinteticos": {
+    "2018/sutil/mensual": 0.0,
+    "2018/sutil/interanual": 0.0,
+    "2018/dulce/mensual": 0.0,
+    "2018/dulce/interanual": 0.0,
+    "2019/sutil/mensual": 0.0,
+    "2019/sutil/interanual": 0.0,
+    "2019/dulce/mensual": 0.0,
+    "2019/dulce/interanual": 0.0,
+    "2020/sutil/mensual": 0.0,
+    "2020/sutil/interanual": 0.0,
+    "2020/dulce/mensual": 0.0,
+    "2020/dulce/interanual": 0.0,
+    "2021/sutil/mensual": 0.0,
+    "2021/sutil/interanual": 0.0,
+    "2021/dulce/mensual": 0.0,
+    "2021/dulce/interanual": 0.0,
+    "2022/sutil/mensual": 0.0,
+    "2022/sutil/interanual": 0.0,
+    "2022/dulce/mensual": 0.0,
+    "2022/dulce/interanual": 0.0,
+    "2023/sutil/mensual": 0.0,
+    "2023/sutil/interanual": 0.0,
+    "2023/dulce/mensual": 0.0,
+    "2023/dulce/interanual": 0.0,
+    "2024/sutil/mensual": 0.0,
+    "2024/sutil/interanual": 0.0,
+    "2024/dulce/mensual": 0.0,
+    "2024/dulce/interanual": 0.0,
+    "2025/sutil/mensual": 0.0,
+    "2025/sutil/interanual": 0.0,
+    "2025/dulce/mensual": 0.0,
+    "2025/dulce/interanual": 0.0
+  },
+  "fallos": [],
+  "OK": true
+}

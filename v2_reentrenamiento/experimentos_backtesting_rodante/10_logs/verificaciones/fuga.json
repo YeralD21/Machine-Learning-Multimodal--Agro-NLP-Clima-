@@ -1,0 +1,45 @@
+{
+  "ventanas": {
+    "2018/sutil": "OK",
+    "2018/dulce": "OK",
+    "2019/sutil": "OK",
+    "2019/dulce": "OK",
+    "2020/sutil": "OK",
+    "2020/dulce": "OK",
+    "2021/sutil": "OK",
+    "2021/dulce": "OK",
+    "2022/sutil": "OK",
+    "2022/dulce": "OK",
+    "2023/sutil": "OK",
+    "2023/dulce": "OK",
+    "2024/sutil": "OK",
+    "2024/dulce": "OK",
+    "2025/sutil": "OK",
+    "2025/dulce": "OK"
+  },
+  "hiperparametros": [],
+  "controles_negativos": {
+    "2021/sutil": {
+      "scaler_con_un_ano_extra_detectado": true,
+      "umbral_con_test_detectado": true,
+      "info_umbral_con_test_coincide_en_valor": false
+    },
+    "2021/dulce": {
+      "scaler_con_un_ano_extra_detectado": true,
+      "umbral_con_test_detectado": true,
+      "info_umbral_con_test_coincide_en_valor": true
+    },
+    "2023/sutil": {
+      "scaler_con_un_ano_extra_detectado": true,
+      "umbral_con_test_detectado": true,
+      "info_umbral_con_test_coincide_en_valor": false
+    },
+    "2023/dulce": {
+      "scaler_con_un_ano_extra_detectado": true,
+      "umbral_con_test_detectado": true,
+      "info_umbral_con_test_coincide_en_valor": false
+    }
+  },
+  "OK": true,
+  "n_ventana_cultivar": 16
+}

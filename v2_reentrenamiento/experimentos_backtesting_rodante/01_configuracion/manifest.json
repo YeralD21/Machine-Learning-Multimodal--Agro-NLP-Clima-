@@ -1,0 +1,44 @@
+{
+  "generado_utc": "2026-10-26T03:04:44.858640+00:00",
+  "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "ejecutable": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\venv\\Scripts\\python.exe",
+  "librerias": {
+    "numpy": "2.4.4",
+    "pandas": "3.0.2",
+    "scipy": "1.17.1",
+    "sklearn": "1.8.0",
+    "statsmodels": "0.14.6",
+    "xgboost": "3.2.0",
+    "tensorflow": "2.21.0",
+    "keras": "3.14.0",
+    "torch": "2.11.0+cpu",
+    "transformers": "5.5.4",
+    "matplotlib": "3.10.8",
+    "joblib": "1.5.3",
+    "safetensors": "0.7.0"
+  },
+  "hardware": {
+    "plataforma": "Windows-10-10.0.26200-SP0",
+    "procesador": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD",
+    "nucleos_logicos": 16,
+    "wmic": "no disponible (FileNotFoundError)"
+  },
+  "variables_entorno": {
+    "TF_ENABLE_ONEDNN_OPTS": "0",
+    "TF_DETERMINISTIC_OPS": "1",
+    "PYTHONHASHSEED": "42",
+    "HF_HUB_OFFLINE": "1",
+    "TRANSFORMERS_OFFLINE": "1",
+    "TF_CPP_MIN_LOG_LEVEL": "2"
+  },
+  "semilla_global": 42,
+  "git_commit": "27934652756c79b47a7219ee7eaaa01b22dc0866",
+  "carpeta_experimento": "v2_reentrenamiento/experimentos_backtesting_rodante",
+  "hashes_congelados": "v2_reentrenamiento/experimentos_backtesting_rodante/01_configuracion/hashes_congelados.json",
+  "hash_de_hashes_congelados": "6678d76b7b67a1080b7d73a9bd807ffbe64b75c236542098649b79e05833f922",
+  "integridad": {
+    "accion": "verificado",
+    "verificados": 93,
+    "diferencias": 0
+  }
+}

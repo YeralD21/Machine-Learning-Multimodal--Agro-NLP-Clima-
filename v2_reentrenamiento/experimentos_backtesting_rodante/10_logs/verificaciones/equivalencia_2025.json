@@ -1,0 +1,266 @@
+{
+  "ventana": {
+    "anio_test": 2025,
+    "origen": "2024-12",
+    "fin_train": "2023-12",
+    "val_inicio": "2024-01",
+    "val_fin": "2024-12",
+    "test_inicio": "2025-01",
+    "test_fin": "2025-12",
+    "en_ranking": true,
+    "en_sensibilidad_2023_2025": true
+  },
+  "cultivares": {
+    "sutil": {
+      "pesos": {
+        "n_nuevo": 106,
+        "n_oficial": 106,
+        "n_emparejadas": 106,
+        "max_abs_dif": 0.0,
+        "max_abs_dif_en_memoria_antes_de_csv": 9.93129189996722e-17,
+        "identico_bit_a_bit": true
+      },
+      "maestro": {
+        "columnas_iguales": true,
+        "filas_iguales": true,
+        "max_abs_dif": 0.0,
+        "identico_bit_a_bit": true
+      },
+      "features": {
+        "columnas_iguales": true,
+        "filas_iguales": true,
+        "max_abs_dif": 0.0,
+        "identico_bit_a_bit": true
+      },
+      "scaler_v2c": {
+        "columnas_iguales": true,
+        "n_samples_seen": [
+          90,
+          90
+        ],
+        "fechas_ajuste": [
+          "2016-07",
+          "2023-12"
+        ],
+        "max_abs_dif_mean": 0.0,
+        "max_abs_dif_scale": 0.0,
+        "identico_bit_a_bit": true
+      },
+      "escalado": {
+        "columnas_iguales": true,
+        "filas_iguales": true,
+        "max_abs_dif": 0.0,
+        "identico_bit_a_bit": true
+      },
+      "secuencias_GC3": {
+        "train": {
+          "n": [
+            84,
+            84
+          ],
+          "X_a_identico": true,
+          "X_b_identico": true,
+          "y_identico": true,
+          "fechas_identicas": true
+        },
+        "val": {
+          "n": [
+            12,
+            12
+          ],
+          "X_a_identico": true,
+          "X_b_identico": true,
+          "y_identico": true,
+          "fechas_identicas": true
+        },
+        "test": {
+          "n": [
+            12,
+            12
+          ],
+          "X_a_identico": true,
+          "X_b_identico": true,
+          "y_identico": true,
+          "fechas_identicas": true
+        }
+      },
+      "secuencias_GE": {
+        "train": {
+          "n": [
+            84,
+            84
+          ],
+          "X_a_identico": true,
+          "X_b_identico": true,
+          "y_identico": true,
+          "fechas_identicas": true
+        },
+        "val": {
+          "n": [
+            12,
+            12
+          ],
+          "X_a_identico": true,
+          "X_b_identico": true,
+          "y_identico": true,
+          "fechas_identicas": true
+        },
+        "test": {
+          "n": [
+            12,
+            12
+          ],
+          "X_a_identico": true,
+          "X_b_identico": true,
+          "y_identico": true,
+          "fechas_identicas": true
+        }
+      },
+      "tabular_XGB37": {
+        "train": {
+          "n": [
+            89,
+            89
+          ],
+          "X_identico": true,
+          "y_identico": true
+        },
+        "val": {
+          "n": [
+            12,
+            12
+          ],
+          "X_identico": true,
+          "y_identico": true
+        }
+      },
+      "OK": true
+    },
+    "dulce": {
+      "pesos": {
+        "n_nuevo": 28,
+        "n_oficial": 28,
+        "n_emparejadas": 28,
+        "max_abs_dif": 0.0,
+        "max_abs_dif_en_memoria_antes_de_csv": 9.020562075079397e-17,
+        "identico_bit_a_bit": true
+      },
+      "maestro": {
+        "columnas_iguales": true,
+        "filas_iguales": true,
+        "max_abs_dif": 0.0,
+        "identico_bit_a_bit": true
+      },
+      "features": {
+        "columnas_iguales": true,
+        "filas_iguales": true,
+        "max_abs_dif": 0.0,
+        "identico_bit_a_bit": true
+      },
+      "scaler_v2c": {
+        "columnas_iguales": true,
+        "n_samples_seen": [
+          90,
+          90
+        ],
+        "fechas_ajuste": [
+          "2016-07",
+          "2023-12"
+        ],
+        "max_abs_dif_mean": 0.0,
+        "max_abs_dif_scale": 0.0,
+        "identico_bit_a_bit": true
+      },
+      "escalado": {
+        "columnas_iguales": true,
+        "filas_iguales": true,
+        "max_abs_dif": 0.0,
+        "identico_bit_a_bit": true
+      },
+      "secuencias_GC3": {
+        "train": {
+          "n": [
+            84,
+            84
+          ],
+          "X_a_identico": true,
+          "X_b_identico": true,
+          "y_identico": true,
+          "fechas_identicas": true
+        },
+        "val": {
+          "n": [
+            12,
+            12
+          ],
+          "X_a_identico": true,
+          "X_b_identico": true,
+          "y_identico": true,
+          "fechas_identicas": true
+        },
+        "test": {
+          "n": [
+            12,
+            12
+          ],
+          "X_a_identico": true,
+          "X_b_identico": true,
+          "y_identico": true,
+          "fechas_identicas": true
+        }
+      },
+      "secuencias_GE": {
+        "train": {
+          "n": [
+            84,
+            84
+          ],
+          "X_a_identico": true,
+          "X_b_identico": true,
+          "y_identico": true,
+          "fechas_identicas": true
+        },
+        "val": {
+          "n": [
+            12,
+            12
+          ],
+          "X_a_identico": true,
+          "X_b_identico": true,
+          "y_identico": true,
+          "fechas_identicas": true
+        },
+        "test": {
+          "n": [
+            12,
+            12
+          ],
+          "X_a_identico": true,
+          "X_b_identico": true,
+          "y_identico": true,
+          "fechas_identicas": true
+        }
+      },
+      "tabular_XGB37": {
+        "train": {
+          "n": [
+            89,
+            89
+          ],
+          "X_identico": true,
+          "y_identico": true
+        },
+        "val": {
+          "n": [
+            12,
+            12
+          ],
+          "X_identico": true,
+          "y_identico": true
+        }
+      },
+      "OK": true
+    }
+  },
+  "OK": true
+}

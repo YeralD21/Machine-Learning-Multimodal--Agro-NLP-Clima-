@@ -1,0 +1,59 @@
+{
+  "sarima_congelado_segundos": {
+    "por_ventana": {
+      "sutil/2021": 0.10871250000127475,
+      "sutil/2022": 0.12348910000218893,
+      "sutil/2023": 0.18960879999940516,
+      "sutil/2024": 0.164991599998757,
+      "sutil/2025": 0.18857220000063535,
+      "dulce/2021": 0.07457250000152271,
+      "dulce/2022": 0.07528290000118432,
+      "dulce/2023": 0.08070029999726103,
+      "dulce/2024": 0.0839455999994243,
+      "dulce/2025": 0.07360229999903822
+    },
+    "total_10": 1.1634778000006918
+  },
+  "sarima_rejilla_DA9": {
+    "muestra": {
+      "sutil/2021": {
+        "n_muestra": 24,
+        "media_s": 0.04128742499976094,
+        "estimado_576_s": 23.7815567998623
+      },
+      "sutil/2025": {
+        "n_muestra": 24,
+        "media_s": 0.0720016499999474,
+        "estimado_576_s": 41.472950399969704
+      },
+      "dulce/2021": {
+        "n_muestra": 24,
+        "media_s": 0.1694017541667563,
+        "estimado_576_s": 97.57541040005162
+      },
+      "dulce/2025": {
+        "n_muestra": 24,
+        "media_s": 0.329852545833243,
+        "estimado_576_s": 189.99506639994797
+      }
+    },
+    "estimado_por_ventana_cultivar_s": 88.2062459999579,
+    "estimado_10_ventana_cultivar_min": 14.701040999992983
+  },
+  "lineales_segundos_por_ajuste": {
+    "ridge/sutil": 0.0004020200000013574,
+    "elasticnet/sutil": 0.000927245000093535,
+    "ridge/dulce": 0.00040565500003140185,
+    "elasticnet/dulce": 0.00040341000003536466
+  },
+  "xgb37_segundos_por_ajuste": {
+    "sutil": 0.061803833332911985,
+    "dulce": 0.03080490000017259
+  },
+  "bootstrap": {
+    "segundos_por_llamada_60_meses_11_modelos": 0.774262800001452,
+    "segundos_por_llamada_15_meses": 0.7669754000016837,
+    "llamadas_estimadas_fase_D": 684,
+    "estimado_fase_D_min": 8.826595920016553
+  }
+}

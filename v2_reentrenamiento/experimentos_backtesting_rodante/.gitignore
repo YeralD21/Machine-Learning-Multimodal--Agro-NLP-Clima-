@@ -1,0 +1,10 @@
+# Pesos y artefactos binarios de modelos (regenerables con 02_scripts/run_all.py)
+04_modelos/**/*.keras
+04_modelos/**/*.h5
+04_modelos/**/*.joblib
+04_modelos/**/*.pkl
+04_modelos/**/*.ubj
+04_modelos/**/model.xgboost.json
+
+# Checkpoints de la mini corrida de la Fase B
+10_logs/verificaciones/fase_b/04_modelos_prueba/**/*.keras

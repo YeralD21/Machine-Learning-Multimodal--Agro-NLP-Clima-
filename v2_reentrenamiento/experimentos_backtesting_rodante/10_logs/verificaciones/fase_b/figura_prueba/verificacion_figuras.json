@@ -1,0 +1,32 @@
+{
+  "sutil": {
+    "archivos": {
+      "png": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\experimentos_backtesting_rodante\\10_logs\\verificaciones\\fase_b\\figura_prueba\\figB01_pipeline_test_real_vs_pred_2025_sutil.png",
+      "pdf": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\experimentos_backtesting_rodante\\10_logs\\verificaciones\\fase_b\\figura_prueba\\figB01_pipeline_test_real_vs_pred_2025_sutil.pdf",
+      "csv": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\experimentos_backtesting_rodante\\10_logs\\verificaciones\\fase_b\\figura_prueba\\figB01_pipeline_test_real_vs_pred_2025_sutil.csv",
+      "txt": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\experimentos_backtesting_rodante\\10_logs\\verificaciones\\fase_b\\figura_prueba\\figB01_pipeline_test_real_vs_pred_2025_sutil.txt"
+    },
+    "existen": true,
+    "dpi_png": [
+      300,
+      300
+    ],
+    "csv_filas": 12,
+    "pdf_bytes": 12879
+  },
+  "dulce": {
+    "archivos": {
+      "png": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\experimentos_backtesting_rodante\\10_logs\\verificaciones\\fase_b\\figura_prueba\\figB01_pipeline_test_real_vs_pred_2025_dulce.png",
+      "pdf": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\experimentos_backtesting_rodante\\10_logs\\verificaciones\\fase_b\\figura_prueba\\figB01_pipeline_test_real_vs_pred_2025_dulce.pdf",
+      "csv": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\experimentos_backtesting_rodante\\10_logs\\verificaciones\\fase_b\\figura_prueba\\figB01_pipeline_test_real_vs_pred_2025_dulce.csv",
+      "txt": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\v2_reentrenamiento\\experimentos_backtesting_rodante\\10_logs\\verificaciones\\fase_b\\figura_prueba\\figB01_pipeline_test_real_vs_pred_2025_dulce.txt"
+    },
+    "existen": true,
+    "dpi_png": [
+      300,
+      300
+    ],
+    "csv_filas": 12,
+    "pdf_bytes": 12839
+  }
+}

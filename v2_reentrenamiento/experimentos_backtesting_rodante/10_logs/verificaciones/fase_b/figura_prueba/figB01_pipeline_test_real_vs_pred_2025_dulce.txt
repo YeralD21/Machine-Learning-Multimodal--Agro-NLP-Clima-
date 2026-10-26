@@ -1,0 +1,3 @@
+Caption (suggested): PIPELINE TEST ONLY. Observed vs one-step forecasts, dulce lime, 2025; grey = P75 shock months (history to origin).
+
+Reading: Pipeline check: SARIMA and GC3 seed 0 reproduce the official v2 forecasts. Not a result figure.

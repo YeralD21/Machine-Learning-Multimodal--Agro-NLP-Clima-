@@ -1,0 +1,46 @@
+{
+  "SARIMA/sutil": {
+    "max_abs_dif_vs_oficial": 7.275957614183426e-12,
+    "MAE_nuevo": 3985.016474092458,
+    "segundos": 0.8375024000015401,
+    "n_train": 90,
+    "train_inicio": "2016-07",
+    "train_fin": "2023-12",
+    "convergio": true,
+    "aic_train": 1886.51515085883,
+    "parametros_invariantes": true,
+    "avisos": []
+  },
+  "GC3/sutil/seed0": {
+    "max_abs_dif_pred_vs_oficial_t": 0.00047931173685356043,
+    "max_abs_dif_ytrue_vs_oficial_t": 0.0,
+    "MAE_nuevo": 7988.51110318656,
+    "MAE_oficial": 7988.511128150713,
+    "segundos_subproceso": 14.657711100000597,
+    "fit_seconds": 9.013478900000337,
+    "mejor_epoca": 70,
+    "epocas_corridas": 85
+  },
+  "SARIMA/dulce": {
+    "max_abs_dif_vs_oficial": 5.684341886080802e-14,
+    "MAE_nuevo": 21.766758544268686,
+    "segundos": 0.08771110000088811,
+    "n_train": 90,
+    "train_inicio": "2016-07",
+    "train_fin": "2023-12",
+    "convergio": true,
+    "aic_train": 911.1554231416078,
+    "parametros_invariantes": true,
+    "avisos": []
+  },
+  "GC3/dulce/seed0": {
+    "max_abs_dif_pred_vs_oficial_t": 1.7190375473319364e-05,
+    "max_abs_dif_ytrue_vs_oficial_t": 0.0,
+    "MAE_nuevo": 103.59982977845725,
+    "MAE_oficial": 103.59982861452558,
+    "segundos_subproceso": 9.949831599999015,
+    "fit_seconds": 4.2665357000005315,
+    "mejor_epoca": 14,
+    "epocas_corridas": 29
+  }
+}
