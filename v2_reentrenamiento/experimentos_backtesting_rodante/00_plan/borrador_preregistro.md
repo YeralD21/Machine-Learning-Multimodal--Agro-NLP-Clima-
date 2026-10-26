@@ -1,12 +1,12 @@
-# BORRADOR FINAL — Entrada para DECISIONES_METODOLOGICAS.md
+# PRERREGISTRO APROBADO — copia de la entrada en DECISIONES_METODOLOGICAS.md
 
-> Pendiente de aprobación. Al aprobarse se copia literalmente (desde "## 2026-10-XX…") al final de
-> `v2_reentrenamiento/DECISIONES_METODOLOGICAS.md`, con la fecha real, y solo entonces se lanza la Fase C.
-> Incorpora DA1–DA10, con DA4 revisada.
+> Aprobado por el usuario el 2026-10-25 con correcciones (P0, D-BR7, D-BR8). Copiado literalmente
+> (desde "## 2026-10-25 …") al final de `v2_reentrenamiento/DECISIONES_METODOLOGICAS.md`.
+> Incorpora DA1–DA10, con DA4 revisada. La Fase C no se ha lanzado.
 
 ---
 
-## 2026-10-XX - D-BR1..D-BR12: preregistro del backtesting rodante v2
+## 2026-10-25 - D-BR1..D-BR12: preregistro del backtesting rodante v2
 
 **Estado:** PRERREGISTRADO antes de cualquier entrenamiento o evaluación del backtesting (Fase C).
 **Carpeta:** `v2_reentrenamiento/experimentos_backtesting_rodante/` (plan en `00_plan/`, configuración en `01_configuracion/`).
@@ -83,10 +83,10 @@ Prueba automática: `02_scripts/tests/test_fuga.py`, con controles negativos.
 
 ### D-BR4 - Definición de shock
 - **Mensual:** r_t = |y_t − y_{t−1}|/y_{t−1}. **Interanual:** r_t = |y_t − y_{t−12}|/y_{t−12}.
-- Shock si r_t > P_k (comparación estricta), con P_k el percentil k (numpy, lineal) de r calculado con los cambios fechados entre el inicio de la serie y el origen (diciembre de Y−1).
+- Para k = 10..95: shock si r_t > P_k (comparación estricta), con P_k el percentil k (numpy, lineal) de r calculado con los cambios fechados entre el inicio de la serie y el origen (diciembre de Y−1).
 - **Principal:** P75 mensual. **Reporte:** P50, P60, P90 e interanual.
 - **Barrido:** P0, P10..P95 cada 5.
-- **P0:** todos los meses de test son shock (umbral 0 con comparación ≥). Verificación: Δs(P0) = 0 exacto.
+- **P0 (verificación de código, no es un umbral de análisis):** se define explícitamente como umbral = 0 con comparación **r_t ≥ 0**. Como r_t es un valor absoluto, la condición se cumple siempre, así que **todos** los meses de test son shock. Entonces MAE_shock = MAE_global y **Δs(P0) = 0 exactamente**; si no da 0, hay un error de código y la corrida se detiene. P0 **no** se calcula como el percentil 0 de la historia con comparación estricta: con r_t > mín(historia), los meses de test con un cambio menor o igual que el mínimo histórico quedarían fuera y Δs no sería 0 sin que hubiera error. Para P10..P95 se mantiene la comparación estricta r_t > P_k. La razón MAE_shock/MAE_normal no está definida en P0, porque no hay meses normales.
 - Una ventana con menos de 2 shocks en un umbral se marca "no informativa" en las métricas por ventana; sus meses de shock cuentan en el agregado.
 
 ### D-BR5 - Métricas
@@ -114,16 +114,17 @@ Todas en toneladas reales.
 ### D-BR7 - Regla de "mejor"
 - **Mejor en shocks** = menor MAE_shock agregado, evaluado por separado en cada umbral. **Mejor en meses normales** = menor MAE normal.
 - **Empate:** el IC 95 % bootstrap pareado de la diferencia de MAE entre dos modelos incluye 0. "Primero" = el de menor MAE junto con todos los que empatan con él.
-- **Robusto:** primero o empatado con el primero en ≥ 3 de los 4 umbrales mensuales (P50, P60, P75, P90). El interanual se reporta aparte.
+- **Robusto:** un modelo es robusto si queda primero, o empatado con el primero, en al menos 3 de P50, P60, P75 y P90 (variación mensual); el interanual va aparte. Se evalúa por cultivo.
 - Un Δs bajo por sí solo no es evidencia de resiliencia: se exige un MAE_shock bajo en toneladas.
 - Si el ranking cambia con el umbral, se reporta como resultado; no se elige el umbral que favorezca a un modelo.
 - **Barrido:** se reporta el percentil desde el cual el primer lugar ya no cambia y desde el cual todos los modelos empatan.
 
 ### D-BR8 - Diagnóstico de ajuste
 - **Sobreajuste:** MAE_val/MAE_train > 2.0 (toneladas; LSTM con los pesos de la mejor época; resto con el ajuste final).
+- **Señal complementaria:** la razón MAE_val/MAE_train del **Naive en la misma ventana y cultivo**. Se reporta junto a la de cada modelo como referencia del cambio de nivel y dificultad entre el train y el año de validación, que no depende de ningún ajuste.
 - **Señal aparte:** "no supera al Naive" (MAE_train ≥ MAE_train del Naive, o MAE_val ≥ MAE_val del Naive).
 - **Advertencia en los gráficos:** en Sutil la validación 2024 tiene un nivel medio mayor que el train, lo que infla la razón.
-- **Declaración:** el umbral 2.0 se fijó sabiendo que XGB-37 oficial 2025 tiene razones de ≈7.0 (Sutil) y ≈7.8 (Dulce).
+- **Declaración:** el umbral 2.0 **marcará como sobreajustados a casi todos los modelos entrenados**. La razón oficial de XGB-37 en 2025 ya es ≈7.0 en Sutil y ≈7.8 en Dulce. El umbral se fijó conociendo esos valores, y la bandera se interpreta junto a la razón del Naive, no por sí sola.
 
 ### D-BR9 - Exclusiones y no comparables
 - No se mezclan resultados de v3, v4 ni v5. Ridge, ElasticNet y Chronos se recalculan con este protocolo.
@@ -143,7 +144,7 @@ En cada ventana y cultivo:
 
 ### D-BR11 - Reproducibilidad
 - Un solo comando: `02_scripts/run_all.py`.
-- Cada script verifica el SHA-256 de `v2_reentrenamiento/src`, de los datos y de Chronos (`01_configuracion/hashes_congelados.json`) y aborta si cambian.
+- Cada script verifica la integridad (SHA-256) de `v2_reentrenamiento/src`, de los datos y de Chronos frente a `01_configuracion/hashes_congelados.json` y aborta si cambian.
 - Variables: PYTHONHASHSEED=42, TF_ENABLE_ONEDNN_OPTS=0, TF_DETERMINISTIC_OPS=1, HF_HUB_OFFLINE=1. Las versiones y el hardware van en `manifest.json`.
 - Durante la corrida se reporta el progreso por ventana. Ante cualquier fallo la corrida se detiene y no se cambia el protocolo.
 

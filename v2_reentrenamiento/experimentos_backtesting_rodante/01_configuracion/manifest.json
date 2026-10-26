@@ -1,5 +1,5 @@
 {
-  "generado_utc": "2026-10-26T03:04:44.858640+00:00",
+  "generado_utc": "2026-10-26T03:20:54.376766+00:00",
   "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
   "ejecutable": "C:\\Machine-learming\\Machine-Learning-Multimodal--Agro-NLP-Clima-\\venv\\Scripts\\python.exe",
   "librerias": {
@@ -32,7 +32,7 @@
     "TF_CPP_MIN_LOG_LEVEL": "2"
   },
   "semilla_global": 42,
-  "git_commit": "27934652756c79b47a7219ee7eaaa01b22dc0866",
+  "git_commit": "344134b0418718529c678473cddb1b6fff8cab4b",
   "carpeta_experimento": "v2_reentrenamiento/experimentos_backtesting_rodante",
   "hashes_congelados": "v2_reentrenamiento/experimentos_backtesting_rodante/01_configuracion/hashes_congelados.json",
   "hash_de_hashes_congelados": "6678d76b7b67a1080b7d73a9bd807ffbe64b75c236542098649b79e05833f922",

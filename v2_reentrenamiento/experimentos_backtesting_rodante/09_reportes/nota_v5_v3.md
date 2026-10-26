@@ -10,7 +10,9 @@ Abreviaturas:
 
 ---
 
-## Parte 1 — Fuga de validación en las LSTM (GC3 y GE) de las ventanas 2023 y 2024 de v5
+## Parte 1 — Fugas en v5
+
+### 1A. Hallazgo principal: fuga de validación en las LSTM (GC3 y GE) de las ventanas 2023 y 2024
 
 | # | Afirmación | Evidencia |
 |---|---|---|
@@ -24,6 +26,16 @@ Abreviaturas:
 | 1.8 | La ventana C (2025) no está afectada: reutiliza las predicciones oficiales v2. | R5:42-58 |
 | 1.9 | **Sustitución:** el backtesting rodante recalcula 2023 y 2024 con validación = Y−1, verificada por `experimentos_backtesting_rodante/02_scripts/tests/test_fuga.py` (punto c). | — |
 
+### 1B. Fuga leve de variables exógenas (pesos geográficos de NASA/INDECI)
+
+| # | Afirmación | Evidencia |
+|---|---|---|
+| 1.10 | v5 toma las features exógenas del dataset oficial de v2. | R5:66 |
+| 1.11 | Ese dataset agrega NASA e INDECI de provincia a escala nacional con pesos fijos = superficie media (`verde_actual_ha`) de 2016-01..2023-12. | `v2_reentrenamiento/src/features/pesos_geograficos.py:5-9, 87-95`; `v2_reentrenamiento/notebooks/fase2_features/00_pesos_geograficos.ipynb` celda 2; `02_fusion_dataset_maestro.ipynb` celda 6 |
+| 1.12 | En la ventana A (test 2023), los pesos incluyen la superficie del propio año de test. En la ventana B (test 2024) no hay fuga por esta vía, porque los pesos terminan en 2023. No afecta a la variable objetivo, que no pasa por estos pesos. | 1.10 + 1.11 |
+| 1.13 | **Magnitud medida** (solo lectura, pesos recalculados con fin 2016..2022 frente a los oficiales 2016..2023): en **Sutil**, diferencia relativa de INDECI-personas afectadas ≤ 1.4 % y temperatura (T2M) ≤ 0.03 °C; en **Dulce**, INDECI hasta **15.3 %** y T2M hasta **0.64 °C** (con pesos 2016–2017). Con pesos 2016–2022 (lo relevante para 2023): Sutil 0.4 % / 0.01 °C; Dulce 0.4 % / 0.04 °C. | Cálculo de la Fase A (`09_reportes/reporte_fase_A.md`, plan A2-f); recalculable con `experimentos_backtesting_rodante/03_ventanas/pesos_geograficos_por_ventana.csv` |
+| 1.14 | **Sustitución:** el backtesting rodante recalcula los pesos por ventana con `VentanaTrain(2016-01, diciembre de Y−2)` (D-BR3), verificado por `tests/test_fuga.py` (punto f). | — |
+
 ## Parte 2 — Diferencias de protocolo sin fuga hacia el test
 
 ### v5
@@ -35,10 +47,8 @@ Abreviaturas:
 | 2.3 | XGB-37 se ajusta con los objetivos hasta el origen y con un StandardScaler ajustado hasta el origen. El oficial ajusta scaler y modelo solo con train. | R5:118-129; `v2_reentrenamiento/src/features/escalado.py:26, 55-63` |
 | 2.4 | En la ventana C, los modelos deterministas y regularizados se reajustan con todos los datos anteriores a 2025. | R5:67-68 (comentario) |
 | 2.5 | Δs se calcula como MAE_normal − MAE_shock, en toneladas y con el signo invertido respecto a la definición oficial v2 ((MAE_shock − MAE_global)/MAE_global × 100). | R5:215; `v2_reentrenamiento/DECISIONES_METODOLOGICAS.md:820-824` |
-| 2.6 | Las features exógenas vienen del dataset oficial, cuyos pesos geográficos NASA/INDECI se calcularon con 2016-01..2023-12. Para la ventana A (test 2023) eso incluye información del año de test en los pesos, aunque no el valor objetivo. | R5:66; `v2_reentrenamiento/notebooks/fase2_features/00_pesos_geograficos.ipynb` celda 2; `v2_reentrenamiento/src/features/pesos_geograficos.py:5-9` |
+| 2.6 | (Los pesos geográficos se trasladaron a la Parte 1B.) | — |
 | 2.7 | El umbral de shock se calcula con la historia hasta el origen (coincide con el backtesting rodante). | R5:186-187 |
-
-*Nota sobre 2.6:* técnicamente es una fuga de información del año de test hacia las exógenas, pequeña (en Sutil ≤1.4 %; en Dulce mayor en ventanas tempranas). Se clasifica en esta parte porque no afecta a la selección del modelo ni a la variable objetivo. Si prefieres clasificarla como fuga, se mueve a la Parte 1.
 
 ### v3
 
@@ -53,4 +63,4 @@ Abreviaturas:
 
 ## Resumen
 
-v5 contiene una fuga real de validación hacia el test en GC3/GE (ventanas 2023 y 2024). Sus demás diferencias, y todas las de v3, son de protocolo: cambian la cantidad de datos de estimación o la definición de Δs, pero no usan el test para entrenar ni para elegir. Ningún resultado de v5 (A y B) ni de Ridge/ElasticNet de v3 se mezcla con el backtesting rodante.
+v5 contiene una fuga real de validación hacia el test en GC3/GE (ventanas 2023 y 2024), que es el hallazgo principal, y una fuga leve de variables exógenas por los pesos geográficos (despreciable en Sutil; hasta 15 % en INDECI-Dulce para ventanas tempranas). Sus demás diferencias, y todas las de v3, son de protocolo: cambian la cantidad de datos de estimación o la definición de Δs, pero no usan el test para entrenar ni para elegir. Ningún resultado de v5 (A y B) ni de Ridge/ElasticNet de v3 se mezcla con el backtesting rodante.
