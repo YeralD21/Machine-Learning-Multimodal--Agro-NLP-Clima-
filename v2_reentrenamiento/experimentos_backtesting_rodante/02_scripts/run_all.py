@@ -47,6 +47,10 @@ ETAPAS = {
         ("09_barrido_umbral.py", []),
         ("09b_reporte_fase_D1.py", []),
     ],
+    # Fase D2: figuras MDPI solo desde CSV guardados (Fases C y D1)
+    "D2": [
+        ("10_figuras.py", []),
+    ],
 }
 
 

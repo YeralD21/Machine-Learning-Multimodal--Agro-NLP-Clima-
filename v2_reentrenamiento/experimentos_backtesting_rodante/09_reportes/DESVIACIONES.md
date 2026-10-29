@@ -96,3 +96,21 @@ Tipos: **implementación** (no cambia qué se estima ni cómo se evalúa) o **pr
 - **Qué se calcula:** Holm (`statsmodels.stats.multitest.multipletests`, `method="holm"`) sobre los p-valores DM-HLN de cada familia = conjunto (2021–2025 o 2023–2025) × cultivo × alcance (global o solo shocks P75 mensual). Cada familia tiene 45 pares (10 modelos); se excluyen los pares sin p-valor (no hubo ninguno).
 - **Salida:** columna `p_holm_exploratorio` en `06_metricas/significancia/T09_diebold_mariano_hln.csv`; matrices `T09_DM_holm_matriz_*`; resumen `T09_holm_resumen` (pares con p < 0,05 antes y después). Los p-valores sin ajustar no cambian.
 - **Model Confidence Set:** sigue sin calcularse, por decisión del autor.
+
+---
+
+## DESV-08 — Implementación de las figuras de la Fase D2 frente a `00_plan/mapa_evidencia.md`
+
+- **Fecha:** 2026-10-28. **Tipo:** implementación (presentación). Ninguna cifra cambia: todas las figuras se dibujan desde CSV ya guardados.
+- **Estado:** pendiente de aprobación del autor.
+
+1. **fig01 (curvas de pérdida):** el mapa decía "media ± banda entre semillas". Se dibuja **una línea por semilla** (y su mejor época), porque las semillas paran en épocas distintas y una media por época sería una cifra nueva que no está en ningún CSV.
+2. **fig20:** los modelos con semilla se muestran con una línea por semilla, no con la media de predicciones (el protocolo no usa ensambles, A3).
+3. **fig11:** IC marginales de MAE_shock solo en P50, P60, P75 y P90. Para los demás percentiles no hay IC por modelo guardados (el barrido guarda solo el IC de la diferencia con el mejor).
+4. **fig21:** la escala de color logarítmica empieza en el percentil 2 de los errores de cada cultivo; los errores menores se pintan con el color mínimo (`extend="min"`). Es solo escala de color; el CSV conserva los valores.
+5. **fig02:** la razón del Naive dibujada es la de los meses de los modelos tabulares; en los meses de las LSTM (desde 2017-01) difiere como máximo en 0,030 (Sutil) y 0,015 (Dulce). Se indica en el pie.
+6. **No generadas** (fuera de la especificación de la Fase D2): fig22 y fig23 (residuos) y fig24–fig28 (figuras independientes). fig18 y fig19 se generaron después, a pedido del autor (puntos 9 y 10).
+7. **XGB-43** (exploratorio) no se incluye en ninguna figura.
+8. **Leyendas** fuera del área de datos, lo que corrige lo señalado en la figura de prueba de la Fase B.
+9. **fig18 (ablación GE − GC3):** desde `06_metricas/ablacion_nlp/T11_ablacion_GE_menos_GC3.csv`. Muestra las 10 diferencias por semilla emparejada (puntos) y la media con su IC bootstrap pareado guardado (rombo), por ventana y agregado (2021–2025 y 2023–2025), en tres paneles: todos los meses, shocks P75 y meses normales. "n/a" donde no hay meses de shock (Sutil 2021 y 2024).
+10. **fig19 (matriz Diebold-Mariano-HLN):** desde `06_metricas/significancia/T09_diebold_mariano_hln.csv`, solo con el conjunto principal 2021–2025 (la sensibilidad 2023–2025 queda en la tabla). Bajo la diagonal: todos los meses; sobre la diagonal: solo shocks P75. Color por tramos de p (< 0,01; < 0,05; < 0,10; ≥ 0,10) y signo "+" si el modelo de la fila tiene más error. **La versión con Holm (exploratoria, DESV-07) va en un archivo aparte**, `fig19b_dm_pvalue_matrix_holm_{cultivo}`, marcada como EXPLORATORY en la leyenda y el pie. Así fig19 tiene dos archivos por cultivo.

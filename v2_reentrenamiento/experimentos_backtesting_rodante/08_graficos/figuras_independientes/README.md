@@ -1,1 +1,1 @@
-Figuras que no dependen del backtesting (series con shocks, arquitectura, SHAP, trayectorias de test).
+Figuras que no dependen del backtesting (fig24–fig28 del mapa de evidencia: series con shocks, arquitectura, SHAP y trayectorias de test). No generadas: no forman parte de la especificación de la Fase D2.
