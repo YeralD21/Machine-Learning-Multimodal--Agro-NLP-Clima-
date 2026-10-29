@@ -1850,3 +1850,15 @@ En cada ventana y cultivo:
 
 ### D-BR12 - Desviaciones
 Cualquier cambio posterior a este preregistro se registra en `experimentos_backtesting_rodante/09_reportes/DESVIACIONES.md`; este texto no se reescribe.
+
+---
+
+## 2026-10-28 - Enmienda E-BR1 a D-BR7 del preregistro D-BR1..D-BR12
+
+**Estado:** enmienda al preregistro D-BR1..D-BR12 (commit `db32108`), escrita antes de ejecutar la Fase C. El texto original de D-BR7 no se reescribe; esta enmienda prevalece sobre él.
+**Registro:** `experimentos_backtesting_rodante/09_reportes/DESVIACIONES.md`, DESV-02.
+
+- **Se anula** solo la cláusula "se exige un MAE_shock bajo en toneladas" de D-BR7 (frase "Un Δs bajo por sí solo no es evidencia de resiliencia: se exige un MAE_shock bajo en toneladas.").
+- **Se conserva:** "Un Δs bajo por sí solo no es evidencia de resiliencia."
+- **Robusto** queda definido solo así: un modelo es robusto si queda primero, o empatado con el primero, en al menos 3 de P50, P60, P75 y P90 (variación mensual); el interanual va aparte; se evalúa por cultivo. No se agrega ningún otro requisito.
+- El resto de D-BR7 (mejor en shocks, mejor en meses normales, empate, "primero", ranking por umbral y barrido) no cambia.

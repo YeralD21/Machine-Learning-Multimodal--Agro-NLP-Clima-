@@ -3,7 +3,7 @@
 Paso 1 (validar el pipeline): protocolo v3 = rejilla alpha x l1 (config_robustez.json), seleccion por MAE en VAL 2024,
         reajuste con train+val y nuevo estandarizador, test 2025. Con sklearn y con el port exacto de v3.
         Se compara con lo registrado (Sutil 3117.64, Dulce 39.70) y con los coeficientes de v3.
-Paso 2 (version nueva, DA4): alpha/l1 congelados de v3, ajuste final solo con TRAIN, test 2025.
+Paso 2 (version nueva, DA4): alpha/l1 de v3 (control_2025_v3; DESV-03), ajuste final solo con TRAIN, test 2025.
 Salidas: 06_metricas/reproducibilidad/elasticnet_*.csv/.json
 """
 import sys
@@ -82,7 +82,7 @@ def main() -> None:
             filas_pred += [{"cultivar": c, "version": nombre, "fecha": f, "y_true": yt, "y_pred": yp}
                            for f, yt, yp in zip(meses, parts["test"].y, m["pred_test"])]
         # Paso 2: version nueva (DA4): hiperparametros congelados, ajuste final solo con TRAIN
-        hp = HP["elasticnet"][c]
+        hp = HP["elasticnet"]["control_2025_v3"][c]  # DESV-03: clave tras la revision de DA4
         t0 = time.perf_counter()
         sc = EstandarizadorV3().ajustar(parts["train"].X)
         b, w = elasticnet_sklearn(sc.transformar(parts["train"].X), parts["train"].y, hp["alpha"], hp["l1_ratio"])

@@ -13,7 +13,7 @@
       "MAE_test": 3117.637724068223,
       "dif_MAE_vs_registrado": 8.214324225264136e-07,
       "max_abs_dif_coef_train_vs_v3": 3.4145703011745354e-06,
-      "segundos_rejilla_completa": 0.0292105000007723,
+      "segundos_rejilla_completa": 0.03248450000137382,
       "MAE_shock": 7486.100885675366,
       "Delta_s": 140.12093604983426
     },
@@ -24,7 +24,7 @@
       "MAE_test": 3117.63772324679,
       "dif_MAE_vs_registrado": -9.094947017729282e-13,
       "max_abs_dif_coef_train_vs_v3": 3.637978807091713e-12,
-      "segundos_rejilla_completa": 2.7909050000016578,
+      "segundos_rejilla_completa": 2.7663307999991957,
       "MAE_shock": 7486.100887127924,
       "Delta_s": 140.12093615969277
     },
@@ -34,7 +34,7 @@
       "MAE_test": 3222.8889981231678,
       "dif_MAE_vs_registrado_v3": 105.25127487637701,
       "dif_MAE_vs_sklearn_protocolo_v3": 105.25127405494459,
-      "segundos_un_ajuste": 0.0011638000032689888,
+      "segundos_un_ajuste": 0.0011068000003433554,
       "mascara_P75_hasta_origen": [
         "2025-01",
         "2025-07",
@@ -59,7 +59,7 @@
       "MAE_test": 39.69622262291089,
       "dif_MAE_vs_registrado": -4.5847770024920464e-09,
       "max_abs_dif_coef_train_vs_v3": 1.5210726900249938e-08,
-      "segundos_rejilla_completa": 0.01654700000290177,
+      "segundos_rejilla_completa": 0.01718299999993178,
       "MAE_shock": 68.51035249757386,
       "Delta_s": 72.5865786988829
     },
@@ -70,7 +70,7 @@
       "MAE_test": 39.696222627495644,
       "dif_MAE_vs_registrado": -2.1316282072803006e-14,
       "max_abs_dif_coef_train_vs_v3": 5.684341886080802e-14,
-      "segundos_rejilla_completa": 1.1902822000010929,
+      "segundos_rejilla_completa": 1.2025542000010319,
       "MAE_shock": 68.51035249662776,
       "Delta_s": 72.58657867656649
     },
@@ -80,7 +80,7 @@
       "MAE_test": 49.345650366389926,
       "dif_MAE_vs_registrado_v3": 9.64942773889426,
       "dif_MAE_vs_sklearn_protocolo_v3": 9.649427743479038,
-      "segundos_un_ajuste": 0.0006480999982159119,
+      "segundos_un_ajuste": 0.0006668999994872138,
       "mascara_P75_hasta_origen": [
         "2025-01",
         "2025-02",

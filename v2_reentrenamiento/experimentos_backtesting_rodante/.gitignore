@@ -8,3 +8,11 @@
 
 # Checkpoints de la mini corrida de la Fase B
 10_logs/verificaciones/fase_b/04_modelos_prueba/**/*.keras
+
+# Biblioteca del experimento: la regla lib/ de la raiz (linea 8, para entornos virtuales) la excluia
+!lib/
+
+# Pesos de las pruebas de reanudacion de la Fase C (regenerables con 02_scripts/tests/test_reanudacion.py)
+10_logs/verificaciones/fase_c_prueba/**/*.keras
+10_logs/verificaciones/fase_c_prueba/**/*.ubj
+10_logs/verificaciones/fase_c_prueba/reanudacion/c0*/

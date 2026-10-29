@@ -4,7 +4,7 @@
 
 Cada etapa corre en su propio proceso con PYTHONHASHSEED=42, TF_ENABLE_ONEDNN_OPTS=0, TF_DETERMINISTIC_OPS=1 y
 HF_HUB_OFFLINE=1. Si una etapa falla, se detiene todo (no se cambia el protocolo).
-Fases C y D se agregaran tras su aprobacion.
+Fase C: --fase C (requiere aprobacion). Fase D se agregara tras su aprobacion.
 """
 import os
 import subprocess
@@ -28,6 +28,17 @@ ETAPAS = {
         ("tests/test_p0.py", []),
         ("verificaciones_fase_b/b04_medir_tiempos.py", []),
         ("verificaciones_fase_b/b05_figura_prueba.py", []),
+    ],
+    # Fase C: cada etapa es reanudable (lib/reanudacion.py). Si se corta, volver a lanzar el mismo comando:
+    # las unidades con completado.json valido se saltan. Log de progreso: 10_logs/ejecucion/faseC_<etapa>.log
+    "C": [
+        ("00_verificar_entorno.py", ["--fase", "C"]),  # manifest con HEAD y git status --porcelain
+        ("01_construir_ventanas.py", []),
+        ("03_modelos_sin_ajuste.py", []),
+        ("04_sarima.py", []),
+        ("05_lineales.py", []),
+        ("06_xgb.py", []),
+        ("07_lstm.py", ["--todas"]),
     ],
 }
 

@@ -1,0 +1,213 @@
+{
+  "03": {
+    "etapa": "03_modelos_sin_ajuste",
+    "script": "03_modelos_sin_ajuste.py",
+    "args": [
+      "--anios",
+      "2021"
+    ],
+    "OK": true,
+    "corrida_1_interrumpida": {
+      "codigo": 3,
+      "modo": "--interrumpir-en 3",
+      "tmp_tras_corte": [
+        "04_modelos/chronos_bolt_tiny/sutil/2021.tmp"
+      ],
+      "completas_tras_corte": 2
+    },
+    "corrida_2_reanudada": {
+      "codigo": 0,
+      "tmp": [],
+      "completas": 6,
+      "saltadas_en_reanudacion": 2,
+      "nuevas_en_reanudacion": 4
+    },
+    "corrida_3_repetida": {
+      "codigo": 0,
+      "nuevas": 0,
+      "saltadas": 6
+    },
+    "corrida_limpia": {
+      "codigo": 0,
+      "completas": 6
+    },
+    "csv_comparados": 6,
+    "csv_distintos": [],
+    "segundos": 17.4,
+    "log": "10_logs/verificaciones/fase_c_prueba/reanudacion/c03/int/10_logs/ejecucion/faseC_03_modelos_sin_ajuste.log"
+  },
+  "04": {
+    "etapa": "04_sarima",
+    "script": "04_sarima.py",
+    "args": [
+      "--anios",
+      "2021"
+    ],
+    "OK": true,
+    "corrida_1_interrumpida": {
+      "matado": true,
+      "taskkill": [
+        "CORRECTO: el proceso con PID 17276 (proceso secundario de PID 6904)",
+        "ha sido terminado.",
+        "CORRECTO: el proceso con PID 6904 (proceso secundario de PID 18648)",
+        "ha sido terminado."
+      ],
+      "codigo": 1,
+      "modo": "taskkill tras 1 OK + 15 s",
+      "tmp_tras_corte": [
+        "04_modelos/sarima_sel/sutil/2021.tmp"
+      ],
+      "completas_tras_corte": 1
+    },
+    "corrida_2_reanudada": {
+      "codigo": 0,
+      "tmp": [],
+      "completas": 4,
+      "saltadas_en_reanudacion": 1,
+      "nuevas_en_reanudacion": 3
+    },
+    "corrida_3_repetida": {
+      "codigo": 0,
+      "nuevas": 0,
+      "saltadas": 4
+    },
+    "corrida_limpia": {
+      "codigo": 0,
+      "completas": 4
+    },
+    "csv_comparados": 8,
+    "csv_distintos": [],
+    "segundos": 612.1,
+    "log": "10_logs/verificaciones/fase_c_prueba/reanudacion/c04/int/10_logs/ejecucion/faseC_04_sarima.log"
+  },
+  "05": {
+    "etapa": "05_lineales",
+    "script": "05_lineales.py",
+    "args": [
+      "--anios",
+      "2021"
+    ],
+    "OK": true,
+    "corrida_1_interrumpida": {
+      "codigo": 3,
+      "modo": "--interrumpir-en 2",
+      "tmp_tras_corte": [
+        "04_modelos/elasticnet/sutil/2021.tmp"
+      ],
+      "completas_tras_corte": 1
+    },
+    "corrida_2_reanudada": {
+      "codigo": 0,
+      "tmp": [],
+      "completas": 4,
+      "saltadas_en_reanudacion": 1,
+      "nuevas_en_reanudacion": 3
+    },
+    "corrida_3_repetida": {
+      "codigo": 0,
+      "nuevas": 0,
+      "saltadas": 4
+    },
+    "corrida_limpia": {
+      "codigo": 0,
+      "completas": 4
+    },
+    "csv_comparados": 8,
+    "csv_distintos": [],
+    "segundos": 17.7,
+    "log": "10_logs/verificaciones/fase_c_prueba/reanudacion/c05/int/10_logs/ejecucion/faseC_05_lineales.log"
+  },
+  "06": {
+    "etapa": "06_xgb",
+    "script": "06_xgb.py",
+    "args": [
+      "--anios",
+      "2021",
+      "--semillas",
+      "0",
+      "1",
+      "2"
+    ],
+    "OK": true,
+    "corrida_1_interrumpida": {
+      "codigo": 3,
+      "modo": "--interrumpir-en 5",
+      "tmp_tras_corte": [
+        "04_modelos/exploratorios/xgb43/sutil/2021/seed_01.tmp"
+      ],
+      "completas_tras_corte": 4
+    },
+    "corrida_2_reanudada": {
+      "codigo": 0,
+      "tmp": [],
+      "completas": 12,
+      "saltadas_en_reanudacion": 4,
+      "nuevas_en_reanudacion": 8
+    },
+    "corrida_3_repetida": {
+      "codigo": 0,
+      "nuevas": 0,
+      "saltadas": 12
+    },
+    "corrida_limpia": {
+      "codigo": 0,
+      "completas": 12
+    },
+    "csv_comparados": 12,
+    "csv_distintos": [],
+    "segundos": 17.9,
+    "log": "10_logs/verificaciones/fase_c_prueba/reanudacion/c06/int/10_logs/ejecucion/faseC_06_xgb.log"
+  },
+  "07": {
+    "etapa": "07_lstm",
+    "script": "07_lstm.py",
+    "args": [
+      "--todas",
+      "--anios",
+      "2021",
+      "--semillas",
+      "0",
+      "1"
+    ],
+    "OK": true,
+    "corrida_1_interrumpida": {
+      "matado": true,
+      "taskkill": [
+        "CORRECTO: el proceso con PID 29148 (proceso secundario de PID 17048)",
+        "ha sido terminado.",
+        "CORRECTO: el proceso con PID 17048 (proceso secundario de PID 5912)",
+        "ha sido terminado.",
+        "CORRECTO: el proceso con PID 5912 (proceso secundario de PID 22660)",
+        "ha sido terminado.",
+        "CORRECTO: el proceso con PID 22660 (proceso secundario de PID 18648)",
+        "ha sido terminado."
+      ],
+      "codigo": 1,
+      "modo": "taskkill tras 2 OK + 4 s",
+      "tmp_tras_corte": [
+        "04_modelos/ge_lstm_con_nlp/sutil/2021/seed_00.tmp"
+      ],
+      "completas_tras_corte": 2
+    },
+    "corrida_2_reanudada": {
+      "codigo": 0,
+      "tmp": [],
+      "completas": 8,
+      "saltadas_en_reanudacion": 2,
+      "nuevas_en_reanudacion": 6
+    },
+    "corrida_3_repetida": {
+      "codigo": 0,
+      "nuevas": 0,
+      "saltadas": 8
+    },
+    "corrida_limpia": {
+      "codigo": 0,
+      "completas": 8
+    },
+    "csv_comparados": 16,
+    "csv_distintos": [],
+    "segundos": 201.8,
+    "log": "10_logs/verificaciones/fase_c_prueba/reanudacion/c07/int/10_logs/ejecucion/faseC_07_lstm.log"
+  }
+}
