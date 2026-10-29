@@ -40,6 +40,13 @@ ETAPAS = {
         ("06_xgb.py", []),
         ("07_lstm.py", ["--todas"]),
     ],
+    # Fase D1: tablas y estadistica sobre las predicciones congeladas de la Fase C (sin figuras)
+    "D1": [
+        ("tests/test_equivalencia_metricas_2025.py", []),
+        ("08_metricas.py", []),
+        ("09_barrido_umbral.py", []),
+        ("09b_reporte_fase_D1.py", []),
+    ],
 }
 
 

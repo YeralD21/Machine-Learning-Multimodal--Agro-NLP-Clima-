@@ -1,1 +1,1 @@
-Métricas bootstrap (CSV).
+Los intervalos bootstrap no se guardan aparte: están en ../agregadas/T06_agregadas_IC.csv (IC de MAE, MAE_shock y MAE normal, iid y por bloques) y en ../agregadas/T08_ranking_empates.csv (IC de la diferencia con el mejor).

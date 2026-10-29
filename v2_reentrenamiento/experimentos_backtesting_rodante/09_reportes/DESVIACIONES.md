@@ -56,3 +56,43 @@ Tipos: **implementación** (no cambia qué se estima ni cómo se evalúa) o **pr
   2. Cada uno de los 5 se reajusta en train con maxiter 500 y se calcula su MAE de validación a 1 paso sobre Y−1.
   3. Elegido: menor MAE de validación; empate → menor AIC (el de la rejilla, maxiter 200, que es el que define la posición 1-5); empate → orden de la rejilla.
   4. Se registra también el AIC con maxiter 500 de cada candidato (`candidatos.csv`), pero no se usa para elegir.
+
+---
+
+## DESV-05 — Criterio de equivalencia 2025 de la Fase D1 ajustado para Δs (decidido después de ver el resultado)
+
+- **Fecha:** 2026-10-28. **Tipo:** cambio de implementación (criterio de una prueba), **decidido después de ver el resultado**.
+- **Prueba:** `02_scripts/tests/test_equivalencia_metricas_2025.py` compara la ventana 2025 del backtesting con `resultados_v2_final` (GC3, GE y XGB-37 por semilla; SARIMA rolling).
+- **Criterio original** (fijado al escribir la prueba): diferencia relativa ≤ 1e-6 en todas las métricas. **No se cumplió** en Dulce GC3 (1,18e-6) y GE (1,43e-6), y solo en Δs (p. ej. GE semilla 4: 3,08605 % frente a 3,08605 % oficial; diferencia absoluta 4,4e-6 puntos porcentuales).
+- **Causa:** Δs es un porcentaje cercano a 0, así que la diferencia relativa se amplifica. El origen es la diferencia ya conocida desde la Fase B: las predicciones de GC3/GE difieren ≤ 5e-4 t de las oficiales por redondeo float32; los pesos entrenados son idénticos bit a bit.
+- **Criterio aplicado:** relativa ≤ 1e-6 en todas las métricas salvo Δs, y absoluta ≤ 1e-4 puntos porcentuales en Δs. Con él, los 8 casos cultivo×modelo dan OK. El veredicto con el criterio original también queda guardado (`OK_criterio_original: false` en `06_metricas/reproducibilidad/metricas_2025_vs_oficial.json`).
+
+---
+
+## DESV-06 — Decisiones de implementación de la Fase D1 no fijadas en D-BR5/D-BR7
+
+- **Fecha:** 2026-10-28. **Tipo:** implementación. Se fijaron al escribir `lib/evaluacion.py`, `08_metricas.py` y `09_barrido_umbral.py`, antes de calcular las tablas; ninguna depende de los resultados.
+- **Estado:** PENDIENTE DE APROBACIÓN del autor (texto presentado el 2026-10-28).
+
+1. **RMSE con semillas:** RMSE de cada semilla sobre los meses del conjunto, y media entre semillas. Paralelo a "MAE = media de los MAE por semilla" (A3).
+2. **Bootstrap iid:** MAE global sobre todos los meses; MAE_shock y MAE normal remuestreando solo dentro de los meses de shock o de normalidad de cada ventana (A5). Mismos índices para todos los modelos; generador nuevo con semilla 42 en cada llamada.
+3. **Bootstrap por bloques (sensibilidad):** bloques móviles circulares de 3 meses dentro de cada ventana (4 bloques = 12 meses). MAE_shock y MAE normal se calculan como cociente sobre los meses remuestreados de cada tipo; los remuestreos sin ningún mes de ese tipo se descartan y se cuentan (`bloq_shock_remuestreos_sin_shock`).
+4. **Empates y "primero":** con el IC iid de la diferencia con el mejor (principal). La columna "robusto men (bloques)" repite la regla con bloques. **Exploratorio:** D-BR5 prevé los bloques para los intervalos, no para la regla de robustez.
+5. **Diebold-Mariano-HLN:** h = 1, pérdida absoluta sobre el error promediado entre semillas, ventanas agrupadas (n = 60 por cultivo en la principal, 36 en la sensibilidad), t(n−1) bilateral. "Solo shocks" usa la máscara P75 mensual. **Sin corrección por comparaciones múltiples** (no preregistrada); se reportan los p-valores sin ajustar, con la advertencia de baja potencia. La corrección de Holm se añadió aparte como análisis exploratorio (DESV-07).
+6. **Model Confidence Set:** opcional en D-BR5; **no se calculó**.
+7. **Cuartiles y tercios de |Δy/y|:** cortes = cuantiles del cambio mensual sobre los 60 meses de test agrupados de cada cultivo (`pd.qcut`); 15 o 20 meses por grupo.
+8. **Descripción de las series:** train desde 2016-07 (inicio de features y SARIMA, D-BR1). ACF, ADF y KPSS solo si n ≥ 24 (por eso no hay valores en las ventanas 2018 y 2019). ADF con constante y retardos por AIC; KPSS con constante y `nlags="auto"`; el p de KPSS está acotado a [0,01; 0,10] por la tabla de statsmodels.
+9. **D-BR8:** el MAE de train y de validación del Naive de referencia se calcula en los mismos meses objetivo de cada modelo (tabulares desde 2016-08; LSTM desde 2017-01).
+10. **MASE:** en la ventana 2018, D_w no está definido (el train no tiene meses con y_(t−12)) y MASE queda vacío.
+11. **Δs quitando un mes:** el mes sale a la vez de los shocks y del MAE global.
+12. **Estabilización del barrido:** "primer lugar estable desde k" = menor k tal que el modelo de menor MAE_shock es el mismo en todos los percentiles ≥ k; "todos empatan desde k" = menor k tal que en todos los percentiles ≥ k todos los modelos son "primero". Con pocos shocks (P95: 1–3 meses) el resultado es degenerado y se interpreta con esa cautela.
+13. **Formato:** los CSV tienen precisión completa; las vistas en texto y LaTeX se redondean.
+
+---
+
+## DESV-07 — Corrección de Holm sobre Diebold-Mariano (EXPLORATORIO)
+
+- **Fecha:** 2026-10-28. **Tipo:** análisis adicional **exploratorio**, pedido por el autor después de ver los resultados de la Fase D1. No forma parte del preregistro (D-BR5 no prevé corrección por comparaciones múltiples) ni de la regla de "mejor" (D-BR7), que se basa en el bootstrap.
+- **Qué se calcula:** Holm (`statsmodels.stats.multitest.multipletests`, `method="holm"`) sobre los p-valores DM-HLN de cada familia = conjunto (2021–2025 o 2023–2025) × cultivo × alcance (global o solo shocks P75 mensual). Cada familia tiene 45 pares (10 modelos); se excluyen los pares sin p-valor (no hubo ninguno).
+- **Salida:** columna `p_holm_exploratorio` en `06_metricas/significancia/T09_diebold_mariano_hln.csv`; matrices `T09_DM_holm_matriz_*`; resumen `T09_holm_resumen` (pares con p < 0,05 antes y después). Los p-valores sin ajustar no cambian.
+- **Model Confidence Set:** sigue sin calcularse, por decisión del autor.
