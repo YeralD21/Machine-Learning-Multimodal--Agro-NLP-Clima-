@@ -1,0 +1,261 @@
+%  Manuscrito para Forecasting (MDPI) -- plantilla oficial mdpi.cls
+%  Estructura: main.tex + secciones/*.tex + referencias.bib + figuras/
+%  BASE EXPERIMENTAL: experimento v2 rolling-origin (2021--2025, 10 modelos).
+%  Las cifras del experimento LATINCOM / v1 y del borrador provincial estan DESCARTADAS.
+%  Todo el manuscrito va en ingles (decision 30-10-2026).
+%  listo12 (31-10-2026): URL del repo con mayusculas exactas.
+%  listo11 (31-10-2026): Discusion reescrita con el informe de Opus (cifras verificadas contra CSV);
+%  Holm, sensibilidad 2023--2025, DM vs bootstrap, RMSE/MASE, reproducibilidad (Excel no redistribuido).
+%  listo10 (31-10-2026): TimesFM/Moirai verificados (PMLR 235); tag v2.0-forecasting.
+%  listo9 (31-10-2026): citas a todas las tablas/figuras, KPSS 2023--2025, empates P75,
+%  sensibilidad 2023--2025 de la ablacion, YoY robusto, \ref a Transparency.
+%
+%  CORRECCIONES DE CITAS (30-10-2026):
+%   - Claves alineadas con el .bib: gu2022forecasting, yin2020stl, bao2025study,
+%     ray2024arima, avinash2024hidden, nayak2024exogenous, zhao2025hybrid,
+%     perez2021pysentimiento, hochreiter1997lstm, bahdanau2015neural,
+%     chen2016xgboost, hyndman2006another, diebold1995comparing,
+%     harvey1997testing, lundberg2017unified.
+%   - Citas nuevas: das2024decoder, woo2024unified, perez2022robertuito,
+%     dickey1979distribution, kwiatkowski1992testing, kingma2015adam,
+%     tashman2000out, holm1979simple, efron1993bootstrap.
+%   - Claves sin entrada en el .bib (sabo2023, chergui2022, praveenkumar2025,
+%     ryu2020, an2024, paudel2023, firat2026, jauhar2025) reemplazadas por
+%     articulos que si estan: rather2024breaking, hewamalage2023forecast,
+%     manogna2025enhancing, choudhary2025genetic, sediyono2025integrated,
+%     chong2022using, du2024financial, rosa2025brazilian, jahin2025mcdfn,
+%     bourday2026explainable.
+%   - \bibliography apunta a referencias.bib.
+\documentclass[forecasting,article,submit,moreauthors]{Definitions/mdpi}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+% --- Paquete de figuras y tablas v2 ---
+\graphicspath{{figuras/}{figures/}}
+\usepackage{booktabs}
+\usepackage{subcaption}
+\captionsetup[subfigure]{labelformat=empty}
+\usepackage{longtable}
+\usepackage{pdflscape}
+% Marca visible para todo lo que aun debe ejecutarse o confirmarse:
+\newcommand{\pendiente}[1]{\textcolor{red}{[PENDIENTE: #1]}}
+% Recordatorio de lo que exige el formato y ya se cumple (borrar antes del envio):
+\newcommand{\formato}[1]{\textcolor{red}{[FORMATO, cumplido: #1]}}
+% Inserta la figura si el archivo existe; si no, deja un recuadro rojo con el nombre.
+\newcommand{\figura}[2]{\centering\IfFileExists{#1.png}{\includegraphics[width=#2]{#1.png}}{\fbox{\parbox{0.8\textwidth}{\centering\pendiente{falta el archivo \detokenize{#1}.png}}}}}
+
+\firstpage{1}
+\makeatletter
+\setcounter{page}{\@firstpage}
+\makeatother
+\pubvolume{1}
+\issuenum{1}
+\articlenumber{0}
+\pubyear{2026}
+\copyrightyear{2026}
+\datereceived{ }
+\daterevised{ }
+\dateaccepted{ }
+\datepublished{ }
+
+\Title{Deterioration under Abrupt Production Changes: Evaluating a DualLSTM with Bahdanau Attention against Statistical and Pretrained Benchmarks for Peruvian Agro-Industrial Forecasting under Small Data}
+% \pendiente{t\'itulo provisional (opci\'on A); confirmar con el asesor.}
+
+\Author{Fabrizio Yerald Alfonso Sanchez Saravia $^{1}$, Alex Coila Jarita $^{1}$ and Esteban Tocto-Cano $^{1,}$*}
+\AuthorNames{Fabrizio Yerald Alfonso Sanchez Saravia, Alex Coila Jarita and Esteban Tocto-Cano}
+
+\address{%
+$^{1}$ \quad Professional School of Systems Engineering, Faculty of Engineering and Architecture, Universidad Peruana Uni\'on, Juliaca, Peru}
+
+\corres{Correspondence: estocan@upeu.edu.pe}
+
+\abstract{Averaged forecast error can hide how models behave at abrupt production changes, which matters in short agricultural series. We evaluate a dual-branch LSTM with Bahdanau attention (DualLSTM), which processes the production history and a lagged exogenous context (climate, emergencies and news sentiment) separately, for one-step-ahead forecasts of national monthly production of sour lime and sweet lime in Peru. Under a leakage-controlled rolling-origin design with test years 2021--2025 (60 months per crop), it is compared with eight benchmarks, including the pretrained Chronos-Bolt-tiny, using the mean absolute error (MAE) over all months and over shock months (monthly P75 threshold) and the relative shock penalty $\Delta_s$. For sour lime, Chronos had the lowest MAE (2,649~t; 95\% CI 2,171--3,144), whereas the two DualLSTM variants had the highest (6,361 and 6,744~t). For sweet lime, SARIMA was the best model (18.4~t) and the only one ranked first or tied at all four thresholds. The DualLSTM showed low $\Delta_s$ (sour lime: $-4.5$\% and 1.2\%) only together with high absolute errors, and news features gave no clear benefit. $\Delta_s$ should therefore be reported together with absolute errors, and greater model complexity did not reduce the error with few data.}
+
+\keyword{agro-industrial forecasting; small data; DualLSTM; Bahdanau attention; abrupt production changes; shock-conditional evaluation; pretrained time-series models}
+
+\begin{document}
+
+% ============================================================
+\section{Introduction}
+
+Forecasting monthly agricultural production is necessary to plan supply, logistics and prices, but in many countries the available series are short, strongly seasonal and subject to abrupt changes associated with climatic events, emergencies or market disruptions. With so little data, greater model complexity does not guarantee better out-of-sample performance: forecasting competitions and reviews of recurrent networks show that statistical and parsimonious methods remain hard benchmarks to beat~\cite{makridakis2020m4,makridakis2022m5,hewamalage2021rnn,lim2021timeseries}, and it has been questioned whether deep architectures outperform simpler alternatives when data are scarce~\cite{rather2024breaking,hewamalage2023forecast}.
+
+At the same time, the agricultural forecasting literature has proposed LSTM networks with attention mechanisms, hybrid models and boosting that incorporate meteorological and other exogenous variables~\cite{gu2022forecasting,yin2020stl,bao2025study,manogna2025enhancing,choudhary2025genetic,sediyono2025integrated,ray2024arima,avinash2024hidden,nayak2024exogenous,zhao2025hybrid,chandan2025exogenous,celik2025hybrid}. Indicators derived from news and the integration of heterogeneous sources have also been used as auxiliary information~\cite{lukauskas2022economic,chong2022using,liapis2023investigating,du2024financial,rosa2025brazilian}. However, many of these studies use longer series, compare against few simple benchmarks, or evaluate only the average error, without examining what happens in the months of abrupt change, which are those of greatest operational interest. In addition, pretrained time-series models such as Chronos~\cite{ansari2024chronos}, TimesFM~\cite{das2024decoder} and Moirai~\cite{woo2024unified} offer a new benchmark that can forecast without local training.
+
+This work extends a preliminary study presented at IEEE LATINCOM 2026~\cite{sanchez2026latincom}. It evaluates a DualLSTM architecture with Bahdanau attention that explicitly separates the production history from the lagged exogenous context. The aim is not to demonstrate the superiority of the architecture, but to measure, under a protocol that controls information leakage, how it compares with statistical, regularised, tree-based and pretrained benchmarks on two Peruvian national series: sour lime and sweet lime. The research questions are:
+\begin{enumerate}
+\item Does the DualLSTM with attention outperform simpler and pretrained benchmarks in overall forecast error with few data?
+\item Do the conclusions hold when the evaluation is restricted to months of abrupt change?
+\item Do variables derived from news text improve forecast accuracy?
+\end{enumerate}
+
+The contributions are: (i) a reproducible rolling-origin evaluation of a dual-branch recurrent architecture against eight benchmarks on two crops; (ii) an analysis conditioned on abrupt changes, with a threshold defined only from information available at the forecast origin and its sensitivity; (iii) a multi-seed evaluation without selection of the best seed; and (iv) an explicit account of which parts of the protocol were fixed after seeing earlier results, so that the evidence is not over-read.
+
+% =====================================================================
+% Materials and Methods, rolling-origin experiment (v2). Draft 1.
+% Source of every statement: Opus read-only report of 2026-10-29
+% (DECISIONES_METODOLOGICAS.md, 01_configuracion/*.json, manifest.json).
+% No result figures appear here. \pendiente{...} = still to be confirmed.
+% Citation keys: those already used in main.tex; entries missing in
+% referencias.bib print as [?] until ChatGPT/Scopus verification.
+% =====================================================================
+\section{Materials and Methods}\label{sec:methods}
+
+\subsection{Study design}
+We evaluate one-step-ahead forecasts of monthly national production of two crops, sour lime (\textit{lim\'on sutil}) and sweet lime (\textit{lim\'on dulce}), in Peru, using a rolling-origin design~\cite{tashman2000out} (Figure~\ref{fig:fig_workflow}). For each test year $Y\in\{2018,\dots,2025\}$ the forecast origin is December of $Y-1$: models are fitted with data up to December of $Y-2$, tuned and early-stopped on year $Y-1$, and produce twelve one-step-ahead forecasts for year $Y$ (Figure~\ref{fig:fig30_rolling_origin_scheme}). Lagged values of the test year are taken from observations, as is usual in one-step-ahead evaluation. All models share the same partitions in every window.
+
+Trained models require at least 36 training months. Windows 2018--2020 therefore include only the three models that need no training (Naive, Seasonal Naive and Chronos), which gives 118 viable model--window--crop combinations and 42 that do not apply. The primary ranking pools the windows 2021--2025; a sensitivity analysis repeats all conclusions on 2023--2025.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{fig_workflow.pdf}
+\caption{Study workflow: data sources, preparation within each window, rolling-origin windows, models and evaluation. The dashed box marks the exploratory XGB-43 model, which is outside the ranking.\label{fig:fig_workflow}}
+\end{figure}
+
+\subsection{Data}
+The national series of each crop is the sum of monthly provincial production recorded by MIDAGRI--SISAGRI~\cite{midagri2026perfil} from January 2016 to December 2025 (109 provinces with a record of at least one of the two crops; Figure~\ref{fig:fig29_study_area_map} and Table~\ref{tab:S1_provinces}). Exogenous variables enter the models only with lags of 1, 3 and 6 months.
+\begin{itemize}
+\item \textbf{Climate:} NASA POWER monthly values at the coordinates of the 109 provinces: mean (T2M) and maximum (T2M\_MAX) temperature, wind speed (WS2M), precipitation (PRECTOTCORR) and relative humidity (RH2M). Units: temperature in $^{\circ}$C (T2M is the monthly mean and T2M\_MAX the monthly mean of the daily maximum), wind speed in m\,s$^{-1}$, precipitation in mm\,day$^{-1}$ (monthly mean of daily totals, not a monthly sum) and relative humidity in \%.  No values were missing and no imputation was applied. Ten provinces use the reference coordinate of their department.
+\item \textbf{Emergencies:} the official INDECI emergency records, restricted to ten climate-related hazards (heavy rain, strong winds, low temperatures, flood, landslide, mudflow, drought, erosion, thunderstorm and swell). Five monthly series are used: number of emergencies, people affected, people homeless, and hectares of crop lost and affected. Months without records are coded as zero. The conversion of the raw INDECI records into this monthly panel, including the zero coding, has no associated code in the repository (see Reproducibility).
+\item \textbf{News sentiment:} 2,883 news items from the agribusiness section of Agraria.pe. The sentiment of each item is $s=P(\text{positive})-P(\text{negative})$ from the RoBERTuito model of \texttt{pysentimiento}~\cite{perez2022robertuito,perez2021pysentimiento}, applied zero-shot to the headline and the first 200 words. Two monthly series are built (mean sentiment and number of items); months without news (January and February 2016) are set to zero.
+\end{itemize}
+Provincial climate and emergency series are aggregated to national level with fixed, crop-aware geographic weights estimated only on the training period of each window. When a province has no records, the aggregator renormalises over the weight mass present. Lags are computed on the already aggregated national series.
+
+Table~\ref{tab:main_descriptive_series} summarises the series of each window, with the ADF~\cite{dickey1979distribution} and KPSS~\cite{kwiatkowski1992testing} unit-root and stationarity tests.
+
+\subsection{Shock definition}
+For each month the absolute month-on-month relative change is
+\begin{equation}
+r_t=\left|\frac{y_t-y_{t-1}}{y_{t-1}}\right|,
+\label{eq:shock}
+\end{equation}
+and the year-on-year version replaces $y_{t-1}$ by $y_{t-12}$. A month of the test year is a \textit{shock} if $r_t>P_k$, where $P_k$ is the linear-interpolation percentile of the changes dated from the start of the series up to the forecast origin. The primary definition is the 75th percentile (P75) of the month-on-month change; P50, P60 and P90, and the year-on-year version, are reported as sensitivity points, and a full sweep from P0 to P95 is computed. P0 (every month is a shock) is used as a code check, because $\Delta_s$ must equal exactly zero there. A window with fewer than two shock months is flagged as non-informative, but its months are kept in the pooled estimates. The definition is statistical and attributes no cause.
+
+\subsection{Models}
+Ten models are ranked (Table~\ref{tab:main_models}).
+\begin{table}[H]
+\caption{Models in the ranking. Seeded models use ten seeds (0--9).\label{tab:main_models}}
+\newcolumntype{C}{>{\raggedright\arraybackslash}X}
+\begin{tabularx}{\textwidth}{lC}
+\toprule
+\textbf{Model} & \textbf{Description}\\
+\midrule
+Naive, Seasonal Naive & $\hat y_t=y_{t-1}$ and $\hat y_t=y_{t-12}$\\
+SARIMA & Fixed order, one-step updating without re-estimation~\cite{box2015time}\\
+SARIMA-sel & Order selected in each window (see below)\\
+Chronos & Pretrained Chronos-Bolt-tiny~\cite{ansari2024chronos}, zero-shot, univariate\\
+Ridge, ElasticNet & Regularised linear models with 37 predictors~\cite{zou2005regularization}\\
+XGB-37 & Gradient boosting with the same 37 predictors~\cite{chen2016xgboost}\\
+GC3 & Dual-LSTM with attention, 37 predictors (no news)\\
+GE & GC3 plus six lagged news features\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\textbf{Benchmarks without training.} Chronos uses \texttt{amazon/chronos-bolt-tiny} with the median forecast, horizon 1 and the full univariate history from January 2016 up to $t-1$. Its comparison with the multivariate models concerns predictive performance, not equal information sets.
+
+\textbf{SARIMA.} The fixed orders are $(1,1,1)(1,1,0)_{12}$ for sour lime and $(1,0,0)(0,1,0)_{12}$ for sweet lime, both with a constant term, seasonal period 12 and one-step-ahead updating without re-estimating parameters. For SARIMA-sel, a grid of 576 orders ($p\in0..3$, $d\in0..1$, $q\in0..3$, $P\in0..2$, $D\in0..1$, $Q\in0..2$, $m=12$) is fitted on the training months; the five orders with the lowest AIC are refitted, and the one with the lowest one-step-ahead MAE on year $Y-1$ is kept.
+
+\textbf{Ridge and ElasticNet.} The penalty $\alpha\in\{0.001,0.01,0.1,1,10,100\}$ and, for ElasticNet, the mixing ratio $\{0.2,0.5,0.8\}$ are re-chosen in each window by the validation MAE in tonnes; ties are resolved in favour of the first grid entry. The final fit uses the training months only. Predictors are standardised with the training mean and standard deviation.
+
+\textbf{XGB-37.} Squared-error gradient boosting with maximum depth 2, learning rate 0.05, 200 trees, subsample 0.8 and column subsample 0.8, with default regularisation and no hyperparameter search. The 37 predictors are the four production variables (current production and its lags 1, 3 and 6), three calendar terms (sine and cosine of the month and a time index), and the five climate and five emergency series at lags 1, 3 and 6.
+
+\textbf{Dual-LSTM with attention (GC3 and GE).} Two recurrent branches process the previous six months (Figure~\ref{fig:fig25_architecture_dual_lstm}). Branch A receives the four production variables and branch B the calendar, climate and emergency variables (33 features in GC3; 39 in GE, which adds mean sentiment and news count at lags 1, 3 and 6). Each branch has a 16-unit LSTM~\cite{hochreiter1997lstm} followed by additive Bahdanau attention~\cite{bahdanau2015neural} of 16 units; the context vectors are concatenated and passed through dense layers of 16 and 8 units (ReLU), dropout 0.20 and a scalar output. GC3 has 6,273 and GE 6,657 trainable parameters. Training uses Adam~\cite{kingma2015adam} (learning rate 0.001), mean-squared-error loss, batch size 8, up to 300 epochs, no shuffling, early stopping on the validation year (patience 15, best weights restored) and learning-rate reduction on plateau (factor 0.5, patience 8). No hyperparameter search was run.
+
+\textbf{Seeds.} XGB-37, GC3 and GE are trained with ten seeds (0--9) and no seed is selected. The error series of a seeded model is the monthly mean of the absolute errors over its seeds, and seed dispersion is reported separately. Each network run starts in a new process with deterministic settings.
+
+\textbf{Exploratory model.} XGB-43 adds the six lagged news features to XGB-37 with the same hyperparameters. It was added post hoc, is not part of the ranking, the Diebold--Mariano tests or the multiplicity correction, and appears only in the exploratory comparison with XGB-37.
+
+\subsection{Leakage control}
+Within each window, the scaler, the geographic weights, the hyperparameters that are re-chosen (Ridge, ElasticNet, SARIMA-sel) and the MASE denominator use data up to December of $Y-2$ only, and the shock threshold uses the history up to the forecast origin (December of $Y-1$). Early stopping and model selection use year $Y-1$, never the test year. An automated test checks these conditions.
+
+\subsection{Evaluation}
+The main metric is the mean absolute error (MAE, in tonnes) over all test months, over the shock months and over the remaining (normal) months. The relative shock penalty is
+\begin{equation}
+\Delta_s=\frac{\mathrm{MAE}_{\text{shock}}-\mathrm{MAE}_{\text{all}}}{\mathrm{MAE}_{\text{all}}}\times 100.
+\label{eq:deltas}
+\end{equation}
+Because $\Delta_s$ is a ratio, it can be low either because the shock error is small or because the normal-month error is large; it is therefore always reported together with $\mathrm{MAE}_{\text{shock}}$ and $\mathrm{MAE}_{\text{normal}}$. We also compute the RMSE, the ratio of shock to normal MAE, $\Delta_s$ when each shock month is removed in turn, the MAE by quartile of $|\Delta y/y|$, and the MASE with a single denominator per window~\cite{hyndman2006another}, the mean of $|y_t-y_{t-12}|$ over the training months of that window (undefined in 2018). These secondary metrics are provided, without confidence intervals, in the metric tables of the repository. A model is called best if it ranks first, or ties with the first, in at least three of the four reporting thresholds P50, P60, P75 and P90 for a crop.
+
+\textbf{Uncertainty.} Confidence intervals come from a paired bootstrap~\cite{efron1993bootstrap} over months with the same indices for all models, stratified by window ($B=10{,}000$, seed 42, 2.5th and 97.5th percentiles). For $\mathrm{MAE}_{\text{shock}}$ and $\mathrm{MAE}_{\text{normal}}$, months are resampled within their own type. A sensitivity analysis uses circular moving blocks of three months. A model ties with the first if the interval of its difference with the first contains zero.
+
+\textbf{Significance tests.} Pairs of models are compared with the Diebold--Mariano test with the Harvey--Leybourne--Newbold correction~\cite{diebold1995comparing,harvey1997testing} ($h=1$, absolute loss, seed-averaged errors, pooled windows 2021--2025, two-sided $t_{n-1}$), on all months and on shock months only. With few shock months, power is low. As an exploratory addition, p-values are adjusted by the Holm method~\cite{holm1979simple} within each family (crop $\times$ subset, 45 pairs).
+
+\textbf{Fit diagnostics.} A model--window is flagged as overfitted if the ratio of validation to training MAE exceeds 2.0; the same ratio for the Naive forecast is shown for reference.
+
+\subsection{Transparency about the protocol}\label{sec:transparency}
+The protocol was written down before the rolling-origin experiment was run, but the test year 2025 had already been inspected in earlier experiments of this project. The hyperparameters of GC3, GE and XGB-37 were fixed with data up to 2024, and the order of the fixed sour-lime SARIMA was adopted after observing the 2025 results. Windows 2021--2024 are therefore retrospective evaluations, not independent test sets. We report these facts so that the 2025 window is not read as a confirmatory test.
+
+\subsection{Reproducibility}
+All experiments ran on CPU only (Windows 11 Pro; AMD64 family 25, model 33 processor with 16 logical cores) with Python 3.11.9, TensorFlow 2.21.0, Keras 3.14.0, statsmodels 0.14.6, xgboost 3.2.0, scikit-learn 1.8.0, torch 2.11.0 (CPU) and chronos-forecasting 2.3.2, with \texttt{pysentimiento} 0.7.3. Environment variables fix the hash seed and deterministic operations, the global seed is 42, and the SHA-256 hashes of the frozen input tables are stored with the code. Everything from the frozen tables to the final metrics is reproducible with a single driver script. Three links of the data chain have no code in the repository and are provided as frozen tables: the processing of the MIDAGRI--SISAGRI spreadsheet into national series, the processing of the INDECI records into the monthly panel, and the province coordinates. The news corpus and the NASA POWER values can change if collected again. Code and frozen tables: \texttt{https://github.com/YeralD21/Machine-Learning-Multimodal--Agro-NLP-Clima-}, release \texttt{v2.0-forecasting}. The MIDAGRI--SISAGRI table was downloaded from the Regional Productive Profile dashboard on 25 June 2026 (the file covers February 2015 to March 2026; this study uses January 2016 to December 2025); because the dashboard is updated monthly and past figures may be revised, the national series derived from it are provided in the repository as frozen tables, and the SHA-256 hash of the downloaded spreadsheet is recorded with the code. The spreadsheet itself (229~MB) is not redistributed. It was exported in consecutive sheets of at most 1,048,001 rows; we checked that the number of lime records per year in the spreadsheet matches the derived tables for 2016--2025, so the export was not truncated.
+
+% ============================================================
+% 3. RESULTADOS
+% Fuente: REGISTRO_MAESTRO_RESULTADOS.md, secciones 5--9.
+% GC3, GE y XGB-37: media de las metricas por semilla (estimando a).
+% ============================================================
+
+\section{Results}
+
+\subsection{Series and overall accuracy}
+Table~\ref{tab:main_descriptive_series} describes the series by window. Sour lime production averages between 23,067 and 32,209~t per month in the test years, with a coefficient of variation of 0.16--0.36, and sweet lime between 394 and 468~t, with 0.36--0.39. The unit-root tests are not conclusive: for sour lime the ADF test rejects a unit root in 2021--2023 but not in 2024--2025, and the KPSS test rejects level stationarity in 2023--2025, and for sweet lime neither test rejects its null in any window. Figure~\ref{fig:fig24_series_with_shocks} shows the series and the shock months.
+
+Table~\ref{tab:main_aggregate_accuracy} gives the pooled accuracy over the 60 test months of 2021--2025. For sour lime, Chronos had the lowest MAE (2,649~t; 95\% CI 2,171--3,144), followed by SARIMA-sel (3,206~t), SARIMA (3,361~t) and the Naive forecast (3,624~t). GC3 and GE had the highest errors of the ten models (6,361 and 6,744~t), above the Seasonal Naive (6,075~t). For sweet lime, SARIMA had the lowest MAE (18.4~t; 14.5--22.8), followed by SARIMA-sel (20.6~t) and the Seasonal Naive (24.5~t), whereas GC3 and GE both reached 56.7~t, above Ridge, ElasticNet and XGB-37 (48.3--53.1~t). Figure~\ref{fig:fig20_real_vs_pred_2025} shows the 2025 forecasts, and Figure~\ref{fig:fig20_real_vs_pred_2023_sutil__fig20_real_vs_pred_2024_dulce} those of 2023 for sour lime and 2024 for sweet lime. The MAE of each test window is given in Tables~\ref{tab:T05_MAE_P75_por_ventana_sutil} and~\ref{tab:T05_MAE_P75_por_ventana_dulce}, and the monthly absolute errors in Figure~\ref{fig:fig21_abs_error_monthly}.
+
+\subsection{Shock months}
+With the monthly P75 threshold, the pooled sample contains 10 shock months for sour lime and 15 for sweet lime (Figure~\ref{fig:fig10_n_shock_heatmap_window_percentile}; the number of shock months at each percentile is shown in Figure~\ref{fig:fig09_n_shock_vs_percentile}). In sour lime, Chronos also had the lowest MAE in shock months (4,784~t), and SARIMA-sel and the Seasonal Naive ranked second and third (Table~\ref{tab:main_robust_ranking}); GC3 ranked sixth and GE seventh. In sweet lime, SARIMA ranked first (14.0~t), with the Seasonal Naive third, GE fifth and GC3 sixth. The intervals for shock months are wide (for example 2,259--7,928~t for the Seasonal Naive in sour lime; Figure~\ref{fig:fig11_bootstrap_ci_mae_shock_report_points}), so in sour lime five models are statistically tied with Chronos at P75, whereas in sweet lime no model is tied with SARIMA (asterisks in Table~\ref{tab:main_robust_ranking}). Shock-month errors by window are given in Tables~\ref{tab:T05_MAE_shock_P75_por_ventana_sutil} and~\ref{tab:T05_MAE_shock_P75_por_ventana_dulce} and Figure~\ref{fig:fig14_mae_shock_heatmap_model_window}, and the rank of each model by window in Figure~\ref{fig:fig08_rank_bump_chart}.
+
+The penalty $\Delta_s$ must be read together with the absolute errors (Table~\ref{tab:main_aggregate_accuracy}, Figure~\ref{fig:fig13_mae_normal_vs_shock_bars}). In sour lime, the Seasonal Naive had $\Delta_s=-17.1$\% and GC3 $-4.5$\%, but both had a high MAE in all months, so their shock error was not low in absolute terms: Chronos, with $\Delta_s=80.6$\%, had a lower shock MAE than either. In sweet lime, SARIMA combined the lowest shock error with $\Delta_s=-24.1$\%, GC3 and GE had $\Delta_s$ of 7.2\% and 2.0\%, and the Seasonal Naive had $\Delta_s=0.0$\%. The ratio of shock to normal MAE (Figure~\ref{fig:fig06_ratio_shock_normal_vs_percentile}), the MAE by quartile of the monthly change (Figure~\ref{fig:fig16_mae_by_change_quartile}) and $\Delta_s$ when each shock month is removed in turn (Figure~\ref{fig:fig17_leave_one_shock_out_delta_s}) are reported as complementary diagnostics.
+
+A model is robust if it is first or tied in at least three of the four thresholds P50, P60, P75 and P90 (Table~\ref{tab:main_robust_ranking}; Figures~\ref{fig:fig04_delta_s_vs_percentile}, \ref{fig:fig05_mae_shock_vs_percentile} and \ref{fig:fig07_rank_heatmap_model_percentile}). With the month-on-month definition, Chronos, SARIMA and SARIMA-sel were robust in sour lime, and only SARIMA in sweet lime. Neither GC3 nor GE was robust in either crop. With the year-on-year definition (Table~\ref{tab:main_robust_ranking}, Figure~\ref{fig:fig12_yoy_vs_mom_threshold}), the robust models were the Naive forecast and Chronos in sour lime, and Chronos, SARIMA and SARIMA-sel in sweet lime; GC3 and GE were again not robust.
+
+\subsection{Statistical comparisons}
+Tables~\ref{tab:T09_DM_matriz_principal_2021_2025_sutil} and~\ref{tab:T09_DM_matriz_principal_2021_2025_dulce} report the Diebold--Mariano tests with the Harvey--Leybourne--Newbold correction (unadjusted $p$-values, also shown in Figure~\ref{fig:fig19_dm_pvalue_matrix}; Holm-adjusted values in Figure~\ref{fig:fig19b_dm_pvalue_matrix_holm}, exploratory). On all months of sour lime, GC3 and GE had significantly larger errors than Chronos, SARIMA, SARIMA-sel and XGB-37 ($p\le0.001$). With only 10 shock months, the only comparisons with $p<0.05$ involved the Naive forecast. In sweet lime, SARIMA had a significantly lower error than every model except SARIMA-sel on all months ($p=0.20$ against SARIMA-sel), and on the 15 shock months it was significantly better than every other model ($p\le0.001$) except SARIMA-sel ($p=0.115$). Power is limited in all shock-only comparisons. After the exploratory Holm adjustment, the number of pairs with $p<0.05$ fell from 28 to 17 (sour lime, all months), from 4 to 1 (sour lime, shock months; only Chronos against the Naive forecast), from 33 to 28 (sweet lime, all months) and from 31 to 24 (sweet lime, shock months). The advantage of SARIMA over SARIMA-sel was not significant in any subset, and its advantage over the Seasonal Naive in sweet lime did not survive the adjustment on all months ($p_{\text{Holm}}=0.070$) but did on shock months ($p_{\text{Holm}}=0.018$).
+
+\subsection{Contribution of news features}
+Table~\ref{tab:T11_ablacion_sutil} and Table~\ref{tab:T11_ablacion_dulce} (Figure~\ref{fig:fig18_nlp_ablation_paired}) compare GE with GC3, seed by seed. In sour lime, adding the news features increased the pooled error by 382~t (95\% CI 45--711), and GE was better than GC3 in only one of ten seeds; the Diebold--Mariano test on the seed-averaged errors gave $p=0.061$. In sweet lime the difference was 0.1~t (95\% CI $-1.9$ to 1.9), with no evidence of an effect over all months; in shock months it was $-2.9$~t ($-6.2$ to 0.7). In the 2023--2025 sensitivity set, the sour-lime difference remained positive (601~t; 89 to 1,096), whereas in sweet lime GE had a lower shock-month error than GC3 ($-4.3$~t; $-7.2$ to $-1.5$; 9 months), although the Diebold--Mariano test on the seed-averaged errors did not separate them ($p=0.319$). The two procedures answer different questions (the paired seed-by-seed difference versus the difference between seed-averaged forecasts), so neither result is read as evidence of an effect of the news features. The exploratory comparison of XGB-43 with XGB-37 (Table~\ref{tab:T16_exploratorio_xgb43} and Figure~\ref{fig:fig18b_xgb43_vs_xgb37_exploratory}; post hoc, outside the ranking) found a higher error in sour lime (130.5~t; CI 1.5--260.4) and, in sweet lime, no difference over all months ($-0.6$~t; CI $-2.4$ to 1.2) but a lower shock error ($-3.6$~t; CI $-5.9$ to $-1.2$, 15 months).
+
+\subsection{Sensitivity to the evaluation period}
+Restricting the pool to 2023--2025 (36 months per crop) left the sour-lime conclusions unchanged: Chronos had the lowest MAE over all months (2,832~t, followed by SARIMA with 3,512~t and SARIMA-sel with 3,705~t) and in shock months (4,754~t; 7 months), and GC3 and GE had the highest errors (7,596 and 8,197~t); after the Holm adjustment no pair differed in shock months. In sweet lime the first place moved to SARIMA-sel (20.9~t), ahead of SARIMA (22.0~t) and the Seasonal Naive (28.1~t), but the difference between the two SARIMA variants was not significant after the adjustment ($p=0.040$ unadjusted; $p_{\text{Holm}}=0.526$). In the 9 shock months, SARIMA-sel and SARIMA had 16.9 and 17.6~t, and GE and GC3 68.4 and 69.9~t.
+
+\subsection{Training diagnostics}
+Loss curves, early-stopping epochs and the training--validation gap of the networks are shown in Figures~\ref{fig:fig01_loss_curves_gc3}, \ref{fig:fig01_loss_curves_ge}, \ref{fig:fig03_early_stopping_epoch} and~\ref{fig:fig02_train_val_gap}; the dispersion across seeds is in Figure~\ref{fig:fig15_seed_boxplots}. 
+
+\input{resultados_v2_completo}
+
+
+% ============================================================
+\section{Discussion}
+
+\textbf{Parsimony and pretrained benchmarks.} The results do not support the idea that greater model capacity yields lower error when the training set is small. In sour lime the lowest errors came from Chronos, applied without local training, and from the two SARIMA variants; in sweet lime from SARIMA and SARIMA-sel, which exchanged the first place between the primary pool and the 2023--2025 sensitivity set without a significant difference between them. The DualLSTM variants had the highest error of the ten models in sour lime and were clearly outperformed in sweet lime by the statistical models, the Seasonal Naive and the pretrained model; in sour lime their disadvantage against Chronos and both SARIMA variants was significant even after the Holm adjustment. This agrees with evidence that statistical and regularised methods are demanding benchmarks in short series~\cite{makridakis2020m4,hewamalage2021rnn,rather2024breaking} and indicates that a specialised architecture should be compared with them, and with pretrained models such as Chronos, TimesFM or Moirai~\cite{ansari2024chronos,das2024decoder,woo2024unified}, before being proposed for operational use. That a zero-shot univariate model ranked first in sour lime also suggests that, with about 40 to 90 training months, the exogenous context did not compensate for the extra parameters it requires.
+
+\textbf{Overall versus shock-conditional evaluation.} Restricting the evaluation to shock months did not favour the DualLSTM. Its low $\Delta_s$ in sour lime ($-4.5$\% for GC3) reflects a high error in all months, not a low error in shock months: $\Delta_s$ is a ratio, and a model that is poor in every month can show a small penalty. The same applies to the Seasonal Naive ($\Delta_s=-17.1$\%). Reporting $\Delta_s$ alone would have ranked these models as the most resilient, whereas in absolute terms Chronos, SARIMA and SARIMA-sel were better in shock months as well. We therefore recommend reporting $\Delta_s$ only together with the absolute errors in shock and normal months. The shock-only comparisons rest on 10 and 15 months (7 and 9 in the sensitivity set) and have low power: in sour lime five models were statistically tied with the first at P75, and after the Holm adjustment only the comparison of Chronos with the Naive forecast remained. The ranking in shock months should therefore be read as a complementary diagnostic and not as evidence of intrinsic resilience. The choice between month-on-month and year-on-year changes also matters: under the year-on-year definition the Naive forecast became robust in sour lime, so the shock definition should be stated explicitly and its sensitivity reported.
+
+\textbf{Contribution of news text.} News features did not improve the DualLSTM: they increased the error in sour lime and made no difference over all months in sweet lime. The only favourable signals are lower shock-month errors in sweet lime, for GE in the 2023--2025 sensitivity set and for XGB-43 in a post hoc analysis outside the ranking. Both rest on 9 to 15 months, and the first was not confirmed by the Diebold--Mariano test on seed-averaged errors. Overall, there is not enough evidence to claim that the text channel improves accuracy in this setting. Sentiment was computed zero-shot with a general-purpose model, and a model fitted to agricultural news could behave differently.
+
+\textbf{Limitations.} The evaluation uses two related national series and five retrospective test windows (60 pooled months), which are not independent test sets; the test year 2025 had already been inspected in earlier experiments, and the order of the fixed sour-lime SARIMA was adopted after seeing it (Section~\ref{sec:transparency}). Shock months are few (10 and 15), the confidence intervals are wide and several pairwise differences cannot be separated from zero; $\Delta_s$, RMSE and MASE are reported without confidence intervals. The networks were run with fixed hyperparameters and no search, which may disadvantage them relative to models whose penalties or orders were re-chosen in each window. Chronos uses only the univariate history, whereas the DualLSTM receives multimodal variables, so the comparison concerns predictive performance and not equal information sets. The conversion of the MIDAGRI spreadsheet and of the INDECI records into the frozen tables has no code in the repository. The attention weights of the DualLSTM should not be interpreted as causal relations between climate, emergencies or news and production~\cite{jain2019attention}. A confirmatory evaluation on months not yet observed when the protocol was written, such as 2026, would address the main limitation of this study.
+
+\section{Conclusions}
+
+A DualLSTM with attention that separates the production history from the lagged exogenous context did not consistently outperform statistical, regularised, tree-based or pretrained benchmarks in the monthly forecasting of sour lime and sweet lime production in Peru under a rolling-origin evaluation with 60 test months per crop. The best model depended on the crop: Chronos, SARIMA and SARIMA-sel in sour lime, and SARIMA in sweet lime, where it was the only model first or tied at all four shock thresholds and remained statistically indistinguishable from SARIMA-sel, which ranked first in the 2023--2025 sensitivity set. The low shock penalty of the DualLSTM was explained by high errors in all months, so $\Delta_s$ must be reported together with the absolute errors. News-derived variables showed no consistent benefit. Future work should extend the analysis to more crops and regions, longer evaluation periods and independently documented external events, and should test networks with hyperparameter search.
+
+\vspace{6pt}
+
+% BORRADOR: confirmar con los coautores antes del envio
+\authorcontributions{Conceptualization, F.Y.A.S.S., A.C.J. and E.T.-C.; methodology, F.Y.A.S.S. and E.T.-C.; software, F.Y.A.S.S.; validation, F.Y.A.S.S. and A.C.J.; formal analysis, F.Y.A.S.S.; investigation, F.Y.A.S.S. and A.C.J.; data curation, F.Y.A.S.S.; writing---original draft preparation, F.Y.A.S.S.; writing---review and editing, A.C.J. and E.T.-C.; visualization, F.Y.A.S.S.; supervision, E.T.-C. All authors have read and agreed to the published version of the manuscript.}
+% BORRADOR: confirmar con el asesor si la UPeU financio tambien la investigacion
+\funding{This research received no external funding. The article processing charge was funded by Universidad Peruana Uni\'on.}
+\dataavailability{The national production series were built from the MIDAGRI SISAGRI Regional Productive Profile dashboard~\cite{midagri2026perfil}, climate data from NASA POWER, emergency records from INDECI and news from Agraria.pe. The frozen tables derived from these sources, with their SHA-256 hashes, and the code are available at \url{https://github.com/YeralD21/Machine-Learning-Multimodal--Agro-NLP-Clima-} (release \texttt{v2.0-forecasting}).}
+\conflictsofinterest{The authors declare no conflicts of interest.}
+
+\appendixtitles{yes}
+\appendixstart
+\appendix
+\input{secciones/A_practicas_semilla}
+
+\begin{adjustwidth}{-\extralength}{0cm}
+\reftitle{References}
+\bibliography{referencias}
+\PublishersNote{}
+\end{adjustwidth}
+\end{document}
