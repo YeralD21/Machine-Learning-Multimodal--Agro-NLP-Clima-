@@ -3,7 +3,7 @@
 No recalcula metricas ni mascaras: lee 07_barrido_umbral/, 06_metricas/, 05_predicciones/, 03_ventanas/ y los
 history.csv de 04_modelos/. Cada figura: PNG 300 dpi + PDF vectorial + CSV con los datos exactos que dibuja + TXT con
 pie sugerido y lectura en dos lineas. Etiquetas en ingles, sin titulo dentro de la imagen, un archivo por cultivo,
-color y marcador fijos por modelo (01_configuracion/estilo_figuras.json). XGB-43 (exploratorio) no entra en las figuras.
+color y marcador fijos por modelo (01_configuracion/estilo_figuras.json). XGB-43 (exploratorio) solo entra en fig18b, marcada como EXPLORATORY; en ninguna otra figura.
 """
 import sys
 from pathlib import Path
@@ -18,11 +18,15 @@ import json  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from lib.figuras import COLORES, ESTILO, MARCADORES, aplicar_estilo, guardar  # noqa: E402
+from lib.figuras import COLORES, ESTILO, MARCADORES, aplicar_estilo  # noqa: E402
+from lib.figuras import guardar as _guardar  # noqa: E402
 
 aplicar_estilo()
 import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib import patheffects  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
+from matplotlib.patches import Patch  # noqa: E402
+from matplotlib.ticker import FixedLocator, FuncFormatter, MaxNLocator, NullFormatter  # noqa: E402
 
 MODELOS = ("Naive", "Seasonal Naive", "Chronos", "SARIMA", "SARIMA-sel", "Ridge", "ElasticNet", "XGB-37", "GC3", "GE")
 CON_SEMILLA = ("XGB-37", "GC3", "GE")
@@ -35,6 +39,8 @@ G = BR / "08_graficos"
 W1, W2 = ESTILO["ancho_columna_pulg"], ESTILO["ancho_doble_pulg"]
 SOMBRA = ESTILO["sombreado_shock"]
 REG: list[dict] = []
+SOLO: tuple[str, ...] = ()  # prefijos de figuras a escribir (--solo); vacio = todas. El indice se registra completo igual.
+MILES = FuncFormatter(lambda v, _: f"{v:,.0f}")  # un solo formato de miles (coma) en ejes y celdas
 
 
 def leer(rel: str) -> pd.DataFrame:
@@ -53,6 +59,7 @@ T15 = leer("06_metricas/por_semilla/T15_diagnostico_ajuste.csv")
 T03 = leer("06_metricas/descripcion_series/T03_descripcion_particiones.csv")
 T11 = pd.read_csv(BR / "06_metricas/ablacion_nlp/T11_ablacion_GE_menos_GC3.csv", dtype={"conjunto": str})
 T09 = leer("06_metricas/significancia/T09_diebold_mariano_hln.csv")
+T16 = leer("06_metricas/agregadas/T16_exploratorio_xgb43.csv")
 ERR = leer("05_predicciones/errores_test_promediados_semillas.csv")
 PRED = leer("05_predicciones/predicciones_consolidadas.csv")
 MASK = leer("03_ventanas/umbrales_y_mascaras.csv")
@@ -63,14 +70,42 @@ def reg(base: str, carpeta: str, c: str, pregunta: str, fuentes: list[str]) -> N
     REG.append({"figura": base, "carpeta": f"08_graficos/{carpeta}", "cultivar": c, "pregunta": pregunta, "fuentes": "; ".join(fuentes)})
 
 
+def guardar(fig, carpeta: Path, base: str, datos: pd.DataFrame, pie: str, lectura: str) -> dict:
+    if SOLO and not base.startswith(SOLO):
+        plt.close(fig)
+        return {}
+    return _guardar(fig, carpeta, base, datos, pie, lectura)
+
+
+def color_texto(rgba) -> str:
+    """Texto negro o blanco segun la luminancia relativa (WCAG) del color de la celda."""
+    lin = [c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4 for c in rgba[:3]]
+    return "black" if 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2] > 0.18 else "white"
+
+
+def ticks_log(eje, vmin: float, vmax: float) -> None:
+    """Marcas 1-2-5 legibles en un eje logaritmico (10, 20, 50, 100...), miles con coma."""
+    v = [x for x in (m * 10.0 ** k for k in range(-3, 7) for m in (1, 2, 5)) if vmin <= x <= vmax]
+    if len(v) < 3:  # rango estrecho (menos de una decada): marcas mas densas
+        v = [x for x in (m * 10.0 ** k for k in range(-3, 7) for m in (1, 2, 3, 4, 5, 6, 8)) if vmin <= x <= vmax]
+    eje.set_major_locator(FixedLocator(v))
+    eje.set_major_formatter(FuncFormatter(lambda x, _: f"{x:,.0f}" if x >= 1 else f"{x:g}"))
+    eje.set_minor_formatter(NullFormatter())
+
+
 def marcar_reporte(ax) -> None:
     for p in REPORTE:
         ax.axvline(p, color="0.6", lw=0.6, ls=(0, (3, 2)), zorder=0)
     ax.set_xticks(sorted(set(range(0, 100, 10)) | set(REPORTE) | {95}))
 
 
-def leyenda_modelos(fig, modelos=MODELOS, ncol=5, y=-0.02) -> None:
-    h = [Line2D([], [], color=COLORES[m], marker=MARCADORES[m], ms=4, lw=1.1, label=m) for m in modelos]
+def leyenda_modelos(fig, modelos=MODELOS, ncol=5, y=-0.02, extra=()) -> None:
+    h = [Line2D([], [], color=COLORES[m], marker=MARCADORES[m], ms=4, lw=1.1, label=m) for m in modelos] + list(extra)
+    fig.legend(handles=h, loc="upper center", bbox_to_anchor=(0.5, y), ncol=ncol, frameon=False)
+
+
+def leyenda_cajas(fig, modelos, alpha: float, ncol: int, y: float) -> None:
+    h = [Patch(facecolor=COLORES[m], alpha=alpha, edgecolor="black", lw=0.6, label=m) for m in modelos]
     fig.legend(handles=h, loc="upper center", bbox_to_anchor=(0.5, y), ncol=ncol, frameon=False)
 
 
@@ -85,7 +120,7 @@ def meses_shock(c: str, anio: int, tipo="mensual", p=75) -> list[str]:
 
 # ============================================================================ sensibilidad al umbral
 
-def lineas_vs_percentil(c: str, col: str, ylabel: str, base: str, pie: str, lectura_fn, logy=False) -> None:
+def lineas_vs_percentil(c: str, col: str, ylabel: str, base: str, pie: str, lectura_fn, logy=False, marcas_log=False, miles=False) -> None:
     d = SW["mensual"][SW["mensual"].cultivar == c]
     fig, ax = plt.subplots(figsize=(W2, 3.0))
     for m in MODELOS:
@@ -98,6 +133,11 @@ def lineas_vs_percentil(c: str, col: str, ylabel: str, base: str, pie: str, lect
         ax.axhline(1, color="black", lw=0.6)
     if logy:
         ax.set_yscale("log")
+    if marcas_log:  # sin set_ylim: el rango sale de los datos, no se recorta ningun punto
+        v = d[col][d[col] > 0]
+        ticks_log(ax.yaxis, v.min() * 0.9, v.max() * 1.1)
+    if miles:  # solo fig05 Sutil (toneladas en miles); fig04 y fig06 no se tocan
+        ax.yaxis.set_major_formatter(MILES)
     ax.set_xlabel("Shock threshold percentile (monthly |Δy/y|, history to origin)")
     ax.set_ylabel(ylabel)
     leyenda_modelos(fig)
@@ -125,10 +165,12 @@ def fig05(c):
         return (f"At P75 the lowest MAE_shock is {p.idxmin()} ({p.min():,.1f} t) and the highest {p.idxmax()} ({p.max():,.1f} t).\n"
                 f"The first place (lowest MAE_shock) does not change from P{int(e.primer_lugar_estable_desde)} onwards ({e.modelo_estable}); ties are in Table T08 and Fig. 7.")
     base = f"fig05_mae_shock_vs_percentile_{c}"
-    lineas_vs_percentil(c, "MAE_shock", "MAE in shock months (t)", base,
+    log = c == "dulce"
+    lineas_vs_percentil(c, "MAE_shock", "MAE in shock months (t, log scale)" if log else "MAE in shock months (t)", base,
                         f"Mean absolute error in shock months (tonnes) versus shock-threshold percentile, {CULT_EN[c]}, 2021–2025 pooled. "
-                        "Errors of seeded models are averaged over 10 seeds per month (D-BR6). Dashed lines: P50, P60, P75, P90.", lec,
-                        logy=(c == "dulce"))
+                        "Errors of seeded models are averaged over 10 seeds per month (D-BR6). Dashed lines: P50, P60, P75, P90."
+                        + (" Logarithmic y-axis." if log else ""), lec,
+                        logy=log, marcas_log=log, miles=not log)
     reg(base, "sensibilidad_umbral", c, "Which model has the lowest absolute error in shock months, and does it depend on the threshold?",
         ["07_barrido_umbral/mensual/barrido_por_modelo.csv", "07_barrido_umbral/estabilizacion.csv"])
 
@@ -139,9 +181,9 @@ def fig06(c):
         return (f"At P75 the shock/normal ratio goes from {p.min():.2f} ({p.idxmin()}) to {p.max():.2f} ({p.idxmax()}); a ratio below 1 means smaller errors in shock months.\n"
                 "The ratio is undefined at P0 (no normal months) and, like Δs, must be read with MAE_shock in tonnes.")
     base = f"fig06_ratio_shock_normal_vs_percentile_{c}"
-    lineas_vs_percentil(c, "razon_shock_normal", "MAE_shock / MAE_normal", base,
+    lineas_vs_percentil(c, "razon_shock_normal", "MAE ratio, shock / normal months\n(log scale)", base,
                         f"Ratio of shock-month to normal-month MAE versus threshold percentile, {CULT_EN[c]}, 2021–2025. Undefined at P0. "
-                        "Horizontal line: ratio = 1.", lec)
+                        "Horizontal line: ratio = 1. Logarithmic y-axis, so ratios r and 1/r are equally far from 1.", lec, logy=True, marcas_log=True)
     reg(base, "sensibilidad_umbral", c, "Do models make larger errors in shock months than in normal months, and how does that change with the threshold?",
         ["07_barrido_umbral/mensual/barrido_por_modelo.csv"])
 
@@ -165,7 +207,7 @@ def fig07(c):
         ax.set_xlabel("Threshold percentile")
         ax.text(0.0, 1.02, lab, transform=ax.transAxes, fontsize=ESTILO["tamano_base"] - 1, fontweight="bold")
         datos.append(d[["percentil", "modelo", "posicion", "primero", "n_shock"]].assign(tipo=tipo))
-    fig.colorbar(im, ax=axs, shrink=0.8, label="Rank by MAE_shock (1 = lowest)")
+    fig.colorbar(im, ax=axs, shrink=0.8, label="Rank by MAE in shock months (1 = lowest)")
     dd = pd.concat(datos)
     cuenta = dd[dd.tipo == "mensual"].groupby("modelo").primero.sum()
     lec = (f"Month-on-month: {cuenta.idxmax()} is first or tied with the first in {int(cuenta.max())} of {len(PCTS)} percentiles; "
@@ -190,8 +232,9 @@ def fig08(c):
     ax.invert_yaxis()
     ax.set_yticks(range(1, len(MODELOS) + 1))
     ax.set_xlabel("Shock threshold percentile (monthly)")
-    ax.set_ylabel("Rank by MAE_shock (1 = lowest)")
-    leyenda_modelos(fig)
+    ax.set_ylabel("Rank by MAE in shock months\n(1 = lowest)")
+    leyenda_modelos(fig, ncol=6, extra=[Line2D([], [], marker="o", ls="", ms=6, mfc="none", mec="black", mew=0.6,
+                                               label="First or tied with first")])
     lideres = d[d.posicion == 1].sort_values("percentil")
     lec = (f"Models ranked first at some percentile: {', '.join(dict.fromkeys(lideres.modelo))} "
            f"(rank-1 model at P50/P60/P75/P90: {', '.join(lideres.set_index('percentil').modelo.reindex(REPORTE).fillna('—'))}).\n"
@@ -211,6 +254,7 @@ def fig09(c):
         ax.plot(d.percentil, d.n_shock, ls=ls, color="black", marker="o", ms=2.5, lw=1, label=lab)
         filas.append(d[["percentil", "n_shock"]].assign(tipo=tipo))
     marcar_reporte(ax)
+    ax.tick_params(axis="x", labelrotation=90)  # 70/75/80 y 90/95 se superponian en ancho de columna
     ax.set_xlabel("Threshold percentile")
     ax.set_ylabel("Shock months, 2021–2025 (of 60)")
     ax.legend(frameon=False, loc="upper right")
@@ -233,11 +277,11 @@ def fig10(c):
     for ax, tipo, lab in zip(axs, ("mensual", "interanual"), ("(a) Month-on-month", "(b) Year-on-year")):
         d = NV[tipo][NV[tipo].cultivar == c]
         piv = d.pivot(index="anio_test", columns="percentil", values="n_shock").reindex(VENTANAS)
-        im = ax.imshow(piv.to_numpy(float), cmap="cividis", vmin=0, vmax=12, aspect="auto")
+        im = ax.imshow(piv.to_numpy(float), cmap="Blues", vmin=0, vmax=12, aspect="auto")
         for i in range(piv.shape[0]):
             for j in range(piv.shape[1]):
                 v = int(piv.iloc[i, j])
-                ax.text(j, i, f"{v}{'' if v >= 2 else '†'}", ha="center", va="center", fontsize=5.5, color="white" if v < 7 else "black")
+                ax.text(j, i, f"{v}{'' if v >= 2 else '†'}", ha="center", va="center", fontsize=5.5, color=color_texto(im.cmap(im.norm(v))))
         ax.set_xticks(range(len(PCTS)), [str(p) for p in PCTS], rotation=90)
         ax.set_yticks(range(len(VENTANAS)), [str(v) for v in VENTANAS])
         ax.set_xlabel("Threshold percentile")
@@ -266,10 +310,13 @@ def fig11(c):
             ax.errorbar(s.MAE_shock[m], i, xerr=[[s.MAE_shock[m] - s.iid_shock_lo[m]], [s.iid_shock_hi[m] - s.MAE_shock[m]]],
                         fmt=MARCADORES[m], color=COLORES[m], ms=4, capsize=2, lw=1)
         ax.set_yticks(y, MODELOS)
-        ax.set_xlabel("MAE_shock (t)")
+        ax.set_xlabel("MAE in shock months\n(t, log scale)" if c == "dulce" else "MAE in shock months\n(t)")  # dos lineas: no se tocan entre paneles
         etiqueta_panel(ax, f"P{p} (n={int(s.n_shock.iloc[0])})")
         if c == "dulce":
             ax.set_xscale("log")
+            ticks_log(ax.xaxis, s.iid_shock_lo.min() * 0.9, s.iid_shock_hi.max() * 1.1)  # marcas 5, 10, 20, 50, 100 (sin 10^n)
+        else:
+            ax.xaxis.set_major_formatter(MILES)
     axs[0].invert_yaxis()  # ejes y compartidos: se invierte una sola vez
     datos = d[d.percentil.isin(REPORTE)][["percentil", "modelo", "n_shock", "MAE_shock", "iid_shock_lo", "iid_shock_hi", "bloq_shock_lo", "bloq_shock_hi"]]
     p75 = d[d.percentil == 75].set_index("modelo")
@@ -278,7 +325,7 @@ def fig11(c):
     base = f"fig11_bootstrap_ci_mae_shock_report_points_{c}"
     guardar(fig, G / "sensibilidad_umbral", base, datos,
             f"MAE in shock months with paired bootstrap 95% confidence intervals (i.i.d. over months, stratified by window, B = 10,000) at the "
-            f"reporting thresholds P50, P60, P75 and P90 (monthly), {CULT_EN[c]}, 2021–2025.", lec)
+            f"reporting thresholds P50, P60, P75 and P90 (monthly), {CULT_EN[c]}, 2021–2025." + (" Logarithmic x-axis." if c == "dulce" else ""), lec)
     reg(base, "sensibilidad_umbral", c, "How uncertain are the shock-month errors at the reporting thresholds?", ["06_metricas/agregadas/T06_agregadas_IC.csv"])
 
 
@@ -292,12 +339,14 @@ def fig12(c):
             filas.append(s[["percentil", "modelo", "n_shock", "MAE_shock"]].assign(tipo=tipo))
         etiqueta_panel(ax, m)
         ax.tick_params(labelsize=6)
+        ax.yaxis.set_major_formatter(MILES)
         for p in REPORTE:
             ax.axvline(p, color="0.75", lw=0.4, ls=":")
     for ax in axs[1]:
         ax.set_xlabel("Percentile", fontsize=7)
     for ax in axs[:, 0]:
-        ax.set_ylabel("MAE_shock (t)", fontsize=7)
+        ax.set_ylabel("MAE in shock\nmonths (t)", fontsize=7)
+    fig.subplots_adjust(wspace=0.55, hspace=0.35)  # cada panel tiene su eje y: espacio para sus etiquetas
     fig.legend(handles=[Line2D([], [], color="black", ls="-", label="Month-on-month"), Line2D([], [], color="black", ls="--", label="Year-on-year")],
                loc="upper center", bbox_to_anchor=(0.5, 0.0), ncol=2, frameon=False)
     dd = pd.concat(filas)
@@ -320,15 +369,19 @@ def fig13(c):
     fig, ax = plt.subplots(figsize=(W2, 2.8))
     x = np.arange(len(MODELOS))
     w = 0.38
-    ax.bar(x - w / 2, d.MAE_normal, w, color=[COLORES[m] for m in MODELOS], alpha=0.45, edgecolor="black", lw=0.4,
-           yerr=[d.MAE_normal - d.iid_normal_lo, d.iid_normal_hi - d.MAE_normal], capsize=2, error_kw={"lw": 0.7}, label="Normal months")
-    ax.bar(x + w / 2, d.MAE_shock, w, color=[COLORES[m] for m in MODELOS], edgecolor="white", lw=0, hatch="////",
-           yerr=[d.MAE_shock - d.iid_shock_lo, d.iid_shock_hi - d.MAE_shock], capsize=2, error_kw={"lw": 0.7}, label="Shock months (P75)")
+    ax.bar(x - w / 2, d.MAE_normal, w, color=[COLORES[m] for m in MODELOS], alpha=0.45, edgecolor="black", lw=0.4, label="Normal months")
+    ax.bar(x + w / 2, d.MAE_shock, w, color=[COLORES[m] for m in MODELOS], edgecolor="white", lw=0, hatch="////", label="Shock months, monthly P75 (MoM)")
     ax.bar(x + w / 2, d.MAE_shock, w, fill=False, edgecolor="black", lw=0.4)
+    # bigotes encima de las barras con borde blanco: visibles tambien sobre la barra negra de Seasonal Naive
+    for xx, y_, lo, hi in ((x - w / 2, d.MAE_normal, d.iid_normal_lo, d.iid_normal_hi), (x + w / 2, d.MAE_shock, d.iid_shock_lo, d.iid_shock_hi)):
+        eb = ax.errorbar(xx, y_, yerr=[y_ - lo, hi - y_], fmt="none", ecolor="black", elinewidth=0.7, capsize=2, capthick=0.7, zorder=5)
+        for art in list(eb.lines[1]) + list(eb.lines[2]):
+            art.set_path_effects([patheffects.withStroke(linewidth=2.0, foreground="white")])
     ax.set_xticks(x, MODELOS, rotation=30, ha="right")
     ax.set_ylabel("MAE (t)")
+    ax.yaxis.set_major_formatter(MILES)
     ax.legend(frameon=False, loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=2, handles=[plt.Rectangle((0, 0), 1, 1, fc="0.8", ec="black", lw=0.4, label="Normal months"),
-                                                       plt.Rectangle((0, 0), 1, 1, fc="0.45", ec="white", lw=0, hatch="////", label="Shock months (P75)")])
+                                                       plt.Rectangle((0, 0), 1, 1, fc="0.45", ec="white", lw=0, hatch="////", label="Shock months, monthly P75 (MoM)")])
     datos = d.reset_index()[["modelo", "n_normal", "MAE_normal", "iid_normal_lo", "iid_normal_hi", "n_shock", "MAE_shock", "iid_shock_lo", "iid_shock_hi"]]
     lec = (f"Lowest MAE in normal months: {d.MAE_normal.idxmin()} ({d.MAE_normal.min():,.1f} t); lowest in shock months: {d.MAE_shock.idxmin()} ({d.MAE_shock.min():,.1f} t).\n"
            f"Shock months: {int(d.n_shock.iloc[0])} of 60; error bars are paired bootstrap 95% CIs (resampling within normal or shock months).")
@@ -345,18 +398,18 @@ def fig14(c):
     ns = d.drop_duplicates("anio_test").set_index("anio_test").n_shock.reindex(VENTANAS)
     fig, ax = plt.subplots(figsize=(W1 * 1.35, 3.2))
     arr = piv.to_numpy(float)
-    im = ax.imshow(arr, cmap="cividis", aspect="auto", norm=plt.matplotlib.colors.LogNorm(vmin=np.nanmin(arr), vmax=np.nanmax(arr)))
+    im = ax.imshow(arr, cmap="cividis_r", aspect="auto", norm=plt.matplotlib.colors.LogNorm(vmin=np.nanmin(arr), vmax=np.nanmax(arr)))
     for i in range(arr.shape[0]):
         for j in range(arr.shape[1]):
             if np.isfinite(arr[i, j]):
-                ax.text(j, i, f"{arr[i, j]:,.0f}" if c == "sutil" else f"{arr[i, j]:.0f}", ha="center", va="center", fontsize=5.5,
-                        color="white" if arr[i, j] < np.nanmedian(arr) else "black")
+                ax.text(j, i, f"{arr[i, j]:,.0f}", ha="center", va="center", fontsize=5.5, color=color_texto(im.cmap(im.norm(arr[i, j]))))
             else:
                 ax.text(j, i, "n/a", ha="center", va="center", fontsize=5.5, color="0.4")
     ax.set_xticks(range(len(VENTANAS)), [f"{v}\n(n={int(ns[v])})" for v in VENTANAS])
     ax.set_yticks(range(len(MODELOS)), MODELOS)
-    ax.set_xlabel("Test year (shock months at P75)")
-    fig.colorbar(im, ax=ax, shrink=0.85, label="MAE_shock (t, log scale)")
+    ax.set_xlabel("Test year (n = shock months, monthly P75 (MoM))")
+    cb = fig.colorbar(im, ax=ax, shrink=0.85, label="MAE in shock months (t, log scale)")
+    ticks_log(cb.ax.yaxis, np.nanmin(arr), np.nanmax(arr))
     vacias = [str(v) for v in VENTANAS if ns[v] == 0]
     lec = (f"Windows without P75 shock months (cells n/a): {', '.join(vacias) or 'none'}; the best model per informative window varies: "
            f"{', '.join(f'{v}: {piv[v].idxmin()}' for v in VENTANAS if ns[v] > 0)}.\n"
@@ -370,11 +423,14 @@ def fig14(c):
 def fig15(c):
     d = T07[(T07.cultivar == c) & T07.modelo.isin(CON_SEMILLA)]
     fig, axs = plt.subplots(1, 2, figsize=(W2, 2.8))
-    for ax, col, lab in zip(axs, ("MAE", "MAE_shock"), ("(a) MAE, all months", "(b) MAE, shock months (P75)")):
+    for ax, col, lab, ylab in zip(axs, ("MAE", "MAE_shock"), ("(a) MAE, all months", "(b) MAE in shock months, monthly P75 (MoM)"),
+                                  ("MAE (t)", "MAE in shock months (t)")):
         pos, cajas, cols = [], [], []
         etiquetas = list(VENTANAS) + ["Pooled"]
         for k, v in enumerate(etiquetas):
             clave = "agregado_2021_2025" if v == "Pooled" else str(v)
+            if d[(d.ventana == clave)][col].dropna().empty:  # ventana sin meses de shock: hueco rotulado
+                ax.text(k * 4 + 1, 0.5, "n/a", transform=ax.get_xaxis_transform(), ha="center", va="center", fontsize=6, color="0.4")
             for j, m in enumerate(CON_SEMILLA):
                 vals = d[(d.ventana == clave) & (d.modelo == m)][col].dropna().to_numpy()
                 if len(vals):
@@ -387,10 +443,12 @@ def fig15(c):
             patch.set_facecolor(col_)
             patch.set_alpha(0.75)
         ax.set_xticks([k * 4 + 1 for k in range(len(etiquetas))], [str(e) for e in etiquetas])
-        ax.set_ylabel("MAE (t)")
+        ax.set_xlim(-1, (len(etiquetas) - 1) * 4 + 3)
+        ax.set_ylabel(ylab)
+        ax.yaxis.set_major_formatter(MILES)
         ax.text(0.0, 1.02, lab, transform=ax.transAxes, fontsize=ESTILO["tamano_base"] - 1, fontweight="bold")
     fig.subplots_adjust(wspace=0.32)
-    leyenda_modelos(fig, CON_SEMILLA, ncol=3)
+    leyenda_cajas(fig, CON_SEMILLA, alpha=0.75, ncol=3, y=-0.02)
     agg = d[d.ventana == "agregado_2021_2025"].groupby("modelo").MAE.std()
     sin_shock = sorted(d[(d.ventana != "agregado_2021_2025") & (d.n_shock == 0)].ventana.unique())
     nota = f" Panel (b) has no boxes for {' and '.join(sin_shock)} (no P75 shock month)." if sin_shock else ""
@@ -415,6 +473,7 @@ def fig16(c):
     ax.set_ylabel("MAE (t)")
     if c == "dulce":
         ax.set_yscale("log")
+        ticks_log(ax.yaxis, d.MAE.min() * 0.9, d.MAE.max() * 1.1)
     leyenda_modelos(fig, y=-0.1)  # las etiquetas del eje x ocupan dos lineas
     q1 = d[d.grupo == 1].set_index("modelo").MAE
     q4 = d[d.grupo == 4].set_index("modelo").MAE
@@ -494,18 +553,19 @@ def fig02(c):
         ax.scatter(x, s.razon_val_train, color=COLORES[m], marker=MARCADORES[m], s=10, alpha=0.8, lw=0.3, edgecolors="black")
     nv = d.drop_duplicates(["anio_test", "modelo"]).groupby("anio_test").Naive_razon.first().reindex(VENTANAS)
     for i, v in enumerate(VENTANAS):
-        ax.plot([i - 0.42, i + 0.42], [nv[v], nv[v]], color="black", lw=1.2)
+        ax.plot([i - 0.42, i + 0.42], [nv[v], nv[v]], color=COLORES["Naive"], lw=1.6)
     ax.axhline(2.0, color="0.3", ls="--", lw=0.8)
     ax.set_yscale("log")
+    ticks_log(ax.yaxis, min(d.razon_val_train.min(), nv.min()) * 0.9, max(d.razon_val_train.max(), nv.max()) * 1.1)
     ax.set_xticks(range(len(VENTANAS)), [str(v) for v in VENTANAS])
     ax.set_xlabel("Test year (train ≤ Y−2, validation = Y−1)")
-    ax.set_ylabel("MAE_val / MAE_train (t, log scale)")
+    ax.set_ylabel("MAE_val / MAE_train (log scale)")
     altos = aviso_nivel(c)
     if c == "sutil":
         ax.text(1.0, 1.02, f"Note: validation-year mean level above training mean in {', '.join(altos)}; ratios are inflated by the level shift (D-BR8).",
                 transform=ax.transAxes, ha="right", va="bottom", fontsize=6, color="0.25")
     h = [Line2D([], [], color=COLORES[m], marker=MARCADORES[m], ls="", ms=4, label=m) for m in ENTRENADOS_D8]
-    h += [Line2D([], [], color="black", lw=1.2, label="Naive ratio (same months)"), Line2D([], [], color="0.3", ls="--", lw=0.8, label="Overfitting flag (2.0)")]
+    h += [Line2D([], [], color=COLORES["Naive"], lw=1.6, label="Naive ratio (same months)"), Line2D([], [], color="0.3", ls="--", lw=0.8, label="Overfitting flag (2.0)")]
     fig.legend(handles=h, loc="upper center", bbox_to_anchor=(0.5, 0.0), ncol=4, frameon=False)
     cuenta = d.groupby("modelo").sobreajuste_razon_gt_2.agg(["sum", "size"])
     txt_cuenta = ", ".join(f"{m} {int(cuenta.loc[m, 'sum'])}/{int(cuenta.loc[m, 'size'])}" for m in ENTRENADOS_D8)
@@ -516,7 +576,7 @@ def fig02(c):
     nv_fam = d.drop_duplicates(["anio_test", "modelo"]).pivot(index="anio_test", columns="modelo", values="Naive_razon")
     dif_nv = float((nv_fam[["GC3", "GE"]].max(axis=1) - nv_fam[["Ridge", "ElasticNet", "XGB-37"]].min(axis=1)).abs().max())
     guardar(fig, G / "diagnostico_ajuste", base, d[["modelo", "anio_test", "semilla", "MAE_train", "MAE_val", "razon_val_train", "Naive_razon", "sobreajuste_razon_gt_2"]],
-            f"Validation/training MAE ratio for each trained model, window and seed (points), {CULT_EN[c]}; black bars: same ratio for the Naive forecast "
+            f"Validation/training MAE ratio for each trained model, window and seed (points), {CULT_EN[c]}; grey bars: same ratio for the Naive forecast "
             f"on the training and validation months of the tabular models (on the LSTM months, which start in 2017-01, it differs by at most {dif_nv:.3f}); "
             "dashed line: overfitting flag at 2.0 (D-BR8)." + (" In Sutil the validation year has a higher mean level than the "
                                                                                      f"training period in {', '.join(altos)}, which inflates the ratio." if c == "sutil" else ""), lec)
@@ -537,7 +597,7 @@ def fig03(c):
     ax.set_xticks([i * 3 + 0.5 for i in range(len(VENTANAS))], [str(v) for v in VENTANAS])
     ax.set_xlabel("Test year")
     ax.set_ylabel("Best epoch (min. validation loss)")
-    leyenda_modelos(fig, ("GC3", "GE"), ncol=2, y=0.0)
+    leyenda_cajas(fig, ("GC3", "GE"), alpha=0.7, ncol=2, y=0.0)
     med = d.groupby(["modelo", "anio_test"]).mejor_epoca.median()
     txt_med = {m: ", ".join(f"{v} {med[m][v]:.1f}" for v in VENTANAS) for m in ("GC3", "GE")}
     lec = (f"Median best epoch, GC3: {txt_med['GC3']}; GE: {txt_med['GE']}.\n"
@@ -550,6 +610,9 @@ def fig03(c):
 
 # ============================================================================ predicciones y errores
 
+HALO = [patheffects.withStroke(linewidth=3.2, foreground="white")]
+
+
 def fig20(c, v):
     p = PRED[(PRED.cultivar == c) & (PRED.anio_test == v) & (PRED.particion == "test") & PRED.modelo.isin(MODELOS)]
     obs = ERR[(ERR.cultivar == c) & (ERR.anio_test == v)].drop_duplicates("fecha").set_index("fecha").y_true.sort_index()
@@ -561,24 +624,29 @@ def fig20(c, v):
         for i, f in enumerate(meses):
             if f in sh:
                 ax.axvspan(i - 0.5, i + 0.5, color=SOMBRA, alpha=0.5, lw=0)
-        ax.plot(x, obs.to_numpy(), color="black", lw=1.1)
+        ax.plot(x, obs.to_numpy(), color="black", lw=1.8, zorder=2, path_effects=HALO)
         s = p[p.modelo == m]
         if m in CON_SEMILLA:
             for sem, g in s.groupby("semilla"):
                 g = g.set_index("fecha").reindex(meses)
-                ax.plot(x, g.y_pred, color=COLORES[m], lw=0.5, alpha=0.5)
+                ax.plot(x, g.y_pred, color=COLORES[m], lw=0.5, alpha=0.5, zorder=3)
         else:
             g = s.set_index("fecha").reindex(meses)
-            ax.plot(x, g.y_pred, color=COLORES[m], marker=MARCADORES[m], ms=2, lw=0.9)
+            # Seasonal Naive comparte el negro con Observed: discontinuo con cuadrados huecos (relleno blanco, borde negro)
+            sn = m == "Seasonal Naive"
+            hueco = dict(ms=2.6, mfc="white", mec=COLORES[m], mew=0.6, ls=(0, (3, 1.5))) if sn else dict(ms=2, ls="-")
+            ax.plot(x, g.y_pred, color=COLORES[m], marker=MARCADORES[m], lw=0.9, zorder=3, **hueco)
         etiqueta_panel(ax, m)
         ax.tick_params(labelsize=6)
+        ax.yaxis.set_major_formatter(MILES)
     for ax in axs[1]:
         ax.set_xticks(x[::2], [f[5:] for f in meses][::2])
         ax.set_xlabel(f"Month ({v})", fontsize=7)
     for ax in axs[:, 0]:
         ax.set_ylabel("Production (t)", fontsize=7)
-    fig.legend(handles=[Line2D([], [], color="black", lw=1.1, label="Observed"), Line2D([], [], color="0.4", lw=0.9, label="Forecast (one line per seed for XGB-37, GC3, GE)"),
-                        plt.Rectangle((0, 0), 1, 1, fc=SOMBRA, alpha=0.5, label="Shock month (monthly P75)")],
+    fig.legend(handles=[Line2D([], [], color="black", lw=1.8, path_effects=HALO, label="Observed"),
+                        Line2D([], [], color="0.4", lw=0.9, label="Forecast (one line per seed for XGB-37, GC3, GE)"),
+                        plt.Rectangle((0, 0), 1, 1, fc=SOMBRA, alpha=0.5, label="Shock month (monthly P75)" + ("" if sh else " (none this year)"))],
                loc="upper center", bbox_to_anchor=(0.5, 0.0), ncol=3, frameon=False)
     datos = p[["modelo", "semilla", "fecha", "y_pred"]].merge(obs.rename("y_observed").reset_index(), on="fecha")
     datos["shock_P75_mensual"] = datos.fecha.isin(sh)
@@ -587,7 +655,8 @@ def fig20(c, v):
     base = f"fig20_real_vs_pred_{v}_{c}"
     guardar(fig, G / "predicciones", base, datos,
             f"Observed national production and one-step-ahead forecasts of each model, test year {v}, {CULT_EN[c]}. "
-            "Grey: shock months (monthly P75, history to origin). Seeded models: one line per seed (10 seeds).", lec)
+            "Grey: shock months (monthly P75, history to origin). Seeded models: one line per seed (10 seeds). "
+            "Observed: thick black line; Seasonal Naive: dashed black line with open squares.", lec)
     reg(base, "predicciones", c, f"How do forecasts track the observed series in {v}, and what happens in shock months?",
         ["05_predicciones/predicciones_consolidadas.csv", "05_predicciones/errores_test_promediados_semillas.csv", "03_ventanas/umbrales_y_mascaras.csv"])
 
@@ -599,7 +668,7 @@ def fig21(c):
     fig, ax = plt.subplots(figsize=(W2, 3.0))
     arr = piv.to_numpy(float)
     vmin = float(np.nanpercentile(arr, 2))  # solo escala de color: errores menores se pintan con el color minimo (extend="min")
-    im = ax.imshow(arr, cmap="cividis", aspect="auto", norm=plt.matplotlib.colors.LogNorm(vmin=vmin, vmax=np.nanmax(arr)))
+    im = ax.imshow(arr, cmap="cividis_r", aspect="auto", norm=plt.matplotlib.colors.LogNorm(vmin=vmin, vmax=np.nanmax(arr)))
     sh = [(a, f) for a, f in cols if f in meses_shock(c, a)]
     for j, k in enumerate(cols):
         if k in sh:
@@ -610,7 +679,8 @@ def fig21(c):
     ax.set_xticks([j for j, (a, f) in enumerate(cols) if f.endswith("-01")], [str(a) for a, f in cols if f.endswith("-01")])
     ax.set_yticks(range(len(MODELOS)), MODELOS)
     ax.set_xlabel("Test month (2021–2025); ▼ = shock month (monthly P75)")
-    fig.colorbar(im, ax=ax, shrink=0.85, extend="min", label="Absolute error (t, log scale; seed mean)")
+    cb = fig.colorbar(im, ax=ax, shrink=0.85, extend="min", label="Absolute error (t, log scale; seed mean)")
+    ticks_log(cb.ax.yaxis, vmin, np.nanmax(arr))
     i, j = np.unravel_index(np.nanargmax(arr), arr.shape)
     lec = (f"The largest seed-averaged absolute error is {MODELOS[i]} in {cols[j][1]} ({arr[i, j]:,.1f} t); "
            f"{len(sh)} of 60 months are shocks at monthly P75.\nVertical white lines separate test years; colour is on a log scale.")
@@ -630,10 +700,13 @@ def fig18(c):
     semillas = [f"seed_{s:02d}" for s in range(10)]
     fig, axs = plt.subplots(1, 3, figsize=(W2, 2.9), sharey=False)
     for ax, (alc, lab) in zip(axs, alcances):
+        etq = list(etiquetas)
         for i, conj in enumerate(orden):
             r = d[(d.conjunto == conj) & (d.alcance == alc)]
+            if alc == "shock_P75":  # panel (b): n de meses de shock en cada etiqueta
+                etq[i] = f"{etiquetas[i]} (n={0 if r.empty else int(r.n_meses.iloc[0])})"
             if r.empty or int(r.n_meses.iloc[0]) == 0:
-                ax.text(i, 0, "n/a", ha="center", va="center", fontsize=6, color="0.4")
+                ax.annotate("n/a", (i, 0), xytext=(0, 7), textcoords="offset points", ha="center", va="bottom", fontsize=6, color="0.4")
                 continue
             r = r.iloc[0]
             vals = r[semillas].to_numpy(float)
@@ -642,13 +715,17 @@ def fig18(c):
                         fmt="D", color="black", ms=3.5, capsize=2, lw=1)
         ax.axhline(0, color="black", lw=0.6)
         ax.axvline(len(VENTANAS) - 0.5, color="0.7", lw=0.6, ls=":")
-        ax.set_xticks(range(len(orden)), etiquetas, fontsize=6, rotation=45, ha="right")
+        ax.set_xticks(range(len(orden)), etq, fontsize=6, rotation=45, ha="right")
+        sin0 = d[(d.conjunto == orden[0]) & (d.alcance == alc)]
+        if sin0.empty or int(sin0.n_meses.iloc[0]) == 0:  # "n/a" en la primera posicion: margen para que no pise el eje y (Sutil 2021)
+            ax.set_xlim(-0.8, len(orden) - 0.5)
+        ax.yaxis.set_major_formatter(MILES)
         ax.text(0.0, 1.02, lab, transform=ax.transAxes, fontsize=ESTILO["tamano_base"] - 1, fontweight="bold")
     axs[0].set_ylabel("MAE(GE) − MAE(GC3) (t)\nnegative = NLP features help")
     fig.subplots_adjust(wspace=0.35)
-    fig.legend(handles=[Line2D([], [], color=COLORES["GE"], marker="o", ls="", ms=3, alpha=0.6, label="Single seed pair (s with s)"),
+    fig.legend(handles=[Line2D([], [], color=COLORES["GE"], marker="o", ls="", ms=3, alpha=0.6, label="One seed: MAE(GE, seed k) − MAE(GC3, seed k)"),
                         Line2D([], [], color="black", marker="D", ls="-", ms=3.5, label="Mean over 10 seeds, paired bootstrap 95% CI")],
-               loc="upper center", bbox_to_anchor=(0.5, -0.12), ncol=2, frameon=False)
+               loc="upper center", bbox_to_anchor=(0.5, -0.27), ncol=2, frameon=False)  # bajo las etiquetas con n del panel (b)
     datos = d[["conjunto", "alcance", "n_meses", "dif_media_GE_menos_GC3", "IC95_lo", "IC95_hi", "semillas_GE_mejor"] + semillas]
     p = d[(d.conjunto == "principal_2021_2025")].set_index("alcance")
     g, s_ = p.loc["global"], p.loc["shock_P75"]
@@ -662,6 +739,84 @@ def fig18(c):
             "Dots: individual seed pairs; diamonds: mean with paired bootstrap 95% CI (months resampled within windows, B = 10,000). n/a = no shock month.", lec)
     reg(base, "comparacion_modelos", c, "Do the NLP features improve the Dual-LSTM (GE vs GC3), overall and in shock months?",
         ["06_metricas/ablacion_nlp/T11_ablacion_GE_menos_GC3.csv"])
+
+
+def fig18b(c):
+    """EXPLORATORIO (post-hoc): XGB-43 - XGB-37 emparejado por semilla. Puntos = restas simples de T07 por ventana y en el
+    agregado 2021-2025; rombo con IC solo en el agregado, con los valores guardados en T16. Sin medias ni IC nuevos por ventana."""
+    t7 = T07[(T07.cultivar == c) & T07.modelo.isin(["XGB-37", "XGB-43"]) & T07.ventana.isin([str(v) for v in VENTANAS])]
+    t16 = T16[T16.cultivar == c].set_index("alcance")
+    agr = T07[(T07.cultivar == c) & T07.modelo.isin(["XGB-37", "XGB-43"]) & (T07.ventana == "agregado_2021_2025")]
+    alcances = (("global", "MAE", "(a) All months"), ("shock_P75", "MAE_shock", "(b) Shock months (monthly P75)"),
+                ("normal_P75", "MAE_normal", "(c) Normal months"))
+    semillas = [f"seed_{s:02d}" for s in range(10)]
+    etiquetas = [str(v) for v in VENTANAS] + ["Pooled 2021–25"]
+    filas = []
+    fig, axs = plt.subplots(1, 3, figsize=(W2, 2.9), sharey=False)
+    for ax, (alc, col, lab) in zip(axs, alcances):
+        etq = list(etiquetas)
+        for i, v in enumerate(VENTANAS):
+            w = t7[t7.ventana == str(v)].pivot(index="semilla", columns="modelo", values=col).sort_index()
+            nn = t7[t7.ventana == str(v)][["n_shock", "n_normal"]].drop_duplicates()
+            if len(nn) != 1:
+                raise AssertionError(f"n de meses distinto entre semillas o modelos: {c} {v}")
+            n = {"global": int(nn.n_shock.iloc[0] + nn.n_normal.iloc[0]), "shock_P75": int(nn.n_shock.iloc[0]), "normal_P75": int(nn.n_normal.iloc[0])}[alc]
+            if alc == "shock_P75":
+                etq[i] = f"{v} (n={n})"
+            if list(w.index) != list(range(10)):
+                raise AssertionError(f"T07 sin las 10 semillas emparejadas: {c} {v}")
+            fila = {"conjunto": str(v), "alcance": alc, "n_meses": n, "dif_43_menos_37": np.nan, "IC95_lo": np.nan, "IC95_hi": np.nan}
+            if n == 0:
+                ax.annotate("n/a", (i, 0), xytext=(0, 7), textcoords="offset points", ha="center", va="bottom", fontsize=6, color="0.4")
+                filas.append(fila | {s: np.nan for s in semillas})
+                continue
+            vals = (w["XGB-43"] - w["XGB-37"]).to_numpy(float)
+            filas.append(fila | dict(zip(semillas, vals)))
+            ax.scatter(i + np.linspace(-0.22, 0.22, len(vals)), vals, s=9, marker=MARCADORES["XGB-43"], color=COLORES["XGB-43"], alpha=0.75, lw=0)
+        r, i = t16.loc[alc], len(VENTANAS)
+        if alc == "shock_P75":
+            etq[i] = f"{etiquetas[i]} (n={int(r.n_meses)})"
+        w = agr.pivot(index="semilla", columns="modelo", values=col).sort_index()
+        if list(w.index) != list(range(10)):
+            raise AssertionError(f"T07 sin las 10 semillas emparejadas: {c} agregado_2021_2025")
+        vals = (w["XGB-43"] - w["XGB-37"]).to_numpy(float)
+        filas.append({"conjunto": "principal_2021_2025", "alcance": alc, "n_meses": int(r.n_meses), "dif_43_menos_37": r.dif_43_menos_37,
+                      "IC95_lo": r.IC95_lo, "IC95_hi": r.IC95_hi} | dict(zip(semillas, vals)))
+        ax.scatter(i + np.linspace(-0.22, 0.22, len(vals)), vals, s=9, marker=MARCADORES["XGB-43"], color=COLORES["XGB-43"], alpha=0.75, lw=0)
+        ax.errorbar(i, r.dif_43_menos_37, yerr=[[r.dif_43_menos_37 - r.IC95_lo], [r.IC95_hi - r.dif_43_menos_37]],
+                    fmt="D", color="black", ms=3.5, capsize=2, lw=1)
+        ax.axhline(0, color="black", lw=0.6)
+        ax.axvline(len(VENTANAS) - 0.5, color="0.7", lw=0.6, ls=":")
+        ax.set_xticks(range(len(etq)), etq, fontsize=6, rotation=45, ha="right")
+        if filas[-len(VENTANAS) - 1]["n_meses"] == 0:  # "n/a" en la primera posicion: margen para que no pise el eje y
+            ax.set_xlim(-0.8, len(etq) - 0.5)
+        ax.yaxis.set_major_locator(MaxNLocator(nbins=7, steps=[1, 2, 5, 10]))  # marcas 1-2-5: sin 2.5 redondeado a "2" (Dulce)
+        ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:,.0f}" if float(v).is_integer() else f"{v:,.1f}"))
+        ax.text(0.0, 1.02, lab, transform=ax.transAxes, fontsize=ESTILO["tamano_base"] - 1, fontweight="bold")
+    axs[0].set_ylabel("MAE(XGB-43) − MAE(XGB-37) (t)\nnegative = NLP features help")
+    fig.subplots_adjust(wspace=0.35, top=0.84)
+    fig.text(0.01, 0.985, "EXPLORATORY (post-hoc; not part of the preregistered ranking)", ha="left", va="top", fontsize=7, fontweight="bold",
+             color="#AA3377", bbox=dict(boxstyle="square,pad=0.25", fc="white", ec="#AA3377", lw=0.8))
+    fig.text(0.99, 0.985, "CI shown for pooled 2021–2025 only", ha="right", va="top", fontsize=6.5, color="0.25")
+    fig.legend(handles=[Line2D([], [], color=COLORES["XGB-43"], marker=MARCADORES["XGB-43"], ls="", ms=4, alpha=0.75,
+                               label="One seed: MAE(XGB-43, seed k) − MAE(XGB-37, seed k)"),
+                        Line2D([], [], color="black", marker="D", ls="-", ms=3.5, label="Pooled 2021–2025: mean over 10 seeds, paired bootstrap 95% CI")],
+               loc="upper center", bbox_to_anchor=(0.5, -0.27), ncol=2, frameon=False)
+    datos = pd.DataFrame(filas)[["conjunto", "alcance", "n_meses", "dif_43_menos_37", "IC95_lo", "IC95_hi"] + semillas].round(6)
+    g, s_ = t16.loc["global"], t16.loc["shock_P75"]
+    lec = (f"Pooled 2021–2025 (T16): XGB-43 − XGB-37 = {g.dif_43_menos_37:,.1f} t (95% CI {g.IC95_lo:,.1f} to {g.IC95_hi:,.1f}) in all months and "
+           f"{s_.dif_43_menos_37:,.1f} t ({s_.IC95_lo:,.1f} to {s_.IC95_hi:,.1f}) in shock months.\n"
+           "Positive values mean that adding the six lagged NLP features to XGB-37 increases the error. Exploratory, post-hoc comparison; it is not used for any conclusion of the preregistered analysis.")
+    base = f"fig18b_xgb43_vs_xgb37_exploratory_{c}"
+    guardar(fig, G / "comparacion_modelos", base, datos,
+            f"EXPLORATORY (post-hoc) comparison: difference in MAE between XGB-43 and XGB-37, paired by seed, {CULT_EN[c]}; "
+            "(a) all months, (b) shock months (monthly P75, MoM), (c) normal months. XGB-43 uses the 37 predictors of XGB-37 plus six lagged NLP features "
+            "(avg_sentiment and n_noticias at lags 1, 3 and 6) with the same hyperparameters. "
+            "Dots: individual seed pairs per test window (2021–2025) and pooled 2021–2025; diamond: mean over 10 seeds for the pooled 2021–2025 set with paired bootstrap 95% CI "
+            "(months resampled within windows, B = 10,000). No mean or CI is shown per window. n/a = no shock month. "
+            "XGB-43 was added post hoc: it is not part of the preregistered ranking and is not included in the Diebold–Mariano tests or the Holm correction.", lec)
+    reg(base, "comparacion_modelos", c, "Exploratory (post-hoc): do six lagged NLP features change the error of XGB-37 (XGB-43 vs XGB-37)?",
+        ["06_metricas/por_semilla/T07_metricas_por_semilla.csv", "06_metricas/agregadas/T16_exploratorio_xgb43.csv"])
 
 
 def fig19(c, holm: bool):
@@ -688,7 +843,7 @@ def fig19(c, holm: bool):
         ax.add_patch(plt.Rectangle((i - 0.5, i - 0.5), 1, 1, color="0.55"))
         for j in range(n):
             if i != j and np.isfinite(P[i, j]):
-                ax.text(j, i, f"{P[i, j]:.3f}\n{S[i, j]}", ha="center", va="center", fontsize=5,
+                ax.text(j, i, f"{'<0.001' if P[i, j] < 0.001 else f'{P[i, j]:.3f}'}\n{S[i, j]}", ha="center", va="center", fontsize=5,
                         color="white" if P[i, j] < 0.05 else "black")
     ax.plot([-0.5, n - 0.5], [-0.5, n - 0.5], color="black", lw=0.8)
     ax.set_xticks(range(n), MODELOS, rotation=45, ha="right")
@@ -717,10 +872,14 @@ def fig19(c, holm: bool):
 
 
 def main() -> None:
+    global SOLO
+    if "--solo" in sys.argv:  # p. ej. --solo fig20 fig14 fig16_mae_by_change_quartile_dulce
+        SOLO = tuple(sys.argv[sys.argv.index("--solo") + 1:])
     for c in CULT:
         for f in (fig04, fig05, fig06, fig07, fig08, fig09, fig10, fig11, fig12, fig13, fig14, fig15, fig16, fig17, fig02, fig03, fig21):
             f(c)
         fig18(c)
+        fig18b(c)
         fig19(c, holm=False)
         fig19(c, holm=True)
         for m in ("GC3", "GE"):

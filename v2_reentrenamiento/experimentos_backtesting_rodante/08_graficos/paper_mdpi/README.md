@@ -1,1 +1,1 @@
-Selección final para el artículo, que copiará el autor una vez aprobada. Por ahora solo contiene la propuesta (PROPUESTA_SELECCION.md); no se copió ninguna figura.
+Selección final para el artículo. `PROPUESTA_SELECCION.md`: propuesta inicial (sustituida por la selección del autor del 2026-10-29). `overleaf/`: paquete LaTeX con la selección aprobada (PDF, pies, tablas); ver `overleaf/README.md`. Pendiente de aprobación final.

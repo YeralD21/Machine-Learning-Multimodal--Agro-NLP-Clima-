@@ -1,0 +1,24 @@
+% Minimal test document (article class, not the MDPI template): compiles the whole package.
+\documentclass[11pt]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{pdflscape}
+\graphicspath{{figures/}}
+\input{captions}
+
+\begin{document}
+\section*{Main text}
+\input{figures_main}
+\input{tables_main}
+\clearpage
+\section*{Supplementary material}
+\input{figures_supp}
+\input{tables_supp}
+\end{document}

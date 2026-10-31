@@ -1,0 +1,35 @@
+\begin{table}[htbp]
+\centering
+\small
+\caption{Rank of each model by MAE in shock months, pooled test windows 2021--2025, at the reporting thresholds P50, P60, P75 and P90 of the month-on-month (MoM) change. $^{*}$ = first or statistically tied with the first (the 95\% paired bootstrap CI of the difference in MAE with the best model contains 0). A model is robust if it is first or tied in at least 3 of the 4 thresholds; the year-on-year (YoY) definition is evaluated separately and its ranks are not shown.}
+\label{tab:main_robust_ranking}
+\begin{tabular}{lccccrcrc}
+\toprule
+Model & P50 & P60 & P75 & P90 & First or tied, MoM (of 4) & Robust, MoM & First or tied, YoY (of 4) & Robust, YoY \\
+\midrule
+\multicolumn{9}{l}{\textit{Sour lime}} \\
+Naive & 5 & 8 & 9 & 7 & 0 & No & 4 & Yes \\
+Seasonal Naive & 6 & 5 & 3$^{*}$ & 4$^{*}$ & 2 & No & 0 & No \\
+Chronos & 2$^{*}$ & 3$^{*}$ & 1$^{*}$ & 1$^{*}$ & 4 & Yes & 4 & Yes \\
+SARIMA & 3$^{*}$ & 2$^{*}$ & 4$^{*}$ & 2 & 3 & Yes & 2 & No \\
+SARIMA-sel & 1$^{*}$ & 1$^{*}$ & 2$^{*}$ & 3 & 3 & Yes & 1 & No \\
+Ridge & 9 & 10 & 10 & 10 & 0 & No & 0 & No \\
+ElasticNet & 10 & 9 & 8 & 9 & 0 & No & 0 & No \\
+XGB-37 & 4 & 4 & 5$^{*}$ & 6 & 1 & No & 1 & No \\
+GC3 & 8 & 6 & 6$^{*}$ & 5 & 1 & No & 0 & No \\
+GE & 7 & 7 & 7 & 8 & 0 & No & 0 & No \\
+\addlinespace
+\multicolumn{9}{l}{\textit{Sweet lime}} \\
+Naive & 10 & 10 & 10 & 10 & 0 & No & 1 & No \\
+Seasonal Naive & 3 & 3 & 3 & 2 & 0 & No & 0 & No \\
+Chronos & 4 & 4 & 4 & 4 & 0 & No & 4 & Yes \\
+SARIMA & 1$^{*}$ & 1$^{*}$ & 1$^{*}$ & 1$^{*}$ & 4 & Yes & 3 & Yes \\
+SARIMA-sel & 2$^{*}$ & 2$^{*}$ & 2 & 3 & 2 & No & 3 & Yes \\
+Ridge & 9 & 9 & 9 & 8 & 0 & No & 0 & No \\
+ElasticNet & 8 & 8 & 8 & 7 & 0 & No & 0 & No \\
+XGB-37 & 5 & 6 & 7 & 9 & 0 & No & 1 & No \\
+GC3 & 7 & 7 & 6 & 5 & 0 & No & 0 & No \\
+GE & 6 & 5 & 5 & 6 & 0 & No & 0 & No \\
+\bottomrule
+\end{tabular}
+\end{table}
